@@ -8,7 +8,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Input;
 
-namespace WpfApplication1
+namespace MyPaint
 {
     interface MyShape
     {
@@ -25,5 +25,7 @@ namespace WpfApplication1
         void stopDraw();
 
         void moveShape(double x, double y);
+
+        string renderShape();
     }
 }

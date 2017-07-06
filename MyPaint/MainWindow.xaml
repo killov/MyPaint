@@ -1,9 +1,9 @@
-﻿<Window x:Class="WpfApplication1.MainWindow"
+﻿<Window x:Class="MyPaint.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApplication1"
+        xmlns:local="clr-namespace:MyPaint"
         mc:Ignorable="d"
         Title="Editor" Height="533.5" Width="508.5" Closing="closed" ResizeMode="NoResize">
     <DockPanel Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
@@ -17,7 +17,7 @@
         <Grid>
             <Grid Margin="0,55,0,31">
                 <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="400" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Background="White">
-                        <Rectangle x:Name="res" Height="400" Width="500" Fill="#00641A1A" MouseUp="poz_mouseDown" />
+                        <Rectangle x:Name="res" Height="400" Width="500" Fill="#00E8E7E7" MouseUp="poz_mouseDown" />
                 </Canvas>
             </Grid>
             <Canvas x:Name="paleta" Margin="0,25,2,0" Background="White" Height="20" VerticalAlignment="Top"/>

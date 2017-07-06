@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using System.Reflection;
 
 
-namespace WpfApplication1
+namespace MyPaint
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

@@ -9,7 +9,7 @@ using System.Windows.Shapes;
 using System.Windows.Input;
 using System.Windows.Controls;
 
-namespace WpfApplication1
+namespace MyPaint
 {
     delegate void posun(Point b);
     delegate void posuni(Point b, int i);

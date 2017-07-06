@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 
-namespace WpfApplication1
+namespace MyPaint
 {
     class MyPolygon : MyShape
     {
@@ -146,6 +146,23 @@ namespace WpfApplication1
             }
             p.Points[0] = new Point(x, y);
             movepoints[0].move(x,y);
+        }
+
+        public string renderShape()
+        {
+            StringBuilder stack = new StringBuilder();
+            Point fp = points.First();
+            stack.Append(String.Format("ctx.moveTo({0},{1});\n", fp.X, fp.Y));
+            
+            foreach (var p in points)
+            {
+                if(fp != p)
+                {
+                    stack.Append(String.Format("ctx.lineTo({0},{1});\n", p.X, p.Y));
+                }  
+            }
+            stack.Append("ctx.closePath();\n");
+            return stack.ToString();
         }
     }
 }

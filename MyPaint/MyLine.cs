@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 
-namespace WpfApplication1
+namespace MyPaint
 {
     class MyLine : MyShape
     {
@@ -97,6 +97,12 @@ namespace WpfApplication1
             l.Y1 = y;
             p1.move(l.X1, l.Y1);
             p2.move(l.X2, l.Y2);
+        }
+
+        public string renderShape()
+        {
+            return String.Format("ctx.moveTo({0},{1});\n", l.X1, l.Y1) +
+                    String.Format("ctx.moveTo({0},{1});\n", l.X2, l.Y2);
         }
     }
 }

@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 
-namespace WpfApplication1
+namespace MyPaint
 {
     class MyRectangle : MyShape
     {
@@ -142,6 +142,23 @@ namespace WpfApplication1
             p3.move(p.Points[2].X, p.Points[2].Y);
             p4.move(p.Points[3].X, p.Points[3].Y);
 
+        }
+
+        public string renderShape()
+        {
+            StringBuilder stack = new StringBuilder();
+            Point fp = p.Points.First();
+            stack.Append(String.Format("ctx.moveTo({0},{1});\n", fp.X, fp.Y));
+
+            foreach (var p in p.Points)
+            {
+                if (fp != p)
+                {
+                    stack.Append(String.Format("ctx.lineTo({0},{1});\n", p.X, p.Y));
+                }
+            }
+            stack.Append("ctx.closePath();\n");
+            return stack.ToString();
         }
     }
 }

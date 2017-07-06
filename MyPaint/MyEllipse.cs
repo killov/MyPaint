@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 
-namespace WpfApplication1
+namespace MyPaint
 {
     class MyEllipse : MyShape
     {
@@ -182,6 +182,14 @@ namespace WpfApplication1
             p2.move(ex, ey);
             p3.move(ex, sy);
             p4.move(sx, ey);
+        }
+
+        public string renderShape()
+        {
+            StringBuilder stack = new StringBuilder();
+            stack.Append(String.Format("ctx.ellipse({0},{1},{2},{3},0,2*Math.PI);\n", (sx + ex)/2, (sy + ey)/2, Math.Abs(sx - ex), Math.Abs(sy - ey)));  
+            stack.Append("ctx.stroke();\n");
+            return stack.ToString();
         }
     }
 }
