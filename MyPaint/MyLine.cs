@@ -102,7 +102,9 @@ namespace MyPaint
         public string renderShape()
         {
             return String.Format("ctx.moveTo({0},{1});\n", l.X1, l.Y1) +
-                    String.Format("ctx.moveTo({0},{1});\n", l.X2, l.Y2);
+                    String.Format("ctx.lineTo({0},{1});\n", l.X2, l.Y2) +
+                    "ctx.stroke();\n";
+
         }
     }
 }

@@ -28,6 +28,7 @@ namespace MyPaint
             p.Fill = control.fcolor;
             p.StrokeThickness = control.StrokeThickness;
         }
+
         public void mouseDown(MouseButtonEventArgs e)
         {
             control.draw = true;
@@ -41,8 +42,7 @@ namespace MyPaint
                 double y = e.GetPosition(control.w.canvas).Y;
 
                 l.X2 = x;
-                l.Y2 = y;
-                
+                l.Y2 = y;               
             }
         }
 
@@ -151,10 +151,10 @@ namespace MyPaint
         public string renderShape()
         {
             StringBuilder stack = new StringBuilder();
-            Point fp = points.First();
+            Point fp = p.Points.First();
             stack.Append(String.Format("ctx.moveTo({0},{1});\n", fp.X, fp.Y));
             
-            foreach (var p in points)
+            foreach (var p in p.Points)
             {
                 if(fp != p)
                 {
@@ -162,6 +162,7 @@ namespace MyPaint
                 }  
             }
             stack.Append("ctx.closePath();\n");
+            stack.Append("ctx.stroke();\n");
             return stack.ToString();
         }
     }

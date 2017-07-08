@@ -115,6 +115,8 @@ namespace MyPaint
         private void poz_mouseDown(object sender, MouseButtonEventArgs e)
         {
            control.stopDraw();
+           //mouseDown(sender, e);
+           control.shape = new MyLine(control);
         }
 
         private void elipsa_Click(object sender, RoutedEventArgs e)

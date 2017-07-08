@@ -158,6 +158,7 @@ namespace MyPaint
                 }
             }
             stack.Append("ctx.closePath();\n");
+            stack.Append("ctx.stroke();\n");
             return stack.ToString();
         }
     }

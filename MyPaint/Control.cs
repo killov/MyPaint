@@ -10,6 +10,7 @@ using System.Windows.Shapes;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Text.RegularExpressions;
 
 namespace MyPaint
 {
@@ -26,13 +27,14 @@ namespace MyPaint
         string path = "";
         bool change = false;
         public MainWindow w;
-        MyShape shape;
+        public MyShape shape;
         public bool draw = false;
         public bool startdraw = false;
         public bool candraw = true;
         public bool drag = false;
         Point posunStart = new Point();
         Point posunStartMys = new Point();
+        public List<MyShape> shapes = new List<MyShape>();
         public double StrokeThickness = 1;
 
         public Control(MainWindow ww)
@@ -44,7 +46,7 @@ namespace MyPaint
         public void newC()
         {
             if (!saveDialog()) return;
-            
+            shapes = new List<MyShape>();
             clearCanvas();
             setPath("");
             change = false;
@@ -101,11 +103,10 @@ namespace MyPaint
         }
 
         public void saveAs()
-        {
-           
+        { 
             Microsoft.Win32.SaveFileDialog dialog = new Microsoft.Win32.SaveFileDialog();
             dialog.DefaultExt = ".png";
-            dialog.Filter = "Soubory png (*.png)|*.png";
+            dialog.Filter = "Soubory png (*.png)|*.png|Soubory HTML (*.html)|*.html";
             Nullable<bool> result = dialog.ShowDialog();
             if (result == true)
             {
@@ -123,8 +124,26 @@ namespace MyPaint
 
         void saveAs(string path)
         {
-            //((BitmapImage)((ImageBrush)w.canvas.Background).ImageSource).EndInit();
             stopDraw();
+            Regex r = new Regex(".[a-zA-Z0-9]+$");
+            string suffix = r.Matches(path)[0].ToString().ToLower();
+            switch (suffix)
+            {
+                case ".html":
+                case ".htm":
+                    saveAsHTML(path);
+                    break;
+                default:
+                case ".png":
+                    saveAsPNG(path);
+                    break;
+            }
+            
+            change = false;
+        }
+
+        void saveAsPNG(string path)
+        {
             try
             {
                 RenderTargetBitmap rtb = new RenderTargetBitmap((int)w.canvas.RenderSize.Width,
@@ -141,8 +160,35 @@ namespace MyPaint
             {
                 MessageBox.Show("Nepovedlo se uložit soubor");
             }
+        }
 
-            change = false;
+        void saveAsHTML(string path)
+        {
+            try
+            {
+                System.IO.StreamWriter file = new System.IO.StreamWriter(path);
+                file.WriteLine("<!DOCTYPE HTML>");
+                file.WriteLine("<html>");
+                file.WriteLine("<head>");
+                file.WriteLine("<meta http-equiv=\"content-type\" content=\"text/html; charset = utf-8\">");
+                file.WriteLine("</head>");
+                file.WriteLine("<body>");
+                file.WriteLine("<canvas width=\"500\" height=\"400\" border=\"1\" id=\"MyPaint\"></canvas>");
+                file.WriteLine("<script>");
+                file.WriteLine("var ctx = document.getElementById(\"MyPaint\").getContext(\"2d\");");
+                foreach (var shape in shapes)
+                {
+                    file.WriteLine(shape.renderShape());
+                }
+                file.WriteLine("</script>");
+                file.WriteLine("</body>");
+                file.WriteLine("</html>");
+                file.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Nepovedlo se uložit soubor");
+            }
         }
 
         public void save()
@@ -226,6 +272,7 @@ namespace MyPaint
                             shape = new MyPolygon(this);
                             break;
                     }
+                    shapes.Add(shape);
                     shape.mouseDown(e);
                 }
             }
@@ -262,7 +309,6 @@ namespace MyPaint
                 shape.stopDrag();
                 drag = false;
             }
-
         }
 
         public void stopDraw()

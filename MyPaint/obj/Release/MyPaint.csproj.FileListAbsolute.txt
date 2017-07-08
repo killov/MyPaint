@@ -1,0 +1,13 @@
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Release\WpfApplication1.exe.config
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Release\WpfApplication1.exe
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Release\WpfApplication1.pdb
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\MainWindow.g.cs
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\App.g.cs
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\WpfApplication1_MarkupCompile.cache
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\WpfApplication1_MarkupCompile.lref
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\MainWindow.baml
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\WpfApplication1.g.resources
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\WpfApplication1.Properties.Resources.resources
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\MyPaint.csproj.GenerateResource.Cache
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\WpfApplication1.exe
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\WpfApplication1.pdb

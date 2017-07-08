@@ -54,7 +54,6 @@ namespace MyPaint
                 Canvas.SetLeft(el, x-5);
 
                 posun(new Point(x, y));
-
             }
         }
 

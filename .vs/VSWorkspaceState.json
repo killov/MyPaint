@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\MyPaint"
   ],
+  "SelectedNode": "\\MyPaint\\MovePoint.cs",
   "PreviewInSolutionExplorer": false
 }

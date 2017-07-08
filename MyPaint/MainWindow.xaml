@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyPaint"
+        Icon="./icon.png"
         mc:Ignorable="d"
-        Title="Editor" Height="533.5" Width="508.5" Closing="closed" ResizeMode="NoResize">
+        Title="MyPaint" Height="533.5" Width="508.5" Closing="closed" ResizeMode="NoResize">
     <DockPanel Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
         <Menu DockPanel.Dock="Top" Height="20">
             <MenuItem Header="Nový" Click="newClick" Height="20" />

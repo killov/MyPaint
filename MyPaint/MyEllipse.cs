@@ -187,7 +187,8 @@ namespace MyPaint
         public string renderShape()
         {
             StringBuilder stack = new StringBuilder();
-            stack.Append(String.Format("ctx.ellipse({0},{1},{2},{3},0,2*Math.PI);\n", (sx + ex)/2, (sy + ey)/2, Math.Abs(sx - ex), Math.Abs(sy - ey)));  
+            stack.Append("ctx.beginPath();\n");
+            stack.Append(String.Format("ctx.ellipse({0},{1},{2},{3},0,0,2*Math.PI);\n", (int)(sx + ex)/2, (int)(sy + ey)/2, (int)Math.Abs(sx - ex)/2, (int)Math.Abs(sy - ey)/2));  
             stack.Append("ctx.stroke();\n");
             return stack.ToString();
         }
