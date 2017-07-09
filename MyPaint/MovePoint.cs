@@ -17,11 +17,12 @@ namespace MyPaint
     {
         Ellipse el;
         Canvas canvas;
+        MyShape shape;
         double x, y;
         public bool drag = false;
         int id;
         posun posun;
-        public MovePoint(Canvas c, Point p, posun pos, int index = -1)
+        public MovePoint(Control c, MyShape s, Point p, posun pos, int index = -1)
         {
             id = index;
             posun = pos;
@@ -33,13 +34,15 @@ namespace MyPaint
             el.Stroke = Brushes.Black;
             el.Width = 10;
             el.Height = 10;
-            canvas = c;
-            c.Children.Add(el);
+            shape = s;
+            canvas = c.w.canvas;
+            canvas.Children.Add(el);
             Canvas.SetTop(el, y-5);
             Canvas.SetLeft(el, x-5);
 
             el.MouseDown += delegate (object sender, MouseButtonEventArgs e)
             {
+                shape.setHit(true);
                 drag = true;
             };
         }

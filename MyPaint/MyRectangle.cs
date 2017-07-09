@@ -16,6 +16,7 @@ namespace MyPaint
     {
         Control control;
         Polygon p;
+        bool hit = false;
         public MyRectangle(Control c)
         {
             control = c;
@@ -30,8 +31,8 @@ namespace MyPaint
             points.Add(new Point(x, y));
             points.Add(new Point(x, y));
             points.Add(new Point(x, y));
-            p.Stroke = control.color;
-            p.Fill = control.fcolor;
+            p.Stroke = control.color.brush;
+            p.Fill = control.fcolor.brush;
             p.StrokeThickness = control.StrokeThickness;
             p.Points = points;
             control.w.canvas.Children.Add(p);
@@ -57,6 +58,7 @@ namespace MyPaint
             createPoints();
             p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
+                hit = true;
                 control.startMoveShape(p.Points[0], ee.GetPosition(control.w.canvas));
             };
             
@@ -66,7 +68,7 @@ namespace MyPaint
         void createPoints()
         {
             control.candraw = false;
-            p1 = new MovePoint(control.w.canvas, p.Points[0], (po) =>
+            p1 = new MovePoint(control, this, p.Points[0], (po) =>
             {
                 p.Points[0] = po;
                 p.Points[1] = new Point(po.X, p.Points[1].Y);
@@ -76,7 +78,7 @@ namespace MyPaint
                 p4.move(p.Points[3].X, po.Y);
             });
 
-            p2 = new MovePoint(control.w.canvas, p.Points[1], (po) =>
+            p2 = new MovePoint(control, this, p.Points[1], (po) =>
             {
                 p.Points[1] = po;
                 p.Points[0] = new Point(po.X, p.Points[0].Y);
@@ -86,7 +88,7 @@ namespace MyPaint
                 p3.move(p.Points[2].X, po.Y);
             });
 
-            p3 = new MovePoint(control.w.canvas, p.Points[2], (po) =>
+            p3 = new MovePoint(control, this, p.Points[2], (po) =>
             {
                 p.Points[2] = po;
                 p.Points[1] = new Point(p.Points[1].X, po.Y);
@@ -96,7 +98,7 @@ namespace MyPaint
                 p2.move(p.Points[1].X, po.Y);
             });
 
-            p4 = new MovePoint(control.w.canvas, p.Points[3], (po) =>
+            p4 = new MovePoint(control, this, p.Points[3], (po) =>
             {
                 p.Points[3] = po;
                 p.Points[0] = new Point(p.Points[0].X, po.Y);
@@ -117,6 +119,7 @@ namespace MyPaint
 
         public void stopDrag()
         {
+            hit = false;
             p1.drag = false;
             p2.drag = false;
             p3.drag = false;
@@ -160,6 +163,16 @@ namespace MyPaint
             stack.Append("ctx.closePath();\n");
             stack.Append("ctx.stroke();\n");
             return stack.ToString();
+        }
+
+        public void setHit(bool h)
+        {
+            hit = h;
+        }
+
+        public bool hitTest()
+        {
+            return hit;
         }
     }
 }

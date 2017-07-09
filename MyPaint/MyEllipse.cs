@@ -16,6 +16,7 @@ namespace MyPaint
     {
         Control control;
         Ellipse p;
+        bool hit = false;
         double sx, sy, ex, ey;
         public MyEllipse(Control c)
         {
@@ -76,8 +77,8 @@ namespace MyPaint
             sx = e.GetPosition(control.w.canvas).X;
             sy = e.GetPosition(control.w.canvas).Y;
 
-            p.Fill = control.fcolor;
-            p.Stroke = control.color;
+            p.Fill = control.fcolor.brush;
+            p.Stroke = control.color.brush;
             p.StrokeThickness = control.StrokeThickness;
             p.ToolTip = null;
             p.Cursor = Cursors.Pen;
@@ -102,6 +103,7 @@ namespace MyPaint
             createPoints();
             p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
+                hit = true;
                 control.startMoveShape(new Point(Canvas.GetLeft(p),Canvas.GetTop(p)), ee.GetPosition(control.w.canvas));
             };  
         }
@@ -110,7 +112,7 @@ namespace MyPaint
         void createPoints()
         {
             control.candraw = false;
-            p1 = new MovePoint(control.w.canvas, new Point(sx, sy), (po) =>
+            p1 = new MovePoint(control, this, new Point(sx, sy), (po) =>
             {
                 moveS(po.X, po.Y);
                 p1.move(po.X, po.Y);
@@ -118,7 +120,7 @@ namespace MyPaint
                 p4.move(sx, ey);
             });
 
-            p2 = new MovePoint(control.w.canvas, new Point(ex, ey), (po) =>
+            p2 = new MovePoint(control, this, new Point(ex, ey), (po) =>
             {
                 moveE(po.X, po.Y);
                 p2.move(po.X, po.Y);
@@ -126,7 +128,7 @@ namespace MyPaint
                 p4.move(sx, ey);
             });
 
-            p3 = new MovePoint(control.w.canvas, new Point(ex, sy), (po) =>
+            p3 = new MovePoint(control, this, new Point(ex, sy), (po) =>
             {
                 moveE(po.X, ey);
                 moveS(sx, po.Y);
@@ -135,7 +137,7 @@ namespace MyPaint
                 p2.move(ex, ey);
             });
 
-            p4 = new MovePoint(control.w.canvas, new Point(sx, ey), (po) =>
+            p4 = new MovePoint(control, this, new Point(sx, ey), (po) =>
             {
                 moveE(ex, po.Y);
                 moveS(po.X, sy);
@@ -155,6 +157,7 @@ namespace MyPaint
 
         public void stopDrag()
         {
+            hit = false;
             p1.drag = false;
             p2.drag = false;
             p3.drag = false;
@@ -171,6 +174,7 @@ namespace MyPaint
 
         public void moveShape(double x, double y)
         {
+            hit = true;
             sx += x-Canvas.GetLeft(p);
             ex += x-Canvas.GetLeft(p);
             sy += y-Canvas.GetTop(p);
@@ -191,6 +195,16 @@ namespace MyPaint
             stack.Append(String.Format("ctx.ellipse({0},{1},{2},{3},0,0,2*Math.PI);\n", (int)(sx + ex)/2, (int)(sy + ey)/2, (int)Math.Abs(sx - ex)/2, (int)Math.Abs(sy - ey)/2));  
             stack.Append("ctx.stroke();\n");
             return stack.ToString();
+        }
+
+        public void setHit(bool h)
+        {
+            hit = h;
+        }
+
+        public bool hitTest()
+        {
+            return hit;
         }
     }
 }

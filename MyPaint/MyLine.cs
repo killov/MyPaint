@@ -16,6 +16,7 @@ namespace MyPaint
     {
         Control control;
         Line l;
+        bool hit = false;
 
         public MyLine(Control c)
         {
@@ -25,7 +26,7 @@ namespace MyPaint
         }
         public void mouseDown(MouseButtonEventArgs e)
         {
-            l.Stroke = control.color;
+            l.Stroke = control.color.brush;
             l.X1 = e.GetPosition(control.w.canvas).X;
             l.Y1 = e.GetPosition(control.w.canvas).Y;
             l.X2 = e.GetPosition(control.w.canvas).X;
@@ -50,6 +51,7 @@ namespace MyPaint
             createPoints();
             l.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
+                hit = true;
                 control.startMoveShape(new Point(l.X1, l.Y1), ee.GetPosition(control.w.canvas));
             };
         }
@@ -58,13 +60,13 @@ namespace MyPaint
         void createPoints()
         {
             control.candraw = false;
-            p1 = new MovePoint(control.w.canvas, new Point(l.X1, l.Y1), (p) =>
+            p1 = new MovePoint(control, this, new Point(l.X1, l.Y1), (p) =>
             {
                 l.X1 = p.X;
                 l.Y1 = p.Y;
             });
 
-            p2 = new MovePoint(control.w.canvas, new Point(l.X2, l.Y2), (p) =>
+            p2 = new MovePoint(control, this,  new Point(l.X2, l.Y2), (p) =>
             {
                 l.X2 = p.X;
                 l.Y2 = p.Y;
@@ -73,12 +75,14 @@ namespace MyPaint
 
         public void moveDrag(MouseEventArgs e)
         {
+            hit = false;
             p1.move(e);
             p2.move(e);
         }
 
         public void stopDrag()
         {
+            hit = false;
             p1.drag = false;
             p2.drag = false;
         }
@@ -105,6 +109,16 @@ namespace MyPaint
                     String.Format("ctx.lineTo({0},{1});\n", l.X2, l.Y2) +
                     "ctx.stroke();\n";
 
+        }
+
+        public void setHit(bool h)
+        {
+            hit = h;
+        }
+
+        public bool hitTest()
+        {
+            return hit;
         }
     }
 }

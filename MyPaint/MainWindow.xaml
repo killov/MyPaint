@@ -3,10 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:MyPaint"
         Icon="./icon.png"
         mc:Ignorable="d"
-        Title="MyPaint" Height="533.5" Width="508.5" Closing="closed" ResizeMode="NoResize">
+        Title="MyPaint" Height="691" Width="697.5" Closing="closed">
+
     <DockPanel Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
         <Menu DockPanel.Dock="Top" Height="20">
             <MenuItem Header="Nový" Click="newClick" Height="20" />
@@ -16,20 +18,34 @@
             <MenuItem Header="Ukončit" Click="exitClick" />
         </Menu>
         <Grid>
-            <Grid Margin="0,55,0,31">
-                <Canvas x:Name="canvas" HorizontalAlignment="Left" Height="400" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Background="White">
-                        <Rectangle x:Name="res" Height="400" Width="500" Fill="#00E8E7E7" MouseUp="poz_mouseDown" />
+            <Canvas Grid.Row="0" Background="LightGray" Height="90" VerticalAlignment="Top">
+                <Slider Height="26" Width="56" Style="{StaticResource SpinButton}" Canvas.Left="331" Canvas.Top="28" Maximum="100" Minimum="1" Value="3"/>
+                <Button Canvas.Left="10" Canvas.Top="10" Width="40" Height="40">
+                    <Line X1="0" Y1="0" X2="25" Y2="25" Stroke="Black" StrokeThickness="3" Height="25" Width="25"/>
+                </Button>
+                <Button Canvas.Left="55" Canvas.Top="10" Width="40" Height="40">
+                    <Ellipse StrokeThickness="3" HorizontalAlignment="Left" Height="20" Stroke="Black" VerticalAlignment="Top" Width="14"/>
+                </Button>
+                <Button Canvas.Left="100" Canvas.Top="10" Width="40" Height="40">
+                    <Rectangle Width="23" Height="18" Stroke="Black" StrokeThickness="3" />
+                </Button>
+                <Button Canvas.Left="145" Canvas.Top="10" Width="40" Height="40">
+                    <Polygon Points="3,3 3,20 10,10 18,12 16,5" Stroke="Black" StrokeThickness="3" Height="25" Width="21"  />
+                </Button>
+                <xctk:ColorPicker Name="ClrPcker_Background" DisplayColorAndName="False"  Canvas.Left="190" Canvas.Top="10" Width="71" Height="40" RenderTransformOrigin="0.549,0.5"></xctk:ColorPicker>
+            </Canvas>
+            <Canvas Margin="5,100,0,0">
+                <Canvas x:Name="canvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Background="White" Margin="0,0,0,0" Height="433" VerticalAlignment="Top">
+                    <Rectangle x:Name="res" Height="400" Width="500" Fill="#00E8E7E7" MouseUp="poz_mouseDown" />
+
                 </Canvas>
-            </Grid>
-            <Canvas x:Name="paleta" Margin="0,25,2,0" Background="White" Height="20" VerticalAlignment="Top"/>
-            <Label x:Name="labelPath" Content="" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="517" Height="26" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}"/>
-            <Button x:Name="cara" Content="LINE" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="54" Click="cara_Click"/>
-            <Button x:Name="obdelnik" Content="RECT" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="54" Margin="54,0,0,0" Click="obdelnik_Click"/>
-            <Button x:Name="elipsa" Content="ELLIPSE" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="54" Margin="108,0,0,0" Click="elipsa_Click"/>
-            <Slider x:Name="slider" HorizontalAlignment="Left" Margin="391,2,0,0" VerticalAlignment="Top" Width="101" ValueChanged="slider_ValueChanged" Maximum="20" Minimum="1" Value="1" SmallChange="1"/>
-            <Ellipse x:Name="colors" HorizontalAlignment="Left" Height="18" Margin="358,2,0,0" VerticalAlignment="Top" Width="16" Stroke="Black" StrokeThickness="5" MouseUp="colors_MouseUp"/>
-            <Button x:Name="polygon" Content="POLYGON" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="63" Margin="162,0,0,0" Click="polygon_Click"/>
+            </Canvas>
+            <Label x:Name="labelPath" Content="" VerticalAlignment="Bottom" Height="26" Background="LightGray"/>
+
+
 
         </Grid>
+
     </DockPanel>
+
 </Window>

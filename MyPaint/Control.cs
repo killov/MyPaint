@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Text.RegularExpressions;
+using System.Timers;
 
 namespace MyPaint
 {
@@ -22,8 +23,8 @@ namespace MyPaint
     class Control
     {
         DrawShape dShape;
-        public Brush color = Brushes.Black;
-        public Brush fcolor = null;
+        public MyBrush color = new MyBrush(0, 0, 0);
+        public MyBrush fcolor = new MyBrush(null);
         string path = "";
         bool change = false;
         public MainWindow w;
@@ -32,6 +33,7 @@ namespace MyPaint
         public bool startdraw = false;
         public bool candraw = true;
         public bool drag = false;
+        Timer tmr;
         Point posunStart = new Point();
         Point posunStartMys = new Point();
         public List<MyShape> shapes = new List<MyShape>();
@@ -61,16 +63,14 @@ namespace MyPaint
 
         public void setColor(Brush c)
         {
-            color = c;
-            w.colors.Stroke = c;
+            color = new MyBrush(c);
+
             stopDraw();
         }
 
         public void setfColor(Brush c)
         {
-            fcolor = c;
-            w.colors.Fill = c;
-            stopDraw();
+            fcolor = new MyBrush(c);
         }
 
         public void open()
@@ -227,23 +227,20 @@ namespace MyPaint
 
         public void setDrawShape(DrawShape s)
         {
-            w.cara.Background = null;
-            w.obdelnik.Background = null;
-            w.elipsa.Background = null;
-            w.polygon.Background = null;
+
             switch (s)
             {
                 case DrawShape.LINE:
-                    w.cara.Background = System.Windows.Media.Brushes.GreenYellow;
+                    
                     break;
                 case DrawShape.RECT:
-                    w.obdelnik.Background = System.Windows.Media.Brushes.GreenYellow;
+                    
                     break;
                 case DrawShape.ELLIPSE:
-                    w.elipsa.Background = System.Windows.Media.Brushes.GreenYellow;
+                    
                     break;
                 case DrawShape.POLYGON:
-                    w.polygon.Background = System.Windows.Media.Brushes.GreenYellow;
+                    
                     break;
             }
             dShape = s;
@@ -252,6 +249,7 @@ namespace MyPaint
 
         public void mouseDown(MouseButtonEventArgs e)
         {
+            
             if (candraw)
             {
                 if (!draw)
@@ -274,6 +272,35 @@ namespace MyPaint
                     }
                     shapes.Add(shape);
                     shape.mouseDown(e);
+                }
+            }
+            else
+            {
+
+                if (!shape.hitTest())
+                {
+                    stopDraw();
+                    if (!draw)
+                    {
+                        change = true;
+                        switch (dShape)
+                        {
+                            case DrawShape.LINE:
+                                shape = new MyLine(this);
+                                break;
+                            case DrawShape.RECT:
+                                shape = new MyRectangle(this);
+                                break;
+                            case DrawShape.ELLIPSE:
+                                shape = new MyEllipse(this);
+                                break;
+                            case DrawShape.POLYGON:
+                                shape = new MyPolygon(this);
+                                break;
+                        }
+                        shapes.Add(shape);
+                        shape.mouseDown(e);
+                    }
                 }
             }
         }

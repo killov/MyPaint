@@ -19,13 +19,14 @@ namespace MyPaint
         List<Point> points = new List<Point>();
         List<Line> lines = new List<Line>();
         Line l;
+        bool hit = false;
         bool start = false;
         public MyPolygon(Control c)
         {
             control = c;
             p = new Polygon();
-            p.Stroke = control.color;
-            p.Fill = control.fcolor;
+            p.Stroke = control.color.brush;
+            p.Fill = control.fcolor.brush;
             p.StrokeThickness = control.StrokeThickness;
         }
 
@@ -52,7 +53,7 @@ namespace MyPaint
             start = true;
             l = new Line();
             
-            l.Stroke = control.color;
+            l.Stroke = control.color.brush;
             l.StrokeThickness = control.StrokeThickness;
             l.ToolTip = null;
             l.Cursor = Cursors.Pen;
@@ -77,8 +78,8 @@ namespace MyPaint
                         control.w.canvas.Children.Remove(l);
                     }
                     p = new Polygon();
-                    p.Stroke = control.color;
-                    p.Fill = control.fcolor;
+                    p.Stroke = control.color.brush;
+                    p.Fill = control.fcolor.brush;
                     p.StrokeThickness = control.StrokeThickness;
                     p.Points = ppoints;
                     control.w.canvas.Children.Add(p);
@@ -88,6 +89,7 @@ namespace MyPaint
                     createPoints();
                     p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
                     {
+                        hit = true;
                         control.startMoveShape(p.Points[0], ee.GetPosition(control.w.canvas));
                     };
                 }
@@ -106,7 +108,7 @@ namespace MyPaint
 
         void cp(int i)
         {
-            MovePoint mp = new MovePoint(control.w.canvas, p.Points[i], (Point po) =>
+            MovePoint mp = new MovePoint(control, this, p.Points[i], (Point po) =>
             {
                 if (i < points.Count) p.Points[i] = po;
             });
@@ -123,6 +125,7 @@ namespace MyPaint
 
         public void stopDrag()
         {
+            hit = false;
             foreach (var p in movepoints)
             {
                 p.drag = false;
@@ -164,6 +167,16 @@ namespace MyPaint
             stack.Append("ctx.closePath();\n");
             stack.Append("ctx.stroke();\n");
             return stack.ToString();
+        }
+
+        public void setHit(bool h)
+        {
+            hit = h;
+        }
+
+        public bool hitTest()
+        {
+            return hit;
         }
     }
 }

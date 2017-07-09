@@ -12,3 +12,11 @@ C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\WpfApplication1.Properties.R
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.csproj.GenerateResource.Cache
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\WpfApplication1.exe
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\WpfApplication1.pdb
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\App.baml
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\WpfApplication1_Content.g.cs
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.AvalonDock.dll
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.DataGrid.dll
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.Toolkit.dll

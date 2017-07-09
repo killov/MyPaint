@@ -27,5 +27,9 @@ namespace MyPaint
         void moveShape(double x, double y);
 
         string renderShape();
+
+        void setHit(bool hit);
+
+        bool hitTest();
     }
 }
