@@ -20,19 +20,25 @@
         <Grid>
             <Canvas Grid.Row="0" Background="LightGray" Height="90" VerticalAlignment="Top">
                 <Slider Height="26" Width="56" Style="{StaticResource SpinButton}" Canvas.Left="331" Canvas.Top="28" Maximum="100" Minimum="1" Value="3"/>
-                <Button Canvas.Left="10" Canvas.Top="10" Width="40" Height="40">
+                <Button Style="{StaticResource MyButton}" x:Name="button_line" Canvas.Left="10" Canvas.Top="10" Width="40" Height="40" Click="button_line_Click" ForceCursor="True" Margin="0">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="0"/>
+                            <GradientStop Color="#FFE82020" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
                     <Line X1="0" Y1="0" X2="25" Y2="25" Stroke="Black" StrokeThickness="3" Height="25" Width="25"/>
                 </Button>
-                <Button Canvas.Left="55" Canvas.Top="10" Width="40" Height="40">
+                <Button Style="{StaticResource MyButton}" x:Name="button_ellipse" Canvas.Left="55" Canvas.Top="10" Width="40" Height="40" Click="button_ellipse_Click" Margin="0">
                     <Ellipse StrokeThickness="3" HorizontalAlignment="Left" Height="20" Stroke="Black" VerticalAlignment="Top" Width="14"/>
                 </Button>
-                <Button Canvas.Left="100" Canvas.Top="10" Width="40" Height="40">
+                <Button Style="{StaticResource MyButton}" x:Name="button_rectangle" Canvas.Left="100" Canvas.Top="10" Width="40" Height="40" Click="button_rectangle_Click" Margin="0">
                     <Rectangle Width="23" Height="18" Stroke="Black" StrokeThickness="3" />
                 </Button>
-                <Button Canvas.Left="145" Canvas.Top="10" Width="40" Height="40">
+                <Button Style="{StaticResource MyButton}" x:Name="button_polygon" Canvas.Left="145" Canvas.Top="10" Width="40" Height="40" Click="button_polygon_Click" Margin="0">
                     <Polygon Points="3,3 3,20 10,10 18,12 16,5" Stroke="Black" StrokeThickness="3" Height="25" Width="21"  />
                 </Button>
-                <xctk:ColorPicker Name="ClrPcker_Background" DisplayColorAndName="False"  Canvas.Left="190" Canvas.Top="10" Width="71" Height="40" RenderTransformOrigin="0.549,0.5"></xctk:ColorPicker>
+                <xctk:ColorPicker Name="ClrPcker_Background" DisplayColorAndName="False"  Canvas.Left="222" Canvas.Top="15" Width="70" Height="40" RenderTransformOrigin="0.549,0.5"></xctk:ColorPicker>
             </Canvas>
             <Canvas Margin="5,100,0,0">
                 <Canvas x:Name="canvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Background="White" Margin="0,0,0,0" Height="433" VerticalAlignment="Top">

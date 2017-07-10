@@ -125,5 +125,25 @@ namespace MyPaint
         {
 
         }
+
+        private void button_line_Click(object sender, RoutedEventArgs e)
+        {
+            control.setDrawShape(DrawShape.LINE);
+        }
+
+        private void button_ellipse_Click(object sender, RoutedEventArgs e)
+        {
+            control.setDrawShape(DrawShape.ELLIPSE);
+        }
+
+        private void button_rectangle_Click(object sender, RoutedEventArgs e)
+        {
+            control.setDrawShape(DrawShape.RECT);
+        }
+
+        private void button_polygon_Click(object sender, RoutedEventArgs e)
+        {
+            control.setDrawShape(DrawShape.POLYGON);
+        }
     }
 }

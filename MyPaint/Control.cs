@@ -42,7 +42,7 @@ namespace MyPaint
         public Control(MainWindow ww)
         {
             w = ww;
-            setDrawShape(DrawShape.LINE);   
+            setDrawShape(DrawShape.RECT);   
         }
 
         public void newC()
@@ -227,20 +227,25 @@ namespace MyPaint
 
         public void setDrawShape(DrawShape s)
         {
-
+            Style def = w.FindResource("MyButton") as Style;
+            Style act = w.FindResource("MyButtonActive") as Style;
+            w.button_line.Style = def;
+            w.button_rectangle.Style = def;
+            w.button_ellipse.Style = def;
+            w.button_polygon.Style = def;
             switch (s)
             {
                 case DrawShape.LINE:
-                    
+                    w.button_line.Style = act;
                     break;
                 case DrawShape.RECT:
-                    
+                    w.button_rectangle.Style = act;
                     break;
                 case DrawShape.ELLIPSE:
-                    
+                    w.button_ellipse.Style = act;
                     break;
                 case DrawShape.POLYGON:
-                    
+                    w.button_polygon.Style = act;
                     break;
             }
             dShape = s;
