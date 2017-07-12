@@ -16,6 +16,7 @@ namespace MyPaint
     {
         Control control;
         Polygon p;
+        MyBrush primaryColor, secondaryColor;
         List<Point> points = new List<Point>();
         List<Line> lines = new List<Line>();
         Line l;
@@ -28,6 +29,18 @@ namespace MyPaint
             p.Stroke = control.color.brush;
             p.Fill = control.fcolor.brush;
             p.StrokeThickness = control.StrokeThickness;
+        }
+
+        public void setPrimaryColor(MyBrush s)
+        {
+            primaryColor = s;
+            p.Stroke = s.brush;
+        }
+
+        public void setSecondaryColor(MyBrush s)
+        {
+            secondaryColor = s;
+            p.Fill = s.brush;
         }
 
         public void mouseDown(MouseButtonEventArgs e)
@@ -177,6 +190,15 @@ namespace MyPaint
         public bool hitTest()
         {
             return hit;
+        }
+
+        public void delete()
+        {
+            control.w.canvas.Children.Remove(p);
+            if (p.Points.Count > 0)
+            {
+                stopDraw();
+            }
         }
     }
 }

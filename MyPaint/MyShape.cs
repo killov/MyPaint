@@ -12,6 +12,10 @@ namespace MyPaint
 {
     interface MyShape
     {
+        void setPrimaryColor(MyBrush b);
+
+        void setSecondaryColor(MyBrush b);
+
         void mouseDown(MouseButtonEventArgs e);
 
         void mouseMove(MouseEventArgs e);
@@ -31,5 +35,7 @@ namespace MyPaint
         void setHit(bool hit);
 
         bool hitTest();
+
+        void delete();
     }
 }

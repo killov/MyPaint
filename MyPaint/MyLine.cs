@@ -17,13 +17,25 @@ namespace MyPaint
         Control control;
         Line l;
         bool hit = false;
+        MyBrush primaryColor;
 
         public MyLine(Control c)
         {
             control = c;
-            l = new Line();
-            
+            l = new Line();      
         }
+
+        public void setPrimaryColor(MyBrush s)
+        {
+            primaryColor = s;
+            l.Stroke = s.brush;
+        }
+
+        public void setSecondaryColor(MyBrush s)
+        {
+
+        }
+
         public void mouseDown(MouseButtonEventArgs e)
         {
             l.Stroke = control.color.brush;
@@ -119,6 +131,15 @@ namespace MyPaint
         public bool hitTest()
         {
             return hit;
+        }
+
+        public void delete()
+        {
+            control.w.canvas.Children.Remove(l);
+            if (p1 != null)
+            {
+                stopDraw();
+            }
         }
     }
 }

@@ -15,14 +15,15 @@ using System.Timers;
 
 namespace MyPaint
 {
-    enum DrawShape
+    enum MyEnum
     {
-        LINE, RECT, ELLIPSE, POLYGON
+        LINE, RECT, ELLIPSE, POLYGON, PRIMARY, SECONDARY
     }
 
     class Control
     {
-        DrawShape dShape;
+        MyEnum activeShape;
+        MyEnum activeColor;
         public MyBrush color = new MyBrush(0, 0, 0);
         public MyBrush fcolor = new MyBrush(null);
         string path = "";
@@ -33,7 +34,6 @@ namespace MyPaint
         public bool startdraw = false;
         public bool candraw = true;
         public bool drag = false;
-        Timer tmr;
         Point posunStart = new Point();
         Point posunStartMys = new Point();
         public List<MyShape> shapes = new List<MyShape>();
@@ -42,7 +42,8 @@ namespace MyPaint
         public Control(MainWindow ww)
         {
             w = ww;
-            setDrawShape(DrawShape.RECT);   
+            setDrawShape(MyEnum.LINE);
+            setActiveColor(MyEnum.PRIMARY);
         }
 
         public void newC()
@@ -61,16 +62,21 @@ namespace MyPaint
             w.canvas.Background = Brushes.White;
         }
 
-        public void setColor(Brush c)
+        public void setColor(MyBrush c)
         {
-            color = new MyBrush(c);
-
-            stopDraw();
-        }
-
-        public void setfColor(Brush c)
-        {
-            fcolor = new MyBrush(c);
+            switch (activeColor)
+            {
+                case MyEnum.PRIMARY:
+                    color = c;
+                    w.primaryColor.Fill = c.brush;
+                    if (shape != null) shape.setPrimaryColor(c);
+                    break;
+                case MyEnum.SECONDARY:
+                    fcolor = c;
+                    w.secondaryColor.Fill = c.brush;
+                    if (shape != null) shape.setSecondaryColor(c);
+                    break;
+            }           
         }
 
         public void open()
@@ -191,6 +197,16 @@ namespace MyPaint
             }
         }
 
+        internal void delete()
+        {
+            if(shape != null)
+            {
+                shape.delete();
+                draw = false;
+                candraw = true;
+            }
+        }
+
         public void save()
         {
             if (path == "")
@@ -225,7 +241,23 @@ namespace MyPaint
              w.Close();  
         }
 
-        public void setDrawShape(DrawShape s)
+        public void setActiveColor(MyEnum s)
+        {
+            activeColor = s;
+            switch (s)
+            {
+                case MyEnum.PRIMARY:
+                    w.primaryColor.Stroke = Brushes.Orange;
+                    w.secondaryColor.Stroke = null;      
+                    break;
+                case MyEnum.SECONDARY:
+                    w.primaryColor.Stroke = null;
+                    w.secondaryColor.Stroke = Brushes.Orange;
+                    break;
+            }
+        }
+
+        public void setDrawShape(MyEnum s)
         {
             Style def = w.FindResource("MyButton") as Style;
             Style act = w.FindResource("MyButtonActive") as Style;
@@ -235,78 +267,63 @@ namespace MyPaint
             w.button_polygon.Style = def;
             switch (s)
             {
-                case DrawShape.LINE:
+                case MyEnum.LINE:
                     w.button_line.Style = act;
                     break;
-                case DrawShape.RECT:
+                case MyEnum.RECT:
                     w.button_rectangle.Style = act;
                     break;
-                case DrawShape.ELLIPSE:
+                case MyEnum.ELLIPSE:
                     w.button_ellipse.Style = act;
                     break;
-                case DrawShape.POLYGON:
+                case MyEnum.POLYGON:
                     w.button_polygon.Style = act;
                     break;
             }
-            dShape = s;
+            activeShape = s;
             stopDraw();
         }
 
         public void mouseDown(MouseButtonEventArgs e)
-        {
-            
+        {   
             if (candraw)
             {
-                if (!draw)
-                {
-                    change = true;
-                    switch (dShape)
-                    {
-                        case DrawShape.LINE:
-                            shape = new MyLine(this);
-                            break;
-                        case DrawShape.RECT:
-                            shape = new MyRectangle(this);
-                            break;
-                        case DrawShape.ELLIPSE:
-                            shape = new MyEllipse(this);
-                            break;
-                        case DrawShape.POLYGON:
-                            shape = new MyPolygon(this);
-                            break;
-                    }
-                    shapes.Add(shape);
-                    shape.mouseDown(e);
-                }
+                startDraw(e);
             }
             else
             {
-
                 if (!shape.hitTest())
                 {
                     stopDraw();
-                    if (!draw)
-                    {
-                        change = true;
-                        switch (dShape)
-                        {
-                            case DrawShape.LINE:
-                                shape = new MyLine(this);
-                                break;
-                            case DrawShape.RECT:
-                                shape = new MyRectangle(this);
-                                break;
-                            case DrawShape.ELLIPSE:
-                                shape = new MyEllipse(this);
-                                break;
-                            case DrawShape.POLYGON:
-                                shape = new MyPolygon(this);
-                                break;
-                        }
-                        shapes.Add(shape);
-                        shape.mouseDown(e);
-                    }
+                    startDraw(e);
                 }
+            }
+        }
+
+        void startDraw(MouseButtonEventArgs e)
+        {
+            if (!draw)
+            {
+                change = true;
+                switch (activeShape)
+                {
+                    case MyEnum.LINE:
+                        shape = new MyLine(this);
+                        break;
+                    case MyEnum.RECT:
+                        shape = new MyRectangle(this);
+                        break;
+                    case MyEnum.ELLIPSE:
+                        shape = new MyEllipse(this);
+                        break;
+                    case MyEnum.POLYGON:
+                        shape = new MyPolygon(this);
+                        break;
+                }
+                shape.setPrimaryColor(color);
+                shape.setSecondaryColor(fcolor);
+                shapes.Add(shape);
+                shape.mouseDown(e);
             }
         }
 
@@ -349,6 +366,7 @@ namespace MyPaint
             {
                 candraw = true;
                 shape.stopDraw();
+                shape = null;
                 w.canvas.Children.Remove(w.res);
                 w.canvas.Children.Add(w.res);
             }

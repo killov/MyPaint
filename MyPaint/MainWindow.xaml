@@ -7,10 +7,18 @@
         xmlns:local="clr-namespace:MyPaint"
         Icon="./icon.png"
         mc:Ignorable="d"
-        Title="MyPaint" Height="691" Width="697.5" Closing="closed">
+        Title="MyPaint" Height="691" Width="697.5" Closing="closed" WindowState="Maximized" KeyDown="Window_KeyDown">
 
     <DockPanel Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
         <Menu DockPanel.Dock="Top" Height="20">
+            <Menu.Background>
+                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                    <GradientStop Color="#FFF6F6F6" Offset="0.25"/>
+                    <GradientStop Color="#FFEAE8E8" Offset="0.25"/>
+                    <GradientStop Color="#FFDCD9D9" Offset="0.8"/>
+                    <GradientStop Color="#FFC5C2C2" Offset="1"/>
+                </LinearGradientBrush>
+            </Menu.Background>
             <MenuItem Header="Nový" Click="newClick" Height="20" />
             <MenuItem Header="Otevřít" Click="openClick" Height="20" />
             <MenuItem Header="Uložit" Click="saveClick" />
@@ -18,8 +26,19 @@
             <MenuItem Header="Ukončit" Click="exitClick" />
         </Menu>
         <Grid>
-            <Canvas Grid.Row="0" Background="LightGray" Height="90" VerticalAlignment="Top">
-                <Slider Height="26" Width="56" Style="{StaticResource SpinButton}" Canvas.Left="331" Canvas.Top="28" Maximum="100" Minimum="1" Value="3"/>
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FF3BA4BB" Offset="1"/>
+                    <GradientStop Color="#FFAEDDE8"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Canvas Grid.Row="0" Height="58" VerticalAlignment="Top">
+                <Canvas.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF89D8E0" Offset="0"/>
+                        <GradientStop Color="#FF9DC5C3" Offset="1"/>
+                    </LinearGradientBrush>
+                </Canvas.Background>
                 <Button Style="{StaticResource MyButton}" x:Name="button_line" Canvas.Left="10" Canvas.Top="10" Width="40" Height="40" Click="button_line_Click" ForceCursor="True" Margin="0">
                     <Button.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -38,9 +57,20 @@
                 <Button Style="{StaticResource MyButton}" x:Name="button_polygon" Canvas.Left="145" Canvas.Top="10" Width="40" Height="40" Click="button_polygon_Click" Margin="0">
                     <Polygon Points="3,3 3,20 10,10 18,12 16,5" Stroke="Black" StrokeThickness="3" Height="25" Width="21"  />
                 </Button>
-                <xctk:ColorPicker Name="ClrPcker_Background" DisplayColorAndName="False"  Canvas.Left="222" Canvas.Top="15" Width="70" Height="40" RenderTransformOrigin="0.549,0.5"></xctk:ColorPicker>
+
+                <Canvas x:Name="colors" Height="40" Canvas.Left="200" Canvas.Top="10" Width="193" Background="#66FFFFFF">
+                    <Canvas Height="40" Width="50">
+                        <Ellipse x:Name="secondaryColor" Fill="White" Height="20" Canvas.Left="14" Canvas.Top="14" Width="20" Stroke="#FF1A82FF" MouseDown="secondaryColor_MouseDown" StrokeThickness="3"/>
+                        <Ellipse x:Name="primaryColor" Height="20" Canvas.Left="5" Canvas.Top="5" Width="20" Stroke="#FF1A82FF" Fill="Black" MouseDown="primaryColor_MouseDown" StrokeThickness="3"/>
+                    </Canvas>
+                </Canvas>
+                <Canvas  Height="40" Canvas.Left="398" Canvas.Top="10" Width="193" Background="#66FFFFFF">
+                    <Slider Height="15" Width="60" Style="{StaticResource SpinButton}" Canvas.Left="5" Maximum="100" Minimum="1" Value="3" Background="#FFAC5555" Canvas.Top="20"/>
+                    <Label Content="Tloušťka&#xD;&#xA;" Canvas.Left="10" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182"/>
+                </Canvas>
+
             </Canvas>
-            <Canvas Margin="5,100,0,0">
+            <Canvas Margin="10,69,-5,31">
                 <Canvas x:Name="canvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Background="White" Margin="0,0,0,0" Height="433" VerticalAlignment="Top">
                     <Rectangle x:Name="res" Height="400" Width="500" Fill="#00E8E7E7" MouseUp="poz_mouseDown" />
 

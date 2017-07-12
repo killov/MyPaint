@@ -16,12 +16,26 @@ namespace MyPaint
     {
         Control control;
         Polygon p;
+        MyBrush primaryColor, secondaryColor;
         bool hit = false;
         public MyRectangle(Control c)
         {
             control = c;
             p = new Polygon();
         }
+
+        public void setPrimaryColor(MyBrush s)
+        {
+            primaryColor = s;
+            p.Stroke = s.brush;
+        }
+
+        public void setSecondaryColor(MyBrush s)
+        {
+            secondaryColor = s;
+            p.Fill = s.brush;
+        }
+
         public void mouseDown(MouseButtonEventArgs e)
         {
             PointCollection points = new PointCollection(4);
@@ -173,6 +187,15 @@ namespace MyPaint
         public bool hitTest()
         {
             return hit;
+        }
+
+        public void delete()
+        {
+            control.w.canvas.Children.Remove(p);
+            if (p1 != null)
+            {
+                stopDraw();
+            }
         }
     }
 }

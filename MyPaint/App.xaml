@@ -10,21 +10,20 @@
                     <ControlTemplate TargetType="Slider">
                         <Grid>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="20"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="1"/>
-                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <TextBox Grid.RowSpan="3" Text="{Binding Value,Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" VerticalContentAlignment="Center" BorderThickness="1,1,0,1"/>
-                            <RepeatButton Grid.Column="1" Grid.Row="0" Command="Slider.IncreaseLarge">
-                                <Path Fill="Black" Data="M0,1 L0.5,0 1,1z" Width="9" Height="5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            </RepeatButton>
-                            <Rectangle Grid.Column="1" Grid.Row="1" Fill="{TemplateBinding BorderBrush}"/>
-                            <RepeatButton Grid.Column="1" Grid.Row="2" Command="Slider.DecreaseLarge">
-                                <Path Fill="Black" Data="M0,0 L0.5,1 1,0z" Width="9" Height="5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBox Grid.Column="1" Text="{Binding Value,Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" VerticalContentAlignment="Center" BorderThickness="1,1,0,1" FontSize="8" VerticalAlignment="Center"/>
+                            <Button Grid.Column="0" Grid.Row="0" Command="Slider.DecreaseLarge">
+                                <Path Fill="Black" Data="M0,1 L1,0 1,2z" Width="5" Height="10" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Button>
+
+                            <RepeatButton Grid.Column="2" Grid.Row="0" Command="Slider.IncreaseLarge">
+                                <Path Fill="Black" Data="M0,0 L1,1 0,2z" Width="5" Height="10" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </RepeatButton>
                         </Grid>
                     </ControlTemplate>
@@ -63,7 +62,7 @@
                             BorderThickness="1"
                             BorderBrush="DarkGray" 
                             CornerRadius="3" 
-                            Background="#FF22C5F7">
+                            Background="#FF7764EE">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>

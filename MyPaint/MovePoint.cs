@@ -40,7 +40,7 @@ namespace MyPaint
             Canvas.SetTop(el, y-5);
             Canvas.SetLeft(el, x-5);
 
-            el.MouseDown += delegate (object sender, MouseButtonEventArgs e)
+            el.MouseDown += delegate (object sender, MouseButtonEventArgs e) 
             {
                 shape.setHit(true);
                 drag = true;

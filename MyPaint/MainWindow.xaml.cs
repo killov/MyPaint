@@ -24,14 +24,62 @@ namespace MyPaint
     public partial class MainWindow : Window
     {
         Control control;
-        
+
         public MainWindow()
-        {          
+        {
             InitializeComponent();
             control = new Control(this);
-            int i = 0, j = 0;
-            
-            
+
+            colorsInit();
+
+        }
+
+        private void colorsInit()
+        {
+            addColor(0, 0, 255, 255, 255);
+            addColor(1, 0, 255, 255, 0);
+            addColor(2, 0, 255, 0, 255);
+            addColor(3, 0, 0, 255, 255);
+            addColor(4, 0, 255, 0, 0);
+            addColor(5, 0, 0, 255, 0);
+            addColor(6, 0, 0, 0, 255);
+            addColor(7, 0, 0, 0, 0);
+            addColor(0, 1, 0, 128, 0);
+            addColor(1, 1, 128, 0, 0);
+            addColor(2, 1, 128, 128, 0);
+            addColor(3, 1, 128, 0, 128);
+            addColor(4, 1, 128, 128, 128);
+            addColor(5, 1, 0, 0, 128);
+            addColor(6, 1, 0, 128, 128);
+            addColor(7, 1, 192, 192, 192);
+        }
+
+        private void addColor(int x, int y, int r, int g, int b)
+        {
+            Rectangle rect = new Rectangle();
+            rect.StrokeThickness = 1;
+            rect.Stroke = Brushes.Black;
+            rect.Width = 17;
+            rect.Height = 17;
+            MyBrush br = new MyBrush(r, g, b);
+            rect.Fill = br.brush;
+            rect.RadiusX = 3;
+            rect.RadiusY = 3;
+            rect.MouseDown += delegate (object sender, MouseButtonEventArgs e)
+            {
+                control.setColor(br);
+            };
+            colors.Children.Add(rect);
+            Canvas.SetLeft(rect, x * 19+40);
+            Canvas.SetTop(rect, y * 19+2);
+            rect.MouseMove += delegate (object sender, MouseEventArgs e)
+            {
+                rect.Stroke = Brushes.Orange;
+            };
+            rect.MouseLeave += delegate (object sender, MouseEventArgs e)
+            {
+                rect.Stroke = Brushes.Black;
+            };
         }
 
         private void openClick(object sender, RoutedEventArgs e)
@@ -78,12 +126,12 @@ namespace MyPaint
 
         private void cara_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(DrawShape.LINE);
+            control.setDrawShape(MyEnum.LINE);
         }
 
         private void obdelnik_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(DrawShape.RECT);
+            control.setDrawShape(MyEnum.RECT);
         }
 
         private void poz_mouseDown(object sender, MouseButtonEventArgs e)
@@ -93,7 +141,7 @@ namespace MyPaint
 
         private void elipsa_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(DrawShape.ELLIPSE);
+            control.setDrawShape(MyEnum.ELLIPSE);
         }
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -106,14 +154,9 @@ namespace MyPaint
             control.newC();
         }
 
-        private void colors_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            control.setfColor(null);
-        }
-
         private void polygon_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(DrawShape.POLYGON);
+            control.setDrawShape(MyEnum.POLYGON);
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -128,22 +171,41 @@ namespace MyPaint
 
         private void button_line_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(DrawShape.LINE);
+            control.setDrawShape(MyEnum.LINE);
         }
 
         private void button_ellipse_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(DrawShape.ELLIPSE);
+            control.setDrawShape(MyEnum.ELLIPSE);
         }
 
         private void button_rectangle_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(DrawShape.RECT);
+            control.setDrawShape(MyEnum.RECT);
         }
 
         private void button_polygon_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(DrawShape.POLYGON);
+            control.setDrawShape(MyEnum.POLYGON);
+        }
+
+        private void primaryColor_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            control.setActiveColor(MyEnum.PRIMARY);
+            
+        }
+
+        private void secondaryColor_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            control.setActiveColor(MyEnum.SECONDARY);
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Delete)
+            {
+                control.delete();
+            }
         }
     }
 }

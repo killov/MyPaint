@@ -16,12 +16,25 @@ namespace MyPaint
     {
         Control control;
         Ellipse p;
+        MyBrush primaryColor, secondaryColor;
         bool hit = false;
         double sx, sy, ex, ey;
         public MyEllipse(Control c)
         {
             control = c;
             p = new Ellipse();
+        }
+
+        public void setPrimaryColor(MyBrush s)
+        {
+            primaryColor = s;
+            p.Stroke = s.brush;
+        }
+
+        public void setSecondaryColor(MyBrush s)
+        {
+            secondaryColor = s;
+            p.Fill = s.brush;
         }
 
         void moveS(double x, double y)
@@ -205,6 +218,15 @@ namespace MyPaint
         public bool hitTest()
         {
             return hit;
+        }
+
+        public void delete()
+        {
+            control.w.canvas.Children.Remove(p);
+            if(p1 != null)
+            {
+                stopDraw();
+            }
         }
     }
 }
