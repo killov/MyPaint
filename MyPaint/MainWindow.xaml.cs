@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
+using ColorBox;
 
 
 namespace MyPaint
@@ -24,7 +25,7 @@ namespace MyPaint
     public partial class MainWindow : Window
     {
         Control control;
-
+        WindowChangeColor wcc;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +33,8 @@ namespace MyPaint
 
             colorsInit();
 
+            
+           
         }
 
         private void colorsInit()
@@ -111,6 +114,7 @@ namespace MyPaint
         
         private void mouseDown(object sender, MouseButtonEventArgs e)
         {
+
             control.mouseDown(e);
         }
 
@@ -146,7 +150,7 @@ namespace MyPaint
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if(control!=null) control.StrokeThickness = e.NewValue;
+            //if(control!=null) control.StrokeThickness = e.NewValue;
         }
 
         private void newClick(object sender, RoutedEventArgs e)
@@ -191,12 +195,21 @@ namespace MyPaint
 
         private void primaryColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            control.setActiveColor(MyEnum.PRIMARY);
-            
+            if(control.activeColor == MyEnum.PRIMARY)
+            {
+                openWCC();
+                return;
+            }
+            control.setActiveColor(MyEnum.PRIMARY); 
         }
 
         private void secondaryColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (control.activeColor == MyEnum.SECONDARY)
+            {
+                openWCC();
+                return;
+            }
             control.setActiveColor(MyEnum.SECONDARY);
         }
 
@@ -206,6 +219,26 @@ namespace MyPaint
             {
                 control.delete();
             }
+        }
+
+        private void thickness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if(control != null) control.setThickness(e.NewValue);
+        }
+
+        private void moreColors_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
+        }
+
+        private void openWCC()
+        {
+            WindowChangeColor wcc = new WindowChangeColor();
+            wcc.Top = Top + 40;
+            wcc.Left = Left + 200;
+            wcc.control = control;
+            wcc.start();
+            wcc.ShowDialog();
         }
     }
 }

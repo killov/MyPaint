@@ -10,11 +10,13 @@ using System.Windows.Input;
 
 namespace MyPaint
 {
-    interface MyShape
+    public interface MyShape
     {
         void setPrimaryColor(MyBrush b);
 
         void setSecondaryColor(MyBrush b);
+
+        void setThickness(double b);
 
         void mouseDown(MouseButtonEventArgs e);
 

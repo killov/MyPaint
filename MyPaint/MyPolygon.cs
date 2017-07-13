@@ -20,6 +20,7 @@ namespace MyPaint
         List<Point> points = new List<Point>();
         List<Line> lines = new List<Line>();
         Line l;
+        double thickness;
         bool hit = false;
         bool start = false;
         public MyPolygon(Control c)
@@ -28,7 +29,6 @@ namespace MyPaint
             p = new Polygon();
             p.Stroke = control.color.brush;
             p.Fill = control.fcolor.brush;
-            p.StrokeThickness = control.StrokeThickness;
         }
 
         public void setPrimaryColor(MyBrush s)
@@ -41,6 +41,12 @@ namespace MyPaint
         {
             secondaryColor = s;
             p.Fill = s.brush;
+        }
+
+        public void setThickness(double s)
+        {
+            p.StrokeThickness = s;
+            thickness = s;
         }
 
         public void mouseDown(MouseButtonEventArgs e)
@@ -67,7 +73,7 @@ namespace MyPaint
             l = new Line();
             
             l.Stroke = control.color.brush;
-            l.StrokeThickness = control.StrokeThickness;
+            l.StrokeThickness = thickness;
             l.ToolTip = null;
             l.Cursor = Cursors.Pen;
             l.X1 = e.GetPosition(control.w.canvas).X;
@@ -93,7 +99,7 @@ namespace MyPaint
                     p = new Polygon();
                     p.Stroke = control.color.brush;
                     p.Fill = control.fcolor.brush;
-                    p.StrokeThickness = control.StrokeThickness;
+                    p.StrokeThickness = thickness;
                     p.Points = ppoints;
                     control.w.canvas.Children.Add(p);
                     p.ToolTip = null;

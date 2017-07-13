@@ -18,6 +18,7 @@ namespace MyPaint
         Ellipse p;
         MyBrush primaryColor, secondaryColor;
         bool hit = false;
+        double thickness;
         double sx, sy, ex, ey;
         public MyEllipse(Control c)
         {
@@ -35,6 +36,12 @@ namespace MyPaint
         {
             secondaryColor = s;
             p.Fill = s.brush;
+        }
+
+        public void setThickness(double s)
+        {
+            p.StrokeThickness = s;
+            thickness = s;
         }
 
         void moveS(double x, double y)
@@ -90,9 +97,6 @@ namespace MyPaint
             sx = e.GetPosition(control.w.canvas).X;
             sy = e.GetPosition(control.w.canvas).Y;
 
-            p.Fill = control.fcolor.brush;
-            p.Stroke = control.color.brush;
-            p.StrokeThickness = control.StrokeThickness;
             p.ToolTip = null;
             p.Cursor = Cursors.Pen;
            

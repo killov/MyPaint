@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:MyPaint"
+        xmlns:ncore="http://schemas.ncore.com/wpf/xaml/colorbox"
         Icon="./icon.png"
         mc:Ignorable="d"
         Title="MyPaint" Height="691" Width="697.5" Closing="closed" WindowState="Maximized" KeyDown="Window_KeyDown">
@@ -57,17 +58,41 @@
                 <Button Style="{StaticResource MyButton}" x:Name="button_polygon" Canvas.Left="145" Canvas.Top="10" Width="40" Height="40" Click="button_polygon_Click" Margin="0">
                     <Polygon Points="3,3 3,20 10,10 18,12 16,5" Stroke="Black" StrokeThickness="3" Height="25" Width="21"  />
                 </Button>
-
-                <Canvas x:Name="colors" Height="40" Canvas.Left="200" Canvas.Top="10" Width="193" Background="#66FFFFFF">
+               
+                <Canvas x:Name="colors" Height="40" Canvas.Left="200" Canvas.Top="10" Width="233" Background="#66FFFFFF">
                     <Canvas Height="40" Width="50">
                         <Ellipse x:Name="secondaryColor" Fill="White" Height="20" Canvas.Left="14" Canvas.Top="14" Width="20" Stroke="#FF1A82FF" MouseDown="secondaryColor_MouseDown" StrokeThickness="3"/>
                         <Ellipse x:Name="primaryColor" Height="20" Canvas.Left="5" Canvas.Top="5" Width="20" Stroke="#FF1A82FF" Fill="Black" MouseDown="primaryColor_MouseDown" StrokeThickness="3"/>
+                        <Rectangle x:Name="moreColors" Height="27" Canvas.Left="198" Stroke="Black" Canvas.Top="7" Width="28" MouseDown="moreColors_MouseDown">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                    <LinearGradientBrush.RelativeTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                            <RotateTransform Angle="-126.87" CenterY="0.5" CenterX="0.5"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </LinearGradientBrush.RelativeTransform>
+                                    <GradientStop Color="Red"/>
+                                    <GradientStop Color="White" Offset="0.993"/>
+                                    <GradientStop Color="#FFFFE909" Offset="0.17"/>
+                                    <GradientStop Color="#FF33FF33" Offset="0.286"/>
+                                    <GradientStop Color="#FF5CCBFF" Offset="0.452"/>
+                                    <GradientStop Color="#FF927AFF" Offset="0.555"/>
+                                    <GradientStop Color="#FFF69EFF" Offset="0.678"/>
+                                    <GradientStop Color="#FEFEBDDD" Offset="0.852"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
                     </Canvas>
                 </Canvas>
-                <Canvas  Height="40" Canvas.Left="398" Canvas.Top="10" Width="193" Background="#66FFFFFF">
-                    <Slider Height="15" Width="60" Style="{StaticResource SpinButton}" Canvas.Left="5" Maximum="100" Minimum="1" Value="3" Background="#FFAC5555" Canvas.Top="20"/>
-                    <Label Content="Tloušťka&#xD;&#xA;" Canvas.Left="10" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182"/>
+                <Canvas  Height="40" Canvas.Left="438" Canvas.Top="10" Width="72" Background="#66FFFFFF">
+                    <Slider x:Name="thickness" Height="15" Width="62" Style="{StaticResource SpinButton}" Canvas.Left="5" Maximum="100" Minimum="0" Value="1" Background="{x:Null}" Canvas.Top="22" ValueChanged="thickness_ValueChanged"/>
+                    <Label Content="Tloušťka&#xD;&#xA;" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182"/>
+
                 </Canvas>
+
 
             </Canvas>
             <Canvas Margin="10,69,-5,31">
@@ -79,9 +104,9 @@
             <Label x:Name="labelPath" Content="" VerticalAlignment="Bottom" Height="26" Background="LightGray"/>
 
 
-
+          
         </Grid>
-
+        
     </DockPanel>
 
 </Window>

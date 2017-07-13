@@ -17,6 +17,7 @@ namespace MyPaint
         Control control;
         Polygon p;
         MyBrush primaryColor, secondaryColor;
+        double thickness;
         bool hit = false;
         public MyRectangle(Control c)
         {
@@ -36,6 +37,12 @@ namespace MyPaint
             p.Fill = s.brush;
         }
 
+        public void setThickness(double s)
+        {
+            p.StrokeThickness = s;
+            thickness = s;
+        }
+
         public void mouseDown(MouseButtonEventArgs e)
         {
             PointCollection points = new PointCollection(4);
@@ -47,7 +54,6 @@ namespace MyPaint
             points.Add(new Point(x, y));
             p.Stroke = control.color.brush;
             p.Fill = control.fcolor.brush;
-            p.StrokeThickness = control.StrokeThickness;
             p.Points = points;
             control.w.canvas.Children.Add(p);
             p.ToolTip = null;

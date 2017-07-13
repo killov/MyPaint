@@ -9,20 +9,23 @@ using System.Windows.Media.Composition;
 
 namespace MyPaint
 {
-    enum MyBrushType
+    public enum MyBrushType
     {
         COLOR, GRADIENT
     }
 
-    class MyBrush
+    public class MyBrush
     {
         public Brush brush;
-        MyBrushType type;
-
+        public MyBrushType type;
+        public int R, G, B;
         public MyBrush(int r, int g, int b)
         {
             type = MyBrushType.COLOR;
             brush = new SolidColorBrush(Color.FromArgb(255, (byte)r, (byte)g, (byte)b));
+            R = r;
+            G = g;
+            B = b;
         }
 
         public MyBrush(Brush b)

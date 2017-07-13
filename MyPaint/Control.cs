@@ -15,17 +15,18 @@ using System.Timers;
 
 namespace MyPaint
 {
-    enum MyEnum
+    public enum MyEnum
     {
         LINE, RECT, ELLIPSE, POLYGON, PRIMARY, SECONDARY
     }
 
-    class Control
+    public class Control
     {
         MyEnum activeShape;
-        MyEnum activeColor;
+        public MyEnum activeColor;
         public MyBrush color = new MyBrush(0, 0, 0);
         public MyBrush fcolor = new MyBrush(null);
+        public double thickness;
         string path = "";
         bool change = false;
         public MainWindow w;
@@ -37,13 +38,13 @@ namespace MyPaint
         Point posunStart = new Point();
         Point posunStartMys = new Point();
         public List<MyShape> shapes = new List<MyShape>();
-        public double StrokeThickness = 1;
 
         public Control(MainWindow ww)
         {
             w = ww;
             setDrawShape(MyEnum.LINE);
             setActiveColor(MyEnum.PRIMARY);
+            setThickness(1);
         }
 
         public void newC()
@@ -76,7 +77,26 @@ namespace MyPaint
                     w.secondaryColor.Fill = c.brush;
                     if (shape != null) shape.setSecondaryColor(c);
                     break;
-            }           
+            }
+        }
+
+        public MyBrush getColor()
+        {
+            switch (activeColor)
+            {
+                case MyEnum.PRIMARY:
+                    return color;
+                case MyEnum.SECONDARY:
+                    return fcolor;
+                default:
+                    return color;
+            }
+        }
+
+        public void setThickness(double t)
+        {
+            thickness = t;
+            if (shape != null) shape.setThickness(t);
         }
 
         public void open()
@@ -322,6 +342,7 @@ namespace MyPaint
                 }
                 shape.setPrimaryColor(color);
                 shape.setSecondaryColor(fcolor);
+                shape.setThickness(thickness);
                 shapes.Add(shape);
                 shape.mouseDown(e);
             }

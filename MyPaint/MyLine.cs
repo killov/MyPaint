@@ -18,6 +18,7 @@ namespace MyPaint
         Line l;
         bool hit = false;
         MyBrush primaryColor;
+        double thickness;
 
         public MyLine(Control c)
         {
@@ -36,6 +37,12 @@ namespace MyPaint
 
         }
 
+        public void setThickness(double s)
+        {
+            l.StrokeThickness = s;
+            thickness = s;
+        }
+
         public void mouseDown(MouseButtonEventArgs e)
         {
             l.Stroke = control.color.brush;
@@ -43,7 +50,6 @@ namespace MyPaint
             l.Y1 = e.GetPosition(control.w.canvas).Y;
             l.X2 = e.GetPosition(control.w.canvas).X;
             l.Y2 = e.GetPosition(control.w.canvas).Y;
-            l.StrokeThickness = control.StrokeThickness;
             l.ToolTip = null;
             l.Cursor = Cursors.Pen;
             control.w.canvas.Children.Add(l);
