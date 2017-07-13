@@ -141,6 +141,7 @@
     <Resource Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ColorBox.dll" />
     <Content Include="Xceed.Wpf.AvalonDock.dll" />
     <Content Include="Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
     <Content Include="Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
