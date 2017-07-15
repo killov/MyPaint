@@ -16,7 +16,7 @@ namespace MyPaint
     {
         Control control;
         Polygon p;
-        MyBrush primaryColor, secondaryColor;
+        Brush primaryColor, secondaryColor;
         List<Point> points = new List<Point>();
         List<Line> lines = new List<Line>();
         Line l;
@@ -27,20 +27,20 @@ namespace MyPaint
         {
             control = c;
             p = new Polygon();
-            p.Stroke = control.color.brush;
-            p.Fill = control.fcolor.brush;
+            p.Stroke = control.color;
+            p.Fill = control.fcolor;
         }
 
-        public void setPrimaryColor(MyBrush s)
+        public void setPrimaryColor(Brush s)
         {
             primaryColor = s;
-            p.Stroke = s.brush;
+            p.Stroke = s;
         }
 
-        public void setSecondaryColor(MyBrush s)
+        public void setSecondaryColor(Brush s)
         {
             secondaryColor = s;
-            p.Fill = s.brush;
+            p.Fill = s;
         }
 
         public void setThickness(double s)
@@ -72,7 +72,7 @@ namespace MyPaint
             start = true;
             l = new Line();
             
-            l.Stroke = control.color.brush;
+            l.Stroke = control.color;
             l.StrokeThickness = thickness;
             l.ToolTip = null;
             l.Cursor = Cursors.Pen;
@@ -97,8 +97,8 @@ namespace MyPaint
                         control.w.canvas.Children.Remove(l);
                     }
                     p = new Polygon();
-                    p.Stroke = control.color.brush;
-                    p.Fill = control.fcolor.brush;
+                    p.Stroke = control.color;
+                    p.Fill = control.fcolor;
                     p.StrokeThickness = thickness;
                     p.Points = ppoints;
                     control.w.canvas.Children.Add(p);
@@ -170,22 +170,18 @@ namespace MyPaint
             movepoints[0].move(x,y);
         }
 
-        public string renderShape()
+        public json.Shape renderShape()
         {
-            StringBuilder stack = new StringBuilder();
-            Point fp = p.Points.First();
-            stack.Append(String.Format("ctx.moveTo({0},{1});\n", fp.X, fp.Y));
-            
-            foreach (var p in p.Points)
+            json.Polygon ret = new json.Polygon();
+            ret.lineWidth = thickness;
+            ret.stroke = Utils.BrushToCanvas(primaryColor);
+            ret.fill = Utils.BrushToCanvas(secondaryColor);
+            ret.points = new List<json.Point>();
+            foreach(var point in p.Points)
             {
-                if(fp != p)
-                {
-                    stack.Append(String.Format("ctx.lineTo({0},{1});\n", p.X, p.Y));
-                }  
+                ret.points.Add(new json.Point(point.X, point.Y));
             }
-            stack.Append("ctx.closePath();\n");
-            stack.Append("ctx.stroke();\n");
-            return stack.ToString();
+            return ret;
         }
 
         public void setHit(bool h)

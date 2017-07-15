@@ -1,0 +1,15 @@
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\bin\Release\ColorBoxTest.exe.config
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\bin\Release\ColorBoxTest.exe
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\bin\Release\ColorBoxTest.pdb
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\bin\Release\ColorBox.dll
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\bin\Release\ColorBox.pdb
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\obj\Release\ColorBoxTest.csprojResolveAssemblyReference.cache
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\obj\Release\MainWindow.baml
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\obj\Release\MainWindow.g.cs
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\obj\Release\App.g.cs
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\obj\Release\ColorBoxTest_MarkupCompile.cache
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\obj\Release\ColorBoxTest.g.resources
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\obj\Release\ColorBoxTest.Properties.Resources.resources
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\obj\Release\ColorBoxTest.csproj.GenerateResource.Cache
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\obj\Release\ColorBoxTest.exe
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBoxTest\obj\Release\ColorBoxTest.pdb

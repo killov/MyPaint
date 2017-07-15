@@ -16,7 +16,7 @@ namespace MyPaint
     {
         Control control;
         Ellipse p;
-        MyBrush primaryColor, secondaryColor;
+        Brush primaryColor, secondaryColor;
         bool hit = false;
         double thickness;
         double sx, sy, ex, ey;
@@ -26,16 +26,16 @@ namespace MyPaint
             p = new Ellipse();
         }
 
-        public void setPrimaryColor(MyBrush s)
+        public void setPrimaryColor(Brush s)
         {
             primaryColor = s;
-            p.Stroke = s.brush;
+            p.Stroke = s;
         }
 
-        public void setSecondaryColor(MyBrush s)
+        public void setSecondaryColor(Brush s)
         {
             secondaryColor = s;
-            p.Fill = s.brush;
+            p.Fill = s;
         }
 
         public void setThickness(double s)
@@ -205,13 +205,15 @@ namespace MyPaint
             p4.move(sx, ey);
         }
 
-        public string renderShape()
+        public json.Shape renderShape()
         {
-            StringBuilder stack = new StringBuilder();
-            stack.Append("ctx.beginPath();\n");
-            stack.Append(String.Format("ctx.ellipse({0},{1},{2},{3},0,0,2*Math.PI);\n", (int)(sx + ex)/2, (int)(sy + ey)/2, (int)Math.Abs(sx - ex)/2, (int)Math.Abs(sy - ey)/2));  
-            stack.Append("ctx.stroke();\n");
-            return stack.ToString();
+            json.Ellipse ret = new json.Ellipse();
+            ret.lineWidth = thickness;
+            ret.stroke = Utils.BrushToCanvas(primaryColor);
+            ret.fill = Utils.BrushToCanvas(secondaryColor);
+            ret.A = new json.Point(sx, sy);
+            ret.B = new json.Point(ex, ey);
+            return ret;
         }
 
         public void setHit(bool h)

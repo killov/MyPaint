@@ -25,16 +25,13 @@ namespace MyPaint
     public partial class MainWindow : Window
     {
         Control control;
-        WindowChangeColor wcc;
+
         public MainWindow()
         {
             InitializeComponent();
             control = new Control(this);
 
-            colorsInit();
-
-            
-           
+            colorsInit();           
         }
 
         private void colorsInit()
@@ -64,8 +61,8 @@ namespace MyPaint
             rect.Stroke = Brushes.Black;
             rect.Width = 17;
             rect.Height = 17;
-            MyBrush br = new MyBrush(r, g, b);
-            rect.Fill = br.brush;
+            Brush br = new SolidColorBrush(Color.FromRgb((byte)r, (byte)g, (byte)b));
+            rect.Fill = br;
             rect.RadiusX = 3;
             rect.RadiusY = 3;
             rect.MouseDown += delegate (object sender, MouseButtonEventArgs e)
@@ -73,7 +70,7 @@ namespace MyPaint
                 control.setColor(br);
             };
             colors.Children.Add(rect);
-            Canvas.SetLeft(rect, x * 19+40);
+            Canvas.SetLeft(rect, x * 19+2);
             Canvas.SetTop(rect, y * 19+2);
             rect.MouseMove += delegate (object sender, MouseEventArgs e)
             {
@@ -195,30 +192,22 @@ namespace MyPaint
 
         private void primaryColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(control.activeColor == MyEnum.PRIMARY)
-            {
-                openWCC();
-                return;
-            }
             control.setActiveColor(MyEnum.PRIMARY); 
         }
 
         private void secondaryColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (control.activeColor == MyEnum.SECONDARY)
-            {
-                openWCC();
-                return;
-            }
             control.setActiveColor(MyEnum.SECONDARY);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Delete)
+            //MessageBox.Show(e.Key.ToString());
+            if (e.Key == Key.Delete)
             {
                 control.delete();
             }
+            
         }
 
         private void thickness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -231,14 +220,9 @@ namespace MyPaint
             
         }
 
-        private void openWCC()
+        private void CB_ColorChanged(object sender, ColorBox.ColorChangedEventArgs e)
         {
-            WindowChangeColor wcc = new WindowChangeColor();
-            wcc.Top = Top + 40;
-            wcc.Left = Left + 200;
-            wcc.control = control;
-            wcc.start();
-            wcc.ShowDialog();
+            control.setColor(CB.Brush);
         }
     }
 }

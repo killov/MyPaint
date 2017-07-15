@@ -17,7 +17,7 @@ namespace MyPaint
         Control control;
         Line l;
         bool hit = false;
-        MyBrush primaryColor;
+        Brush primaryColor;
         double thickness;
 
         public MyLine(Control c)
@@ -26,13 +26,13 @@ namespace MyPaint
             l = new Line();      
         }
 
-        public void setPrimaryColor(MyBrush s)
+        public void setPrimaryColor(Brush s)
         {
             primaryColor = s;
-            l.Stroke = s.brush;
+            l.Stroke = s;
         }
 
-        public void setSecondaryColor(MyBrush s)
+        public void setSecondaryColor(Brush s)
         {
 
         }
@@ -45,7 +45,7 @@ namespace MyPaint
 
         public void mouseDown(MouseButtonEventArgs e)
         {
-            l.Stroke = control.color.brush;
+            l.Stroke = control.color;
             l.X1 = e.GetPosition(control.w.canvas).X;
             l.Y1 = e.GetPosition(control.w.canvas).Y;
             l.X2 = e.GetPosition(control.w.canvas).X;
@@ -121,12 +121,14 @@ namespace MyPaint
             p2.move(l.X2, l.Y2);
         }
 
-        public string renderShape()
+        public json.Shape renderShape()
         {
-            return String.Format("ctx.moveTo({0},{1});\n", l.X1, l.Y1) +
-                    String.Format("ctx.lineTo({0},{1});\n", l.X2, l.Y2) +
-                    "ctx.stroke();\n";
-
+            json.Line ret = new json.Line();
+            ret.lineWidth = thickness;
+            ret.stroke = Utils.BrushToCanvas(primaryColor);
+            ret.A = new json.Point(l.X1, l.Y1);
+            ret.B = new json.Point(l.X2, l.Y2);
+            return ret;
         }
 
         public void setHit(bool h)

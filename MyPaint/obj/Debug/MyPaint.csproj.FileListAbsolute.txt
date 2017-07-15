@@ -12,14 +12,13 @@ C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.csproj.GenerateResou
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\MyPaint.exe.config
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\MyPaint.exe
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\MyPaint.pdb
-C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\WindowChangeColor.g.cs
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint_Content.g.cs
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint_MarkupCompile.cache
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint_MarkupCompile.lref
-C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\WindowChangeColor.baml
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.g.resources
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.Properties.Resources.resources
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.exe
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.pdb
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.csprojResolveAssemblyReference.cache
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\ColorBox.dll
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\ColorBox.pdb

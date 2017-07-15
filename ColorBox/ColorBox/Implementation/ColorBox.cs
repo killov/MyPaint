@@ -744,6 +744,8 @@ namespace ColorBox
                 tempTG = Brush.Transform as TransformGroup;
             }
 
+            
+
             switch (BrushType)
             {
                 case BrushTypes.None: Brush = null; break;
@@ -795,6 +797,7 @@ namespace ColorBox
             }
 
             this._BrushSetInternally = false;
+            RaiseColorChangedEvent(Colors.Aqua);
         }
     }
 }

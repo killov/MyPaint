@@ -168,7 +168,7 @@
     <Style TargetType="{x:Type local:ColorBox}">     
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="#E7E8E8" />
+        
         <Setter Property="BorderBrush" Value="#000000" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="Template">
@@ -190,8 +190,9 @@
                                     <Setter Property="VerticalAlignment" Value="Center"/>
                                 </Style>
                             </StackPanel.Resources>
-                           
-                            <ListBox x:Name="listAvailableBrushType"                                                
+
+                            <ListBox x:Name="listAvailableBrushType"   
+                                     
                                                  HorizontalContentAlignment="Center"
                                                  SelectedItem="{Binding BrushType, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" 
                                                  ItemsSource="{Binding AvailableBrushTypes, RelativeSource={RelativeSource TemplatedParent}}">
@@ -218,6 +219,7 @@
                                                         <Trigger Property="IsSelected" Value="True">
                                                             <Setter Property="Background" Value="Gray" TargetName="Border"/>
                                                             <Setter Property="Foreground" Value="#FFFFFF"/>
+                                                            
                                                         </Trigger>
 
                                                         <DataTrigger Binding="{Binding}" Value="None">
@@ -299,7 +301,6 @@
                                             </Grid.RenderTransform>
                                         </Grid>
                                     </Grid>
-
                                     <!-- hue selector -->
                                     <local:HueSelector x:Name="H" Grid.Column="2"
                                                                   Hue="{Binding Path=Hue,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" />

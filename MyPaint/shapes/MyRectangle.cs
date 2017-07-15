@@ -16,7 +16,7 @@ namespace MyPaint
     {
         Control control;
         Polygon p;
-        MyBrush primaryColor, secondaryColor;
+        Brush primaryColor, secondaryColor;
         double thickness;
         bool hit = false;
         public MyRectangle(Control c)
@@ -25,16 +25,16 @@ namespace MyPaint
             p = new Polygon();
         }
 
-        public void setPrimaryColor(MyBrush s)
+        public void setPrimaryColor(Brush s)
         {
             primaryColor = s;
-            p.Stroke = s.brush;
+            p.Stroke = s;
         }
 
-        public void setSecondaryColor(MyBrush s)
+        public void setSecondaryColor(Brush s)
         {
             secondaryColor = s;
-            p.Fill = s.brush;
+            p.Fill = s;
         }
 
         public void setThickness(double s)
@@ -52,8 +52,8 @@ namespace MyPaint
             points.Add(new Point(x, y));
             points.Add(new Point(x, y));
             points.Add(new Point(x, y));
-            p.Stroke = control.color.brush;
-            p.Fill = control.fcolor.brush;
+            p.Stroke = control.color;
+            p.Fill = control.fcolor;
             p.Points = points;
             control.w.canvas.Children.Add(p);
             p.ToolTip = null;
@@ -167,22 +167,15 @@ namespace MyPaint
 
         }
 
-        public string renderShape()
+        public json.Shape renderShape()
         {
-            StringBuilder stack = new StringBuilder();
-            Point fp = p.Points.First();
-            stack.Append(String.Format("ctx.moveTo({0},{1});\n", fp.X, fp.Y));
-
-            foreach (var p in p.Points)
-            {
-                if (fp != p)
-                {
-                    stack.Append(String.Format("ctx.lineTo({0},{1});\n", p.X, p.Y));
-                }
-            }
-            stack.Append("ctx.closePath();\n");
-            stack.Append("ctx.stroke();\n");
-            return stack.ToString();
+            json.Rectangle ret = new json.Rectangle();
+            ret.lineWidth = thickness;
+            ret.stroke = Utils.BrushToCanvas(primaryColor);
+            ret.fill = Utils.BrushToCanvas(secondaryColor);
+            ret.A = new json.Point(p.Points[0].X, p.Points[0].Y);
+            ret.B = new json.Point(p.Points[2].X, p.Points[2].Y);
+            return ret;
         }
 
         public void setHit(bool h)

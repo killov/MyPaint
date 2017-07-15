@@ -12,9 +12,9 @@ namespace MyPaint
 {
     public interface MyShape
     {
-        void setPrimaryColor(MyBrush b);
+        void setPrimaryColor(Brush b);
 
-        void setSecondaryColor(MyBrush b);
+        void setSecondaryColor(Brush b);
 
         void setThickness(double b);
 
@@ -32,7 +32,7 @@ namespace MyPaint
 
         void moveShape(double x, double y);
 
-        string renderShape();
+        json.Shape renderShape();
 
         void setHit(bool hit);
 

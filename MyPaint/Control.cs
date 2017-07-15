@@ -12,6 +12,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Text.RegularExpressions;
 using System.Timers;
+using System.Web.Script.Serialization;
+
 
 namespace MyPaint
 {
@@ -24,8 +26,8 @@ namespace MyPaint
     {
         MyEnum activeShape;
         public MyEnum activeColor;
-        public MyBrush color = new MyBrush(0, 0, 0);
-        public MyBrush fcolor = new MyBrush(null);
+        public Brush color = Brushes.Black;
+        public Brush fcolor = null;
         public double thickness;
         string path = "";
         bool change = false;
@@ -44,6 +46,7 @@ namespace MyPaint
             w = ww;
             setDrawShape(MyEnum.LINE);
             setActiveColor(MyEnum.PRIMARY);
+            setColor(Brushes.Black);
             setThickness(1);
         }
 
@@ -63,24 +66,32 @@ namespace MyPaint
             w.canvas.Background = Brushes.White;
         }
 
-        public void setColor(MyBrush c)
+        public void setColor(Brush c)
         {
+            setCB(c);
             switch (activeColor)
             {
                 case MyEnum.PRIMARY:
                     color = c;
-                    w.primaryColor.Fill = c.brush;
+                    w.primaryColor.Fill = c;
                     if (shape != null) shape.setPrimaryColor(c);
                     break;
                 case MyEnum.SECONDARY:
                     fcolor = c;
-                    w.secondaryColor.Fill = c.brush;
+                    w.secondaryColor.Fill = c;
                     if (shape != null) shape.setSecondaryColor(c);
                     break;
             }
         }
 
-        public MyBrush getColor()
+        void setCB(Brush color)
+        {
+            if (color!= null && color is SolidColorBrush)
+                color.Freeze();
+            w.CB.Brush = color;
+        }
+
+        public Brush getColor()
         {
             switch (activeColor)
             {
@@ -199,13 +210,18 @@ namespace MyPaint
                 file.WriteLine("<meta http-equiv=\"content-type\" content=\"text/html; charset = utf-8\">");
                 file.WriteLine("</head>");
                 file.WriteLine("<body>");
-                file.WriteLine("<canvas width=\"500\" height=\"400\" border=\"1\" id=\"MyPaint\"></canvas>");
+                file.WriteLine("<canvas width=\"500\" height=\"450\" style=\"border: 1px solid black;\" id=\"MyPaint\"></canvas>");
                 file.WriteLine("<script>");
                 file.WriteLine("var ctx = document.getElementById(\"MyPaint\").getContext(\"2d\");");
+                List<json.Shape> sh = new List<json.Shape>();
                 foreach (var shape in shapes)
                 {
-                    file.WriteLine(shape.renderShape());
+                    sh.Add(shape.renderShape());  
                 }
+                var json = new JavaScriptSerializer().Serialize(sh);
+                file.WriteLine("var json = "+json+";");
+
+                file.WriteLine("for (var j in json) { var shape = json[j]; ctx.beginPath(); ctx.lineWidth = shape.lineWidth; switch (shape.type) { case 'LINE': ctx.strokeStyle = brush(shape.stroke); ctx.moveTo(shape.A.x, shape.A.y); ctx.lineTo(shape.B.x, shape.B.y); break; case 'RECTANGLE': ctx.strokeStyle = brush(shape.stroke); ctx.fillStyle = brush(shape.fill); ctx.moveTo(shape.A.x, shape.A.y); ctx.lineTo(shape.B.x, shape.A.y); ctx.lineTo(shape.B.x, shape.B.y); ctx.lineTo(shape.A.x, shape.B.y); break; case 'ELLIPSE': ctx.strokeStyle = brush(shape.stroke); ctx.fillStyle = brush(shape.fill); ctx.ellipse((shape.A.x + shape.B.x) / 2, (shape.A.y + shape.B.y) / 2, Math.abs(shape.A.x - shape.B.x) / 2, Math.abs(shape.A.y - shape.B.y) / 2, 0, 0, 2 * Math.PI); break; case 'POLYGON': ctx.strokeStyle = brush(shape.stroke); ctx.fillStyle = brush(shape.fill); ctx.moveTo(shape.points[0].x, shape.points[0].y); for (var i = 1; i < shape.points.length; i++) { console.log(1); ctx.lineTo(shape.points[i].x, shape.points[i].y); } break; } ctx.closePath(); ctx.stroke(); ctx.fill(); }  function brush(b) { if (b == null) return 'rgba(0,0,0,0)'; switch (b.type) { case 'COLOR': return 'rgba(' + b.R + ',' + b.G + ',' + b.B + ',' + (b.A / 255.0).toString().replace(',', '.') + ')'; } }");
                 file.WriteLine("</script>");
                 file.WriteLine("</body>");
                 file.WriteLine("</html>");
@@ -275,6 +291,7 @@ namespace MyPaint
                     w.secondaryColor.Stroke = Brushes.Orange;
                     break;
             }
+            setCB(getColor());
         }
 
         public void setDrawShape(MyEnum s)
@@ -318,6 +335,7 @@ namespace MyPaint
                     startDraw(e);
                 }
             }
+            
         }
 
         void startDraw(MouseButtonEventArgs e)
