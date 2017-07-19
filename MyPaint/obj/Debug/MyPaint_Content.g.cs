@@ -9,11 +9,5 @@
 //------------------------------------------------------------------------------
 
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("js.js")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("xceed.wpf.avalondock.dll")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("xceed.wpf.avalondock.themes.aero.dll")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("xceed.wpf.avalondock.themes.metro.dll")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("xceed.wpf.avalondock.themes.vs2010.dll")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("xceed.wpf.datagrid.dll")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("xceed.wpf.toolkit.dll")]
 
 

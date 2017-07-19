@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPaint.json
+namespace MyPaint.jsonSerialize
 {
-    class Polygon : Shape
+    public class Rectangle : Shape
     {
-        public string type = "POLYGON";
+        public string type = "RECTANGLE";
+
         public Brush stroke, fill;
         public double lineWidth;
-        public List<Point> points;
+        public Point A, B;
     }
 }

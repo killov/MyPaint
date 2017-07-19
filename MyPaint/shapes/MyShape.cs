@@ -32,12 +32,14 @@ namespace MyPaint
 
         void moveShape(double x, double y);
 
-        json.Shape renderShape();
+        jsonSerialize.Shape renderShape();
 
         void setHit(bool hit);
 
         bool hitTest();
 
         void delete();
+
+        void refresh();
     }
 }

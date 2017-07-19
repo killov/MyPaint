@@ -215,14 +215,51 @@ namespace MyPaint
             if(control != null) control.setThickness(e.NewValue);
         }
 
-        private void moreColors_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            
-        }
-
         private void CB_ColorChanged(object sender, ColorBox.ColorChangedEventArgs e)
         {
             control.setColor(CB.Brush);
+        }
+
+        private void resolution_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            control.resolutionDrag = true;
+        }
+
+        private void canvas_outer_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (control.resolutionDrag)
+            {
+                control.setResolution(e.GetPosition(canvas_out).X, e.GetPosition(canvas_out).Y);
+            }
+        }
+
+        private void canvas_outer_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (control.resolutionDrag)
+            {
+                control.resolutionDrag = false;
+            }
+        }
+
+        private void backgroundColor_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            control.setActiveColor(MyEnum.BACKGROUND);
+        }
+
+        private void button_back_Click(object sender, RoutedEventArgs e)
+        {
+            control.back();
+        }
+
+        private void button_forward_Click(object sender, RoutedEventArgs e)
+        {
+            control.forward();
+        }
+
+        public void setHistory(bool b, bool f)
+        {
+            back.Fill = b ? Brushes.Azure : Brushes.Gray;
+            forward.Fill = f ? Brushes.Azure : Brushes.Gray;
         }
     }
 }

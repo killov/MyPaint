@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPaint.json
+namespace MyPaint.jsonSerialize
 {
     public class Color : Brush
     {

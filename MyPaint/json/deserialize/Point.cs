@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPaint.json
+namespace MyPaint.jsonDeserialize
 {
-    public interface Brush
+    public class Point
     {
+        public double x, y;
     }
 }

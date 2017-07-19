@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPaint.json
+namespace MyPaint.jsonDeserialize
 {
-    public interface Shape
+    public class LinearGradientStop
     {
+        public Brush color;
+        public double offset;
     }
 }

@@ -15,7 +15,7 @@ namespace MyPaint
     class MyPolygon : MyShape
     {
         Control control;
-        Polygon p;
+        Polygon p = new Polygon();
         Brush primaryColor, secondaryColor;
         List<Point> points = new List<Point>();
         List<Line> lines = new List<Line>();
@@ -23,12 +23,34 @@ namespace MyPaint
         double thickness;
         bool hit = false;
         bool start = false;
+
         public MyPolygon(Control c)
         {
             control = c;
-            p = new Polygon();
-            p.Stroke = control.color;
-            p.Fill = control.fcolor;
+        }
+
+        public MyPolygon(Control c, jsonDeserialize.Shape s)
+        {
+            control = c;
+            setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
+            setSecondaryColor(s.fill == null ? null : s.fill.createBrush());
+            setThickness(s.lineWidth);
+            
+            foreach(var point in s.points)
+            {
+                p.Points.Add(new Point(point.x, point.y));
+            }
+
+            control.w.canvas.Children.Add(p);
+
+            p.ToolTip = null;
+
+            p.Cursor = Cursors.SizeAll;
+            p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
+            {
+                hit = true;
+                control.startMoveShape(new Point(Canvas.GetLeft(p), Canvas.GetTop(p)), ee.GetPosition(control.w.canvas));
+            };
         }
 
         public void setPrimaryColor(Brush s)
@@ -115,11 +137,12 @@ namespace MyPaint
             }
         }
 
-        List<MovePoint> movepoints = new List<MovePoint>();
+        List<MovePoint> movepoints;
         void createPoints()
         {
+            movepoints = new List<MovePoint>();
             control.candraw = false;
-            for (int i = 0; i < points.Count; i++)
+            for (int i = 0; i < p.Points.Count; i++)
             {
                 cp(i);
             }
@@ -129,7 +152,7 @@ namespace MyPaint
         {
             MovePoint mp = new MovePoint(control, this, p.Points[i], (Point po) =>
             {
-                if (i < points.Count) p.Points[i] = po;
+                if (i < p.Points.Count) p.Points[i] = po;
             });
             movepoints.Add(mp);
         }
@@ -170,16 +193,16 @@ namespace MyPaint
             movepoints[0].move(x,y);
         }
 
-        public json.Shape renderShape()
+        public jsonSerialize.Shape renderShape()
         {
-            json.Polygon ret = new json.Polygon();
+            jsonSerialize.Polygon ret = new jsonSerialize.Polygon();
             ret.lineWidth = thickness;
             ret.stroke = Utils.BrushToCanvas(primaryColor);
             ret.fill = Utils.BrushToCanvas(secondaryColor);
-            ret.points = new List<json.Point>();
+            ret.points = new List<jsonSerialize.Point>();
             foreach(var point in p.Points)
             {
-                ret.points.Add(new json.Point(point.X, point.Y));
+                ret.points.Add(new jsonSerialize.Point(point.X, point.Y));
             }
             return ret;
         }
@@ -201,6 +224,13 @@ namespace MyPaint
             {
                 stopDraw();
             }
+        }
+
+        public void refresh()
+        {
+            control.shapes.Add(this);
+            control.w.canvas.Children.Add(p);
+            control.lockDraw();
         }
     }
 }

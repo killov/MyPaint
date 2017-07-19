@@ -15,15 +15,38 @@ namespace MyPaint
     class MyEllipse : MyShape
     {
         Control control;
-        Ellipse p;
+        Ellipse p = new Ellipse();
         Brush primaryColor, secondaryColor;
         bool hit = false;
         double thickness;
         double sx, sy, ex, ey;
+
         public MyEllipse(Control c)
         {
             control = c;
-            p = new Ellipse();
+        }
+
+        public MyEllipse(Control c, jsonDeserialize.Shape s)
+        {
+            control = c;
+            setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
+            setSecondaryColor(s.fill == null ? null : s.fill.createBrush());
+            setThickness(s.lineWidth);
+
+            sx = s.A.x;
+            sy = s.A.y;
+
+            control.w.canvas.Children.Add(p);
+            Canvas.SetLeft(p, sx);
+            Canvas.SetTop(p, sy);
+            p.ToolTip = null;
+            moveE(s.B.x,s.B.y);
+            p.Cursor = Cursors.SizeAll;
+            p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
+            {
+                hit = true;
+                control.startMoveShape(new Point(Canvas.GetLeft(p), Canvas.GetTop(p)), ee.GetPosition(control.w.canvas));
+            };
         }
 
         public void setPrimaryColor(Brush s)
@@ -205,14 +228,14 @@ namespace MyPaint
             p4.move(sx, ey);
         }
 
-        public json.Shape renderShape()
+        public jsonSerialize.Shape renderShape()
         {
-            json.Ellipse ret = new json.Ellipse();
+            jsonSerialize.Ellipse ret = new jsonSerialize.Ellipse();
             ret.lineWidth = thickness;
             ret.stroke = Utils.BrushToCanvas(primaryColor);
             ret.fill = Utils.BrushToCanvas(secondaryColor);
-            ret.A = new json.Point(sx, sy);
-            ret.B = new json.Point(ex, ey);
+            ret.A = new jsonSerialize.Point(sx, sy);
+            ret.B = new jsonSerialize.Point(ex, ey);
             return ret;
         }
 
@@ -233,6 +256,13 @@ namespace MyPaint
             {
                 stopDraw();
             }
+        }
+
+        public void refresh()
+        {
+            control.shapes.Add(this);
+            control.w.canvas.Children.Add(p);
+            control.lockDraw();
         }
     }
 }

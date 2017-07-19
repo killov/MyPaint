@@ -1,9 +1,3 @@
-C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.AvalonDock.dll
-C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll
-C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Metro.dll
-C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
-C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.DataGrid.dll
-C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Xceed.Wpf.Toolkit.dll
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MainWindow.g.cs
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\App.g.cs
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\App.baml
@@ -22,3 +16,5 @@ C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.pdb
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.csprojResolveAssemblyReference.cache
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\ColorBox.dll
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\ColorBox.pdb
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Newtonsoft.Json.dll
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Newtonsoft.Json.xml

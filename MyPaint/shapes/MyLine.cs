@@ -15,15 +15,28 @@ namespace MyPaint
     class MyLine : MyShape
     {
         Control control;
-        Line l;
+        Line l = new Line();
         bool hit = false;
         Brush primaryColor;
         double thickness;
 
         public MyLine(Control c)
         {
+            control = c;                
+        }
+
+        public MyLine(Control c, jsonDeserialize.Shape s)
+        {
             control = c;
-            l = new Line();      
+            setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
+            setThickness(s.lineWidth);
+            l.X1 = s.A.x;
+            l.Y1 = s.A.y;
+            l.X2 = s.B.x;
+            l.Y2 = s.B.y;
+            l.ToolTip = null;
+            l.Cursor = Cursors.SizeAll;
+            control.w.canvas.Children.Add(l);
         }
 
         public void setPrimaryColor(Brush s)
@@ -121,13 +134,13 @@ namespace MyPaint
             p2.move(l.X2, l.Y2);
         }
 
-        public json.Shape renderShape()
+        public jsonSerialize.Shape renderShape()
         {
-            json.Line ret = new json.Line();
+            jsonSerialize.Line ret = new jsonSerialize.Line();
             ret.lineWidth = thickness;
             ret.stroke = Utils.BrushToCanvas(primaryColor);
-            ret.A = new json.Point(l.X1, l.Y1);
-            ret.B = new json.Point(l.X2, l.Y2);
+            ret.A = new jsonSerialize.Point(l.X1, l.Y1);
+            ret.B = new jsonSerialize.Point(l.X2, l.Y2);
             return ret;
         }
 
@@ -144,10 +157,18 @@ namespace MyPaint
         public void delete()
         {
             control.w.canvas.Children.Remove(l);
+            control.shapes.Remove(this);
             if (p1 != null)
             {
                 stopDraw();
             }
+        }
+
+        public void refresh()
+        {
+            control.shapes.Add(this);
+            control.w.canvas.Children.Add(l);
+            control.lockDraw();
         }
     }
 }

@@ -61,6 +61,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ColorBox\ColorBox\bin\Release\ColorBox.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web.Extensions" />
@@ -106,16 +109,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="json\Brush.cs" />
-    <Compile Include="json\Color.cs" />
-    <Compile Include="json\Ellipse.cs" />
-    <Compile Include="json\LinearGradient.cs" />
-    <Compile Include="json\Point.cs" />
-    <Compile Include="json\Polygon.cs" />
-    <Compile Include="json\Rectangle.cs" />
-    <Compile Include="json\Shape.cs" />
-    <Compile Include="json\Line.cs" />
+    <Compile Include="HistoryControl.cs" />
+    <Compile Include="HistoryNode.cs" />
+    <Compile Include="json\deserialize\Brush.cs" />
+    <Compile Include="json\deserialize\LinearGradientStop.cs" />
+    <Compile Include="json\deserialize\Point.cs" />
+    <Compile Include="json\deserialize\Shape.cs" />
+    <Compile Include="json\serialize\Brush.cs" />
+    <Compile Include="json\serialize\Color.cs" />
+    <Compile Include="json\serialize\Ellipse.cs" />
+    <Compile Include="json\serialize\Image.cs" />
+    <Compile Include="json\serialize\LinearGradient.cs" />
+    <Compile Include="json\serialize\LinearGradientStop.cs" />
+    <Compile Include="json\serialize\Point.cs" />
+    <Compile Include="json\serialize\Polygon.cs" />
+    <Compile Include="json\serialize\Rectangle.cs" />
+    <Compile Include="json\serialize\Shape.cs" />
+    <Compile Include="json\serialize\Line.cs" />
     <Compile Include="shapes\MyEllipse.cs" />
+    <Compile Include="shapes\MyImage.cs" />
     <Compile Include="shapes\MyLine.cs" />
     <Compile Include="shapes\MyPolygon.cs" />
     <Compile Include="shapes\MyRectangle.cs" />
@@ -136,7 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MovePoint.cs" />
-    <Compile Include="MyShape.cs" />
+    <Compile Include="shapes\MyShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -154,6 +166,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -169,12 +182,6 @@
   <ItemGroup>
     <Resource Include="fill.png" />
     <Content Include="js.js" />
-    <Content Include="Xceed.Wpf.AvalonDock.dll" />
-    <Content Include="Xceed.Wpf.AvalonDock.Themes.Aero.dll" />
-    <Content Include="Xceed.Wpf.AvalonDock.Themes.Metro.dll" />
-    <Content Include="Xceed.Wpf.AvalonDock.Themes.VS2010.dll" />
-    <Content Include="Xceed.Wpf.DataGrid.dll" />
-    <Content Include="Xceed.Wpf.Toolkit.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

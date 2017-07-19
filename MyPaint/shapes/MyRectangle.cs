@@ -15,14 +15,38 @@ namespace MyPaint
     class MyRectangle : MyShape
     {
         Control control;
-        Polygon p;
+        Polygon p = new Polygon();
         Brush primaryColor, secondaryColor;
         double thickness;
         bool hit = false;
+
         public MyRectangle(Control c)
         {
             control = c;
-            p = new Polygon();
+        }
+
+        public MyRectangle(Control c, jsonDeserialize.Shape s)
+        {
+            control = c;
+            setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
+            setSecondaryColor(s.fill == null ? null : s.fill.createBrush());
+            setThickness(s.lineWidth);
+
+
+            p.Points.Add(new Point(s.A.x, s.A.y));
+            p.Points.Add(new Point(s.B.x, s.A.y));
+            p.Points.Add(new Point(s.B.x, s.B.y));
+            p.Points.Add(new Point(s.A.x, s.B.y));
+
+            control.w.canvas.Children.Add(p);
+
+            p.ToolTip = null;
+            p.Cursor = Cursors.SizeAll;
+            p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
+            {
+                hit = true;
+                control.startMoveShape(new Point(Canvas.GetLeft(p), Canvas.GetTop(p)), ee.GetPosition(control.w.canvas));
+            };
         }
 
         public void setPrimaryColor(Brush s)
@@ -167,14 +191,14 @@ namespace MyPaint
 
         }
 
-        public json.Shape renderShape()
+        public jsonSerialize.Shape renderShape()
         {
-            json.Rectangle ret = new json.Rectangle();
+            jsonSerialize.Rectangle ret = new jsonSerialize.Rectangle();
             ret.lineWidth = thickness;
             ret.stroke = Utils.BrushToCanvas(primaryColor);
             ret.fill = Utils.BrushToCanvas(secondaryColor);
-            ret.A = new json.Point(p.Points[0].X, p.Points[0].Y);
-            ret.B = new json.Point(p.Points[2].X, p.Points[2].Y);
+            ret.A = new jsonSerialize.Point(p.Points[0].X, p.Points[0].Y);
+            ret.B = new jsonSerialize.Point(p.Points[2].X, p.Points[2].Y);
             return ret;
         }
 
@@ -195,6 +219,13 @@ namespace MyPaint
             {
                 stopDraw();
             }
+        }
+
+        public void refresh()
+        {
+            control.shapes.Add(this);
+            control.w.canvas.Children.Add(p);
+            control.lockDraw();
         }
     }
 }

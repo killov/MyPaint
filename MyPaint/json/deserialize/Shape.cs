@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPaint.json
+namespace MyPaint.jsonDeserialize
 {
-    public class Ellipse : Shape
+    public class Shape
     {
-        public string type = "ELLIPSE";
+        public string type;
+        public Point A, B;
         public Brush stroke, fill;
         public double lineWidth;
-        public Point A, B;
+        public Point[] points;
+        public string b64;
     }
 }

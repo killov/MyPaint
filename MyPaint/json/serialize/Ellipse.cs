@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPaint.json
+namespace MyPaint.jsonSerialize
 {
-    public class Rectangle : Shape
+    public class Ellipse : Shape
     {
-        public string type = "RECTANGLE";
+        public string type = "ELLIPSE";
         public Brush stroke, fill;
         public double lineWidth;
         public Point A, B;
