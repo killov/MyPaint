@@ -106,7 +106,7 @@
                         <ImageBrush ImageSource="fill.png" TileMode="Tile" Stretch="Uniform" AlignmentY="Top" Viewport="0,0,20,20" ViewportUnits="Absolute"/>
                     </Canvas.Background>
                     <Canvas ClipToBounds="True" x:Name="canvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="433" VerticalAlignment="Top">
-                        <Rectangle x:Name="res" Height="433" Width="500" Fill="#00E8E7E7" MouseUp="poz_mouseDown" />
+                        <Canvas x:Name="res" Height="433" Width="500" Background="#00000000" MouseUp="poz_mouseDown" />
                     </Canvas>
                     <Rectangle x:Name="resolution" Height="5" Width="5" Canvas.Left="500" Canvas.Top="433" RenderTransformOrigin="-0.261,0.95" Fill="White" Stroke="Black" MouseDown="resolution_MouseDown" />
                 </Canvas>

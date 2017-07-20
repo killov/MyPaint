@@ -22,33 +22,25 @@ namespace MyPaint
         LINE, RECT, ELLIPSE, POLYGON, PRIMARY, SECONDARY, BACKGROUND
     }
 
-    public class Control
+    public class MainControl
     {
         HistoryControl historyControl;
+        DrawControl drawControl;
         MyEnum activeShape;
         public MyEnum activeColor;
-        public Brush color = Brushes.Black;
-        public Brush fcolor = null;
         public Brush bcolor = null;
-        public double thickness;
         string path = "";
         bool change = false;
         public MainWindow w;
-        public MyShape shape;
-        public bool draw = false;
-        public bool startdraw = false;
-        public bool candraw = true;
-        public bool drag = false;
-        Point posunStart = new Point();
-        Point posunStartMys = new Point();
-        public List<MyShape> shapes = new List<MyShape>();
+
         Point resolution;
         public bool resolutionDrag = false;
 
-        public Control(MainWindow ww)
+        public MainControl(MainWindow ww)
         {
             w = ww;
             historyControl = new HistoryControl(this);
+            drawControl = new DrawControl(this, w.canvas, w.res);
             setDrawShape(MyEnum.LINE);
             setActiveColor(MyEnum.PRIMARY);
             setColor(Brushes.Black);
@@ -59,7 +51,7 @@ namespace MyPaint
 
         public void back()
         {
-            stopDraw();
+            drawControl.stopDraw();
             historyControl.back();
         }
 
@@ -89,21 +81,15 @@ namespace MyPaint
 
         public void newC()
         {
-            if (!saveDialog()) return;
-            shapes = new List<MyShape>();
-            clearCanvas();
+            if (!saveDialog()) return;            
             setPath("");
             change = false;
             setResolution(500, 400);
             historyControl.clear();
+            drawControl.clear();
         }
 
-        void clearCanvas()
-        {
-            stopDraw();
-            w.canvas.Children.RemoveRange(0, w.canvas.Children.Count - 1);
-            shapes = new List<MyShape>();
-        }
+        
 
         public void setColor(Brush c)
         {
@@ -111,14 +97,13 @@ namespace MyPaint
             switch (activeColor)
             {
                 case MyEnum.PRIMARY:
-                    color = c;
+                    drawControl.setPrimaryColor(c);
                     w.primaryColor.Fill = c;
-                    if (shape != null) shape.setPrimaryColor(c);
+                    
                     break;
                 case MyEnum.SECONDARY:
-                    fcolor = c;
-                    w.secondaryColor.Fill = c;
-                    if (shape != null) shape.setSecondaryColor(c);
+                    drawControl.setSecondaryColor(c);
+                    w.secondaryColor.Fill = c;                    
                     break;
                 case MyEnum.BACKGROUND:
                     bcolor = c;
@@ -140,20 +125,24 @@ namespace MyPaint
             switch (activeColor)
             {
                 case MyEnum.PRIMARY:
-                    return color;
+                    return drawControl.getPrimaryColor();
                 case MyEnum.SECONDARY:
-                    return fcolor;
+                    return drawControl.getSecondaryColor(); ;
                 case MyEnum.BACKGROUND:
                     return bcolor;
                 default:
-                    return color;
+                    return drawControl.getPrimaryColor();
             }
         }
 
         public void setThickness(double t)
         {
-            thickness = t;
-            if (shape != null) shape.setThickness(t);
+            drawControl.setThickness(t);
+        }
+
+        public void stopDraw()
+        {
+            drawControl.stopDraw();
         }
 
         public void open()
@@ -165,7 +154,7 @@ namespace MyPaint
             Nullable<bool> result = dialog.ShowDialog();
             if (result == true)
             {
-                clearCanvas();
+                drawControl.clearCanvas();
                 string filename = dialog.FileName;
 
                 Regex r = new Regex("\\.[a-zA-Z0-9]+$");
@@ -190,19 +179,19 @@ namespace MyPaint
                                 switch (shape.type)
                                 {
                                     case "LINE":
-                                        shapes.Add(new MyLine(this, shape));
+                                        drawControl.shapes.Add(new MyLine(drawControl, w.canvas, shape));
                                         break;
                                     case "RECTANGLE":
-                                        shapes.Add(new MyRectangle(this, shape));
+                                        drawControl.shapes.Add(new MyRectangle(drawControl, w.canvas, shape));
                                         break;
                                     case "ELLIPSE":
-                                        shapes.Add(new MyEllipse(this, shape));
+                                        drawControl.shapes.Add(new MyEllipse(drawControl, w.canvas, shape));
                                         break;
                                     case "POLYGON":
-                                        shapes.Add(new MyPolygon(this, shape));
+                                        drawControl.shapes.Add(new MyPolygon(drawControl, w.canvas, shape));
                                         break;
                                     case "IMAGE":
-                                        shapes.Add(new MyImage(this, shape));
+                                        drawControl.shapes.Add(new MyImage(drawControl, w.canvas, shape));
                                         break;
                                 }
                             }
@@ -221,7 +210,7 @@ namespace MyPaint
                             bmi.EndInit();
                             ImageBrush brush = new ImageBrush(bmi);
                             setResolution(bmi.Width, bmi.Height);
-                            shapes.Add(new MyImage(this, brush, bmi.Width, bmi.Height));
+                            drawControl.shapes.Add(new MyImage(drawControl, w.canvas, brush, bmi.Width, bmi.Height));
                             w.canvas.Children.Remove(w.res);
                             w.canvas.Children.Add(w.res);
                             fs.Close();
@@ -260,7 +249,7 @@ namespace MyPaint
 
         void saveAs(string path)
         {
-            stopDraw();
+            drawControl.stopDraw();
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
             switch (suffix)
@@ -313,7 +302,7 @@ namespace MyPaint
                 file.WriteLine("<script>");
                 file.WriteLine("var ctx = document.getElementById(\"MyPaint\").getContext(\"2d\");");
                 List<jsonSerialize.Shape> sh = new List<jsonSerialize.Shape>();
-                foreach (var shape in shapes)
+                foreach (var shape in drawControl.shapes)
                 {
                     sh.Add(shape.renderShape());  
                 }
@@ -332,14 +321,9 @@ namespace MyPaint
             }
         }
 
-        internal void delete()
+        public void delete()
         {
-            if(shape != null)
-            {
-                shape.delete();
-                draw = false;
-                candraw = true;
-            }
+            drawControl.delete();
         }
 
         public void save()
@@ -423,99 +407,33 @@ namespace MyPaint
                     w.button_polygon.Style = act;
                     break;
             }
-            activeShape = s;
-            stopDraw();
+            drawControl.secActiveShape(s);
+            drawControl.stopDraw();
         }
 
         public void mouseDown(MouseButtonEventArgs e)
-        {   
-            if (candraw)
-            {
-                startDraw(e);
-            }
-            else
-            {
-                if (!shape.hitTest())
-                {
-                    stopDraw();
-                    startDraw(e);
-                }
-            }
-            
+        {
+            drawControl.mouseDown(e); 
         }
 
-        void startDraw(MouseButtonEventArgs e)
+        public void addHistory(MyShape s)
         {
-            if (!draw)
-            {
-                change = true;
-                switch (activeShape)
-                {
-                    case MyEnum.LINE:
-                        shape = new MyLine(this);
-                        break;
-                    case MyEnum.RECT:
-                        shape = new MyRectangle(this);
-                        break;
-                    case MyEnum.ELLIPSE:
-                        shape = new MyEllipse(this);
-                        break;
-                    case MyEnum.POLYGON:
-                        shape = new MyPolygon(this);
-                        break;
-                }
-                historyControl.add(shape);
-                shape.setPrimaryColor(color);
-                shape.setSecondaryColor(fcolor);
-                shape.setThickness(thickness);
-                shapes.Add(shape);
-                shape.mouseDown(e);
-            }
-        }
-
-        public void startMoveShape(Point start, Point mys)
-        {
-            posunStart = start;
-            posunStartMys = mys;
-            drag = true;
+            historyControl.add(s);
         }
 
         public void mouseMove(MouseEventArgs e)
         {
-            if(draw) shape.mouseMove(e);
-            if (!candraw)
-            {
-                shape.moveDrag(e);
-                if (drag)
-                {
-                    shape.moveShape(posunStart.X + (e.GetPosition(w.canvas).X - posunStartMys.X),  posunStart.Y + (e.GetPosition(w.canvas).Y - posunStartMys.Y));
-                }
-            }
+            drawControl.mouseMove(e);
         }
 
         public void mouseUp(MouseButtonEventArgs e)
         {
-            if (draw)
-            {
-                shape.mouseUp(e);    
-            }
-            if (!candraw)
-            {
-                shape.stopDrag();
-                drag = false;
-            }
+            drawControl.mouseUp(e);
         }
 
-        public void stopDraw()
+        public void setChange(bool b)
         {
-            if (!candraw)
-            {
-                candraw = true;
-                shape.stopDraw();
-                shape = null;
-                lockDraw();
-            }
-            
+            change = b;
         }
     }
 }

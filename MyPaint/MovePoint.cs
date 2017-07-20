@@ -22,7 +22,7 @@ namespace MyPaint
         public bool drag = false;
         int id;
         posun posun;
-        public MovePoint(Control c, MyShape s, Point p, posun pos, int index = -1)
+        public MovePoint(Canvas c, MyShape s, Point p, posun pos, int index = -1)
         {
             id = index;
             posun = pos;
@@ -35,7 +35,7 @@ namespace MyPaint
             el.Width = 10;
             el.Height = 10;
             shape = s;
-            canvas = c.w.canvas;
+            canvas = c;
             canvas.Children.Add(el);
             Canvas.SetTop(el, y-5);
             Canvas.SetLeft(el, x-5);

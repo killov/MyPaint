@@ -14,20 +14,23 @@ namespace MyPaint
 {
     class MyRectangle : MyShape
     {
-        Control control;
+        DrawControl drawControl;
         Polygon p = new Polygon();
         Brush primaryColor, secondaryColor;
         double thickness;
         bool hit = false;
+        Canvas canvas;
 
-        public MyRectangle(Control c)
+        public MyRectangle(DrawControl c, Canvas ca)
         {
-            control = c;
+            drawControl = c;
+            canvas = ca;
         }
 
-        public MyRectangle(Control c, jsonDeserialize.Shape s)
+        public MyRectangle(DrawControl c, Canvas ca, jsonDeserialize.Shape s)
         {
-            control = c;
+            drawControl = c;
+            canvas = ca;
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
             setSecondaryColor(s.fill == null ? null : s.fill.createBrush());
             setThickness(s.lineWidth);
@@ -38,14 +41,14 @@ namespace MyPaint
             p.Points.Add(new Point(s.B.x, s.B.y));
             p.Points.Add(new Point(s.A.x, s.B.y));
 
-            control.w.canvas.Children.Add(p);
+            canvas.Children.Add(p);
 
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
             p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
                 hit = true;
-                control.startMoveShape(new Point(Canvas.GetLeft(p), Canvas.GetTop(p)), ee.GetPosition(control.w.canvas));
+                drawControl.startMoveShape(new Point(Canvas.GetLeft(p), Canvas.GetTop(p)), ee.GetPosition(canvas));
             };
         }
 
@@ -70,25 +73,25 @@ namespace MyPaint
         public void mouseDown(MouseButtonEventArgs e)
         {
             PointCollection points = new PointCollection(4);
-            double x = e.GetPosition(control.w.canvas).X;
-            double y = e.GetPosition(control.w.canvas).Y;
+            double x = e.GetPosition(canvas).X;
+            double y = e.GetPosition(canvas).Y;
             points.Add(new Point(x, y));
             points.Add(new Point(x, y));
             points.Add(new Point(x, y));
             points.Add(new Point(x, y));
-            p.Stroke = control.color;
-            p.Fill = control.fcolor;
+            p.Stroke = primaryColor;
+            p.Fill = secondaryColor;
             p.Points = points;
-            control.w.canvas.Children.Add(p);
+            canvas.Children.Add(p);
             p.ToolTip = null;
             p.Cursor = Cursors.Pen;
-            control.draw = true;
+            drawControl.draw = true;
         }
 
         public void mouseMove(MouseEventArgs e)
         {
-            double x = e.GetPosition(control.w.canvas).X;
-            double y = e.GetPosition(control.w.canvas).Y;
+            double x = e.GetPosition(canvas).X;
+            double y = e.GetPosition(canvas).Y;
 
             p.Points[1] = new Point(p.Points[1].X, y);
             p.Points[2] = new Point(x, y);
@@ -98,12 +101,12 @@ namespace MyPaint
         public void mouseUp(MouseButtonEventArgs e)
         {
             p.Cursor = Cursors.SizeAll;
-            control.draw = false;
+            drawControl.draw = false;
             createPoints();
             p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
                 hit = true;
-                control.startMoveShape(p.Points[0], ee.GetPosition(control.w.canvas));
+                drawControl.startMoveShape(p.Points[0], ee.GetPosition(canvas));
             };
             
         }
@@ -111,8 +114,8 @@ namespace MyPaint
         MovePoint p1, p2, p3, p4;
         void createPoints()
         {
-            control.candraw = false;
-            p1 = new MovePoint(control, this, p.Points[0], (po) =>
+            drawControl.candraw = false;
+            p1 = new MovePoint(canvas, this, p.Points[0], (po) =>
             {
                 p.Points[0] = po;
                 p.Points[1] = new Point(po.X, p.Points[1].Y);
@@ -122,7 +125,7 @@ namespace MyPaint
                 p4.move(p.Points[3].X, po.Y);
             });
 
-            p2 = new MovePoint(control, this, p.Points[1], (po) =>
+            p2 = new MovePoint(canvas, this, p.Points[1], (po) =>
             {
                 p.Points[1] = po;
                 p.Points[0] = new Point(po.X, p.Points[0].Y);
@@ -132,7 +135,7 @@ namespace MyPaint
                 p3.move(p.Points[2].X, po.Y);
             });
 
-            p3 = new MovePoint(control, this, p.Points[2], (po) =>
+            p3 = new MovePoint(canvas, this, p.Points[2], (po) =>
             {
                 p.Points[2] = po;
                 p.Points[1] = new Point(p.Points[1].X, po.Y);
@@ -142,7 +145,7 @@ namespace MyPaint
                 p2.move(p.Points[1].X, po.Y);
             });
 
-            p4 = new MovePoint(control, this, p.Points[3], (po) =>
+            p4 = new MovePoint(canvas, this, p.Points[3], (po) =>
             {
                 p.Points[3] = po;
                 p.Points[0] = new Point(p.Points[0].X, po.Y);
@@ -214,7 +217,7 @@ namespace MyPaint
 
         public void delete()
         {
-            control.w.canvas.Children.Remove(p);
+            canvas.Children.Remove(p);
             if (p1 != null)
             {
                 stopDraw();
@@ -223,9 +226,9 @@ namespace MyPaint
 
         public void refresh()
         {
-            control.shapes.Add(this);
-            control.w.canvas.Children.Add(p);
-            control.lockDraw();
+            drawControl.shapes.Add(this);
+            canvas.Children.Add(p);
+            drawControl.lockDraw();
         }
     }
 }

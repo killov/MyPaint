@@ -8,11 +8,11 @@ namespace MyPaint
 {
     public class HistoryControl
     {
-        Control control;
+        MainControl control;
         Stack<HistoryNode> backStack = new Stack<HistoryNode>();
         Stack<HistoryNode> forwardStack = new Stack<HistoryNode>();
 
-        public HistoryControl(Control c)
+        public HistoryControl(MainControl c)
         {
             control = c;
         }

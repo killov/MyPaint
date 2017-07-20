@@ -14,21 +14,24 @@ namespace MyPaint
 {
     class MyEllipse : MyShape
     {
-        Control control;
-        Ellipse p = new Ellipse();
+        DrawControl drawControl;
+        Ellipse p = new Ellipse(), lv;
         Brush primaryColor, secondaryColor;
         bool hit = false;
         double thickness;
         double sx, sy, ex, ey;
+        Canvas canvas;
 
-        public MyEllipse(Control c)
+        public MyEllipse(DrawControl c, Canvas ca)
         {
-            control = c;
+            drawControl = c;
+            canvas = ca;
         }
 
-        public MyEllipse(Control c, jsonDeserialize.Shape s)
+        public MyEllipse(DrawControl c, Canvas ca, jsonDeserialize.Shape s)
         {
-            control = c;
+            drawControl = c;
+            canvas = ca;
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
             setSecondaryColor(s.fill == null ? null : s.fill.createBrush());
             setThickness(s.lineWidth);
@@ -36,16 +39,16 @@ namespace MyPaint
             sx = s.A.x;
             sy = s.A.y;
 
-            control.w.canvas.Children.Add(p);
+            canvas.Children.Add(p);
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             p.ToolTip = null;
-            moveE(s.B.x,s.B.y);
-            p.Cursor = Cursors.SizeAll;
+            moveE(p, s.B.x, s.B.y);
+
             p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
                 hit = true;
-                control.startMoveShape(new Point(Canvas.GetLeft(p), Canvas.GetTop(p)), ee.GetPosition(control.w.canvas));
+                drawControl.startMoveShape(new Point(Canvas.GetLeft(p), Canvas.GetTop(p)), ee.GetPosition(canvas));
             };
         }
 
@@ -67,7 +70,7 @@ namespace MyPaint
             thickness = s;
         }
 
-        void moveS(double x, double y)
+        void moveS(Ellipse p, double x, double y)
         {
             if (x > ex)
             {
@@ -91,7 +94,7 @@ namespace MyPaint
             sy = y;
         }
 
-        void moveE(double x, double y)
+        void moveE(Ellipse p, double x, double y)
         {
             if (x > sx)
             {
@@ -117,70 +120,92 @@ namespace MyPaint
 
         public void mouseDown(MouseButtonEventArgs e)
         {
-            sx = e.GetPosition(control.w.canvas).X;
-            sy = e.GetPosition(control.w.canvas).Y;
+            sx = e.GetPosition(canvas).X;
+            sy = e.GetPosition(canvas).Y;
 
             p.ToolTip = null;
             p.Cursor = Cursors.Pen;
            
-            control.w.canvas.Children.Add(p);
+            canvas.Children.Add(p);
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
-            control.draw = true;
+            drawControl.draw = true;
         }
 
         public void mouseMove(MouseEventArgs e)
         {
-            double x = e.GetPosition(control.w.canvas).X;
-            double y = e.GetPosition(control.w.canvas).Y;
-            moveE(x, y);
+            double x = e.GetPosition(canvas).X;
+            double y = e.GetPosition(canvas).Y;
+            moveE(p, x, y);
         }
 
         public void mouseUp(MouseButtonEventArgs e)
         {
-            p.Cursor = Cursors.SizeAll;
-            control.draw = false;
+            drawControl.draw = false;
             createPoints();
-            p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
+            drawControl.lockDraw();
+        }
+
+        public void createVirtualShape(MyOnMouseDown mouseDown)
+        {
+            lv = new Ellipse();
+            moveS(lv, sx, sy);
+            moveE(lv, ex, ey);
+            lv.Cursor = Cursors.SizeAll;
+            lv.Stroke = drawControl.nullBrush;
+            lv.StrokeThickness = thickness;
+            lv.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
+                mouseDown(ee, this);
                 hit = true;
-                control.startMoveShape(new Point(Canvas.GetLeft(p),Canvas.GetTop(p)), ee.GetPosition(control.w.canvas));
-            };  
+            };
+            drawControl.topCanvas.Children.Add(lv);
+        }
+
+        public void deleteVirtualShape()
+        {
+            drawControl.topCanvas.Children.Remove(lv);
+            lv = null;
         }
 
         MovePoint p1, p2, p3, p4;
         void createPoints()
         {
-            control.candraw = false;
-            p1 = new MovePoint(control, this, new Point(sx, sy), (po) =>
+            createVirtualShape((e, s) =>
             {
-                moveS(po.X, po.Y);
+                drawControl.startMoveShape(new Point(Canvas.GetLeft(p), Canvas.GetTop(p)), e.GetPosition(canvas));
+            });
+
+            drawControl.candraw = false;
+            p1 = new MovePoint(canvas, this, new Point(sx, sy), (po) =>
+            {
+                moveS(p, po.X, po.Y);
                 p1.move(po.X, po.Y);
                 p3.move(ex, sy);
                 p4.move(sx, ey);
             });
 
-            p2 = new MovePoint(control, this, new Point(ex, ey), (po) =>
+            p2 = new MovePoint(canvas, this, new Point(ex, ey), (po) =>
             {
-                moveE(po.X, po.Y);
+                moveE(p, po.X, po.Y);
                 p2.move(po.X, po.Y);
                 p3.move(ex, sy);
                 p4.move(sx, ey);
             });
 
-            p3 = new MovePoint(control, this, new Point(ex, sy), (po) =>
+            p3 = new MovePoint(canvas, this, new Point(ex, sy), (po) =>
             {
-                moveE(po.X, ey);
-                moveS(sx, po.Y);
+                moveE(p, po.X, ey);
+                moveS(p, sx, po.Y);
                 p3.move(po.X, po.Y);
                 p1.move(sx, sy);
                 p2.move(ex, ey);
             });
 
-            p4 = new MovePoint(control, this, new Point(sx, ey), (po) =>
+            p4 = new MovePoint(canvas, this, new Point(sx, ey), (po) =>
             {
-                moveE(ex, po.Y);
-                moveS(po.X, sy);
+                moveE(p, ex, po.Y);
+                moveS(p, po.X, sy);
                 p4.move(po.X, po.Y);
                 p1.move(sx, sy);
                 p2.move(ex, ey);
@@ -251,7 +276,7 @@ namespace MyPaint
 
         public void delete()
         {
-            control.w.canvas.Children.Remove(p);
+            canvas.Children.Remove(p);
             if(p1 != null)
             {
                 stopDraw();
@@ -260,9 +285,9 @@ namespace MyPaint
 
         public void refresh()
         {
-            control.shapes.Add(this);
-            control.w.canvas.Children.Add(p);
-            control.lockDraw();
+            drawControl.shapes.Add(this);
+            canvas.Children.Add(p);
+            drawControl.lockDraw();
         }
     }
 }

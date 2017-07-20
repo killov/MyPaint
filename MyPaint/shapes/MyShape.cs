@@ -10,6 +10,8 @@ using System.Windows.Input;
 
 namespace MyPaint
 {
+    public delegate void MyOnMouseDown(MouseButtonEventArgs e, MyShape s);
+
     public interface MyShape
     {
         void setPrimaryColor(Brush b);
@@ -41,5 +43,9 @@ namespace MyPaint
         void delete();
 
         void refresh();
+
+        void createVirtualShape(MyOnMouseDown mouseDown);
+
+        void deleteVirtualShape();
     }
 }

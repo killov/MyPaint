@@ -24,12 +24,12 @@ namespace MyPaint
     /// </summary>
     public partial class MainWindow : Window
     {
-        Control control;
+        MainControl control;
 
         public MainWindow()
         {
             InitializeComponent();
-            control = new Control(this);
+            control = new MainControl(this);
 
             colorsInit();           
         }
@@ -137,7 +137,7 @@ namespace MyPaint
 
         private void poz_mouseDown(object sender, MouseButtonEventArgs e)
         {
-           control.stopDraw();
+           //control.stopDraw();
         }
 
         private void elipsa_Click(object sender, RoutedEventArgs e)

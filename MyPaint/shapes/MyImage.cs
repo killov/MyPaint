@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -14,23 +15,26 @@ namespace MyPaint
 {
     class MyImage : MyShape
     {
-        Control control;
+        DrawControl drawControl;
         Rectangle r = new Rectangle();
         ImageBrush image;
+        Canvas canvas;
 
-        public MyImage(Control c, ImageBrush im, double w, double h)
+        public MyImage(DrawControl c, Canvas ca, ImageBrush im, double w, double h)
         {
-            control = c;
+            drawControl = c;
+            canvas = ca;
             r.Width = w;
             r.Height = h;
             r.Fill = im;
             image = im;
-            control.w.canvas.Children.Add(r);
+            canvas.Children.Add(r);
         }
 
-        public MyImage(Control c, jsonDeserialize.Shape s)
+        public MyImage(DrawControl c, Canvas ca, jsonDeserialize.Shape s)
         {
-            control = c;
+            drawControl = c;
+            canvas = ca;
             byte[] imageBytes = Convert.FromBase64String(s.b64);
             MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
             BitmapImage bmi = new BitmapImage();
@@ -41,7 +45,7 @@ namespace MyPaint
             r.Width = bmi.Width;
             r.Height = bmi.Height;
             r.Fill = brush;
-            control.w.canvas.Children.Add(r);
+            canvas.Children.Add(r);
         }
 
         public void delete()

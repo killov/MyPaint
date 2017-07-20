@@ -14,20 +14,23 @@ namespace MyPaint
 {
     class MyLine : MyShape
     {
-        Control control;
-        Line l = new Line();
+        DrawControl drawControl;
+        Line l = new Line(), lv;
         bool hit = false;
         Brush primaryColor;
         double thickness;
+        Canvas canvas;
 
-        public MyLine(Control c)
+        public MyLine(DrawControl c, Canvas ca)
         {
-            control = c;                
+            drawControl = c;
+            canvas = ca;
         }
 
-        public MyLine(Control c, jsonDeserialize.Shape s)
+        public MyLine(DrawControl c, Canvas ca, jsonDeserialize.Shape s)
         {
-            control = c;
+            drawControl = c;
+            canvas = ca;
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
             setThickness(s.lineWidth);
             l.X1 = s.A.x;
@@ -36,7 +39,7 @@ namespace MyPaint
             l.Y2 = s.B.y;
             l.ToolTip = null;
             l.Cursor = Cursors.SizeAll;
-            control.w.canvas.Children.Add(l);
+            canvas.Children.Add(l);
         }
 
         public void setPrimaryColor(Brush s)
@@ -53,54 +56,81 @@ namespace MyPaint
         public void setThickness(double s)
         {
             l.StrokeThickness = s;
+            if(lv != null) lv.StrokeThickness = s;
             thickness = s;
         }
 
         public void mouseDown(MouseButtonEventArgs e)
         {
-            l.Stroke = control.color;
-            l.X1 = e.GetPosition(control.w.canvas).X;
-            l.Y1 = e.GetPosition(control.w.canvas).Y;
-            l.X2 = e.GetPosition(control.w.canvas).X;
-            l.Y2 = e.GetPosition(control.w.canvas).Y;
+            l.Stroke = drawControl.getPrimaryColor();
+            l.X1 = e.GetPosition(canvas).X;
+            l.Y1 = e.GetPosition(canvas).Y;
+            l.X2 = e.GetPosition(canvas).X;
+            l.Y2 = e.GetPosition(canvas).Y;
             l.ToolTip = null;
             l.Cursor = Cursors.Pen;
-            control.w.canvas.Children.Add(l);
-            control.draw = true;
+            canvas.Children.Add(l);
+            drawControl.draw = true;
         }
 
         public void mouseMove(MouseEventArgs e)
         {
-            l.X2 = e.GetPosition(control.w.canvas).X;
-            l.Y2 = e.GetPosition(control.w.canvas).Y;
+            l.X2 = e.GetPosition(canvas).X;
+            l.Y2 = e.GetPosition(canvas).Y;
         }
 
         public void mouseUp(MouseButtonEventArgs e)
         {
-            control.draw = false;
-            l.Cursor = Cursors.SizeAll;
+            drawControl.draw = false;           
             createPoints();
-            l.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
+            drawControl.lockDraw();
+            
+        }
+
+        public void createVirtualShape(MyOnMouseDown mouseDown)
+        {
+            lv = new Line();
+            lv.X1 = l.X1;
+            lv.X2 = l.X2;
+            lv.Y1 = l.Y1;
+            lv.Y2 = l.Y2;
+            lv.Cursor = Cursors.SizeAll;
+            lv.Stroke = drawControl.nullBrush;
+            lv.StrokeThickness = thickness;
+            lv.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
+                mouseDown(ee, this);
                 hit = true;
-                control.startMoveShape(new Point(l.X1, l.Y1), ee.GetPosition(control.w.canvas));
+                
             };
+            drawControl.topCanvas.Children.Add(lv);
+        }
+
+        public void deleteVirtualShape()
+        {
+            drawControl.topCanvas.Children.Remove(lv);
+            lv = null;
         }
 
         MovePoint p1, p2;
         void createPoints()
         {
-            control.candraw = false;
-            p1 = new MovePoint(control, this, new Point(l.X1, l.Y1), (p) =>
+            createVirtualShape((e, s) =>
             {
-                l.X1 = p.X;
-                l.Y1 = p.Y;
+                drawControl.startMoveShape(new Point(l.X1, l.Y1), e.GetPosition(canvas));
             });
 
-            p2 = new MovePoint(control, this,  new Point(l.X2, l.Y2), (p) =>
+            drawControl.candraw = false;
+            p1 = new MovePoint(drawControl.topCanvas, this, new Point(l.X1, l.Y1), (p) =>
             {
-                l.X2 = p.X;
-                l.Y2 = p.Y;
+                lv.X1 = l.X1 = p.X;
+                lv.Y1 = l.Y1 = p.Y;
+            });
+
+            p2 = new MovePoint(drawControl.topCanvas, this,  new Point(l.X2, l.Y2), (p) =>
+            {
+                lv.X2 = l.X2 = p.X;
+                lv.Y2 = l.Y2 = p.Y;
             });
         }
 
@@ -120,16 +150,17 @@ namespace MyPaint
 
         public void stopDraw()
         {
+            deleteVirtualShape();
             p1.delete();
             p2.delete();
         }
 
         public void moveShape(double x, double y)
         {           
-            l.X2 = l.X2 - l.X1 + x;
-            l.X1 = x;
-            l.Y2 = l.Y2 - l.Y1 + y;
-            l.Y1 = y;
+            lv.X2 = l.X2 = l.X2 - l.X1 + x;
+            lv.X1 = l.X1 = x;
+            lv.Y2 = l.Y2 = l.Y2 - l.Y1 + y;
+            lv.Y1 = l.Y1 = y;
             p1.move(l.X1, l.Y1);
             p2.move(l.X2, l.Y2);
         }
@@ -156,19 +187,23 @@ namespace MyPaint
 
         public void delete()
         {
-            control.w.canvas.Children.Remove(l);
-            control.shapes.Remove(this);
+            canvas.Children.Remove(l);
+            drawControl.shapes.Remove(this);
             if (p1 != null)
             {
                 stopDraw();
+            }
+            else
+            {
+                deleteVirtualShape();
             }
         }
 
         public void refresh()
         {
-            control.shapes.Add(this);
-            control.w.canvas.Children.Add(l);
-            control.lockDraw();
+            drawControl.shapes.Add(this);
+            canvas.Children.Add(l);
+            drawControl.lockDraw();
         }
     }
 }
