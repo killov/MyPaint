@@ -167,7 +167,7 @@
     <!-- ******* ColorBox ******* -->
     <Style TargetType="{x:Type local:ColorBox}">     
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         
         <Setter Property="BorderBrush" Value="#000000" />
         <Setter Property="VerticalAlignment" Value="Top" />
@@ -554,8 +554,6 @@
                                             </Style>
                                         </DockPanel.Style>
 
-                                        <TextBlock Text="Průhlednost" VerticalAlignment="Center"/>
-                                        <Slider Style="{StaticResource OpacitySliderStyle}" Margin="10,0,0,0"/>
                                     </DockPanel>
 
                                     <!-- Linear brush -->
@@ -572,11 +570,8 @@
                                         </DockPanel.Style>
 
                                         <UniformGrid Rows="5" DockPanel.Dock="Left" Margin="0,0,5,0" >
-                                            <TextBlock Text="Počání bod" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Počáteční bod" VerticalAlignment="Center"/>
                                             <TextBlock Text="Koncový bod" VerticalAlignment="Center"/>
-                                            <TextBlock Text="Režim" VerticalAlignment="Center"/>
-                                            <TextBlock Text="Šíření" VerticalAlignment="Center"/>
-                                            <TextBlock Text="Průhlednost" VerticalAlignment="Center"/>
                                         </UniformGrid>
 
                                         <UniformGrid Rows="5" DockPanel.Dock="Right">
@@ -590,13 +585,6 @@
                                                 <local:DoubleUpDown Value="{Binding EndY, RelativeSource={RelativeSource TemplatedParent}}"/>
                                             </UniformGrid>
 
-                                            <ComboBox Margin="2" ItemsSource="{Binding MappingModeTypes, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                  SelectedItem="{Binding MappingMode, RelativeSource={RelativeSource TemplatedParent}}"/>
-
-                                            <ComboBox Margin="2" ItemsSource="{Binding SpreadMethodTypes, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                  SelectedItem="{Binding SpreadMethod, RelativeSource={RelativeSource TemplatedParent}}"/>
-
-                                            <Slider Style="{StaticResource OpacitySliderStyle}"/>
                                         </UniformGrid>
                                     </DockPanel>
 
@@ -618,9 +606,6 @@
                                             <TextBlock Text="Střed" VerticalAlignment="Center"/>
                                             <TextBlock Text="Poloměr X" VerticalAlignment="Center"/>
                                             <TextBlock Text="Poloměr Y" VerticalAlignment="Center"/>
-                                            <TextBlock Text="Režim" VerticalAlignment="Center"/>
-                                            <TextBlock Text="Šíření" VerticalAlignment="Center"/>
-                                            <TextBlock Text="Průhlednost" VerticalAlignment="Center"/>
                                         </UniformGrid>
 
                                         <UniformGrid Rows="7" DockPanel.Dock="Right">
@@ -638,18 +623,9 @@
 
                                             <local:DoubleUpDown Value="{Binding RadiusY, RelativeSource={RelativeSource TemplatedParent}}"/>
 
-                                            <ComboBox Margin="2"
-                                                                  ItemsSource="{Binding MappingModeTypes, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                  SelectedItem="{Binding MappingMode, RelativeSource={RelativeSource TemplatedParent}}"/>
-
-                                            <ComboBox Margin="2" 
-                                                                  ItemsSource="{Binding SpreadMethodTypes, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                  SelectedItem="{Binding SpreadMethod, RelativeSource={RelativeSource TemplatedParent}}"/>
-
-                                            <Slider Style="{StaticResource OpacitySliderStyle}"/>
+                     
                                         </UniformGrid>
                                     </DockPanel>
-
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>

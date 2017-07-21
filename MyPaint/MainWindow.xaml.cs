@@ -31,7 +31,9 @@ namespace MyPaint
             InitializeComponent();
             control = new MainControl(this);
 
-            colorsInit();           
+            colorsInit();
+            
+            
         }
 
         private void colorsInit()
@@ -153,6 +155,7 @@ namespace MyPaint
         private void newClick(object sender, RoutedEventArgs e)
         {
             control.newC();
+
         }
 
         private void polygon_Click(object sender, RoutedEventArgs e)
@@ -260,6 +263,16 @@ namespace MyPaint
         {
             back.Fill = b ? Brushes.Azure : Brushes.Gray;
             forward.Fill = f ? Brushes.Azure : Brushes.Gray;
+        }
+
+        private void button_addLayer_Click(object sender, RoutedEventArgs e)
+        {
+            control.addLayer();
+        }
+
+        private void layers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(control != null) control.layerChanged();
         }
     }
 }

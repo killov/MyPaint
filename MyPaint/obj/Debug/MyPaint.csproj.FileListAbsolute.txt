@@ -16,5 +16,8 @@ C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.pdb
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.csprojResolveAssemblyReference.cache
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\ColorBox.dll
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\ColorBox.pdb
-C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Newtonsoft.Json.dll
-C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\Newtonsoft.Json.xml
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\MyPaint.exe.manifest
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\MyPaint.application
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.TrustInfo.xml
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.exe.manifest
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Debug\MyPaint.application

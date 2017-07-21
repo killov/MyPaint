@@ -15,7 +15,7 @@ namespace MyPaint
     class MyRectangle : MyShape
     {
         DrawControl drawControl;
-        Polygon p = new Polygon();
+        Polygon p = new Polygon(), lv;
         Brush primaryColor, secondaryColor;
         double thickness;
         bool hit = false;
@@ -45,11 +45,7 @@ namespace MyPaint
 
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
-            p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
-            {
-                hit = true;
-                drawControl.startMoveShape(new Point(Canvas.GetLeft(p), Canvas.GetTop(p)), ee.GetPosition(canvas));
-            };
+
         }
 
         public void setPrimaryColor(Brush s)
@@ -67,6 +63,7 @@ namespace MyPaint
         public void setThickness(double s)
         {
             p.StrokeThickness = s;
+            if (lv != null) lv.StrokeThickness = s;
             thickness = s;
         }
 
@@ -103,19 +100,40 @@ namespace MyPaint
             p.Cursor = Cursors.SizeAll;
             drawControl.draw = false;
             createPoints();
-            p.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
+            drawControl.lockDraw();           
+        }
+
+        public void createVirtualShape(MyOnMouseDown mouseDown)
+        {
+            lv = new Polygon();
+            lv.Points = p.Points;
+            lv.Stroke = drawControl.nullBrush;
+            lv.Fill = drawControl.nullBrush;
+            lv.StrokeThickness = thickness;
+            lv.Cursor = Cursors.SizeAll;
+            lv.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
+                mouseDown(ee, this);
                 hit = true;
-                drawControl.startMoveShape(p.Points[0], ee.GetPosition(canvas));
             };
-            
+            drawControl.topCanvas.Children.Add(lv);
+        }
+
+        public void deleteVirtualShape()
+        {
+            drawControl.topCanvas.Children.Remove(lv);
+            lv = null;
         }
 
         MovePoint p1, p2, p3, p4;
         void createPoints()
         {
+            createVirtualShape((e, s) =>
+            {
+                drawControl.startMoveShape(p.Points[0], e.GetPosition(canvas));
+            });
             drawControl.candraw = false;
-            p1 = new MovePoint(canvas, this, p.Points[0], (po) =>
+            p1 = new MovePoint(drawControl.topCanvas, this, p.Points[0], (po) =>
             {
                 p.Points[0] = po;
                 p.Points[1] = new Point(po.X, p.Points[1].Y);
@@ -125,7 +143,7 @@ namespace MyPaint
                 p4.move(p.Points[3].X, po.Y);
             });
 
-            p2 = new MovePoint(canvas, this, p.Points[1], (po) =>
+            p2 = new MovePoint(drawControl.topCanvas, this, p.Points[1], (po) =>
             {
                 p.Points[1] = po;
                 p.Points[0] = new Point(po.X, p.Points[0].Y);
@@ -135,7 +153,7 @@ namespace MyPaint
                 p3.move(p.Points[2].X, po.Y);
             });
 
-            p3 = new MovePoint(canvas, this, p.Points[2], (po) =>
+            p3 = new MovePoint(drawControl.topCanvas, this, p.Points[2], (po) =>
             {
                 p.Points[2] = po;
                 p.Points[1] = new Point(p.Points[1].X, po.Y);
@@ -145,7 +163,7 @@ namespace MyPaint
                 p2.move(p.Points[1].X, po.Y);
             });
 
-            p4 = new MovePoint(canvas, this, p.Points[3], (po) =>
+            p4 = new MovePoint(drawControl.topCanvas, this, p.Points[3], (po) =>
             {
                 p.Points[3] = po;
                 p.Points[0] = new Point(p.Points[0].X, po.Y);
@@ -175,6 +193,7 @@ namespace MyPaint
 
         public void stopDraw()
         {
+            deleteVirtualShape();
             p1.delete();
             p2.delete();
             p3.delete();
@@ -221,6 +240,10 @@ namespace MyPaint
             if (p1 != null)
             {
                 stopDraw();
+            }
+            else
+            {
+                deleteVirtualShape();
             }
         }
 

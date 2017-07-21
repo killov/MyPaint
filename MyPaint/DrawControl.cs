@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,12 +28,29 @@ namespace MyPaint
         Point posunStartMys = new Point();
         public List<MyShape> shapes = new List<MyShape>();
         MyEnum activeShape;
+        public ObservableCollection<MyLayer> layers = new ObservableCollection<MyLayer>();
+        MyLayer selectLayer;
 
         public DrawControl(MainControl c, Canvas ca, Canvas tc)
         {
             control = c;
             canvas = ca;
             topCanvas = tc;
+            layers.Add(new MyLayer(canvas) { Name = "ahoj", visible = true });
+            lockDraw();
+            setActiveLayer(0);
+        }
+
+        public void addLayer()
+        {
+            layers.Add(new MyLayer(canvas) { Name = "ahoj", visible = true });
+            setActiveLayer(layers.Count - 1);
+        }
+
+        public void setActiveLayer(int i)
+        {
+            control.w.layers.SelectedIndex = i;
+            selectLayer = layers[i];
         }
 
         public void clear()
@@ -115,16 +133,16 @@ namespace MyPaint
                 switch (activeShape)
                 {
                     case MyEnum.LINE:
-                        shape = new MyLine(this, canvas);
+                        shape = new MyLine(this, selectLayer.canvas);
                         break;
                     case MyEnum.RECT:
-                        shape = new MyRectangle(this, canvas);
+                        shape = new MyRectangle(this, selectLayer.canvas);
                         break;
                     case MyEnum.ELLIPSE:
-                        shape = new MyEllipse(this, canvas);
+                        shape = new MyEllipse(this, selectLayer.canvas);
                         break;
                     case MyEnum.POLYGON:
-                        shape = new MyPolygon(this, canvas);
+                        shape = new MyPolygon(this, selectLayer.canvas);
                         break;
                 }
                 control.addHistory(shape);

@@ -67,6 +67,7 @@ namespace MyPaint
         public void setThickness(double s)
         {
             p.StrokeThickness = s;
+            if (lv != null) lv.StrokeThickness = s;
             thickness = s;
         }
 
@@ -153,7 +154,9 @@ namespace MyPaint
             moveE(lv, ex, ey);
             lv.Cursor = Cursors.SizeAll;
             lv.Stroke = drawControl.nullBrush;
+            lv.Fill = drawControl.nullBrush;
             lv.StrokeThickness = thickness;
+            lv.Cursor = Cursors.SizeAll;
             lv.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
                 mouseDown(ee, this);
@@ -177,7 +180,7 @@ namespace MyPaint
             });
 
             drawControl.candraw = false;
-            p1 = new MovePoint(canvas, this, new Point(sx, sy), (po) =>
+            p1 = new MovePoint(drawControl.topCanvas, this, new Point(sx, sy), (po) =>
             {
                 moveS(p, po.X, po.Y);
                 p1.move(po.X, po.Y);
@@ -185,7 +188,7 @@ namespace MyPaint
                 p4.move(sx, ey);
             });
 
-            p2 = new MovePoint(canvas, this, new Point(ex, ey), (po) =>
+            p2 = new MovePoint(drawControl.topCanvas, this, new Point(ex, ey), (po) =>
             {
                 moveE(p, po.X, po.Y);
                 p2.move(po.X, po.Y);
@@ -193,7 +196,7 @@ namespace MyPaint
                 p4.move(sx, ey);
             });
 
-            p3 = new MovePoint(canvas, this, new Point(ex, sy), (po) =>
+            p3 = new MovePoint(drawControl.topCanvas, this, new Point(ex, sy), (po) =>
             {
                 moveE(p, po.X, ey);
                 moveS(p, sx, po.Y);
@@ -202,7 +205,7 @@ namespace MyPaint
                 p2.move(ex, ey);
             });
 
-            p4 = new MovePoint(canvas, this, new Point(sx, ey), (po) =>
+            p4 = new MovePoint(drawControl.topCanvas, this, new Point(sx, ey), (po) =>
             {
                 moveE(p, ex, po.Y);
                 moveS(p, po.X, sy);
@@ -231,6 +234,7 @@ namespace MyPaint
 
         public void stopDraw()
         {
+            deleteVirtualShape();
             p1.delete();
             p2.delete();
             p3.delete();
@@ -280,6 +284,10 @@ namespace MyPaint
             if(p1 != null)
             {
                 stopDraw();
+            }
+            else
+            {
+                deleteVirtualShape();
             }
         }
 

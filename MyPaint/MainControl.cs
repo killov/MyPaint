@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Text.RegularExpressions;
 using System.Timers;
 using System.Web.Script.Serialization;
-using Newtonsoft.Json;
+using System.Collections.ObjectModel;
 
 namespace MyPaint
 {
@@ -24,6 +24,7 @@ namespace MyPaint
 
     public class MainControl
     {
+        
         HistoryControl historyControl;
         DrawControl drawControl;
         MyEnum activeShape;
@@ -47,6 +48,18 @@ namespace MyPaint
             setThickness(1);
             setResolution(500, 400);
             historyControl.clear();
+            w.layers.ItemsSource = drawControl.layers;
+
+        }
+
+        public void addLayer()
+        {
+            drawControl.addLayer();
+        }
+
+        public void layerChanged()
+        {
+            drawControl.setActiveLayer(w.layers.SelectedIndex);
         }
 
         public void back()
@@ -77,6 +90,7 @@ namespace MyPaint
             Canvas.SetLeft(w.resolution, ws);
             Canvas.SetTop(w.resolution, hs);
             w.labelResolution.Content = String.Format("{0}x{1}", (int)ws, (int)hs);
+            
         }
 
         public void newC()
@@ -86,7 +100,7 @@ namespace MyPaint
             change = false;
             setResolution(500, 400);
             historyControl.clear();
-            drawControl.clear();
+            drawControl.clear();       
         }
 
         

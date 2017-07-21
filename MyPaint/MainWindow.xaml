@@ -58,15 +58,23 @@
                 <Button Style="{StaticResource MyButton}" x:Name="button_back" Canvas.Left="241" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_back_Click">
                     <Path x:Name="back" Fill="#FF2343B0" Data="M0,1 L1,0 L1,0.5 L2,0.5 L2,1.5 L1,1.5 1,2z" Width="18" Height="17.5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
-                
+
                 <Button Style="{StaticResource MyButton}" x:Name="button_forward" Canvas.Left="286" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_forward_Click">
                     <Path x:Name="forward" Fill="#FF2343B0" Data="M2,1 L1,0 L1,0.5 L0,0.5 L0,1.5 L1,1.5 1,2z" Width="18" Height="17.5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
 
-            </Canvas>
-            <Canvas Margin="0,58,0,26" HorizontalAlignment="Left" Width="210">
 
-                <Canvas Width="190" Background="#66FFFFFF" Canvas.Left="10" Height="541" Canvas.Top="6">
+            </Canvas>
+            <Grid Margin="0,58,0,26" HorizontalAlignment="Left" Width="186">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="130"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Canvas Grid.Row="0" Grid.Column="0">
                     <Canvas Height="40" Canvas.Left="56" Canvas.Top="12" Width="39" MouseDown="secondaryColor_MouseDown" RenderTransformOrigin="0.21,0.57">
                         <Canvas.Background>
                             <ImageBrush ImageSource="fill.png" Viewport="0,0,0.3,0.3" TileMode="Tile"/>
@@ -91,10 +99,40 @@
 
                     </Canvas>
                     <Canvas x:Name="colors" Height="51" Canvas.Left="10" Canvas.Top="68" Width="170" Background="#66FFFFFF"/>
-                    <ncore:ColorBox x:Name="CB" VerticalAlignment="Stretch" ColorChanged="CB_ColorChanged" Width="170" Canvas.Top="143" Canvas.Left="10"/>
                 </Canvas>
-            </Canvas>
-            <Canvas x:Name="canvas_outer" Margin="210,63,0,0" MouseMove="canvas_outer_MouseMove" MouseUp="canvas_outer_MouseUp">
+                <ncore:ColorBox x:Name="CB" VerticalAlignment="Stretch" ColorChanged="CB_ColorChanged" Width="170" Canvas.Top="143" Canvas.Left="10" Grid.Row="1" Grid.Column="0"/>
+                <Button Style="{StaticResource MyButton}" x:Name="button_addLayer" Canvas.Left="55" Canvas.Top="368" Margin="10,186,153,8" RenderTransformOrigin="1.15,5.612" Grid.Row="2" FontSize="11" Click="button_addLayer_Click">
+                    +
+                </Button>
+                <ListBox x:Name="layers" VerticalAlignment="Top"  Grid.Row="2" Height="181" Margin="0,0,10,0" HorizontalAlignment="Right" Width="166" SelectionChanged="layers_SelectionChanged">
+                    <ListBox.Resources>
+                        <!-- Background of selected item when focussed -->
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                             Color="orange" />
+                        <!-- Background of selected item when not focussed -->
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}"
+                             Color="Black" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                         Color="orange" />
+
+                    </ListBox.Resources>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="20" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Name}" />
+                                <CheckBox Grid.Column="1" Width="20" IsChecked="{Binding visible, Mode=TwoWay}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+
+            </Grid>
+            <Canvas x:Name="canvas_outer" Margin="191,63,0,0" MouseMove="canvas_outer_MouseMove" MouseUp="canvas_outer_MouseUp">
                 <Canvas.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                         <GradientStop Color="#FF3BA4BB" Offset="1"/>

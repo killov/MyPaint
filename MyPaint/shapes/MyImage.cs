@@ -16,7 +16,7 @@ namespace MyPaint
     class MyImage : MyShape
     {
         DrawControl drawControl;
-        Rectangle r = new Rectangle();
+        Rectangle r = new Rectangle(), lv;
         ImageBrush image;
         Canvas canvas;
 
@@ -137,6 +137,16 @@ namespace MyPaint
         }
 
         public void refresh()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void createVirtualShape(MyOnMouseDown mouseDown)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void deleteVirtualShape()
         {
             throw new NotImplementedException();
         }

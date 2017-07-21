@@ -22,5 +22,17 @@ namespace MyPaint.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public sbyte Nastavení {
+            get {
+                return ((sbyte)(this["Nastavení"]));
+            }
+            set {
+                this["Nastavení"] = value;
+            }
+        }
     }
 }
