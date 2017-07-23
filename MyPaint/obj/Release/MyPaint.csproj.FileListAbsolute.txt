@@ -20,3 +20,4 @@ C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Release\MyPaint.exe.manifest
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Release\MyPaint.application
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\MyPaint.exe.manifest
 C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\MyPaint.application
+C:\Users\ZD\Source\Repos\my_paint\MyPaint\obj\Release\MyPaint.TrustInfo.xml

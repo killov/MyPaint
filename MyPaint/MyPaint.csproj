@@ -112,18 +112,25 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DrawControl.cs" />
+    <Compile Include="file\HTML.cs" />
+    <Compile Include="file\JPEG.cs" />
+    <Compile Include="file\PNG.cs" />
     <Compile Include="HistoryControl.cs" />
     <Compile Include="HistoryNode.cs" />
     <Compile Include="json\deserialize\Brush.cs" />
+    <Compile Include="json\deserialize\Layer.cs" />
     <Compile Include="json\deserialize\LinearGradientStop.cs" />
+    <Compile Include="json\deserialize\Picture.cs" />
     <Compile Include="json\deserialize\Point.cs" />
     <Compile Include="json\deserialize\Shape.cs" />
     <Compile Include="json\serialize\Brush.cs" />
     <Compile Include="json\serialize\Color.cs" />
     <Compile Include="json\serialize\Ellipse.cs" />
     <Compile Include="json\serialize\Image.cs" />
+    <Compile Include="json\serialize\Layer.cs" />
     <Compile Include="json\serialize\LinearGradient.cs" />
     <Compile Include="json\serialize\LinearGradientStop.cs" />
+    <Compile Include="json\serialize\Picture.cs" />
     <Compile Include="json\serialize\Point.cs" />
     <Compile Include="json\serialize\Polygon.cs" />
     <Compile Include="json\serialize\Rectangle.cs" />

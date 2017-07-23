@@ -23,18 +23,19 @@ namespace MyPaint
         double thickness;
         bool hit = false;
         bool start = false;
-        Canvas canvas;
+        MyLayer layer;
 
-        public MyPolygon(DrawControl c, Canvas ca)
+        public MyPolygon(DrawControl c, MyLayer la)
         {
             drawControl = c;
-            canvas = ca;
+            layer = la;
+            layer.shapes.Add(this);
         }
 
-        public MyPolygon(DrawControl c, Canvas ca, jsonDeserialize.Shape s)
+        public MyPolygon(DrawControl c, MyLayer la, jsonDeserialize.Shape s)
         {
             drawControl = c;
-            canvas = ca;
+            layer = la;
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
             setSecondaryColor(s.fill == null ? null : s.fill.createBrush());
             setThickness(s.lineWidth);
@@ -44,11 +45,12 @@ namespace MyPaint
                 p.Points.Add(new Point(point.x, point.y));
             }
 
-            canvas.Children.Add(p);
+            layer.canvas.Children.Add(p);
 
             p.ToolTip = null;
 
             p.Cursor = Cursors.SizeAll;
+            layer.shapes.Add(this);
         }
 
         public void setPrimaryColor(Brush s)
@@ -79,8 +81,8 @@ namespace MyPaint
         {
             if (start)
             {
-                double x = e.GetPosition(canvas).X;
-                double y = e.GetPosition(canvas).Y;
+                double x = e.GetPosition(layer.canvas).X;
+                double y = e.GetPosition(layer.canvas).Y;
 
                 l.X2 = x;
                 l.Y2 = y;               
@@ -97,12 +99,12 @@ namespace MyPaint
             l.StrokeThickness = thickness;
             l.ToolTip = null;
             l.Cursor = Cursors.Pen;
-            l.X1 = e.GetPosition(canvas).X;
-            l.X2 = e.GetPosition(canvas).X;
-            l.Y1 = e.GetPosition(canvas).Y;
-            l.Y2 = e.GetPosition(canvas).Y;
-            canvas.Children.Add(l);
-            points.Add(e.GetPosition(canvas));
+            l.X1 = e.GetPosition(layer.canvas).X;
+            l.X2 = e.GetPosition(layer.canvas).X;
+            l.Y1 = e.GetPosition(layer.canvas).Y;
+            l.Y2 = e.GetPosition(layer.canvas).Y;
+            layer.canvas.Children.Add(l);
+            points.Add(e.GetPosition(layer.canvas));
             lines.Add(l);
             if (e.ChangedButton == MouseButton.Right)
             {
@@ -115,14 +117,14 @@ namespace MyPaint
                     }
                     foreach(var l in lines)
                     {
-                        canvas.Children.Remove(l);
+                        layer.canvas.Children.Remove(l);
                     }
                     p = new Polygon();
                     p.Stroke = primaryColor;
                     p.Fill = secondaryColor;
                     p.StrokeThickness = thickness;
                     p.Points = ppoints;
-                    canvas.Children.Add(p);
+                    layer.canvas.Children.Add(p);
                     p.ToolTip = null;
                     p.Cursor = Cursors.SizeAll;
                     drawControl.draw = false;
@@ -159,7 +161,7 @@ namespace MyPaint
         {
             createVirtualShape((e, s) =>
             {
-                drawControl.startMoveShape(p.Points[0], e.GetPosition(canvas));
+                drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));
             });
 
             movepoints = new List<MovePoint>();
@@ -242,7 +244,8 @@ namespace MyPaint
 
         public void delete()
         {
-            canvas.Children.Remove(p);
+            layer.shapes.Remove(this);
+            layer.canvas.Children.Remove(p);
             if (p.Points.Count > 0)
             {
                 stopDraw();
@@ -255,8 +258,8 @@ namespace MyPaint
 
         public void refresh()
         {
-            drawControl.shapes.Add(this);
-            canvas.Children.Add(p);
+            layer.shapes.Add(this);
+            layer.canvas.Children.Add(p);
             drawControl.lockDraw();
         }
     }

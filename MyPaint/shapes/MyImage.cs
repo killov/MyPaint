@@ -18,23 +18,23 @@ namespace MyPaint
         DrawControl drawControl;
         Rectangle r = new Rectangle(), lv;
         ImageBrush image;
-        Canvas canvas;
+        MyLayer layer;
 
-        public MyImage(DrawControl c, Canvas ca, ImageBrush im, double w, double h)
+        public MyImage(DrawControl c, MyLayer la, ImageBrush im, double w, double h)
         {
             drawControl = c;
-            canvas = ca;
+            layer = la;
             r.Width = w;
             r.Height = h;
             r.Fill = im;
             image = im;
-            canvas.Children.Add(r);
+            layer.canvas.Children.Add(r);
         }
 
-        public MyImage(DrawControl c, Canvas ca, jsonDeserialize.Shape s)
+        public MyImage(DrawControl c, MyLayer la, jsonDeserialize.Shape s)
         {
             drawControl = c;
-            canvas = ca;
+            layer = la;
             byte[] imageBytes = Convert.FromBase64String(s.b64);
             MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
             BitmapImage bmi = new BitmapImage();
@@ -45,7 +45,7 @@ namespace MyPaint
             r.Width = bmi.Width;
             r.Height = bmi.Height;
             r.Fill = brush;
-            canvas.Children.Add(r);
+            layer.canvas.Children.Add(r);
         }
 
         public void delete()

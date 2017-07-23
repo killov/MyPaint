@@ -71,8 +71,9 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="130"/>
+                    <RowDefinition Height="330"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
                 <Canvas Grid.Row="0" Grid.Column="0">
                     <Canvas Height="40" Canvas.Left="56" Canvas.Top="12" Width="39" MouseDown="secondaryColor_MouseDown" RenderTransformOrigin="0.21,0.57">
@@ -101,10 +102,8 @@
                     <Canvas x:Name="colors" Height="51" Canvas.Left="10" Canvas.Top="68" Width="170" Background="#66FFFFFF"/>
                 </Canvas>
                 <ncore:ColorBox x:Name="CB" VerticalAlignment="Stretch" ColorChanged="CB_ColorChanged" Width="170" Canvas.Top="143" Canvas.Left="10" Grid.Row="1" Grid.Column="0"/>
-                <Button Style="{StaticResource MyButton}" x:Name="button_addLayer" Canvas.Left="55" Canvas.Top="368" Margin="10,186,153,8" RenderTransformOrigin="1.15,5.612" Grid.Row="2" FontSize="11" Click="button_addLayer_Click">
-                    +
-                </Button>
-                <ListBox x:Name="layers" VerticalAlignment="Top"  Grid.Row="2" Height="181" Margin="0,0,10,0" HorizontalAlignment="Right" Width="166" SelectionChanged="layers_SelectionChanged">
+                <Button Style="{StaticResource MyButton}" x:Name="button_addLayer" Canvas.Left="55" Canvas.Top="368" Margin="0,0,153,8" RenderTransformOrigin="1.15,5.612" Grid.Row="3" FontSize="11" Click="button_addLayer_Click" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="23">+</Button>
+                <ListBox x:Name="layers"  Grid.Row="2" Margin="0,0,10,2" HorizontalAlignment="Right" Width="166" SelectionChanged="layers_SelectionChanged">
                     <ListBox.Resources>
                         <!-- Background of selected item when focussed -->
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
@@ -120,11 +119,11 @@
                         <DataTemplate>
                             <Grid Margin="0,2">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Name}" />
-                                <CheckBox Grid.Column="1" Width="20" IsChecked="{Binding visible, Mode=TwoWay}"/>
+                                <TextBlock Text="{Binding Name}" Grid.Column="1"/>
+                                <CheckBox Grid.Column="0" Width="20" IsChecked="{Binding visible, Mode=TwoWay}"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -152,13 +151,15 @@
             <Grid Background="LightGray" VerticalAlignment="Bottom" Height="26">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
+                    <ColumnDefinition  Width="81"/>
                     <ColumnDefinition Width="71"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Label x:Name="labelPath" Content="" Background="LightGray" Grid.Row="0" Grid.Column="0"/>
-                <Label x:Name="labelResolution" Content="" Grid.Row="0" Grid.Column="1"/>
+                <Slider x:Name="zoom" Width="71" Grid.Row="0" Style="{StaticResource ZoomSpinButton}" Maximum="200" Minimum="20" Value="100" Background="{x:Null}" LargeChange="10" Margin="0,3,5,4" HorizontalAlignment="Right" Grid.Column="1" ValueChanged="zoom_ValueChanged"/>
+                <Label x:Name="labelResolution" Content="" Grid.Row="0" Grid.Column="2"/>
 
             </Grid>
 

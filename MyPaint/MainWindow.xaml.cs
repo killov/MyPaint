@@ -274,5 +274,10 @@ namespace MyPaint
         {
             if(control != null) control.layerChanged();
         }
+
+        private void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (control != null)  control.setZoom(e.NewValue/100);
+        }
     }
 }

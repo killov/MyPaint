@@ -50,29 +50,29 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>NjNswDgLCRVLblHD4lg3FL3YuwM7+Pj6H8nwBhsUwCg=</dsig:DigestValue>
+        <dsig:DigestValue>LdZi5IxWUI4/mgb0jw6vCm2Jg4K/uEFOF0DD5O2s1eU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MyPaint.exe" size="527280">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MyPaint.exe" size="532400">
       <assemblyIdentity name="MyPaint" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>UJjdteC2wGySgHEz2gJbJMcuKhRt0Ka4mgE+TcwEMeM=</dsig:DigestValue>
+        <dsig:DigestValue>nXzx8ELD9b2G1z2afAo5TvNgPg/znYTWmc/1TUXD82M=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="js.js" size="3965">
+  <file name="js.js" size="4737">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>P3YSs3jKX+iC2GPk5kWg9ciMCOCPqJR8xsgVG2hEUGY=</dsig:DigestValue>
+      <dsig:DigestValue>G2kuU1TEt3wYeV4cNSq0HP9i2iTWiLusGSN17A7UuEU=</dsig:DigestValue>
     </hash>
   </file>
   <file name="MyPaint.exe.config" size="916">

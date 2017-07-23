@@ -604,8 +604,7 @@
                                         <UniformGrid Rows="7" DockPanel.Dock="Left" Margin="0,0,5,0">
                                             <TextBlock Text="Gradient Origin" VerticalAlignment="Center"/>
                                             <TextBlock Text="Střed" VerticalAlignment="Center"/>
-                                            <TextBlock Text="Poloměr X" VerticalAlignment="Center"/>
-                                            <TextBlock Text="Poloměr Y" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Poloměr X/Y" VerticalAlignment="Center"/>
                                         </UniformGrid>
 
                                         <UniformGrid Rows="7" DockPanel.Dock="Right">
@@ -619,11 +618,11 @@
                                                 <local:DoubleUpDown Value="{Binding CenterY, RelativeSource={RelativeSource TemplatedParent}}"/>
                                             </UniformGrid>
 
-                                            <local:DoubleUpDown Value="{Binding RadiusX, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            <UniformGrid Rows="1">
+                                                <local:DoubleUpDown Value="{Binding RadiusX, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                <local:DoubleUpDown Value="{Binding RadiusY, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            </UniformGrid>
 
-                                            <local:DoubleUpDown Value="{Binding RadiusY, RelativeSource={RelativeSource TemplatedParent}}"/>
-
-                     
                                         </UniformGrid>
                                     </DockPanel>
                                 </StackPanel>

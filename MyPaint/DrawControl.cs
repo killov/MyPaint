@@ -13,9 +13,9 @@ namespace MyPaint
 {
     public class DrawControl
     {
-        MainControl control;
+        public MainControl control;
         public Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-        Canvas canvas;
+        public Canvas canvas;
         public Canvas topCanvas;
         public Brush primaryColor, secondaryColor;
         public double thickness;
@@ -26,44 +26,62 @@ namespace MyPaint
         public bool drag = false;
         Point posunStart = new Point();
         Point posunStartMys = new Point();
-        public List<MyShape> shapes = new List<MyShape>();
+        public Point resolution;
         MyEnum activeShape;
         public ObservableCollection<MyLayer> layers = new ObservableCollection<MyLayer>();
-        MyLayer selectLayer;
+        public MyLayer selectLayer;
 
         public DrawControl(MainControl c, Canvas ca, Canvas tc)
         {
             control = c;
             canvas = ca;
             topCanvas = tc;
-            layers.Add(new MyLayer(canvas) { Name = "ahoj", visible = true });
-            lockDraw();
-            setActiveLayer(0);
+            resetLayers();    
         }
 
         public void addLayer()
         {
-            layers.Add(new MyLayer(canvas) { Name = "ahoj", visible = true });
+            layers.Add(new MyLayer(canvas, this) { Name = "ahoj", visible = true });
             setActiveLayer(layers.Count - 1);
+            lockDraw();
+        }
+
+        public void resetLayers()
+        {
+            foreach(var l in layers)
+            {
+                l.delete();
+            }
+            layers.Clear();
+            addLayer();
         }
 
         public void setActiveLayer(int i)
         {
+            if (i == -1) return;
             control.w.layers.SelectedIndex = i;
             selectLayer = layers[i];
+            control.setBackgroundColor(selectLayer.color);
+        }
+
+        public void setResolution(Point res)
+        {
+            resolution = res;
+            foreach(var l in layers)
+            {
+                l.setResolution(res);
+            }
         }
 
         public void clear()
         {
-            shapes = new List<MyShape>();
             clearCanvas();
         }
 
         public void clearCanvas()
         {
             stopDraw();
-            canvas.Children.RemoveRange(0, canvas.Children.Count - 1);
-            shapes = new List<MyShape>();
+            resetLayers();
         }
 
         public void setPrimaryColor(Brush c)
@@ -78,6 +96,12 @@ namespace MyPaint
             if (shape != null) shape.setSecondaryColor(c);
         }
 
+
+        public void setBackgroundColor(Brush c)
+        {
+            if (selectLayer != null) selectLayer.setColor(c);
+        }
+
         public Brush getPrimaryColor()
         {
             return primaryColor;
@@ -86,6 +110,11 @@ namespace MyPaint
         public Brush getSecondaryColor()
         {
             return secondaryColor;
+        }
+
+        public Brush getBackgroundColor()
+        {
+            return selectLayer.color;
         }
 
         public void setThickness(double t)
@@ -133,23 +162,22 @@ namespace MyPaint
                 switch (activeShape)
                 {
                     case MyEnum.LINE:
-                        shape = new MyLine(this, selectLayer.canvas);
+                        shape = new MyLine(this, selectLayer);
                         break;
                     case MyEnum.RECT:
-                        shape = new MyRectangle(this, selectLayer.canvas);
+                        shape = new MyRectangle(this, selectLayer);
                         break;
                     case MyEnum.ELLIPSE:
-                        shape = new MyEllipse(this, selectLayer.canvas);
+                        shape = new MyEllipse(this, selectLayer);
                         break;
                     case MyEnum.POLYGON:
-                        shape = new MyPolygon(this, selectLayer.canvas);
+                        shape = new MyPolygon(this, selectLayer);
                         break;
                 }
                 control.addHistory(shape);
                 shape.setPrimaryColor(primaryColor);
                 shape.setSecondaryColor(secondaryColor);
                 shape.setThickness(thickness);
-                shapes.Add(shape);
                 shape.mouseDown(e);
             }
         }

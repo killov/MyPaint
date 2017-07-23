@@ -3,4 +3,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartAction>Project</StartAction>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Users\ZD\Source\Repos\my_paint\MyPaint\bin\Debug\MyPaint.exe</StartProgram>
+  </PropertyGroup>
 </Project>

@@ -19,18 +19,19 @@ namespace MyPaint
         Brush primaryColor, secondaryColor;
         double thickness;
         bool hit = false;
-        Canvas canvas;
+        MyLayer layer;
 
-        public MyRectangle(DrawControl c, Canvas ca)
+        public MyRectangle(DrawControl c, MyLayer la)
         {
             drawControl = c;
-            canvas = ca;
+            layer = la;
+            layer.shapes.Add(this);
         }
 
-        public MyRectangle(DrawControl c, Canvas ca, jsonDeserialize.Shape s)
+        public MyRectangle(DrawControl c, MyLayer la, jsonDeserialize.Shape s)
         {
             drawControl = c;
-            canvas = ca;
+            layer = la;
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
             setSecondaryColor(s.fill == null ? null : s.fill.createBrush());
             setThickness(s.lineWidth);
@@ -41,11 +42,11 @@ namespace MyPaint
             p.Points.Add(new Point(s.B.x, s.B.y));
             p.Points.Add(new Point(s.A.x, s.B.y));
 
-            canvas.Children.Add(p);
+            layer.canvas.Children.Add(p);
 
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
-
+            layer.shapes.Add(this);
         }
 
         public void setPrimaryColor(Brush s)
@@ -70,8 +71,8 @@ namespace MyPaint
         public void mouseDown(MouseButtonEventArgs e)
         {
             PointCollection points = new PointCollection(4);
-            double x = e.GetPosition(canvas).X;
-            double y = e.GetPosition(canvas).Y;
+            double x = e.GetPosition(layer.canvas).X;
+            double y = e.GetPosition(layer.canvas).Y;
             points.Add(new Point(x, y));
             points.Add(new Point(x, y));
             points.Add(new Point(x, y));
@@ -79,7 +80,7 @@ namespace MyPaint
             p.Stroke = primaryColor;
             p.Fill = secondaryColor;
             p.Points = points;
-            canvas.Children.Add(p);
+            layer.canvas.Children.Add(p);
             p.ToolTip = null;
             p.Cursor = Cursors.Pen;
             drawControl.draw = true;
@@ -87,8 +88,8 @@ namespace MyPaint
 
         public void mouseMove(MouseEventArgs e)
         {
-            double x = e.GetPosition(canvas).X;
-            double y = e.GetPosition(canvas).Y;
+            double x = e.GetPosition(layer.canvas).X;
+            double y = e.GetPosition(layer.canvas).Y;
 
             p.Points[1] = new Point(p.Points[1].X, y);
             p.Points[2] = new Point(x, y);
@@ -130,7 +131,7 @@ namespace MyPaint
         {
             createVirtualShape((e, s) =>
             {
-                drawControl.startMoveShape(p.Points[0], e.GetPosition(canvas));
+                drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));
             });
             drawControl.candraw = false;
             p1 = new MovePoint(drawControl.topCanvas, this, p.Points[0], (po) =>
@@ -236,7 +237,8 @@ namespace MyPaint
 
         public void delete()
         {
-            canvas.Children.Remove(p);
+            layer.shapes.Remove(this);
+            layer.canvas.Children.Remove(p);
             if (p1 != null)
             {
                 stopDraw();
@@ -249,8 +251,8 @@ namespace MyPaint
 
         public void refresh()
         {
-            drawControl.shapes.Add(this);
-            canvas.Children.Add(p);
+            layer.shapes.Add(this);
+            layer.canvas.Children.Add(p);
             drawControl.lockDraw();
         }
     }

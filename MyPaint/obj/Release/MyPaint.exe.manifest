@@ -10,22 +10,22 @@
   <trustInfo>
     <security>
       <applicationRequestMinimum>
-        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <PermissionSet version="1" class="System.Security.NamedPermissionSet" Name="LocalIntranet" Description="Default rights given to applications on the local intranet" Unrestricted="true" ID="Custom" SameSite="site" />
         <defaultAssemblyRequest permissionSetReference="Custom" />
       </applicationRequestMinimum>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
-        <!--
-          Možnosti manifestu pro nástroj Řízení uživatelských účtů
-          Pokud chcete změnit úroveň nástroje Řízení uživatelských účtů, nahraďte 
-          uzel requestedExecutionLevel jednou z následujících hodnot.
+        <!-- Možnosti manifestu UAC
+             Pokud chcete změnit úroveň Řízení uživatelských účtů Windows, nahraďte
+             uzel requestedExecutionLevel jedním z následujících.
 
         <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
         <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
         <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
 
-         Pokud chcete využívat virtualizaci souborů a registru pro zpětnou 
-         kompatibilitu, pak uzel requestedExecutionLevel odstraňte.
-    -->
+            Zadáním elementu requestedExecutionLevel se zakáže virtualizace souborů a registru. 
+            Pokud vaše aplikace vyžaduje tuto virtualizaci pro zpětnou kompatibilitu, odeberte
+            tento element.
+        -->
         <requestedExecutionLevel level="asInvoker" uiAccess="false" />
       </requestedPrivileges>
     </security>
@@ -50,38 +50,38 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>NjNswDgLCRVLblHD4lg3FL3YuwM7+Pj6H8nwBhsUwCg=</dsig:DigestValue>
+        <dsig:DigestValue>LdZi5IxWUI4/mgb0jw6vCm2Jg4K/uEFOF0DD5O2s1eU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MyPaint.exe" size="518064">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MyPaint.exe" size="525232">
       <assemblyIdentity name="MyPaint" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>C1MFmIPxCrFZhRdalj3vN7h9914ba9LueOAvp+wuJOs=</dsig:DigestValue>
+        <dsig:DigestValue>6Lrh8dtP3L5VbVpYbaG9VB4660MrbbD91FFqFDtydi8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="js.js" size="3965">
+  <file name="js.js" size="4737">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>P3YSs3jKX+iC2GPk5kWg9ciMCOCPqJR8xsgVG2hEUGY=</dsig:DigestValue>
+      <dsig:DigestValue>G2kuU1TEt3wYeV4cNSq0HP9i2iTWiLusGSN17A7UuEU=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="MyPaint.exe.config" size="189">
+  <file name="MyPaint.exe.config" size="916">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>6N7MliNbVJSIAIPrecIshMbZ7zEoKLr5SQvud4LDUOw=</dsig:DigestValue>
+      <dsig:DigestValue>sdcxyEwo+so7K1Uty+ksKoosicc0LsXMEh6R9rNsXDA=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Wwalczyszyn-Iwindows-Paint.ico" size="229759">
@@ -93,4 +93,21 @@
       <dsig:DigestValue>b8Wn7hioylyVwGOvk+uDM+jkRiW33FWEXwS7z16hcT4=</dsig:DigestValue>
     </hash>
   </file>
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- Seznam verzí Windows, na kterých je tato aplikace testovaná a ve kterých
+           má fungovat. Odstraňte komentář u příslušných elementů a Windows 
+           automaticky vybere nejkompatibilnější prostředí. -->
+      <!-- Windows Vista -->
+      <!--<supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}" />-->
+      <!-- Windows 7 -->
+      <!--<supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}" />-->
+      <!-- Windows 8 -->
+      <!--<supportedOS Id="{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}" />-->
+      <!-- Windows 8.1 -->
+      <!--<supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}" />-->
+      <!-- Windows 10 -->
+      <!--<supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />-->
+    </application>
+  </compatibility>
 </asmv1:assembly>
