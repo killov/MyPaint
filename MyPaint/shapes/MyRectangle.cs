@@ -134,7 +134,7 @@ namespace MyPaint
                 drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));
             });
             drawControl.candraw = false;
-            p1 = new MovePoint(drawControl.topCanvas, this, p.Points[0], (po) =>
+            p1 = new MovePoint(drawControl.topCanvas, this, p.Points[0], drawControl.revScale, (po) =>
             {
                 p.Points[0] = po;
                 p.Points[1] = new Point(po.X, p.Points[1].Y);
@@ -144,7 +144,7 @@ namespace MyPaint
                 p4.move(p.Points[3].X, po.Y);
             });
 
-            p2 = new MovePoint(drawControl.topCanvas, this, p.Points[1], (po) =>
+            p2 = new MovePoint(drawControl.topCanvas, this, p.Points[1], drawControl.revScale, (po) =>
             {
                 p.Points[1] = po;
                 p.Points[0] = new Point(po.X, p.Points[0].Y);
@@ -154,7 +154,7 @@ namespace MyPaint
                 p3.move(p.Points[2].X, po.Y);
             });
 
-            p3 = new MovePoint(drawControl.topCanvas, this, p.Points[2], (po) =>
+            p3 = new MovePoint(drawControl.topCanvas, this, p.Points[2], drawControl.revScale, (po) =>
             {
                 p.Points[2] = po;
                 p.Points[1] = new Point(p.Points[1].X, po.Y);
@@ -164,7 +164,7 @@ namespace MyPaint
                 p2.move(p.Points[1].X, po.Y);
             });
 
-            p4 = new MovePoint(drawControl.topCanvas, this, p.Points[3], (po) =>
+            p4 = new MovePoint(drawControl.topCanvas, this, p.Points[3], drawControl.revScale, (po) =>
             {
                 p.Points[3] = po;
                 p.Points[0] = new Point(p.Points[0].X, po.Y);

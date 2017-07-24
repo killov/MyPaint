@@ -31,15 +31,17 @@ namespace MyPaint
         string path = "";
         bool change = false;
         public MainWindow w;
-        ScaleTransform scale;
+        ScaleTransform scale, revScale;
         Point resolution;
         public bool resolutionDrag = false;
 
         public MainControl(MainWindow ww)
         {
             w = ww;
+            scale = new ScaleTransform(1, 1);
+            revScale = new ScaleTransform(1, 1);
             historyControl = new HistoryControl(this);
-            drawControl = new DrawControl(this, w.canvas, w.res);
+            drawControl = new DrawControl(this, w.canvas, w.res, revScale);
             setDrawShape(MyEnum.LINE);
             setActiveColor(MyEnum.PRIMARY);
             setColor(Brushes.Black);
@@ -48,9 +50,12 @@ namespace MyPaint
             historyControl.clear();
             w.layers.ItemsSource = drawControl.layers;
             TransformGroup g = new TransformGroup();
-            scale = new ScaleTransform(1, 1);
+            
             g.Children.Add(scale);
             w.canvas_out.LayoutTransform = g;
+            g = new TransformGroup();
+            g.Children.Add(revScale);
+            w.resolution.LayoutTransform = g;
         }
 
         public void addLayer()
@@ -83,6 +88,8 @@ namespace MyPaint
         {
             scale.ScaleX = zoom;
             scale.ScaleY = zoom;
+            revScale.ScaleX = 1 / zoom;
+            revScale.ScaleY = 1 / zoom;
         }
 
         public void setResolution(double ws, double hs)

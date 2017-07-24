@@ -123,13 +123,13 @@ namespace MyPaint
             });
 
             drawControl.candraw = false;
-            p1 = new MovePoint(drawControl.topCanvas, this, new Point(l.X1, l.Y1), (p) =>
+            p1 = new MovePoint(drawControl.topCanvas, this, new Point(l.X1, l.Y1), drawControl.revScale, (p) =>
             {
                 lv.X1 = l.X1 = p.X;
                 lv.Y1 = l.Y1 = p.Y;
             });
 
-            p2 = new MovePoint(drawControl.topCanvas, this,  new Point(l.X2, l.Y2), (p) =>
+            p2 = new MovePoint(drawControl.topCanvas, this,  new Point(l.X2, l.Y2), drawControl.revScale, (p) =>
             {
                 lv.X2 = l.X2 = p.X;
                 lv.Y2 = l.Y2 = p.Y;

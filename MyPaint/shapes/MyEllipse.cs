@@ -176,35 +176,41 @@ namespace MyPaint
             });
 
             drawControl.candraw = false;
-            p1 = new MovePoint(drawControl.topCanvas, this, new Point(sx, sy), (po) =>
+            p1 = new MovePoint(drawControl.topCanvas, this, new Point(sx, sy), drawControl.revScale, (po) =>
             {
                 moveS(p, po.X, po.Y);
+                moveS(lv, po.X, po.Y);
                 p1.move(po.X, po.Y);
                 p3.move(ex, sy);
                 p4.move(sx, ey);
             });
 
-            p2 = new MovePoint(drawControl.topCanvas, this, new Point(ex, ey), (po) =>
+            p2 = new MovePoint(drawControl.topCanvas, this, new Point(ex, ey), drawControl.revScale, (po) =>
             {
                 moveE(p, po.X, po.Y);
+                moveE(lv, po.X, po.Y);
                 p2.move(po.X, po.Y);
                 p3.move(ex, sy);
                 p4.move(sx, ey);
             });
 
-            p3 = new MovePoint(drawControl.topCanvas, this, new Point(ex, sy), (po) =>
+            p3 = new MovePoint(drawControl.topCanvas, this, new Point(ex, sy), drawControl.revScale, (po) =>
             {
                 moveE(p, po.X, ey);
                 moveS(p, sx, po.Y);
+                moveE(lv, po.X, ey);
+                moveS(lv, sx, po.Y);
                 p3.move(po.X, po.Y);
                 p1.move(sx, sy);
                 p2.move(ex, ey);
             });
 
-            p4 = new MovePoint(drawControl.topCanvas, this, new Point(sx, ey), (po) =>
+            p4 = new MovePoint(drawControl.topCanvas, this, new Point(sx, ey), drawControl.revScale, (po) =>
             {
                 moveE(p, ex, po.Y);
                 moveS(p, po.X, sy);
+                moveE(lv, ex, po.Y);
+                moveS(lv, po.X, sy);
                 p4.move(po.X, po.Y);
                 p1.move(sx, sy);
                 p2.move(ex, ey);
@@ -246,6 +252,8 @@ namespace MyPaint
             ey += y-Canvas.GetTop(p);
             Canvas.SetLeft(p, x);
             Canvas.SetTop(p, y);
+            Canvas.SetLeft(lv, x);
+            Canvas.SetTop(lv, y);
 
             p1.move(sx, sy);
             p2.move(ex, ey);

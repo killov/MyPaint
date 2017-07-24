@@ -16,15 +16,19 @@ namespace MyPaint
     class MovePoint
     {
         Ellipse el;
+        Canvas ca;
         Canvas canvas;
         MyShape shape;
         double x, y;
         public bool drag = false;
-        int id;
+ 
         posun posun;
-        public MovePoint(Canvas c, MyShape s, Point p, posun pos, int index = -1)
+        public MovePoint(Canvas c, MyShape s, Point p, ScaleTransform revScale, posun pos)
         {
-            id = index;
+            ca = new Canvas();
+            TransformGroup g = new TransformGroup();
+            g.Children.Add(revScale);
+            ca.LayoutTransform = g;
             posun = pos;
             x = p.X;
             y = p.Y;
@@ -34,11 +38,14 @@ namespace MyPaint
             el.Stroke = Brushes.Black;
             el.Width = 10;
             el.Height = 10;
+            ca.Children.Add(el);
             shape = s;
             canvas = c;
-            canvas.Children.Add(el);
-            Canvas.SetTop(el, y-5);
-            Canvas.SetLeft(el, x-5);
+            canvas.Children.Add(ca);
+            Canvas.SetTop(el,-5);
+            Canvas.SetLeft(el,-5);
+            Canvas.SetTop(ca, y);
+            Canvas.SetLeft(ca, x);
 
             el.MouseDown += delegate (object sender, MouseButtonEventArgs e) 
             {
@@ -53,8 +60,8 @@ namespace MyPaint
             {
                 x = e.GetPosition(canvas).X;
                 y = e.GetPosition(canvas).Y;
-                Canvas.SetTop(el, y-5);
-                Canvas.SetLeft(el, x-5);
+                Canvas.SetTop(ca, y);
+                Canvas.SetLeft(ca, x);
 
                 posun(new Point(x, y));
             }
@@ -62,13 +69,13 @@ namespace MyPaint
 
         public void move(double x, double y)
         {
-            Canvas.SetTop(el, y - 5);
-            Canvas.SetLeft(el, x - 5);
+            Canvas.SetTop(ca, y);
+            Canvas.SetLeft(ca, x);
         }
 
         public void delete()
         {
-            canvas.Children.Remove(el);
+            canvas.Children.Remove(ca);
         }
     }
 }

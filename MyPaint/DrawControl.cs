@@ -30,13 +30,15 @@ namespace MyPaint
         MyEnum activeShape;
         public ObservableCollection<MyLayer> layers = new ObservableCollection<MyLayer>();
         public MyLayer selectLayer;
+        public ScaleTransform revScale;
 
-        public DrawControl(MainControl c, Canvas ca, Canvas tc)
+        public DrawControl(MainControl c, Canvas ca, Canvas tc, ScaleTransform revScale)
         {
             control = c;
             canvas = ca;
             topCanvas = tc;
-            resetLayers();    
+            resetLayers();
+            this.revScale = revScale;
         }
 
         public void addLayer()

@@ -174,7 +174,7 @@ namespace MyPaint
 
         void cp(int i)
         {
-            MovePoint mp = new MovePoint(drawControl.topCanvas, this, p.Points[i], (Point po) =>
+            MovePoint mp = new MovePoint(drawControl.topCanvas, this, p.Points[i], drawControl.revScale, (Point po) =>
             {
                 if (i < p.Points.Count) p.Points[i] = po;
             });

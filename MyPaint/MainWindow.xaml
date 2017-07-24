@@ -145,20 +145,20 @@
                     <Canvas ClipToBounds="True" x:Name="canvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="433" VerticalAlignment="Top">
                         <Canvas x:Name="res" Height="433" Width="500" Background="#00000000" MouseUp="poz_mouseDown" />
                     </Canvas>
-                    <Rectangle x:Name="resolution" Height="5" Width="5" Canvas.Left="500" Canvas.Top="433" RenderTransformOrigin="-0.261,0.95" Fill="White" Stroke="Black" MouseDown="resolution_MouseDown" />
+                    <Rectangle x:Name="resolution" Height="10" Width="10" Canvas.Left="500" Canvas.Top="433" RenderTransformOrigin="-0.261,0.95" Fill="White" Stroke="Black" MouseDown="resolution_MouseDown" />
                 </Canvas>
             </Canvas>
             <Grid Background="LightGray" VerticalAlignment="Bottom" Height="26">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition  Width="81"/>
+                    <ColumnDefinition  Width="100"/>
                     <ColumnDefinition Width="71"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Label x:Name="labelPath" Content="" Background="LightGray" Grid.Row="0" Grid.Column="0"/>
-                <Slider x:Name="zoom" Width="71" Grid.Row="0" Style="{StaticResource ZoomSpinButton}" Maximum="200" Minimum="20" Value="100" Background="{x:Null}" LargeChange="10" Margin="0,3,5,4" HorizontalAlignment="Right" Grid.Column="1" ValueChanged="zoom_ValueChanged"/>
+                <Slider x:Name="zoom" Width="85" Grid.Row="0" Style="{StaticResource ZoomSpinButton}" Maximum="200" Minimum="20" Value="100" Background="{x:Null}" LargeChange="10" Margin="0,3,5,4" HorizontalAlignment="Right" Grid.Column="1" ValueChanged="zoom_ValueChanged"/>
                 <Label x:Name="labelResolution" Content="" Grid.Row="0" Grid.Column="2"/>
 
             </Grid>
