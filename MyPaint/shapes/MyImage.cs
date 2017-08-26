@@ -98,6 +98,11 @@ namespace MyPaint
             throw new NotImplementedException();
         }
 
+        public void changeLayer(MyLayer newLayer)
+        {
+            throw new NotImplementedException();
+        }
+
         public void setThickness(double b)
         {
             throw new NotImplementedException();

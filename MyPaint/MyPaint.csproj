@@ -115,8 +115,12 @@
     <Compile Include="file\HTML.cs" />
     <Compile Include="file\JPEG.cs" />
     <Compile Include="file\PNG.cs" />
-    <Compile Include="HistoryControl.cs" />
-    <Compile Include="HistoryNode.cs" />
+    <Compile Include="history\HistoryControl.cs" />
+    <Compile Include="history\HistoryResolution.cs" />
+    <Compile Include="history\HistoryLayerPosition.cs" />
+    <Compile Include="history\HistoryLayerAdd.cs" />
+    <Compile Include="history\HistoryShape.cs" />
+    <Compile Include="history\IHistoryNode.cs" />
     <Compile Include="json\deserialize\Brush.cs" />
     <Compile Include="json\deserialize\Layer.cs" />
     <Compile Include="json\deserialize\LinearGradientStop.cs" />

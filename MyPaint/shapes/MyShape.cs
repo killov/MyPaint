@@ -47,5 +47,7 @@ namespace MyPaint
         void createVirtualShape(MyOnMouseDown mouseDown);
 
         void deleteVirtualShape();
+
+        void changeLayer(MyLayer l);
     }
 }

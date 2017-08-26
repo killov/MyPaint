@@ -32,7 +32,7 @@ namespace MyPaint
         bool change = false;
         public MainWindow w;
         ScaleTransform scale, revScale;
-        Point resolution;
+        public Point resolution;
         public bool resolutionDrag = false;
 
         public MainControl(MainWindow ww)
@@ -112,10 +112,9 @@ namespace MyPaint
             if (!saveDialog()) return;            
             setPath("");
             change = false;
-            setResolution(500, 400);
+            setResolution(500, 400);     
+            drawControl.clear();
             historyControl.clear();
-            drawControl.clear();  
-            
         }
 
         
@@ -183,11 +182,12 @@ namespace MyPaint
             if (!saveDialog()) return;
             Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.DefaultExt = ".html";
-            dialog.Filter = "Soubory HTML (*.html)|*.html|Soubory png (*.png)|*.png|Soubory JPEG (*.jpg)|*.jpg";
+            dialog.Filter = "Všechny podporované |*.html;*.png;*.jpg|Soubory HTML (*.html)|*.html|Soubory PNG (*.png)|*.png|Soubory JPEG (*.jpg)|*.jpg";
             Nullable<bool> result = dialog.ShowDialog();
             if (result == true)
             {
                 drawControl.clearCanvas();
+                historyControl.clear();
                 string filename = dialog.FileName;
 
                 Regex r = new Regex("\\.[a-zA-Z0-9]+$");
@@ -360,7 +360,7 @@ namespace MyPaint
             drawControl.mouseDown(e); 
         }
 
-        public void addHistory(MyShape s)
+        public void addHistory(IHistoryNode s)
         {
             historyControl.add(s);
         }

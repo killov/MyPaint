@@ -223,8 +223,11 @@ namespace MyPaint
             control.setColor(CB.Brush);
         }
 
+        private Point oldR;
+
         private void resolution_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            oldR = control.resolution;
             control.resolutionDrag = true;
         }
 
@@ -241,6 +244,7 @@ namespace MyPaint
             if (control.resolutionDrag)
             {
                 control.resolutionDrag = false;
+                control.addHistory(new HistoryResolution(control, oldR, control.resolution));
             }
         }
 
@@ -278,6 +282,25 @@ namespace MyPaint
         private void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (control != null)  control.setZoom(e.NewValue/100);
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_layer_down_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            MyLayer l = button.DataContext as MyLayer;
+            l.down();
+        }
+
+        private void Button_layer_up_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            MyLayer l = button.DataContext as MyLayer;
+            l.up();
         }
     }
 }

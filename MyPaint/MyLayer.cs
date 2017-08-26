@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace MyPaint
@@ -26,9 +27,26 @@ namespace MyPaint
             }
         }
 
+        public bool IsNotFirst
+        {
+            get
+            {
+                return drawControl.layers.First() != this;
+            }
+        }
+
+        public bool IsNotLast
+        {
+            get
+            {
+                return drawControl.layers.Last() != this;
+            }
+        }
+
         Canvas cv;
         public Canvas canvas;
         public Brush color;
+        private DrawControl drawControl;
         public List<MyShape> shapes = new List<MyShape>();
 
         public MyLayer(Canvas c, DrawControl dc)
@@ -37,7 +55,9 @@ namespace MyPaint
             canvas = new Canvas();
             cv.Children.Add(canvas);
             setResolution(dc.resolution);
+            drawControl = dc;
         }
+
 
         public MyLayer(Canvas c, DrawControl dc, jsonDeserialize.Layer layer)
         {
@@ -45,6 +65,7 @@ namespace MyPaint
             canvas = new Canvas();
             cv.Children.Add(canvas);
             setResolution(dc.resolution);
+            drawControl = dc;
             visible = layer.visible;
             setColor(layer.color == null ? null : layer.color.createBrush());
             foreach (var shape in layer.shapes)
@@ -70,7 +91,8 @@ namespace MyPaint
             }
         }
 
-        public void setResolution(Point res)
+
+    public void setResolution(Point res)
         {
             canvas.Width = res.X;
             canvas.Height = res.Y;
@@ -106,6 +128,45 @@ namespace MyPaint
                 la.shapes.Add(shape.renderShape());
             }
             return la;
+        }
+
+        public void up()
+        {
+            int i = drawControl.layers.IndexOf(this);
+            if (i > 0)
+            {
+                setPosition(i - 1);
+                drawControl.control.addHistory(new HistoryLayerPosition(this, i, i - 1));
+            }
+        }
+
+        public void down()
+        {
+            int i = drawControl.layers.IndexOf(this);
+            if (i < drawControl.layers.Count - 1)
+            {
+                setPosition(i + 1);
+                drawControl.control.addHistory(new HistoryLayerPosition(this, i, i + 1));
+            }
+        }
+
+        public void setPosition(int i)
+        {
+            drawControl.layers.Move(drawControl.layers.IndexOf(this), i);
+            cv.Children.Remove(canvas);
+            cv.Children.Insert(i, canvas);
+        }
+
+        public void remove()
+        {
+            drawControl.layers.Remove(this);
+            cv.Children.Remove(canvas);
+        }
+
+        public void add()
+        {
+            drawControl.layers.Add(this);
+            cv.Children.Add(canvas);
         }
     }
 }

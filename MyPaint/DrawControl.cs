@@ -31,6 +31,7 @@ namespace MyPaint
         public ObservableCollection<MyLayer> layers = new ObservableCollection<MyLayer>();
         public MyLayer selectLayer;
         public ScaleTransform revScale;
+        private int layerCounter = 1;
 
         public DrawControl(MainControl c, Canvas ca, Canvas tc, ScaleTransform revScale)
         {
@@ -43,9 +44,12 @@ namespace MyPaint
 
         public void addLayer()
         {
-            layers.Add(new MyLayer(canvas, this) { Name = "ahoj", visible = true });
+            MyLayer layer = new MyLayer(canvas, this) { Name = "layer_" + layerCounter, visible = true };
+            layers.Add(layer);
+            layerCounter++;
             setActiveLayer(layers.Count - 1);
             lockDraw();
+            control.addHistory(new HistoryLayerAdd(layer));
         }
 
         public void resetLayers()
@@ -54,6 +58,7 @@ namespace MyPaint
             {
                 l.delete();
             }
+            layerCounter = 1;
             layers.Clear();
             addLayer();
         }
@@ -64,6 +69,7 @@ namespace MyPaint
             control.w.layers.SelectedIndex = i;
             selectLayer = layers[i];
             control.setBackgroundColor(selectLayer.color);
+            if (shape != null) shape.changeLayer(selectLayer);
         }
 
         public void setResolution(Point res)
@@ -176,7 +182,7 @@ namespace MyPaint
                         shape = new MyPolygon(this, selectLayer);
                         break;
                 }
-                control.addHistory(shape);
+                control.addHistory(new HistoryShape(shape));
                 shape.setPrimaryColor(primaryColor);
                 shape.setSecondaryColor(secondaryColor);
                 shape.setThickness(thickness);

@@ -61,6 +61,15 @@ namespace MyPaint
             p.Fill = s;
         }
 
+        public void changeLayer(MyLayer newLayer)
+        {
+            layer.canvas.Children.Remove(p);
+            layer.shapes.Remove(this);
+            layer = newLayer;
+            layer.canvas.Children.Add(p);
+            layer.shapes.Add(this);
+        }
+
         public void setThickness(double s)
         {
             p.StrokeThickness = s;

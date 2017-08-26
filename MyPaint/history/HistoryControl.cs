@@ -9,8 +9,8 @@ namespace MyPaint
     public class HistoryControl
     {
         MainControl control;
-        Stack<HistoryNode> backStack = new Stack<HistoryNode>();
-        Stack<HistoryNode> forwardStack = new Stack<HistoryNode>();
+        Stack<IHistoryNode> backStack = new Stack<IHistoryNode>();
+        Stack<IHistoryNode> forwardStack = new Stack<IHistoryNode>();
 
         public HistoryControl(MainControl c)
         {
@@ -24,9 +24,9 @@ namespace MyPaint
             redraw();
         }
 
-        public void add(MyShape s)
+        public void add(IHistoryNode node)
         {
-            backStack.Push(new HistoryNode(s));
+            backStack.Push(node);
             forwardStack.Clear();
             redraw();
         }
@@ -35,7 +35,7 @@ namespace MyPaint
         {
             if (backStack.Count > 0)
             {
-                HistoryNode node = backStack.Pop();
+                IHistoryNode node = backStack.Pop();
                 node.back();
                 forwardStack.Push(node);
             }
@@ -46,7 +46,7 @@ namespace MyPaint
         {
             if (forwardStack.Count > 0)
             {
-                HistoryNode node = forwardStack.Pop();
+                IHistoryNode node = forwardStack.Pop();
                 node.forward();
                 backStack.Push(node);
             }

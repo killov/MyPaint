@@ -55,14 +55,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MyPaint.exe" size="525232">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MyPaint.exe" size="528816">
       <assemblyIdentity name="MyPaint" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>nW4HMwSpOzUF7S+XSeIGAQTTrT4t9hXoeiPtTU7BWIk=</dsig:DigestValue>
+        <dsig:DigestValue>zEfzafxUMePjenUA0wx9XmPJmTkv+f8BDTy/bU++CP0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
