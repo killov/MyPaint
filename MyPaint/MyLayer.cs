@@ -64,6 +64,7 @@ namespace MyPaint
             cv = c;
             canvas = new Canvas();
             cv.Children.Add(canvas);
+            Name = layer.name;
             setResolution(dc.resolution);
             drawControl = dc;
             visible = layer.visible;
@@ -122,6 +123,7 @@ namespace MyPaint
             jsonSerialize.Layer la = new jsonSerialize.Layer();
             la.color = Utils.BrushToCanvas(color);
             la.visible = visible;
+            la.name = Name;
             la.shapes = new List<jsonSerialize.Shape>();
             foreach (var shape in shapes)
             {
@@ -167,6 +169,46 @@ namespace MyPaint
         {
             drawControl.layers.Add(this);
             cv.Children.Add(canvas);
+        }
+
+        public void setSelectable()
+        {
+            foreach(var shape in shapes)
+            {
+                shape.createVirtualShape((e, s) =>
+                {
+                    setShapeSelect(e, s);
+                });
+            }
+        }
+
+        public void setShapeSelect(MouseButtonEventArgs e, MyShape shape)
+        {
+            shape.deleteVirtualShape();
+            if (drawControl.shape != null)
+            {
+                drawControl.shape.stopDraw();
+                setShapeSelectable(drawControl.shape);  
+            }
+            drawControl.shape = shape;
+            shape.setActive();
+            shape.startMove(e);
+        }
+
+        public void setShapeSelectable(MyShape shape)
+        {
+            shape.createVirtualShape((ee, s) =>
+            {
+                setShapeSelect(ee, s);
+            });
+        }
+
+        public void unsetSelectable()
+        {
+            foreach (var shape in shapes)
+            {
+                shape.deleteVirtualShape();
+            }
         }
     }
 }

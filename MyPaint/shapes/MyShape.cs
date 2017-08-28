@@ -49,5 +49,9 @@ namespace MyPaint
         void deleteVirtualShape();
 
         void changeLayer(MyLayer l);
+
+        void setActive();
+
+        void startMove(MouseButtonEventArgs e);
     }
 }

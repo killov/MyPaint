@@ -129,12 +129,12 @@ namespace MyPaint
 
         private void cara_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(MyEnum.LINE);
+            control.setTool(MyEnum.LINE);
         }
 
         private void obdelnik_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(MyEnum.RECT);
+            control.setTool(MyEnum.RECT);
         }
 
         private void poz_mouseDown(object sender, MouseButtonEventArgs e)
@@ -144,7 +144,7 @@ namespace MyPaint
 
         private void elipsa_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(MyEnum.ELLIPSE);
+            control.setTool(MyEnum.ELLIPSE);
         }
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -160,7 +160,7 @@ namespace MyPaint
 
         private void polygon_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(MyEnum.POLYGON);
+            control.setTool(MyEnum.POLYGON);
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -173,24 +173,29 @@ namespace MyPaint
 
         }
 
+        private void button_select_Click(object sender, RoutedEventArgs e)
+        {
+            control.setTool(MyEnum.SELECT);
+        }
+
         private void button_line_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(MyEnum.LINE);
+            control.setTool(MyEnum.LINE);
         }
 
         private void button_ellipse_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(MyEnum.ELLIPSE);
+            control.setTool(MyEnum.ELLIPSE);
         }
 
         private void button_rectangle_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(MyEnum.RECT);
+            control.setTool(MyEnum.RECT);
         }
 
         private void button_polygon_Click(object sender, RoutedEventArgs e)
         {
-            control.setDrawShape(MyEnum.POLYGON);
+            control.setTool(MyEnum.POLYGON);
         }
 
         private void primaryColor_MouseDown(object sender, MouseButtonEventArgs e)

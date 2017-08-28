@@ -57,11 +57,17 @@ namespace MyPaint
 
         public void changeLayer(MyLayer newLayer)
         {
-            layer.canvas.Children.Remove(l);
-            layer.shapes.Remove(this);
+            if (layer != null)
+            {
+                layer.canvas.Children.Remove(l);
+                layer.shapes.Remove(this);
+            }
             layer = newLayer;
-            layer.canvas.Children.Add(l);
-            layer.shapes.Add(this);
+            if (layer != null)
+            {
+                layer.canvas.Children.Add(l);
+                layer.shapes.Add(this);
+            }
         }
 
         public void setThickness(double s)
@@ -93,7 +99,7 @@ namespace MyPaint
         public void mouseUp(MouseButtonEventArgs e)
         {
             drawControl.draw = false;           
-            createPoints();
+            setActive();
             drawControl.lockDraw();
             
         }
@@ -123,8 +129,13 @@ namespace MyPaint
             lv = null;
         }
 
+        public void startMove(MouseButtonEventArgs e)
+        {
+            drawControl.startMoveShape(new Point(l.X1, l.Y1), e.GetPosition(layer.canvas));
+        }
+
         MovePoint p1, p2;
-        void createPoints()
+        public void setActive()
         {
             createVirtualShape((e, s) =>
             {

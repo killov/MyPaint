@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace MyPaint.jsonDeserialize
 {
-    public class Layer
+    public class GradientStop
     {
         public Brush color;
-        public bool visible;
-        public string name;
-        public Shape[] shapes;
+        public double offset;
     }
 }

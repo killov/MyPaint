@@ -19,7 +19,7 @@ namespace MyPaint
 {
     public enum MyEnum
     {
-        LINE, RECT, ELLIPSE, POLYGON, PRIMARY, SECONDARY, BACKGROUND
+        SELECT, LINE, RECT, ELLIPSE, POLYGON, PRIMARY, SECONDARY, BACKGROUND
     }
 
     public class MainControl
@@ -42,7 +42,7 @@ namespace MyPaint
             revScale = new ScaleTransform(1, 1);
             historyControl = new HistoryControl(this);
             drawControl = new DrawControl(this, w.canvas, w.res, revScale);
-            setDrawShape(MyEnum.LINE);
+            setTool(MyEnum.LINE);
             setActiveColor(MyEnum.PRIMARY);
             setColor(Brushes.Black);
             setThickness(1);
@@ -139,6 +139,18 @@ namespace MyPaint
             }
         }
 
+        public void setPrimaryColor(Brush c)
+        {
+            if (activeColor == MyEnum.PRIMARY) setCB(c);
+            w.primaryColor.Fill = c;
+        }
+
+        public void setSecondaryColor(Brush c)
+        {
+            if (activeColor == MyEnum.SECONDARY) setCB(c);
+            w.secondaryColor.Fill = c;
+        }
+
         public void setBackgroundColor(Brush c)
         {
             if (activeColor == MyEnum.BACKGROUND) setCB(c);
@@ -182,7 +194,7 @@ namespace MyPaint
             if (!saveDialog()) return;
             Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.DefaultExt = ".html";
-            dialog.Filter = "Všechny podporované |*.html;*.png;*.jpg|Soubory HTML (*.html)|*.html|Soubory PNG (*.png)|*.png|Soubory JPEG (*.jpg)|*.jpg";
+            dialog.Filter = "Všechny podporované |*.html;*.png;*.jpg;*.bmp|Soubory HTML (*.html)|*.html|Soubory PNG (*.png)|*.png|Soubory JPEG (*.jpg)|*.jpg|Soubory BMP (*.bmp)|*.bmp";
             Nullable<bool> result = dialog.ShowDialog();
             if (result == true)
             {
@@ -196,11 +208,13 @@ namespace MyPaint
                 switch (suffix)
                 {
                     case ".html":
-                    case ".htm":
                         file.HTML.open(drawControl, filename);
                         break;
                     case ".jpg":
                         file.JPEG.open(drawControl, filename);
+                        break;
+                    case ".bmp":
+                        file.BMP.open(drawControl, filename);
                         break;
                     case ".png":
                     default:
@@ -221,7 +235,7 @@ namespace MyPaint
         { 
             Microsoft.Win32.SaveFileDialog dialog = new Microsoft.Win32.SaveFileDialog();
             dialog.DefaultExt = ".html";
-            dialog.Filter = "Soubory HTML (*.html)|*.html|Soubory png (*.png)|*.png";
+            dialog.Filter = "Soubory HTML (*.html)|*.html|Soubory PNG (*.png)|*.png|Soubory JPEG (*.jpg)|*.jpg|Soubory BMP (*.bmp)|*.bmp";
             Nullable<bool> result = dialog.ShowDialog();
             if (result == true)
             {
@@ -252,6 +266,9 @@ namespace MyPaint
                         break;
                     case ".jpg":
                         file.JPEG.save(drawControl, path);
+                        break;
+                    case ".bmp":
+                        file.BMP.save(drawControl, path);
                         break;
                     default:
                     case ".png":
@@ -328,16 +345,20 @@ namespace MyPaint
             setCB(getColor());
         }
 
-        public void setDrawShape(MyEnum s)
+        public void setTool(MyEnum s)
         {
             Style def = w.FindResource("MyButton") as Style;
             Style act = w.FindResource("MyButtonActive") as Style;
+            w.button_select.Style = def;
             w.button_line.Style = def;
             w.button_rectangle.Style = def;
             w.button_ellipse.Style = def;
             w.button_polygon.Style = def;
             switch (s)
             {
+                case MyEnum.SELECT:
+                    w.button_select.Style = act;
+                    break;
                 case MyEnum.LINE:
                     w.button_line.Style = act;
                     break;
@@ -351,8 +372,8 @@ namespace MyPaint
                     w.button_polygon.Style = act;
                     break;
             }
-            drawControl.secActiveShape(s);
             drawControl.stopDraw();
+            drawControl.secActiveShape(s); 
         }
 
         public void mouseDown(MouseButtonEventArgs e)

@@ -67,6 +67,12 @@ namespace MyPaint
         {
             if (i == -1) return;
             control.w.layers.SelectedIndex = i;
+            if(activeShape == MyEnum.SELECT)
+            {
+                if (shape != null) shape.changeLayer(null);
+                if(selectLayer != null) selectLayer.unsetSelectable();
+                layers[i].setSelectable();
+            }
             selectLayer = layers[i];
             control.setBackgroundColor(selectLayer.color);
             if (shape != null) shape.changeLayer(selectLayer);
@@ -138,11 +144,20 @@ namespace MyPaint
                 shape.delete();
                 draw = false;
                 candraw = true;
+                shape = null;
             }
         }
 
         public void secActiveShape(MyEnum s)
         {
+            if(s == MyEnum.SELECT)
+            {
+                selectLayer.setSelectable();
+            }
+            else
+            {
+                selectLayer.unsetSelectable();    
+            }
             activeShape = s;
         }
 
@@ -156,7 +171,12 @@ namespace MyPaint
             {
                 if (!shape.hitTest())
                 {
+                    MyShape sh = shape;
                     stopDraw();
+                    if (activeShape == MyEnum.SELECT)
+                    {
+                        selectLayer.setShapeSelectable(sh);
+                    }
                     startDraw(e);
                 }
             }
@@ -164,7 +184,7 @@ namespace MyPaint
 
         void startDraw(MouseButtonEventArgs e)
         {
-            if (!draw)
+            if (!draw && activeShape != MyEnum.SELECT)
             {
                 control.setChange(true);
                 switch (activeShape)

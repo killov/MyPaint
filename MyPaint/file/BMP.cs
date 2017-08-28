@@ -4,27 +4,27 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace MyPaint.file
 {
-    class PNG
+    class BMP
     {
         public static void open(DrawControl dc, string filename)
         {
-            MemoryStream memoStream = new MemoryStream();
-            using (FileStream fs = File.OpenRead(@filename))
+  
+            using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                fs.CopyTo(memoStream);
-                BitmapImage bmi = new BitmapImage();
-                bmi.BeginInit();
-                bmi.StreamSource = memoStream;
-                bmi.EndInit();
+                BmpBitmapDecoder decoder = new BmpBitmapDecoder(fs, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+                BitmapSource bmi = decoder.Frames[0];
+                
+
                 ImageBrush brush = new ImageBrush(bmi);
                 dc.control.setResolution(bmi.Width, bmi.Height);
-                dc.selectLayer.shapes.Add(new MyImage(dc, dc.selectLayer, brush, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
-                fs.Close();
+                dc.selectLayer.shapes.Add(new MyImage(dc, dc.selectLayer, brush, new System.Windows.Point(0,0), bmi.Width, bmi.Height));
+  
             }
         }
 
@@ -33,7 +33,7 @@ namespace MyPaint.file
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)dc.resolution.X,
                 (int)dc.resolution.Y, 96, 96, PixelFormats.Default);
             rtb.Render(dc.canvas);
-            BitmapEncoder encoder = new PngBitmapEncoder();
+            BitmapEncoder encoder = new BmpBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(rtb));
             using (var fs = File.OpenWrite(@filename))
             {

@@ -10,6 +10,7 @@ namespace MyPaint.jsonSerialize
     {
         public Brush color;
         public bool visible;
+        public string name;
         public List<Shape> shapes;
     }
 }

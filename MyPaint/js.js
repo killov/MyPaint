@@ -6,6 +6,9 @@ function draw(i, j) {
         ctx.rect(0, 0, json.resolution.x, json.resolution.y);
         ctx.fillStyle = brush(json.layers[i].color, { x: 0, y: 0 }, json.resolution.x, json.resolution.y);
         ctx.fill();
+        if (!json.layers[i].visible) {
+            i++;
+        }
         draw(i, 0);
     } else {
         if (json.layers[i].shapes.length <= j) {
@@ -106,6 +109,13 @@ function brush(b, A, w, h) {
             return 'rgba(' + b.R + ',' + b.G + ',' + b.B + ',' + (b.A / 255.0).toString().replace(',', '.') + ')';
         case 'LG':
             var grd = ctx.createLinearGradient(A.x + b.S.x * w, A.y + b.S.y * h, A.x + b.E.x * w, A.y + b.E.y * h);
+            for (var i in b.stops) {
+                grd.addColorStop(b.stops[i].offset, brush(b.stops[i].color));
+            }
+            return grd;
+        case 'RG':
+            var grd = ctx.createRadialGradient(A.x + b.E.x * w, A.y + b.E.y * h, 0, A.x + b.E.x * w, A.y + b.E.y * h, w / 2);
+
             for (var i in b.stops) {
                 grd.addColorStop(b.stops[i].offset, brush(b.stops[i].color));
             }

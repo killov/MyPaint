@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace MyPaint
 {
-    public class HistoryShapeMove : IHistoryNode
+    public class HistoryShape : IHistoryNode
     {
         public MyShape shape;
-        public HistoryShapeMove(MyShape s)
+        public HistoryShape(MyShape s)
         {
             shape = s;
         }

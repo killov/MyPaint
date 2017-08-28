@@ -36,32 +36,30 @@
 
             <Canvas Grid.Row="0" Height="58" VerticalAlignment="Top">
 
-                <Button Style="{StaticResource MyButtonActive}" x:Name="button_line" Canvas.Left="10" Canvas.Top="10" Width="40" Height="40" Click="button_line_Click" ForceCursor="True" Margin="0">
-                    <Button.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="Black" Offset="0"/>
-                            <GradientStop Color="#FFE82020" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Button.Background>
+                <Button Style="{StaticResource MyButton}" x:Name="button_select" Canvas.Left="7" Canvas.Top="10" Width="40" Height="40" Click="button_select_Click" ForceCursor="True" Margin="0">
+                    <Path Fill="Black" Data="M0,0 L4,3 L2,2.5 L3,4 L2,4 L1,2.5 0,3z" Width="13" Height="20" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button>
+                <Button Style="{StaticResource MyButtonActive}" x:Name="button_line" Canvas.Left="52" Canvas.Top="10" Width="40" Height="40" Click="button_line_Click" ForceCursor="True" Margin="0">
                     <Line X1="0" Y1="0" X2="25" Y2="25" Stroke="Black" StrokeThickness="3" Height="25" Width="25"/>
                 </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_ellipse" Canvas.Left="55" Canvas.Top="10" Width="40" Height="40" Click="button_ellipse_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_ellipse" Canvas.Left="97" Canvas.Top="10" Width="40" Height="40" Click="button_ellipse_Click" Margin="0">
                     <Ellipse StrokeThickness="3" HorizontalAlignment="Left" Height="20" Stroke="Black" VerticalAlignment="Top" Width="14"/>
                 </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_rectangle" Canvas.Left="100" Canvas.Top="10" Width="40" Height="40" Click="button_rectangle_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_rectangle" Canvas.Left="142" Canvas.Top="10" Width="40" Height="40" Click="button_rectangle_Click" Margin="0">
                     <Rectangle Width="23" Height="18" Stroke="Black" StrokeThickness="3" />
                 </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_polygon" Canvas.Left="145" Canvas.Top="10" Width="40" Height="40" Click="button_polygon_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_polygon" Canvas.Left="187" Canvas.Top="10" Width="40" Height="40" Click="button_polygon_Click" Margin="0">
                     <Polygon Points="3,3 3,20 10,10 18,12 16,5" Stroke="Black" StrokeThickness="3" Height="25" Width="21"  />
                 </Button>
 
-                <Button Style="{StaticResource MyButton}" x:Name="button_back" Canvas.Left="241" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_back_Click">
+                <Button Style="{StaticResource MyButton}" x:Name="button_back" Canvas.Left="283" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_back_Click">
                     <Path x:Name="back" Fill="#FF2343B0" Data="M0,1 L1,0 L1,0.5 L2,0.5 L2,1.5 L1,1.5 1,2z" Width="18" Height="17.5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
 
-                <Button Style="{StaticResource MyButton}" x:Name="button_forward" Canvas.Left="286" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_forward_Click">
+                <Button Style="{StaticResource MyButton}" x:Name="button_forward" Canvas.Left="328" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_forward_Click">
                     <Path x:Name="forward" Fill="#FF2343B0" Data="M2,1 L1,0 L1,0.5 L0,0.5 L0,1.5 L1,1.5 1,2z" Width="18" Height="17.5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
+
 
 
             </Canvas>

@@ -10,6 +10,6 @@ namespace MyPaint.jsonSerialize
     {
         public string type = "LG";
         public Point S, E;
-        public List<LinearGradientStop> stops;
+        public List<GradientStop> stops;
     }
 }

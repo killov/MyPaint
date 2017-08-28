@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MyPaint.jsonSerialize
 {
-    public class LinearGradientStop
+    public class RadialGradient : Brush
     {
-        public Color color;
-        public double offset;
+        public string type = "RG";
+        public Point S, E, RA;
+        public List<GradientStop> stops;
     }
 }
