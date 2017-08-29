@@ -46,7 +46,6 @@ namespace MyPaint
 
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
-            layer.shapes.Add(this);
         }
 
         public void setPrimaryColor(Brush s)
@@ -149,6 +148,9 @@ namespace MyPaint
         MovePoint p1, p2, p3, p4;
         public void setActive()
         {
+            drawControl.control.setPrimaryColor(primaryColor);
+            drawControl.control.setSecondaryColor(secondaryColor);
+            drawControl.control.setThickness(thickness);
             createVirtualShape((e, s) =>
             {
                 drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));

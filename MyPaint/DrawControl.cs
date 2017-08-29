@@ -14,7 +14,7 @@ namespace MyPaint
     public class DrawControl
     {
         public MainControl control;
-        public Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+        public Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
         public Canvas canvas;
         public Canvas topCanvas;
         public Brush primaryColor, secondaryColor;
@@ -54,13 +54,18 @@ namespace MyPaint
 
         public void resetLayers()
         {
-            foreach(var l in layers)
+            layerCounter = 1;
+            deleteLayers();
+            addLayer();
+        }
+
+        public void deleteLayers()
+        {
+            foreach (var l in layers)
             {
                 l.delete();
             }
-            layerCounter = 1;
             layers.Clear();
-            addLayer();
         }
 
         public void setActiveLayer(int i)
@@ -148,21 +153,29 @@ namespace MyPaint
             }
         }
 
-        public void secActiveShape(MyEnum s)
+        public void setActiveShape(MyEnum s)
         {
-            if(s == MyEnum.SELECT)
+            if(selectLayer != null)
             {
-                selectLayer.setSelectable();
-            }
-            else
-            {
-                selectLayer.unsetSelectable();    
+                if (s == MyEnum.SELECT)
+                {
+                    selectLayer.unsetSelectable();
+                    selectLayer.setSelectable();
+                }
+                else
+                {
+                    selectLayer.unsetSelectable();
+                }
             }
             activeShape = s;
         }
 
         public void mouseDown(MouseButtonEventArgs e)
         {
+            if(selectLayer == null)
+            {
+                return;
+            }
             if (candraw)
             {
                 startDraw(e);

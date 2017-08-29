@@ -118,7 +118,8 @@
                             <Grid Margin="0,2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="18" />
-                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="20" />
                                     <ColumnDefinition Width="20" />
                                     <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
@@ -129,6 +130,9 @@
                                 </Button>
                                 <Button Grid.Column="3" Click="Button_layer_up_Click">
                                     <Path Fill="Black" Data="M0,1 L2,1 1,0z" Width="10" Height="5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Button>
+                                <Button Grid.Column="4" Click="Button_layer_delete_Click">
+                                    X
                                 </Button>
                             </Grid>
                         </DataTemplate>

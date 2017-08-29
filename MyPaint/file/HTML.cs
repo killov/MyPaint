@@ -23,7 +23,7 @@ namespace MyPaint.file
                 Regex r = new Regex("var json = (.+);");
                 string json = r.Matches(code)[0].Groups[1].ToString();
                 jsonDeserialize.Picture pic = (jsonDeserialize.Picture)new JavaScriptSerializer().Deserialize(json, typeof(jsonDeserialize.Picture));
-                dc.layers.Clear();
+                dc.deleteLayers();
                 foreach (var l in pic.layers)
                 {
                     dc.layers.Add(new MyLayer(dc.canvas, dc, l));

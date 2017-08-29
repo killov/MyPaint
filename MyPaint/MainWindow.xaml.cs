@@ -307,5 +307,12 @@ namespace MyPaint
             MyLayer l = button.DataContext as MyLayer;
             l.up();
         }
+
+        private void Button_layer_delete_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            MyLayer l = button.DataContext as MyLayer;
+            l.remove();
+        }
     }
 }

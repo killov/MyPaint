@@ -53,6 +53,7 @@ namespace MyPaint
         {
             cv = c;
             canvas = new Canvas();
+            canvas.Name = Name;
             cv.Children.Add(canvas);
             setResolution(dc.resolution);
             drawControl = dc;
@@ -65,6 +66,7 @@ namespace MyPaint
             canvas = new Canvas();
             cv.Children.Add(canvas);
             Name = layer.name;
+            canvas.Name = layer.name;
             setResolution(dc.resolution);
             drawControl = dc;
             visible = layer.visible;
@@ -163,6 +165,13 @@ namespace MyPaint
         {
             drawControl.layers.Remove(this);
             cv.Children.Remove(canvas);
+            unsetSelectable();
+            if(drawControl.selectLayer == this)
+            {
+                drawControl.stopDraw();
+                drawControl.selectLayer = null;
+            }
+            
         }
 
         public void add()

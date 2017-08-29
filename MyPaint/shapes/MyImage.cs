@@ -33,8 +33,6 @@ namespace MyPaint
             p.Points.Add(new Point(start.X + w, start.Y + h));
             p.Points.Add(new Point(start.X+w, start.Y));
             
-            
-
             p.Fill = im;
             layer.canvas.Children.Add(p);
         }
@@ -186,7 +184,8 @@ namespace MyPaint
             
             string base64String = Convert.ToBase64String(f);
             jsonSerialize.Image ret = new jsonSerialize.Image();
-            ret.A = new jsonSerialize.Point(0, 0);
+            ret.A = new jsonSerialize.Point(p.Points[0].X, p.Points[0].Y);
+            ret.B = new jsonSerialize.Point(p.Points[2].X, p.Points[2].Y);
             ret.b64 = base64String;
             return ret;
         }

@@ -142,12 +142,14 @@ namespace MyPaint
         public void setPrimaryColor(Brush c)
         {
             if (activeColor == MyEnum.PRIMARY) setCB(c);
+            drawControl.setPrimaryColor(c);
             w.primaryColor.Fill = c;
         }
 
         public void setSecondaryColor(Brush c)
         {
             if (activeColor == MyEnum.SECONDARY) setCB(c);
+            drawControl.setSecondaryColor(c);
             w.secondaryColor.Fill = c;
         }
 
@@ -159,7 +161,7 @@ namespace MyPaint
 
         void setCB(Brush color)
         {
-            if (color!= null && color is SolidColorBrush)
+            if (color != null && color is SolidColorBrush)
                 color.Freeze();
             w.CB.Brush = color;
         }
@@ -182,6 +184,7 @@ namespace MyPaint
         public void setThickness(double t)
         {
             drawControl.setThickness(t);
+            w.thickness.Value = t;
         }
 
         public void stopDraw()
@@ -373,7 +376,7 @@ namespace MyPaint
                     break;
             }
             drawControl.stopDraw();
-            drawControl.secActiveShape(s); 
+            drawControl.setActiveShape(s); 
         }
 
         public void mouseDown(MouseButtonEventArgs e)
