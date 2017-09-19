@@ -284,5 +284,10 @@ namespace MyPaint
             layer.canvas.Children.Add(p);
             drawControl.lockDraw();
         }
+
+        public Point getPosition()
+        {
+            return p.Points[0];
+        }
     }
 }

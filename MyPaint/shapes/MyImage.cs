@@ -270,5 +270,10 @@ namespace MyPaint
         {
             drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));
         }
+
+        public Point getPosition()
+        {
+            return p.Points[0];
+        }
     }
 }

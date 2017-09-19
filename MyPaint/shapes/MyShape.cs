@@ -53,5 +53,7 @@ namespace MyPaint
         void setActive();
 
         void startMove(MouseButtonEventArgs e);
+
+        Point getPosition();
     }
 }

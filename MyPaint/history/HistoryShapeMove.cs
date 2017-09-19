@@ -3,25 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MyPaint
 {
-    public class HistoryShape : IHistoryNode
+    public class HistoryShapeMove : IHistoryNode
     {
         public MyShape shape;
-        public HistoryShape(MyShape s)
+        Point o, n;
+        public HistoryShapeMove(MyShape s, Point oldPosition, Point newPosiotion)
         {
             shape = s;
+            o = oldPosition;
+            n = newPosiotion;
         }
 
         public void back()
         {
-            shape.delete();
+            shape.moveShape(o.X, o.Y);
         }
 
         public void forward()
         {
-            shape.refresh();
+            shape.moveShape(n.X, n.Y);
         }
     }
 }

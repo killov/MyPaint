@@ -249,10 +249,11 @@ namespace MyPaint
             {
                 shape.mouseUp(e);
             }
-            if (!candraw)
+            else if (!candraw)
             {
                 shape.stopDrag();
                 drag = false;
+                control.addHistory(new HistoryShapeMove(shape, posunStart, shape.getPosition()));
             }
         }
 

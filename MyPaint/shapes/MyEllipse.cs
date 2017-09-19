@@ -325,5 +325,10 @@ namespace MyPaint
             drawControl.lockDraw();
         }
 
+        public Point getPosition()
+        {
+            return new Point(Canvas.GetLeft(p), Canvas.GetTop(p));
+        }
+
     }
 }

@@ -99,8 +99,7 @@ namespace MyPaint
         {
             drawControl.draw = false;           
             setActive();
-            drawControl.lockDraw();
-            
+            drawControl.lockDraw(); 
         }
 
         public void createVirtualShape(MyOnMouseDown mouseDown)
@@ -186,6 +185,11 @@ namespace MyPaint
             lv.Y1 = l.Y1 = y;
             p1.move(l.X1, l.Y1);
             p2.move(l.X2, l.Y2);
+        }
+
+        public Point getPosition()
+        {
+            return new Point(l.X1, l.X2);
         }
 
         public jsonSerialize.Shape renderShape()
