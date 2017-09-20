@@ -10,9 +10,9 @@ using System.Windows.Input;
 
 namespace MyPaint
 {
-    public delegate void MyOnMouseDown(MouseButtonEventArgs e, MyShape s);
+    public delegate void MyOnMouseDown(MouseButtonEventArgs e, IMyShape s);
 
-    public interface MyShape
+    public interface IMyShape
     {
         void setPrimaryColor(Brush b);
 

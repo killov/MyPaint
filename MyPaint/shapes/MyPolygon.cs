@@ -12,7 +12,7 @@ using System.Windows.Controls;
 
 namespace MyPaint
 {
-    class MyPolygon : MyShape
+    class MyPolygon : IMyShape
     {
         DrawControl drawControl;
         Polygon p = new Polygon(), lv;

@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 
 namespace MyPaint
 {
-    class MyImage : MyShape
+    class MyImage : IMyShape
     {
         MovePoint p1, p2, p3, p4;
         DrawControl drawControl;
@@ -166,7 +166,7 @@ namespace MyPaint
             p4.delete();
         }
 
-        jsonSerialize.Shape MyShape.renderShape()
+        jsonSerialize.Shape IMyShape.renderShape()
         {
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)p.RenderSize.Width,
             (int)p.RenderSize.Height, 96, 96, PixelFormats.Default);

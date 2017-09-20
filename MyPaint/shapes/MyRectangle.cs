@@ -12,7 +12,7 @@ using System.Windows.Controls;
 
 namespace MyPaint
 {
-    class MyRectangle : MyShape
+    class MyRectangle : IMyShape
     {
         DrawControl drawControl;
         Polygon p = new Polygon(), lv;

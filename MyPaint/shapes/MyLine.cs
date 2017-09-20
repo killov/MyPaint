@@ -12,7 +12,7 @@ using System.Windows.Controls;
 
 namespace MyPaint
 {
-    class MyLine : MyShape
+    class MyLine : IMyShape
     {
         DrawControl drawControl;
         Line l = new Line(), lv;
@@ -178,11 +178,20 @@ namespace MyPaint
         }
 
         public void moveShape(double x, double y)
-        {           
-            lv.X2 = l.X2 = l.X2 - l.X1 + x;
-            lv.X1 = l.X1 = x;
-            lv.Y2 = l.Y2 = l.Y2 - l.Y1 + y;
-            lv.Y1 = l.Y1 = y;
+        {
+            l.X2 = l.X2 - l.X1 + x;
+            l.X1 = x;
+            l.Y2 = l.Y2 - l.Y1 + y;
+            l.Y1 = y;
+
+            if (lv != null)
+            {
+                lv.X2 = l.X2;
+                lv.X1 = l.X1;
+                lv.Y2 = l.Y2;
+                lv.Y1 = l.Y1;
+            }
+   
             p1.move(l.X1, l.Y1);
             p2.move(l.X2, l.Y2);
         }

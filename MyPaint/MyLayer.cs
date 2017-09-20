@@ -47,7 +47,7 @@ namespace MyPaint
         public Canvas canvas;
         public Brush color;
         private DrawControl drawControl;
-        public List<MyShape> shapes = new List<MyShape>();
+        public List<IMyShape> shapes = new List<IMyShape>();
 
         public MyLayer(Canvas c, DrawControl dc)
         {
@@ -191,7 +191,7 @@ namespace MyPaint
             }
         }
 
-        public void setShapeSelect(MouseButtonEventArgs e, MyShape shape)
+        public void setShapeSelect(MouseButtonEventArgs e, IMyShape shape)
         {
             shape.deleteVirtualShape();
             if (drawControl.shape != null)
@@ -204,7 +204,7 @@ namespace MyPaint
             shape.startMove(e);
         }
 
-        public void setShapeSelectable(MyShape shape)
+        public void setShapeSelectable(IMyShape shape)
         {
             shape.createVirtualShape((ee, s) =>
             {

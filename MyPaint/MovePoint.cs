@@ -18,12 +18,12 @@ namespace MyPaint
         Ellipse el;
         Canvas ca;
         Canvas canvas;
-        MyShape shape;
+        IMyShape shape;
         double x, y;
         public bool drag = false;
  
         posun posun;
-        public MovePoint(Canvas c, MyShape s, Point p, ScaleTransform revScale, posun pos)
+        public MovePoint(Canvas c, IMyShape s, Point p, ScaleTransform revScale, posun pos)
         {
             ca = new Canvas();
             TransformGroup g = new TransformGroup();

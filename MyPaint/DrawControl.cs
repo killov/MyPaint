@@ -19,7 +19,7 @@ namespace MyPaint
         public Canvas topCanvas;
         public Brush primaryColor, secondaryColor;
         public double thickness;
-        public MyShape shape;
+        public IMyShape shape;
         public bool draw = false;
         public bool startdraw = false;
         public bool candraw = true;
@@ -149,7 +149,8 @@ namespace MyPaint
                 shape.delete();
                 draw = false;
                 candraw = true;
-                shape = null;
+                control.addHistory(new HistoryShapeDelete(shape));
+                shape = null;               
             }
         }
 
@@ -184,7 +185,7 @@ namespace MyPaint
             {
                 if (!shape.hitTest())
                 {
-                    MyShape sh = shape;
+                    IMyShape sh = shape;
                     stopDraw();
                     if (activeShape == MyEnum.SELECT)
                     {

@@ -26,6 +26,22 @@ namespace MyPaint
 
         public void add(IHistoryNode node)
         {
+            if(backStack.Count > 0 && (node is IHistoryNodeSkipped))
+            {
+                IHistoryNode last = backStack.Last();
+                if(last is IHistoryNodeSkipped)
+                {
+                    IHistoryNodeSkipped l = (IHistoryNodeSkipped)last;
+                    IHistoryNodeSkipped n = (IHistoryNodeSkipped)node;
+                    if (l.optimal(n))
+                    {
+                        l.skip(n);
+                        forwardStack.Clear();
+                        redraw();
+                        return;
+                    }
+                }
+            }
             backStack.Push(node);
             forwardStack.Clear();
             redraw();

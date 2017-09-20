@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace MyPaint
 {
-    public class HistoryShape : IHistoryNode
+    public class HistoryShapeDelete : IHistoryNode
     {
         public IMyShape shape;
-        public HistoryShape(IMyShape s)
+        public HistoryShapeDelete(IMyShape s)
         {
             shape = s;
         }
 
         public void back()
         {
-            shape.delete();
+            shape.refresh();
         }
 
         public void forward()
         {
-            shape.refresh();
+            shape.delete();
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Windows.Controls;
 
 namespace MyPaint
 {
-    class MyEllipse : MyShape
+    class MyEllipse : IMyShape
     {
         DrawControl drawControl;
         Ellipse p = new Ellipse(), lv;
@@ -274,8 +274,11 @@ namespace MyPaint
             ey += y-Canvas.GetTop(p);
             Canvas.SetLeft(p, x);
             Canvas.SetTop(p, y);
-            Canvas.SetLeft(lv, x);
-            Canvas.SetTop(lv, y);
+            if (lv != null)
+            {
+                Canvas.SetLeft(lv, x);
+                Canvas.SetTop(lv, y);
+            }
 
             p1.move(sx, sy);
             p2.move(ex, ey);
