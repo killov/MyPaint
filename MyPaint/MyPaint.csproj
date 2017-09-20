@@ -117,6 +117,7 @@
     <Compile Include="file\JPEG.cs" />
     <Compile Include="file\PNG.cs" />
     <Compile Include="history\HistoryControl.cs" />
+    <Compile Include="history\HistorySecondaryColor.cs" />
     <Compile Include="history\HistoryResolution.cs" />
     <Compile Include="history\HistoryLayerPosition.cs" />
     <Compile Include="history\HistoryLayerAdd.cs" />

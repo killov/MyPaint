@@ -7,11 +7,11 @@ using System.Windows.Media;
 
 namespace MyPaint
 {
-    public class HistoryPrimaryColor : IHistoryNodeSkipped
+    public class HistorySecondaryColor : IHistoryNodeSkipped
     {
         public IMyShape shape;
         public Brush o, n;
-        public HistoryPrimaryColor(IMyShape s, Brush oldBrush, Brush newBrush)
+        public HistorySecondaryColor(IMyShape s, Brush oldBrush, Brush newBrush)
         {
             shape = s;
             o = oldBrush;
@@ -20,22 +20,22 @@ namespace MyPaint
 
         public void back()
         {
-            shape.setPrimaryColor(o);
+            shape.setSecondaryColor(o);
         }
 
         public void forward()
         {
-            shape.setPrimaryColor(n);
+            shape.setSecondaryColor(n);
         }
 
         public bool optimal(IHistoryNodeSkipped node)
         {
-            return (node is HistoryPrimaryColor) && ((HistoryPrimaryColor)node).shape == shape;
+            return (node is HistorySecondaryColor) && ((HistorySecondaryColor)node).shape == shape;
         }
 
         public void skip(IHistoryNodeSkipped node)
         {
-            HistoryPrimaryColor nodee = (HistoryPrimaryColor)node;
+            HistorySecondaryColor nodee = (HistorySecondaryColor)node;
             n = nodee.n;
         }
     }

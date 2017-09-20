@@ -106,7 +106,11 @@ namespace MyPaint
         public void setPrimaryColor(Brush c)
         {
             primaryColor = c;
-            if (shape != null) shape.setPrimaryColor(c);
+            if (shape != null)
+            {
+                //control.addHistory(new HistoryPrimaryColor(shape, shape.))
+                shape.setPrimaryColor(c);
+            }
         }
 
         public void setSecondaryColor(Brush c)
