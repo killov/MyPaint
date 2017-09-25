@@ -78,7 +78,7 @@ namespace MyPaint
 
         public void mouseDown(MouseButtonEventArgs e)
         {
-            l.Stroke = drawControl.getPrimaryColor();
+            l.Stroke = drawControl.getShapePrimaryColor();
             l.X1 = e.GetPosition(layer.canvas).X;
             l.Y1 = e.GetPosition(layer.canvas).Y;
             l.X2 = e.GetPosition(layer.canvas).X;
@@ -135,8 +135,8 @@ namespace MyPaint
         MovePoint p1, p2;
         public void setActive()
         {
-            drawControl.control.setPrimaryColor(primaryColor);
-            drawControl.control.setThickness(thickness);
+            drawControl.setPrimaryColor(primaryColor);
+            drawControl.setThickness(thickness);
             createVirtualShape((e, s) =>
             {
                 drawControl.startMoveShape(new Point(l.X1, l.Y1), e.GetPosition(layer.canvas));

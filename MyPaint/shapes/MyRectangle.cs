@@ -148,9 +148,9 @@ namespace MyPaint
         MovePoint p1, p2, p3, p4;
         public void setActive()
         {
-            drawControl.control.setPrimaryColor(primaryColor);
-            drawControl.control.setSecondaryColor(secondaryColor);
-            drawControl.control.setThickness(thickness);
+            drawControl.setPrimaryColor(primaryColor);
+            drawControl.setSecondaryColor(secondaryColor);
+            drawControl.setThickness(thickness);
             createVirtualShape((e, s) =>
             {
                 drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));

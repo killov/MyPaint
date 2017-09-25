@@ -72,10 +72,10 @@ namespace MyPaint
         {
             if (i == -1) return;
             control.w.layers.SelectedIndex = i;
-            if(activeShape == MyEnum.SELECT)
+            if (activeShape == MyEnum.SELECT)
             {
                 if (shape != null) shape.changeLayer(null);
-                if(selectLayer != null) selectLayer.unsetSelectable();
+                if (selectLayer != null) selectLayer.unsetSelectable();
                 layers[i].setSelectable();
             }
             selectLayer = layers[i];
@@ -86,7 +86,7 @@ namespace MyPaint
         public void setResolution(Point res)
         {
             resolution = res;
-            foreach(var l in layers)
+            foreach (var l in layers)
             {
                 l.setResolution(res);
             }
@@ -103,7 +103,7 @@ namespace MyPaint
             resetLayers();
         }
 
-        public void setPrimaryColor(Brush c)
+        public void setShapePrimaryColor(Brush c)
         {
             primaryColor = c;
             if (shape != null)
@@ -113,7 +113,7 @@ namespace MyPaint
             }
         }
 
-        public void setSecondaryColor(Brush c)
+        public void setShapeSecondaryColor(Brush c)
         {
             secondaryColor = c;
             if (shape != null) shape.setSecondaryColor(c);
@@ -125,12 +125,12 @@ namespace MyPaint
             if (selectLayer != null) selectLayer.setColor(c);
         }
 
-        public Brush getPrimaryColor()
+        public Brush getShapePrimaryColor()
         {
             return primaryColor;
         }
 
-        public Brush getSecondaryColor()
+        public Brush getShapeSecondaryColor()
         {
             return secondaryColor;
         }
@@ -140,13 +140,14 @@ namespace MyPaint
             return selectLayer.color;
         }
 
-        public void setThickness(double t)
+        public void setShapeThickness(double t)
         {
             thickness = t;
             if (shape != null) shape.setThickness(t);
         }
 
-        public void delete()
+
+        public void shapeDelete()
         {
             if (shape != null)
             {
@@ -154,13 +155,13 @@ namespace MyPaint
                 draw = false;
                 candraw = true;
                 control.addHistory(new HistoryShapeDelete(shape));
-                shape = null;               
+                shape = null;
             }
         }
 
         public void setActiveShape(MyEnum s)
         {
-            if(selectLayer != null)
+            if (selectLayer != null)
             {
                 if (s == MyEnum.SELECT)
                 {
@@ -177,7 +178,7 @@ namespace MyPaint
 
         public void mouseDown(MouseButtonEventArgs e)
         {
-            if(selectLayer == null)
+            if (selectLayer == null)
             {
                 return;
             }
@@ -277,6 +278,21 @@ namespace MyPaint
         public void lockDraw()
         {
             control.lockDraw();
+        }
+
+        public void setPrimaryColor(Brush c)
+        {
+            control.setPrimaryColor(c, false);
+        }
+
+        public void setSecondaryColor(Brush c)
+        {
+            control.setSecondaryColor(c, false);
+        }
+
+        public void setThickness(double t)
+        {
+            control.setThickness(t, false);
         }
     }
 }

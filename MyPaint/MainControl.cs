@@ -125,11 +125,11 @@ namespace MyPaint
             switch (activeColor)
             {
                 case MyEnum.PRIMARY:
-                    drawControl.setPrimaryColor(c);
+                    drawControl.setShapePrimaryColor(c);
                     w.primaryColor.Fill = c;  
                     break;
                 case MyEnum.SECONDARY:
-                    drawControl.setSecondaryColor(c);
+                    drawControl.setShapeSecondaryColor(c);
                     w.secondaryColor.Fill = c;                    
                     break;
                 case MyEnum.BACKGROUND:
@@ -139,17 +139,17 @@ namespace MyPaint
             }
         }
 
-        public void setPrimaryColor(Brush c)
+        public void setPrimaryColor(Brush c, bool back = true)
         {
             if (activeColor == MyEnum.PRIMARY) setCB(c);
-            drawControl.setPrimaryColor(c);
+            if(back) drawControl.setShapePrimaryColor(c);
             w.primaryColor.Fill = c;
         }
 
-        public void setSecondaryColor(Brush c)
+        public void setSecondaryColor(Brush c, bool back = true)
         {
             if (activeColor == MyEnum.SECONDARY) setCB(c);
-            drawControl.setSecondaryColor(c);
+            if (back) drawControl.setShapeSecondaryColor(c);
             w.secondaryColor.Fill = c;
         }
 
@@ -171,19 +171,19 @@ namespace MyPaint
             switch (activeColor)
             {
                 case MyEnum.PRIMARY:
-                    return drawControl.getPrimaryColor();
+                    return drawControl.getShapePrimaryColor();
                 case MyEnum.SECONDARY:
-                    return drawControl.getSecondaryColor();
+                    return drawControl.getShapeSecondaryColor();
                 case MyEnum.BACKGROUND:
                     return drawControl.getBackgroundColor();
                 default:
-                    return drawControl.getPrimaryColor();
+                    return drawControl.getShapePrimaryColor();
             }
         }
 
-        public void setThickness(double t)
+        public void setThickness(double t, bool back = true)
         {
-            drawControl.setThickness(t);
+            if(back) drawControl.setShapeThickness(t);
             w.thickness.Value = t;
         }
 
@@ -287,7 +287,7 @@ namespace MyPaint
 
         public void delete()
         {
-            drawControl.delete();
+            drawControl.shapeDelete();
         }
 
         public void save()
