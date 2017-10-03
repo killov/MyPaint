@@ -34,6 +34,7 @@ namespace MyPaint
         ScaleTransform scale, revScale;
         public Point resolution;
         public bool resolutionDrag = false;
+        bool CBLock = false;
 
         public MainControl(MainWindow ww)
         {

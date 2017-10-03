@@ -52,13 +52,13 @@ namespace MyPaint
             p.Cursor = Cursors.SizeAll;
         }
 
-        public void setPrimaryColor(Brush s)
+        public void setPrimaryColor(Brush s, bool addHistory = false)
         {
             primaryColor = s;
             p.Stroke = s;
         }
 
-        public void setSecondaryColor(Brush s)
+        public void setSecondaryColor(Brush s, bool addHistory = false)
         {
             secondaryColor = s;
             p.Fill = s;
@@ -79,7 +79,7 @@ namespace MyPaint
             }
         }
 
-        public void setThickness(double s)
+        public void setThickness(double s, bool addHistory = false)
         {
             p.StrokeThickness = s;
             if (lv != null) lv.StrokeThickness = s;

@@ -118,12 +118,12 @@ namespace MyPaint
             hit = h;
         }
 
-        public void setPrimaryColor(System.Windows.Media.Brush b)
+        public void setPrimaryColor(System.Windows.Media.Brush b, bool addHistory = false)
         {
             
         }
 
-        public void setSecondaryColor(System.Windows.Media.Brush b)
+        public void setSecondaryColor(System.Windows.Media.Brush b, bool addHistory = false)
         {
             
         }
@@ -143,7 +143,7 @@ namespace MyPaint
             }
         }
 
-        public void setThickness(double b)
+        public void setThickness(double b, bool addHistory = false)
         {
             
         }

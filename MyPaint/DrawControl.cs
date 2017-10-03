@@ -106,17 +106,13 @@ namespace MyPaint
         public void setShapePrimaryColor(Brush c)
         {
             primaryColor = c;
-            if (shape != null)
-            {
-                //control.addHistory(new HistoryPrimaryColor(shape, shape.))
-                shape.setPrimaryColor(c);
-            }
+            if (shape != null) shape.setPrimaryColor(c, true);
         }
 
         public void setShapeSecondaryColor(Brush c)
         {
             secondaryColor = c;
-            if (shape != null) shape.setSecondaryColor(c);
+            if (shape != null) shape.setSecondaryColor(c, true);
         }
 
 
@@ -143,7 +139,7 @@ namespace MyPaint
         public void setShapeThickness(double t)
         {
             thickness = t;
-            if (shape != null) shape.setThickness(t);
+            if (shape != null) shape.setThickness(t, true);
         }
 
 

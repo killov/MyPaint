@@ -43,13 +43,13 @@ namespace MyPaint
             layer.canvas.Children.Add(l);
         }
 
-        public void setPrimaryColor(Brush s)
+        public void setPrimaryColor(Brush s, bool addHistory = false)
         {
             primaryColor = s;
             l.Stroke = s;
         }
 
-        public void setSecondaryColor(Brush s)
+        public void setSecondaryColor(Brush s, bool addHistory = false)
         {
 
         }
@@ -69,7 +69,7 @@ namespace MyPaint
             }
         }
 
-        public void setThickness(double s)
+        public void setThickness(double s, bool addHistory = false)
         {
             l.StrokeThickness = s;
             if(lv != null) lv.StrokeThickness = s;
@@ -198,7 +198,7 @@ namespace MyPaint
 
         public Point getPosition()
         {
-            return new Point(l.X1, l.X2);
+            return new Point(l.X1, l.Y1);
         }
 
         public jsonSerialize.Shape renderShape()

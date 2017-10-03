@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace MyPaint
 {
-    public class HistoryPrimaryColor : IHistoryNodeSkipped
+    public class HistoryPrimaryColor : IHistoryNode
     {
         public IMyShape shape;
         public Brush o, n;

@@ -14,11 +14,11 @@ namespace MyPaint
 
     public interface IMyShape
     {
-        void setPrimaryColor(Brush b);
+        void setPrimaryColor(Brush b, bool addHistory = false);
 
-        void setSecondaryColor(Brush b);
+        void setSecondaryColor(Brush b, bool addHistory = false);
 
-        void setThickness(double b);
+        void setThickness(double b, bool addHistory = false);
 
         void mouseDown(MouseButtonEventArgs e);
 
