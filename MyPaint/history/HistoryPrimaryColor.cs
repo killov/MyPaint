@@ -27,16 +27,5 @@ namespace MyPaint
         {
             shape.setPrimaryColor(n);
         }
-
-        public bool optimal(IHistoryNodeSkipped node)
-        {
-            return (node is HistoryPrimaryColor) && ((HistoryPrimaryColor)node).shape == shape;
-        }
-
-        public void skip(IHistoryNodeSkipped node)
-        {
-            HistoryPrimaryColor nodee = (HistoryPrimaryColor)node;
-            n = nodee.n;
-        }
     }
 }

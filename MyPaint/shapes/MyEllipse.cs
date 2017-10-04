@@ -61,7 +61,7 @@ namespace MyPaint
         {
             if (addHistory)
             {
-                drawControl.control.addHistory(new HistorySecondaryColor(this, primaryColor, s));
+                drawControl.control.addHistory(new HistorySecondaryColor(this, secondaryColor, s));
             }
             secondaryColor = s;
             p.Fill = s;

@@ -118,24 +118,36 @@ namespace MyPaint
             historyControl.clear();
         }
 
-        
-
-        public void setColor(Brush c)
+        public void setColorCB(Brush c)
         {
-            setCB(c);
             switch (activeColor)
             {
                 case MyEnum.PRIMARY:
                     drawControl.setShapePrimaryColor(c);
-                    w.primaryColor.Fill = c;  
+                    w.primaryColor.Fill = c;
                     break;
                 case MyEnum.SECONDARY:
                     drawControl.setShapeSecondaryColor(c);
-                    w.secondaryColor.Fill = c;                    
+                    w.secondaryColor.Fill = c;
                     break;
                 case MyEnum.BACKGROUND:
-                    drawControl.setBackgroundColor(c);
                     w.backgroundColor.Fill = c;
+                    break;
+            }
+        }
+
+        public void setColor(Brush c)
+        {
+            switch (activeColor)
+            {
+                case MyEnum.PRIMARY:
+                    setPrimaryColor(c);
+                    break;
+                case MyEnum.SECONDARY:
+                    setSecondaryColor(c);
+                    break;
+                case MyEnum.BACKGROUND:
+                    setBackgroundColor(c);
                     break;
             }
         }

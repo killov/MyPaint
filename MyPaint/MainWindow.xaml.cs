@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
 using ColorBox;
+using System.Diagnostics;
 
 
 namespace MyPaint
@@ -223,9 +224,14 @@ namespace MyPaint
             if(control != null) control.setThickness(e.NewValue);
         }
 
+        long CBlastchange = 0;
         private void CB_ColorChanged(object sender, ColorBox.ColorChangedEventArgs e)
         {
-            control.setColor(CB.Brush);
+
+                control.setColorCB(CB.Brush);
+                CBlastchange = Stopwatch.GetTimestamp();
+            
+            
         }
 
         private Point oldR;
