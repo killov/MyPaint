@@ -24,6 +24,7 @@ namespace MyPaint
         public bool startdraw = false;
         public bool candraw = true;
         public bool drag = false;
+        bool shapeMoved;
         Point posunStart = new Point();
         Point posunStartMys = new Point();
         public Point resolution;
@@ -230,6 +231,7 @@ namespace MyPaint
             posunStart = start;
             posunStartMys = mys;
             drag = true;
+            shapeMoved = false;
         }
 
         public void mouseMove(MouseEventArgs e)
@@ -255,7 +257,13 @@ namespace MyPaint
             {
                 shape.stopDrag();
                 drag = false;
-                control.addHistory(new HistoryShapeMove(shape, posunStart, shape.getPosition()));
+                Point start = posunStart;
+                Point stop = shape.getPosition();
+                if (!start.Equals(stop))
+                {
+                    control.addHistory(new HistoryShapeMove(shape, start, stop));
+                }
+                
             }
         }
 

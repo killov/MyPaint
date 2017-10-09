@@ -174,9 +174,7 @@ namespace MyPaint
 
         void setCB(Brush color)
         {
-            if (color != null && color is SolidColorBrush)
-                color.Freeze();
-            w.CB.Brush = color;
+            
         }
 
         public Brush getColor()
