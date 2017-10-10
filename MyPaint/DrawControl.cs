@@ -75,7 +75,11 @@ namespace MyPaint
             control.w.layers.SelectedIndex = i;
             if (activeShape == MyEnum.SELECT)
             {
-                if (shape != null) shape.changeLayer(null);
+                if (shape != null)
+                {
+                    shape.changeLayer(null);
+                    control.addHistory(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
+                }
                 if (selectLayer != null) selectLayer.unsetSelectable();
                 layers[i].setSelectable();
             }

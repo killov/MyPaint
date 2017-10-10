@@ -50,12 +50,20 @@ namespace MyPaint
 
         public void setPrimaryColor(Brush s, bool addHistory = false)
         {
+            if (addHistory)
+            {
+                drawControl.control.addHistory(new HistoryPrimaryColor(this, primaryColor, s));
+            }
             primaryColor = s;
             p.Stroke = s;
         }
 
         public void setSecondaryColor(Brush s, bool addHistory = false)
         {
+            if (addHistory)
+            {
+                drawControl.control.addHistory(new HistorySecondaryColor(this, secondaryColor, s));
+            }
             secondaryColor = s;
             p.Fill = s;
         }
@@ -77,6 +85,10 @@ namespace MyPaint
 
         public void setThickness(double s, bool addHistory = false)
         {
+            if (addHistory)
+            {
+                drawControl.control.addHistory(new HistoryShapeThickness(this, thickness, s));
+            }
             p.StrokeThickness = s;
             if (lv != null) lv.StrokeThickness = s;
             thickness = s;
@@ -208,10 +220,10 @@ namespace MyPaint
         public void stopDrag()
         {
             hit = false;
-            p1.drag = false;
-            p2.drag = false;
-            p3.drag = false;
-            p4.drag = false;
+            p1.stopDrag();
+            p2.stopDrag();
+            p3.stopDrag();
+            p4.stopDrag();
         }
 
         public void stopDraw()

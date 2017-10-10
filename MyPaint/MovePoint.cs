@@ -50,7 +50,7 @@ namespace MyPaint
             el.MouseDown += delegate (object sender, MouseButtonEventArgs e) 
             {
                 shape.setHit(true);
-                drag = true;
+                startDrag();
             };
         }
 
@@ -76,6 +76,16 @@ namespace MyPaint
         public void delete()
         {
             canvas.Children.Remove(ca);
+        }
+
+        public void startDrag()
+        {
+            drag = true;
+        }
+
+        public void stopDrag()
+        {
+            drag = false;
         }
     }
 }

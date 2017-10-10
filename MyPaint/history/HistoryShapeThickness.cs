@@ -7,11 +7,11 @@ using System.Windows.Media;
 
 namespace MyPaint
 {
-    public class HistoryThickness : IHistoryNode
+    public class HistoryShapeThickness : IHistoryNode
     {
         public IMyShape shape;
         public double o, n;
-        public HistoryThickness(IMyShape s, double oldT, double newT)
+        public HistoryShapeThickness(IMyShape s, double oldT, double newT)
         {
             shape = s;
             o = oldT;

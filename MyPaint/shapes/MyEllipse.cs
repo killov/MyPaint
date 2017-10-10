@@ -86,7 +86,7 @@ namespace MyPaint
         {
             if (addHistory)
             {
-                drawControl.control.addHistory(new HistoryThickness(this, thickness, s));
+                drawControl.control.addHistory(new HistoryShapeThickness(this, thickness, s));
             }
             p.StrokeThickness = s;
             if (lv != null) lv.StrokeThickness = s;
@@ -262,10 +262,10 @@ namespace MyPaint
         public void stopDrag()
         {
             hit = false;
-            p1.drag = false;
-            p2.drag = false;
-            p3.drag = false;
-            p4.drag = false;
+            p1.stopDrag();
+            p2.stopDrag();
+            p3.stopDrag();
+            p4.stopDrag();
         }
 
         public void stopDraw()
