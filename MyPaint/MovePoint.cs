@@ -19,9 +19,9 @@ namespace MyPaint
         Canvas ca;
         Canvas canvas;
         IMyShape shape;
-        double x, y;
+        Point position;
         public bool drag = false;
- 
+        Point startPosition;
         posun posun;
         public MovePoint(Canvas c, IMyShape s, Point p, ScaleTransform revScale, posun pos)
         {
@@ -30,8 +30,7 @@ namespace MyPaint
             g.Children.Add(revScale);
             ca.LayoutTransform = g;
             posun = pos;
-            x = p.X;
-            y = p.Y;
+            position = p;
             el = new Ellipse();
             el.Fill = Brushes.White;
             el.StrokeThickness = 1;
@@ -44,11 +43,12 @@ namespace MyPaint
             canvas.Children.Add(ca);
             Canvas.SetTop(el,-5);
             Canvas.SetLeft(el,-5);
-            Canvas.SetTop(ca, y);
-            Canvas.SetLeft(ca, x);
+            Canvas.SetTop(ca, p.Y);
+            Canvas.SetLeft(ca, p.X);
 
             el.MouseDown += delegate (object sender, MouseButtonEventArgs e) 
             {
+                startPosition = position;
                 shape.setHit(true);
                 startDrag();
             };
@@ -58,17 +58,17 @@ namespace MyPaint
         {
             if (drag)
             {
-                x = e.GetPosition(canvas).X;
-                y = e.GetPosition(canvas).Y;
-                Canvas.SetTop(ca, y);
-                Canvas.SetLeft(ca, x);
+                position = e.GetPosition(canvas);
+                Canvas.SetTop(ca, position.Y);
+                Canvas.SetLeft(ca, position.X);
 
-                posun(new Point(x, y));
+                posun(position);
             }
         }
 
         public void move(double x, double y)
         {
+            position = new Point(x, y);
             Canvas.SetTop(ca, y);
             Canvas.SetLeft(ca, x);
         }
