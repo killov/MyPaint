@@ -45,6 +45,8 @@ namespace MyPaint
             Canvas.SetTop(p, sy);
             p.ToolTip = null;
             moveE(p, s.B.x, s.B.y);
+
+            createPoints();
         }
 
         public void setPrimaryColor(Brush s, bool addHistory = false)
@@ -165,6 +167,9 @@ namespace MyPaint
         public void mouseUp(MouseButtonEventArgs e)
         {
             drawControl.draw = false;
+
+            createPoints();
+
             setActive();
             drawControl.lockDraw();
         }
@@ -201,6 +206,10 @@ namespace MyPaint
         MovePoint p1, p2, p3, p4;
         public void setActive()
         {
+            p1.show();
+            p2.show();
+            p3.show();
+            p4.show();
             drawControl.setPrimaryColor(primaryColor);
             drawControl.setSecondaryColor(secondaryColor);
             drawControl.setThickness(thickness);
@@ -210,45 +219,7 @@ namespace MyPaint
             });
 
             drawControl.candraw = false;
-            p1 = new MovePoint(drawControl.topCanvas, this, new Point(sx, sy), drawControl.revScale, (po) =>
-            {
-                moveS(p, po.X, po.Y);
-                moveS(lv, po.X, po.Y);
-                p1.move(po.X, po.Y);
-                p3.move(ex, sy);
-                p4.move(sx, ey);
-            });
-
-            p2 = new MovePoint(drawControl.topCanvas, this, new Point(ex, ey), drawControl.revScale, (po) =>
-            {
-                moveE(p, po.X, po.Y);
-                moveE(lv, po.X, po.Y);
-                p2.move(po.X, po.Y);
-                p3.move(ex, sy);
-                p4.move(sx, ey);
-            });
-
-            p3 = new MovePoint(drawControl.topCanvas, this, new Point(ex, sy), drawControl.revScale, (po) =>
-            {
-                moveE(p, po.X, ey);
-                moveS(p, sx, po.Y);
-                moveE(lv, po.X, ey);
-                moveS(lv, sx, po.Y);
-                p3.move(po.X, po.Y);
-                p1.move(sx, sy);
-                p2.move(ex, ey);
-            });
-
-            p4 = new MovePoint(drawControl.topCanvas, this, new Point(sx, ey), drawControl.revScale, (po) =>
-            {
-                moveE(p, ex, po.Y);
-                moveS(p, po.X, sy);
-                moveE(lv, ex, po.Y);
-                moveS(lv, po.X, sy);
-                p4.move(po.X, po.Y);
-                p1.move(sx, sy);
-                p2.move(ex, ey);
-            });
+          
         }
 
         public void moveDrag(MouseEventArgs e)
@@ -271,10 +242,10 @@ namespace MyPaint
         public void stopDraw()
         {
             deleteVirtualShape();
-            p1.delete();
-            p2.delete();
-            p3.delete();
-            p4.delete();
+            p1.hide();
+            p2.hide();
+            p3.hide();
+            p4.hide();
         }
 
         public void moveShape(double x, double y)
@@ -343,6 +314,49 @@ namespace MyPaint
         public Point getPosition()
         {
             return new Point(Canvas.GetLeft(p), Canvas.GetTop(p));
+        }
+
+        void createPoints()
+        {
+            p1 = new MovePoint(drawControl.topCanvas, this, new Point(sx, sy), drawControl.revScale, (po) =>
+            {
+                moveS(p, po.X, po.Y);
+                moveS(lv, po.X, po.Y);
+                p1.move(po.X, po.Y);
+                p3.move(ex, sy);
+                p4.move(sx, ey);
+            });
+
+            p2 = new MovePoint(drawControl.topCanvas, this, new Point(ex, ey), drawControl.revScale, (po) =>
+            {
+                moveE(p, po.X, po.Y);
+                moveE(lv, po.X, po.Y);
+                p2.move(po.X, po.Y);
+                p3.move(ex, sy);
+                p4.move(sx, ey);
+            });
+
+            p3 = new MovePoint(drawControl.topCanvas, this, new Point(ex, sy), drawControl.revScale, (po) =>
+            {
+                moveE(p, po.X, ey);
+                moveS(p, sx, po.Y);
+                moveE(lv, po.X, ey);
+                moveS(lv, sx, po.Y);
+                p3.move(po.X, po.Y);
+                p1.move(sx, sy);
+                p2.move(ex, ey);
+            });
+
+            p4 = new MovePoint(drawControl.topCanvas, this, new Point(sx, ey), drawControl.revScale, (po) =>
+            {
+                moveE(p, ex, po.Y);
+                moveS(p, po.X, sy);
+                moveE(lv, ex, po.Y);
+                moveS(lv, po.X, sy);
+                p4.move(po.X, po.Y);
+                p1.move(sx, sy);
+                p2.move(ex, ey);
+            });
         }
 
     }

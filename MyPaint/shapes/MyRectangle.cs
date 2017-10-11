@@ -229,10 +229,10 @@ namespace MyPaint
         public void stopDraw()
         {
             deleteVirtualShape();
-            p1.delete();
-            p2.delete();
-            p3.delete();
-            p4.delete();
+            p1.hide();
+            p2.hide();
+            p3.hide();
+            p4.hide();
         }
 
         public void moveShape(double x, double y)

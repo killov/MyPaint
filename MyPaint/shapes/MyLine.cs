@@ -41,6 +41,7 @@ namespace MyPaint
             l.ToolTip = null;
             l.Cursor = Cursors.SizeAll;
             layer.canvas.Children.Add(l);
+            createPoints();
         }
 
         public void setPrimaryColor(Brush s, bool addHistory = false)
@@ -105,9 +106,10 @@ namespace MyPaint
 
         public void mouseUp(MouseButtonEventArgs e)
         {
-            drawControl.draw = false;           
+            drawControl.draw = false;
+            createPoints();         
             setActive();
-            drawControl.lockDraw(); 
+            drawControl.lockDraw();
         }
 
         public void createVirtualShape(MyOnMouseDown mouseDown)
@@ -151,17 +153,8 @@ namespace MyPaint
             });
 
             drawControl.candraw = false;
-            p1 = new MovePoint(drawControl.topCanvas, this, new Point(l.X1, l.Y1), drawControl.revScale, (p) =>
-            {
-                lv.X1 = l.X1 = p.X;
-                lv.Y1 = l.Y1 = p.Y;
-            });
-
-            p2 = new MovePoint(drawControl.topCanvas, this,  new Point(l.X2, l.Y2), drawControl.revScale, (p) =>
-            {
-                lv.X2 = l.X2 = p.X;
-                lv.Y2 = l.Y2 = p.Y;
-            });
+            p1.show();
+            p2.show();
         }
 
         public void moveDrag(MouseEventArgs e)
@@ -181,8 +174,8 @@ namespace MyPaint
         public void stopDraw()
         {
             deleteVirtualShape();
-            p1.delete();
-            p2.delete();
+            p1.hide();
+            p2.hide();
         }
 
         public void moveShape(double x, double y)
@@ -248,6 +241,21 @@ namespace MyPaint
             layer.shapes.Add(this);
             layer.canvas.Children.Add(l);
             drawControl.lockDraw();
+        }
+
+        void createPoints()
+        {
+            p1 = new MovePoint(drawControl.topCanvas, this, new Point(l.X1, l.Y1), drawControl.revScale, (p) =>
+            {
+                lv.X1 = l.X1 = p.X;
+                lv.Y1 = l.Y1 = p.Y;
+            });
+
+            p2 = new MovePoint(drawControl.topCanvas, this, new Point(l.X2, l.Y2), drawControl.revScale, (p) =>
+            {
+                lv.X2 = l.X2 = p.X;
+                lv.Y2 = l.Y2 = p.Y;
+            });
         }
     }
 }

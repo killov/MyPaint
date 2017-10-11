@@ -23,6 +23,7 @@ namespace MyPaint
         public bool drag = false;
         Point startPosition;
         posun posun;
+        Canvas element;
         public MovePoint(Canvas c, IMyShape s, Point p, ScaleTransform revScale, posun pos)
         {
             ca = new Canvas();
@@ -40,12 +41,7 @@ namespace MyPaint
             ca.Children.Add(el);
             shape = s;
             canvas = c;
-            canvas.Children.Add(ca);
-            Canvas.SetTop(el,-5);
-            Canvas.SetLeft(el,-5);
-            Canvas.SetTop(ca, p.Y);
-            Canvas.SetLeft(ca, p.X);
-
+            element = ca;
             el.MouseDown += delegate (object sender, MouseButtonEventArgs e) 
             {
                 startPosition = position;
@@ -73,9 +69,18 @@ namespace MyPaint
             Canvas.SetLeft(ca, x);
         }
 
-        public void delete()
+        public void hide()
         {
             canvas.Children.Remove(ca);
+        }
+
+        public void show()
+        {
+            canvas.Children.Add(ca);
+            Canvas.SetTop(el, -5);
+            Canvas.SetLeft(el, -5);
+            Canvas.SetTop(ca, position.Y);
+            Canvas.SetLeft(ca, position.X);
         }
 
         public void startDrag()

@@ -35,6 +35,8 @@ namespace MyPaint
             
             p.Fill = im;
             layer.canvas.Children.Add(p);
+
+            createPoints();
         }
 
         public MyImage(DrawControl c, MyLayer la, jsonDeserialize.Shape s)
@@ -57,6 +59,8 @@ namespace MyPaint
 
             p.Fill = brush;
             layer.canvas.Children.Add(p);
+
+            createPoints();
         }
 
         public void delete()
@@ -160,10 +164,10 @@ namespace MyPaint
         public void stopDraw()
         {
             deleteVirtualShape();
-            p1.delete();
-            p2.delete();
-            p3.delete();
-            p4.delete();
+            p1.hide();
+            p2.hide();
+            p3.hide();
+            p4.hide();
         }
 
         jsonSerialize.Shape IMyShape.renderShape()
@@ -225,6 +229,24 @@ namespace MyPaint
                 drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));
             });
             drawControl.candraw = false;
+            p1.show();
+            p2.show();
+            p3.show();
+            p4.show();
+        }
+
+        public void startMove(MouseButtonEventArgs e)
+        {
+            drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));
+        }
+
+        public Point getPosition()
+        {
+            return p.Points[0];
+        }
+
+        void createPoints()
+        {
             p1 = new MovePoint(drawControl.topCanvas, this, p.Points[0], drawControl.revScale, (po) =>
             {
                 p.Points[0] = po;
@@ -264,16 +286,6 @@ namespace MyPaint
                 p3.move(po.X, p.Points[2].Y);
                 p1.move(p.Points[0].X, po.Y);
             });
-        }
-
-        public void startMove(MouseButtonEventArgs e)
-        {
-            drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));
-        }
-
-        public Point getPosition()
-        {
-            return p.Points[0];
         }
     }
 }

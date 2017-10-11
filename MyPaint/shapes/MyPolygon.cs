@@ -50,6 +50,7 @@ namespace MyPaint
             p.ToolTip = null;
 
             p.Cursor = Cursors.SizeAll;
+            createPoints();
         }
 
         public void setPrimaryColor(Brush s, bool addHistory = false)
@@ -154,10 +155,11 @@ namespace MyPaint
                     p.ToolTip = null;
                     p.Cursor = Cursors.SizeAll;
                     drawControl.draw = false;
+                    createPoints();
                     setActive();
                     drawControl.lockDraw();
                 }
-            }
+            }     
         }
 
         public void createVirtualShape(MyOnMouseDown mouseDown)
@@ -198,8 +200,17 @@ namespace MyPaint
                 drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));
             });
 
-            movepoints = new List<MovePoint>();
+            
             drawControl.candraw = false;
+            foreach(MovePoint p in movepoints)
+            {
+                p.show();
+            }
+        }
+
+        void createPoints()
+        {
+            movepoints = new List<MovePoint>();
             for (int i = 0; i < p.Points.Count; i++)
             {
                 cp(i);
@@ -237,7 +248,7 @@ namespace MyPaint
             deleteVirtualShape();
             foreach (var p in movepoints)
             {
-                p.delete();
+                p.hide();
             }
         }
 
