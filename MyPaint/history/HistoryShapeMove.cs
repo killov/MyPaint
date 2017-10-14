@@ -9,9 +9,9 @@ namespace MyPaint
 {
     public class HistoryShapeMove : IHistoryNode
     {
-        public IMyShape shape;
+        public MyShape shape;
         Point o, n;
-        public HistoryShapeMove(IMyShape s, Point oldPosition, Point newPosiotion)
+        public HistoryShapeMove(MyShape s, Point oldPosition, Point newPosiotion)
         {
             shape = s;
             o = oldPosition;

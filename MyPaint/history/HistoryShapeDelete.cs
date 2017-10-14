@@ -8,8 +8,8 @@ namespace MyPaint
 {
     public class HistoryShapeDelete : IHistoryNode
     {
-        public IMyShape shape;
-        public HistoryShapeDelete(IMyShape s)
+        public MyShape shape;
+        public HistoryShapeDelete(MyShape s)
         {
             shape = s;
         }

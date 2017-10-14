@@ -47,7 +47,7 @@ namespace MyPaint
         public Canvas canvas;
         public Brush color;
         private DrawControl drawControl;
-        public List<IMyShape> shapes = new List<IMyShape>();
+        public List<MyShape> shapes = new List<MyShape>();
 
         public MyLayer(Canvas c, DrawControl dc)
         {
@@ -88,14 +88,14 @@ namespace MyPaint
                         shapes.Add(new MyPolygon(dc, this, shape));
                         break;
                     case "IMAGE":
-                        shapes.Add(new MyImage(dc, this, shape));
+                 //       shapes.Add(new MyImage(dc, this, shape));
                         break;
                 }
             }
         }
 
 
-    public void setResolution(Point res)
+        public void setResolution(Point res)
         {
             canvas.Width = res.X;
             canvas.Height = res.Y;
@@ -184,29 +184,30 @@ namespace MyPaint
         {
             foreach(var shape in shapes)
             {
-                shape.createVirtualShape((e, s) =>
+                shape.hideVirtualShape();
+                shape.showVirtualShape((e, s) =>
                 {
                     setShapeSelect(e, s);
                 });
             }
         }
 
-        public void setShapeSelect(MouseButtonEventArgs e, IMyShape shape)
-        {
-            shape.deleteVirtualShape();
+        public void setShapeSelect(Point e, MyShape shape)
+        {            
             if (drawControl.shape != null)
             {
-                drawControl.shape.stopDraw();
-                setShapeSelectable(drawControl.shape);  
+                drawControl.shape.stopEdit();
             }
+            unsetSelectable();
+            setSelectable();
             drawControl.shape = shape;
             shape.setActive();
             shape.startMove(e);
         }
 
-        public void setShapeSelectable(IMyShape shape)
+        public void setShapeSelectable(MyShape shape)
         {
-            shape.createVirtualShape((ee, s) =>
+            shape.showVirtualShape((ee, s) =>
             {
                 setShapeSelect(ee, s);
             });
@@ -216,7 +217,7 @@ namespace MyPaint
         {
             foreach (var shape in shapes)
             {
-                shape.deleteVirtualShape();
+                shape.hideVirtualShape();
             }
         }
     }

@@ -8,8 +8,8 @@ namespace MyPaint
 {
     public class HistoryShape : IHistoryNode
     {
-        public IMyShape shape;
-        public HistoryShape(IMyShape s)
+        public MyShape shape;
+        public HistoryShape(MyShape s)
         {
             shape = s;
         }

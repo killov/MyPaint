@@ -402,7 +402,7 @@ namespace MyPaint
 
         public void mouseMove(MouseEventArgs e)
         {
-            drawControl.mouseMove(e);
+            drawControl.mouseMove(e.GetPosition(w.canvas));
         }
 
         public void mouseUp(MouseButtonEventArgs e)

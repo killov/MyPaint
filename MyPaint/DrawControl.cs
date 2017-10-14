@@ -19,12 +19,12 @@ namespace MyPaint
         public Canvas topCanvas;
         public Brush primaryColor, secondaryColor;
         public double thickness;
-        public IMyShape shape;
+        public MyShape shape;
         public bool draw = false;
         public bool startdraw = false;
         public bool candraw = true;
         public bool drag = false;
-        bool shapeMoved;
+        bool shapeMoved = false;
         Point posunStart = new Point();
         Point posunStartMys = new Point();
         public Point resolution;
@@ -147,6 +147,10 @@ namespace MyPaint
             if (shape != null) shape.setThickness(t, true);
         }
 
+        public double getShapeThickness()
+        {
+            return thickness;
+        }
 
         public void shapeDelete()
         {
@@ -191,11 +195,13 @@ namespace MyPaint
             {
                 if (!shape.hitTest())
                 {
-                    IMyShape sh = shape;
+                    MyShape sh = shape;
                     stopDraw();
                     if (activeShape == MyEnum.SELECT)
                     {
-                        selectLayer.setShapeSelectable(sh);
+                        selectLayer.unsetSelectable();
+                        selectLayer.setSelectable();
+                        
                     }
                     startDraw(e);
                 }
@@ -223,10 +229,7 @@ namespace MyPaint
                         break;
                 }
                 control.addHistory(new HistoryShape(shape));
-                shape.setPrimaryColor(primaryColor);
-                shape.setSecondaryColor(secondaryColor);
-                shape.setThickness(thickness);
-                shape.mouseDown(e);
+                shape.drawMouseDown(e.GetPosition(canvas), e);
             }
         }
 
@@ -238,15 +241,15 @@ namespace MyPaint
             shapeMoved = false;
         }
 
-        public void mouseMove(MouseEventArgs e)
+        public void mouseMove(Point e)
         {
-            if (draw) shape.mouseMove(e);
+            if (draw) shape.drawMouseMove(e);
             if (!candraw)
             {
                 shape.moveDrag(e);
                 if (drag)
                 {
-                    shape.moveShape(posunStart.X + (e.GetPosition(canvas).X - posunStartMys.X), posunStart.Y + (e.GetPosition(canvas).Y - posunStartMys.Y));
+                    shape.moveShape(posunStart.X + (e.X - posunStartMys.X), posunStart.Y + (e.Y - posunStartMys.Y));
                 }
             }
         }
@@ -255,7 +258,7 @@ namespace MyPaint
         {
             if (draw)
             {
-                shape.mouseUp(e);
+                shape.drawMouseUp(e.GetPosition(canvas), e);
             }
             else if (!candraw)
             {
@@ -276,7 +279,7 @@ namespace MyPaint
             if (!candraw)
             {
                 candraw = true;
-                shape.stopDraw();
+                shape.stopEdit();
                 shape = null;
                 lockDraw();
             }

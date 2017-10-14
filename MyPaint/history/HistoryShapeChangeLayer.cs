@@ -9,9 +9,9 @@ namespace MyPaint
 {
     public class HistoryShapeChangeLayer : IHistoryNode
     {
-        public IMyShape shape;
+        public MyShape shape;
         public MyLayer o, n;
-        public HistoryShapeChangeLayer(IMyShape s, MyLayer oldL, MyLayer newL)
+        public HistoryShapeChangeLayer(MyShape s, MyLayer oldL, MyLayer newL)
         {
             shape = s;
             o = oldL;

@@ -9,9 +9,9 @@ namespace MyPaint
 {
     public class HistorySecondaryColor : IHistoryNode
     {
-        public IMyShape shape;
+        public MyShape shape;
         public Brush o, n;
-        public HistorySecondaryColor(IMyShape s, Brush oldBrush, Brush newBrush)
+        public HistorySecondaryColor(MyShape s, Brush oldBrush, Brush newBrush)
         {
             shape = s;
             o = oldBrush;

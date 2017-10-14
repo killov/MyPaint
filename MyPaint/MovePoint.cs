@@ -18,13 +18,13 @@ namespace MyPaint
         Ellipse el;
         Canvas ca;
         Canvas canvas;
-        IMyShape shape;
+        MyShape shape;
         Point position;
         public bool drag = false;
         Point startPosition;
         posun posun;
         Canvas element;
-        public MovePoint(Canvas c, IMyShape s, Point p, ScaleTransform revScale, posun pos)
+        public MovePoint(Canvas c, MyShape s, Point p, ScaleTransform revScale, posun pos)
         {
             ca = new Canvas();
             TransformGroup g = new TransformGroup();
@@ -50,11 +50,11 @@ namespace MyPaint
             };
         }
 
-        public void move(MouseEventArgs e)
+        public void move(Point e)
         {
             if (drag)
             {
-                position = e.GetPosition(canvas);
+                position = e;
                 Canvas.SetTop(ca, position.Y);
                 Canvas.SetLeft(ca, position.X);
 

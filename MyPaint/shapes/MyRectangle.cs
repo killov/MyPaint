@@ -12,162 +12,213 @@ using System.Windows.Controls;
 
 namespace MyPaint
 {
-    class MyRectangle : IMyShape
+    public class MyRectangle : MyShape
     {
-        DrawControl drawControl;
-        Polygon p = new Polygon(), lv;
-        Brush primaryColor, secondaryColor;
-        double thickness;
-        bool hit = false;
-        MyLayer layer;
-
-        public MyRectangle(DrawControl c, MyLayer la)
+        Polygon p = new Polygon(), vs;
+        MovePoint p1, p2, p3, p4;
+        public MyRectangle(DrawControl c, MyLayer la) : base(c, la)
         {
-            drawControl = c;
-            layer = la;
-            layer.shapes.Add(this);
+
         }
 
-        public MyRectangle(DrawControl c, MyLayer la, jsonDeserialize.Shape s)
+        public MyRectangle(DrawControl c, MyLayer la, jsonDeserialize.Shape s) : base(c, la, s)
         {
-            drawControl = c;
-            layer = la;
+            setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
+            setThickness(s.lineWidth);
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
             setSecondaryColor(s.fill == null ? null : s.fill.createBrush());
             setThickness(s.lineWidth);
-
 
             p.Points.Add(new Point(s.A.x, s.A.y));
             p.Points.Add(new Point(s.B.x, s.A.y));
             p.Points.Add(new Point(s.B.x, s.B.y));
             p.Points.Add(new Point(s.A.x, s.B.y));
 
-            layer.canvas.Children.Add(p);
-
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
+
+            addToCanvas(p);
+            createPoints();
+            createVirtualShape();
         }
 
-        public void setPrimaryColor(Brush s, bool addHistory = false)
+        override public void setPrimaryColor(Brush s, bool addHistory = false)
         {
-            if (addHistory)
-            {
-                drawControl.control.addHistory(new HistoryPrimaryColor(this, primaryColor, s));
-            }
-            primaryColor = s;
+            base.setPrimaryColor(s, addHistory);
             p.Stroke = s;
         }
 
-        public void setSecondaryColor(Brush s, bool addHistory = false)
+        override public void setSecondaryColor(Brush s, bool addHistory = false)
         {
-            if (addHistory)
-            {
-                drawControl.control.addHistory(new HistorySecondaryColor(this, secondaryColor, s));
-            }
-            secondaryColor = s;
+            base.setSecondaryColor(s, addHistory);
             p.Fill = s;
         }
 
-        public void changeLayer(MyLayer newLayer)
+        override public Brush getPrimaryColor()
         {
-            if (layer != null)
-            {
-                layer.canvas.Children.Remove(p);
-                layer.shapes.Remove(this);
-            }
-            layer = newLayer;
-            if (layer != null)
-            {
-                layer.canvas.Children.Add(p);
-                layer.shapes.Add(this);
-            }
+            return p.Stroke;
         }
 
-        public void setThickness(double s, bool addHistory = false)
+        override public Brush getSecondaryColor()
         {
-            if (addHistory)
-            {
-                drawControl.control.addHistory(new HistoryShapeThickness(this, thickness, s));
-            }
+            return p.Fill;
+        }
+
+        override public void addToCanvas()
+        {
+            addToCanvas(p);
+        }
+
+        override public void removeFromCanvas()
+        {
+            removeFromCanvas(p);
+        }
+
+        override public void setThickness(double s, bool addHistory = false)
+        {
+            base.setThickness(s, addHistory);
             p.StrokeThickness = s;
-            if (lv != null) lv.StrokeThickness = s;
-            thickness = s;
+            vs.StrokeThickness = s;
         }
 
-        public void mouseDown(MouseButtonEventArgs e)
+        override public double getThickness()
+        {
+            return p.StrokeThickness;
+        }
+
+
+        override public void drawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             PointCollection points = new PointCollection(4);
-            double x = e.GetPosition(layer.canvas).X;
-            double y = e.GetPosition(layer.canvas).Y;
-            points.Add(new Point(x, y));
-            points.Add(new Point(x, y));
-            points.Add(new Point(x, y));
-            points.Add(new Point(x, y));
-            p.Stroke = primaryColor;
-            p.Fill = secondaryColor;
+            points.Add(e);
+            points.Add(e);
+            points.Add(e);
+            points.Add(e);
+            p.Stroke = drawControl.getShapePrimaryColor();
+            p.Fill = drawControl.getShapeSecondaryColor();
+            p.StrokeThickness = drawControl.getShapeThickness();
             p.Points = points;
-            layer.canvas.Children.Add(p);
             p.ToolTip = null;
             p.Cursor = Cursors.Pen;
             drawControl.draw = true;
+            addToCanvas(p);
+            startDraw();
         }
 
-        public void mouseMove(MouseEventArgs e)
+        override public void drawMouseMove(Point e)
         {
-            double x = e.GetPosition(layer.canvas).X;
-            double y = e.GetPosition(layer.canvas).Y;
-
-            p.Points[1] = new Point(p.Points[1].X, y);
-            p.Points[2] = new Point(x, y);
-            p.Points[3] = new Point(x, p.Points[3].Y);
+            p.Points[1] = new Point(p.Points[1].X, e.Y);
+            p.Points[2] = e;
+            p.Points[3] = new Point(e.X, p.Points[3].Y);
         }
 
-        public void mouseUp(MouseButtonEventArgs e)
+        override public void drawMouseUp(Point e, MouseButtonEventArgs ee)
         {
-            p.Cursor = Cursors.SizeAll;
-            drawControl.draw = false;
+            stopDraw();
+            createPoints();
+            createVirtualShape();
             setActive();
-            drawControl.lockDraw();           
         }
 
-        public void createVirtualShape(MyOnMouseDown mouseDown)
+        override public void createVirtualShape()
         {
-            lv = new Polygon();
-            lv.Points = p.Points;
-            lv.Stroke = drawControl.nullBrush;
-            lv.Fill = drawControl.nullBrush;
-            lv.StrokeThickness = thickness;
-            lv.Cursor = Cursors.SizeAll;
-            lv.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
+
+            vs = new Polygon();
+            vs.Points = p.Points;
+            vs.Stroke = drawControl.nullBrush;
+            vs.Fill = drawControl.nullBrush;
+            vs.StrokeThickness = p.StrokeThickness;
+            vs.Cursor = Cursors.SizeAll;
+            vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
-                mouseDown(ee, this);
+                virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
                 hit = true;
             };
-            drawControl.topCanvas.Children.Add(lv);
+            
         }
 
-        public void deleteVirtualShape()
+        override public void showVirtualShape(MyOnMouseDown mouseDown)
         {
-            drawControl.topCanvas.Children.Remove(lv);
-            lv = null;
+            base.showVirtualShape(mouseDown);
+            hideVirtualShape();
+            drawControl.topCanvas.Children.Add(vs);
         }
 
-        public void startMove(MouseButtonEventArgs e)
+        override public void hideVirtualShape()
         {
-            drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));
+            drawControl.topCanvas.Children.Remove(vs);
         }
 
-        MovePoint p1, p2, p3, p4;
-        public void setActive()
+        override public void setActive()
         {
-            drawControl.setPrimaryColor(primaryColor);
-            drawControl.setSecondaryColor(secondaryColor);
-            drawControl.setThickness(thickness);
-            createVirtualShape((e, s) =>
-            {
-                drawControl.startMoveShape(p.Points[0], e.GetPosition(layer.canvas));
-            });
-            drawControl.candraw = false;
+            base.setActive();
+            drawControl.setPrimaryColor(p.Stroke);
+            drawControl.setSecondaryColor(p.Fill);
+            drawControl.setThickness(p.StrokeThickness);
+            p1.show();
+            p2.show();
+            p3.show();
+            p4.show();
+        }
+
+        override public void moveDrag(Point e)
+        {
+            base.moveDrag(e);
+            p1.move(e);
+            p2.move(e);
+            p3.move(e);
+            p4.move(e);
+        }
+
+        override public void stopDrag()
+        {
+            base.stopDrag();
+            p1.stopDrag();
+            p2.stopDrag();
+            p3.stopDrag();
+            p4.stopDrag();
+        }
+
+        override public void stopEdit()
+        {
+            base.stopEdit();
+            p1.hide();
+            p2.hide();
+            p3.hide();
+            p4.hide();
+        }
+
+        override public void moveShape(double x, double y)
+        {
+            base.moveShape(x, y);
+            p.Points[1] = new Point(p.Points[1].X - p.Points[0].X + x, p.Points[1].Y - p.Points[0].Y + y);
+            p.Points[2] = new Point(p.Points[2].X - p.Points[0].X + x, p.Points[2].Y - p.Points[0].Y + y);
+            p.Points[3] = new Point(p.Points[3].X - p.Points[0].X + x, p.Points[3].Y - p.Points[0].Y + y);
+            p.Points[0] = new Point(x, y);
+            p1.move(x, y);
+            p2.move(p.Points[1].X, p.Points[1].Y);
+            p3.move(p.Points[2].X, p.Points[2].Y);
+            p4.move(p.Points[3].X, p.Points[3].Y);
+        }
+
+        override public jsonSerialize.Shape renderShape()
+        {
+            jsonSerialize.Rectangle ret = new jsonSerialize.Rectangle();
+            ret.lineWidth = p.StrokeThickness;
+            ret.stroke = Utils.BrushToCanvas(p.Stroke);
+            ret.fill = Utils.BrushToCanvas(p.Fill);
+            ret.A = new jsonSerialize.Point(p.Points[0].X, p.Points[0].Y);
+            ret.B = new jsonSerialize.Point(p.Points[2].X, p.Points[2].Y);
+            return ret;
+        }
+
+        override public Point getPosition()
+        {
+            return p.Points[0];
+        }
+
+        override public void createPoints()
+        {
             p1 = new MovePoint(drawControl.topCanvas, this, p.Points[0], drawControl.revScale, (po) =>
             {
                 p.Points[0] = po;
@@ -209,90 +260,5 @@ namespace MyPaint
             });
         }
 
-        public void moveDrag(MouseEventArgs e)
-        {
-            p1.move(e);
-            p2.move(e);
-            p3.move(e);
-            p4.move(e);
-        }
-
-        public void stopDrag()
-        {
-            hit = false;
-            p1.stopDrag();
-            p2.stopDrag();
-            p3.stopDrag();
-            p4.stopDrag();
-        }
-
-        public void stopDraw()
-        {
-            deleteVirtualShape();
-            p1.hide();
-            p2.hide();
-            p3.hide();
-            p4.hide();
-        }
-
-        public void moveShape(double x, double y)
-        {
-            p.Points[1] = new Point(p.Points[1].X - p.Points[0].X + x, p.Points[1].Y - p.Points[0].Y + y);
-            p.Points[2] = new Point(p.Points[2].X - p.Points[0].X + x, p.Points[2].Y - p.Points[0].Y + y);
-            p.Points[3] = new Point(p.Points[3].X - p.Points[0].X + x, p.Points[3].Y - p.Points[0].Y + y);
-            p.Points[0] = new Point(x, y);
-            p1.move(x, y);
-            p2.move(p.Points[1].X, p.Points[1].Y);
-            p3.move(p.Points[2].X, p.Points[2].Y);
-            p4.move(p.Points[3].X, p.Points[3].Y);
-
-        }
-
-        public jsonSerialize.Shape renderShape()
-        {
-            jsonSerialize.Rectangle ret = new jsonSerialize.Rectangle();
-            ret.lineWidth = thickness;
-            ret.stroke = Utils.BrushToCanvas(primaryColor);
-            ret.fill = Utils.BrushToCanvas(secondaryColor);
-            ret.A = new jsonSerialize.Point(p.Points[0].X, p.Points[0].Y);
-            ret.B = new jsonSerialize.Point(p.Points[2].X, p.Points[2].Y);
-            return ret;
-        }
-
-        public void setHit(bool h)
-        {
-            hit = h;
-        }
-
-        public bool hitTest()
-        {
-            return hit;
-        }
-
-        public void delete()
-        {
-            layer.shapes.Remove(this);
-            layer.canvas.Children.Remove(p);
-            if (p1 != null)
-            {
-                stopDraw();
-            }
-            else
-            {
-                deleteVirtualShape();
-            }
-        }
-
-        public void refresh()
-        {
-            layer.shapes.Add(this);
-            layer.canvas.Children.Add(p);
-            drawControl.lockDraw();
-        }
-
-        public Point getPosition()
-        {
-            return p.Points[0];
-        }
     }
 }

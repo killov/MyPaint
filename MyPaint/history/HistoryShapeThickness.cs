@@ -9,9 +9,9 @@ namespace MyPaint
 {
     public class HistoryShapeThickness : IHistoryNode
     {
-        public IMyShape shape;
+        public MyShape shape;
         public double o, n;
-        public HistoryShapeThickness(IMyShape s, double oldT, double newT)
+        public HistoryShapeThickness(MyShape s, double oldT, double newT)
         {
             shape = s;
             o = oldT;

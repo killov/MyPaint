@@ -12,27 +12,20 @@ using System.Windows.Controls;
 
 namespace MyPaint
 {
-    class MyEllipse : IMyShape
+    public class MyEllipse : MyShape
     {
-        DrawControl drawControl;
-        Ellipse p = new Ellipse(), lv;
-        Brush primaryColor, secondaryColor;
-        bool hit = false;
-        double thickness;
+        Ellipse p = new Ellipse(), vs;
         double sx, sy, ex, ey;
-        MyLayer layer;
-
-        public MyEllipse(DrawControl c, MyLayer la)
+        MovePoint p1, p2, p3, p4;
+        public MyEllipse(DrawControl c, MyLayer la) : base(c, la)
         {
-            drawControl = c;
-            layer = la;
-            layer.shapes.Add(this);
+
         }
 
-        public MyEllipse(DrawControl c, MyLayer la, jsonDeserialize.Shape s)
+        public MyEllipse(DrawControl c, MyLayer la, jsonDeserialize.Shape s) : base(c, la, s)
         {
-            drawControl = c;
-            layer = la;
+            setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
+            setThickness(s.lineWidth);
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
             setSecondaryColor(s.fill == null ? null : s.fill.createBrush());
             setThickness(s.lineWidth);
@@ -40,59 +33,60 @@ namespace MyPaint
             sx = s.A.x;
             sy = s.A.y;
 
-            layer.canvas.Children.Add(p);
+            
+            p.ToolTip = null;
+
+            addToCanvas(p);
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
-            p.ToolTip = null;
             moveE(p, s.B.x, s.B.y);
 
             createPoints();
+            createVirtualShape();
         }
 
-        public void setPrimaryColor(Brush s, bool addHistory = false)
+        override public void setPrimaryColor(Brush s, bool addHistory = false)
         {
-            if (addHistory)
-            {
-                drawControl.control.addHistory(new HistoryPrimaryColor(this, primaryColor, s));
-            }
-            primaryColor = s;
+            base.setPrimaryColor(s, addHistory);
             p.Stroke = s;
         }
 
-        public void setSecondaryColor(Brush s, bool addHistory = false)
+        override public void setSecondaryColor(Brush s, bool addHistory = false)
         {
-            if (addHistory)
-            {
-                drawControl.control.addHistory(new HistorySecondaryColor(this, secondaryColor, s));
-            }
-            secondaryColor = s;
+            base.setSecondaryColor(s, addHistory);
             p.Fill = s;
         }
 
-        public void changeLayer(MyLayer newLayer)
+        override public Brush getPrimaryColor()
         {
-            if(layer != null)
-            {
-                layer.canvas.Children.Remove(p);
-                layer.shapes.Remove(this);
-            }
-            layer = newLayer;
-            if (layer != null)
-            {
-                layer.canvas.Children.Add(p);
-                layer.shapes.Add(this);
-            }
+            return p.Stroke;
         }
 
-        public void setThickness(double s, bool addHistory = false)
+        override public Brush getSecondaryColor()
         {
-            if (addHistory)
-            {
-                drawControl.control.addHistory(new HistoryShapeThickness(this, thickness, s));
-            }
+            return p.Fill;
+        }
+
+        override public void addToCanvas()
+        {
+            addToCanvas(p);
+        }
+
+        override public void removeFromCanvas()
+        {
+            removeFromCanvas(p);
+        }
+
+        override public void setThickness(double s, bool addHistory = false)
+        {
+            base.setThickness(s, addHistory);
             p.StrokeThickness = s;
-            if (lv != null) lv.StrokeThickness = s;
-            thickness = s;
+            vs.StrokeThickness = s;
+        }
+
+        override public double getThickness()
+        {
+            return p.StrokeThickness;
         }
 
         void moveS(Ellipse p, double x, double y)
@@ -143,125 +137,117 @@ namespace MyPaint
             ey = y;
         }
 
-        public void mouseDown(MouseButtonEventArgs e)
+        override public void drawMouseDown(Point e, MouseButtonEventArgs ee)
         {
-            sx = e.GetPosition(layer.canvas).X;
-            sy = e.GetPosition(layer.canvas).Y;
+            sx = e.X;
+            sy = e.Y;
 
             p.ToolTip = null;
             p.Cursor = Cursors.Pen;
+            p.Stroke = drawControl.getShapePrimaryColor();
+            p.Fill = drawControl.getShapeSecondaryColor();
+            p.StrokeThickness = drawControl.getShapeThickness();
 
-            layer.canvas.Children.Add(p);
+            addToCanvas(p);
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
-            drawControl.draw = true;
+            
+            startDraw();
         }
 
-        public void mouseMove(MouseEventArgs e)
+        override public void drawMouseMove(Point e)
         {
-            double x = e.GetPosition(layer.canvas).X;
-            double y = e.GetPosition(layer.canvas).Y;
-            moveE(p, x, y);
+            moveE(p, e.X, e.Y);
         }
 
-        public void mouseUp(MouseButtonEventArgs e)
+        override public void drawMouseUp(Point e, MouseButtonEventArgs ee)
         {
-            drawControl.draw = false;
-
+            stopDraw();
             createPoints();
-
+            createVirtualShape();
             setActive();
-            drawControl.lockDraw();
         }
 
-        public void createVirtualShape(MyOnMouseDown mouseDown)
+        override public void createVirtualShape()
         {
-            lv = new Ellipse();
-            moveS(lv, sx, sy);
-            moveE(lv, ex, ey);
-            lv.Cursor = Cursors.SizeAll;
-            lv.Stroke = drawControl.nullBrush;
-            lv.Fill = drawControl.nullBrush;
-            lv.StrokeThickness = thickness;
-            lv.Cursor = Cursors.SizeAll;
-            lv.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
+
+            vs = new Ellipse();
+            moveS(vs, sx, sy);
+            moveE(vs, ex, ey);
+            vs.Cursor = Cursors.SizeAll;
+            vs.Stroke = drawControl.nullBrush;
+            vs.Fill = drawControl.nullBrush;
+            vs.StrokeThickness = p.StrokeThickness;
+            vs.Cursor = Cursors.SizeAll;
+            vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
-                mouseDown(ee, this);
+                virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
                 hit = true;
-            };
-            drawControl.topCanvas.Children.Add(lv);
+            };            
         }
 
-        public void deleteVirtualShape()
+        override public void showVirtualShape(MyOnMouseDown mouseDown)
         {
-            drawControl.topCanvas.Children.Remove(lv);
-            lv = null;
+            base.showVirtualShape(mouseDown);
+            hideVirtualShape();
+            drawControl.topCanvas.Children.Add(vs);
         }
 
-        public void startMove(MouseButtonEventArgs e)
+        override public void hideVirtualShape()
         {
-            drawControl.startMoveShape(new Point(Canvas.GetLeft(p), Canvas.GetTop(p)), e.GetPosition(layer.canvas));
+            drawControl.topCanvas.Children.Remove(vs);
         }
 
-        MovePoint p1, p2, p3, p4;
-        public void setActive()
+        override public void setActive()
         {
+            base.setActive();
+            drawControl.setPrimaryColor(p.Stroke);
+            drawControl.setSecondaryColor(p.Fill);
+            drawControl.setThickness(p.StrokeThickness);
             p1.show();
             p2.show();
             p3.show();
             p4.show();
-            drawControl.setPrimaryColor(primaryColor);
-            drawControl.setSecondaryColor(secondaryColor);
-            drawControl.setThickness(thickness);
-            createVirtualShape((e, s) =>
-            {
-                drawControl.startMoveShape(new Point(Canvas.GetLeft(p), Canvas.GetTop(p)), e.GetPosition(layer.canvas));
-            });
-
-            drawControl.candraw = false;
-          
         }
 
-        public void moveDrag(MouseEventArgs e)
+        override public void moveDrag(Point e)
         {
+            base.moveDrag(e);
             p1.move(e);
             p2.move(e);
             p3.move(e);
             p4.move(e);
         }
 
-        public void stopDrag()
+        override public void stopDrag()
         {
-            hit = false;
+            base.stopDrag();
             p1.stopDrag();
             p2.stopDrag();
             p3.stopDrag();
             p4.stopDrag();
         }
 
-        public void stopDraw()
+        override public void stopEdit()
         {
-            deleteVirtualShape();
+            base.stopEdit();
             p1.hide();
             p2.hide();
             p3.hide();
             p4.hide();
         }
 
-        public void moveShape(double x, double y)
+        override public void moveShape(double x, double y)
         {
-            hit = true;
-            sx += x-Canvas.GetLeft(p);
-            ex += x-Canvas.GetLeft(p);
-            sy += y-Canvas.GetTop(p);
-            ey += y-Canvas.GetTop(p);
+            base.moveShape(x, y);
+            sx += x - Canvas.GetLeft(p);
+            ex += x - Canvas.GetLeft(p);
+            sy += y - Canvas.GetTop(p);
+            ey += y - Canvas.GetTop(p);
             Canvas.SetLeft(p, x);
             Canvas.SetTop(p, y);
-            if (lv != null)
-            {
-                Canvas.SetLeft(lv, x);
-                Canvas.SetTop(lv, y);
-            }
+            Canvas.SetLeft(vs, x);
+            Canvas.SetTop(vs, y);
 
             p1.move(sx, sy);
             p2.move(ex, ey);
@@ -269,59 +255,28 @@ namespace MyPaint
             p4.move(sx, ey);
         }
 
-        public jsonSerialize.Shape renderShape()
+        override public jsonSerialize.Shape renderShape()
         {
             jsonSerialize.Ellipse ret = new jsonSerialize.Ellipse();
-            ret.lineWidth = thickness;
-            ret.stroke = Utils.BrushToCanvas(primaryColor);
-            ret.fill = Utils.BrushToCanvas(secondaryColor);
+            ret.lineWidth = p.StrokeThickness;
+            ret.stroke = Utils.BrushToCanvas(p.Stroke);
+            ret.fill = Utils.BrushToCanvas(p.Fill);
             ret.A = new jsonSerialize.Point(sx, sy);
             ret.B = new jsonSerialize.Point(ex, ey);
             return ret;
         }
 
-        public void setHit(bool h)
-        {
-            hit = h;
-        }
-
-        public bool hitTest()
-        {
-            return hit;
-        }
-
-        public void delete()
-        {
-            layer.canvas.Children.Remove(p);
-            layer.shapes.Remove(this);
-            if(p1 != null)
-            {
-                stopDraw();
-            }
-            else
-            {
-                deleteVirtualShape();
-            }
-        }
-
-        public void refresh()
-        {
-            layer.shapes.Add(this);
-            layer.canvas.Children.Add(p);
-            drawControl.lockDraw();
-        }
-
-        public Point getPosition()
+        override public Point getPosition()
         {
             return new Point(Canvas.GetLeft(p), Canvas.GetTop(p));
         }
 
-        void createPoints()
+        override public void createPoints()
         {
             p1 = new MovePoint(drawControl.topCanvas, this, new Point(sx, sy), drawControl.revScale, (po) =>
             {
                 moveS(p, po.X, po.Y);
-                moveS(lv, po.X, po.Y);
+                moveS(vs, po.X, po.Y);
                 p1.move(po.X, po.Y);
                 p3.move(ex, sy);
                 p4.move(sx, ey);
@@ -330,7 +285,7 @@ namespace MyPaint
             p2 = new MovePoint(drawControl.topCanvas, this, new Point(ex, ey), drawControl.revScale, (po) =>
             {
                 moveE(p, po.X, po.Y);
-                moveE(lv, po.X, po.Y);
+                moveE(vs, po.X, po.Y);
                 p2.move(po.X, po.Y);
                 p3.move(ex, sy);
                 p4.move(sx, ey);
@@ -340,8 +295,8 @@ namespace MyPaint
             {
                 moveE(p, po.X, ey);
                 moveS(p, sx, po.Y);
-                moveE(lv, po.X, ey);
-                moveS(lv, sx, po.Y);
+                moveE(vs, po.X, ey);
+                moveS(vs, sx, po.Y);
                 p3.move(po.X, po.Y);
                 p1.move(sx, sy);
                 p2.move(ex, ey);
@@ -351,8 +306,8 @@ namespace MyPaint
             {
                 moveE(p, ex, po.Y);
                 moveS(p, po.X, sy);
-                moveE(lv, ex, po.Y);
-                moveS(lv, po.X, sy);
+                moveE(vs, ex, po.Y);
+                moveS(vs, po.X, sy);
                 p4.move(po.X, po.Y);
                 p1.move(sx, sy);
                 p2.move(ex, ey);
