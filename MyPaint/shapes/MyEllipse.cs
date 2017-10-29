@@ -24,6 +24,7 @@ namespace MyPaint
 
         public MyEllipse(DrawControl c, MyLayer la, jsonDeserialize.Shape s) : base(c, la, s)
         {
+            createVirtualShape();
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
             setThickness(s.lineWidth);
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
@@ -42,7 +43,7 @@ namespace MyPaint
             moveE(p, s.B.x, s.B.y);
 
             createPoints();
-            createVirtualShape();
+            
         }
 
         override public void setPrimaryColor(Brush s, bool addHistory = false)

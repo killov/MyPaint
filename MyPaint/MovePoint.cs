@@ -11,9 +11,8 @@ using System.Windows.Controls;
 
 namespace MyPaint
 {
-    delegate void posun(Point b);
-    delegate void posuni(Point b, int i);
-    class MovePoint
+    public delegate void posun(Point b);
+    public class MovePoint
     {
         Ellipse el;
         Canvas ca;
@@ -54,12 +53,17 @@ namespace MyPaint
         {
             if (drag)
             {
-                position = e;
-                Canvas.SetTop(ca, position.Y);
-                Canvas.SetLeft(ca, position.X);
-
-                posun(position);
+                movee(e);
             }
+        }
+
+        public void movee(Point e)
+        {
+            position = e;
+            Canvas.SetTop(ca, position.Y);
+            Canvas.SetLeft(ca, position.X);
+
+            posun(position);
         }
 
         public void move(double x, double y)
@@ -90,6 +94,10 @@ namespace MyPaint
 
         public void stopDrag()
         {
+            if (drag && !startPosition.Equals(position))
+            {
+                shape.drawControl.control.addHistory(new HistoryMovePoint(this, startPosition, position));
+            }
             drag = false;
         }
     }

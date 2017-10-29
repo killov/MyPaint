@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace MyPaint
 {
-    public class HistoryShapeChangeLayer : IHistoryNode
+    public class HistoryShapeChangeLayer : IHistoryNodeSkipped
     {
         public MyShape shape;
         public MyLayer o, n;
@@ -26,6 +26,17 @@ namespace MyPaint
         public void forward()
         {
             shape.changeLayer(n);
+        }
+
+        public void skip(IHistoryNodeSkipped node)
+        {
+            HistoryShapeChangeLayer n = (HistoryShapeChangeLayer)node;
+            this.n = n.n;
+        }
+
+        public bool optimal(IHistoryNodeSkipped node)
+        {
+            return (node is HistoryShapeChangeLayer) && ((HistoryShapeChangeLayer)node).shape.Equals(shape);
         }
     }
 }

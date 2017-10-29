@@ -84,7 +84,7 @@ namespace MyPaint
                 layers[i].setSelectable();
             }
             selectLayer = layers[i];
-            control.setBackgroundColor(selectLayer.color);
+            control.setBackgroundColor(selectLayer.color, false);
             if (shape != null) shape.changeLayer(selectLayer);
         }
 
@@ -123,7 +123,11 @@ namespace MyPaint
 
         public void setBackgroundColor(Brush c)
         {
-            if (selectLayer != null) selectLayer.setColor(c);
+            if (selectLayer != null)
+            {
+                control.addHistory(new HistoryBackgroundColor(selectLayer, selectLayer.getColor(), c));
+                selectLayer.setColor(c);
+            }
         }
 
         public Brush getShapePrimaryColor()
@@ -262,14 +266,21 @@ namespace MyPaint
             }
             else if (!candraw)
             {
-                shape.stopDrag();
-                drag = false;
-                Point start = posunStart;
-                Point stop = shape.getPosition();
-                if (!start.Equals(stop))
+                if (!drag)
                 {
-                    control.addHistory(new HistoryShapeMove(shape, start, stop));
+                    shape.stopDrag();            
+                }else
+                {
+                    drag = false;
+                    Point start = posunStart;
+                    Point stop = shape.getPosition();
+                    if (!start.Equals(stop))
+                    {
+                        control.addHistory(new HistoryShapeMove(shape, start, stop));
+                    }
                 }
+                
+                
                 
             }
         }

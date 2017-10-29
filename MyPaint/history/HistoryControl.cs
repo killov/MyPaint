@@ -28,7 +28,7 @@ namespace MyPaint
         {
             if(backStack.Count > 0 && (node is IHistoryNodeSkipped))
             {
-                IHistoryNode last = backStack.Last();
+                IHistoryNode last = backStack.First();
                 if(last is IHistoryNodeSkipped)
                 {
                     IHistoryNodeSkipped l = (IHistoryNodeSkipped)last;

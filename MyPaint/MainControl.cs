@@ -34,7 +34,7 @@ namespace MyPaint
         ScaleTransform scale, revScale;
         public Point resolution;
         public bool resolutionDrag = false;
-        bool CBLock = false;
+        Brush cblock = null;
 
         public MainControl(MainWindow ww)
         {
@@ -120,24 +120,29 @@ namespace MyPaint
 
         public void setColorCB(Brush c)
         {
-            switch (activeColor)
-            {
-                case MyEnum.PRIMARY:
-                    drawControl.setShapePrimaryColor(c);
-                    w.primaryColor.Fill = c;
-                    break;
-                case MyEnum.SECONDARY:
-                    drawControl.setShapeSecondaryColor(c);
-                    w.secondaryColor.Fill = c;
-                    break;
-                case MyEnum.BACKGROUND:
-                    w.backgroundColor.Fill = c;
-                    break;
+            if (cblock == null || !cblock.Equals(c)){
+                cblock = c;
+                switch (activeColor)
+                {
+                    case MyEnum.PRIMARY:
+                        drawControl.setShapePrimaryColor(c);
+                        w.primaryColor.Fill = c;
+                        break;
+                    case MyEnum.SECONDARY:
+                        drawControl.setShapeSecondaryColor(c);
+                        w.secondaryColor.Fill = c;
+                        break;
+                    case MyEnum.BACKGROUND:
+                        drawControl.setBackgroundColor(c);
+                        w.backgroundColor.Fill = c;
+                        break;
+                }
             }
         }
 
         public void setColor(Brush c)
         {
+            cblock = c;
             switch (activeColor)
             {
                 case MyEnum.PRIMARY:
@@ -166,15 +171,18 @@ namespace MyPaint
             w.secondaryColor.Fill = c;
         }
 
-        public void setBackgroundColor(Brush c)
+        public void setBackgroundColor(Brush c, bool back = true)
         {
             if (activeColor == MyEnum.BACKGROUND) setCB(c);
+            if (back) drawControl.setBackgroundColor(c);
             w.backgroundColor.Fill = c;
         }
 
         void setCB(Brush color)
         {
-            
+            if (color != null && color is SolidColorBrush)
+                color.Freeze();
+            w.CB.Brush = color;
         }
 
         public Brush getColor()

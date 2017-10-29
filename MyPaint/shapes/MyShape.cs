@@ -18,7 +18,7 @@ namespace MyPaint
     {
         protected bool hit = false;
         MyLayer layer;
-        protected DrawControl drawControl;
+        public DrawControl drawControl;
         protected MyOnMouseDown virtualShapeCallback;
 
         public MyShape(DrawControl c, MyLayer la)
@@ -32,8 +32,6 @@ namespace MyPaint
         {
             drawControl = c;
             layer = la;
-            
-
         }
 
         virtual public void setPrimaryColor(Brush s, bool addHistory = false)

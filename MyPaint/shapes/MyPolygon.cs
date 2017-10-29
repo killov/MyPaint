@@ -20,6 +20,7 @@ namespace MyPaint
         List<Point> points = new List<Point>();
         List<Line> lines = new List<Line>();
         Line l;
+        Path path;
         public MyPolygon(DrawControl c, MyLayer la) : base(c, la)
         {
 
@@ -95,6 +96,12 @@ namespace MyPaint
         override public void drawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             startDraw();
+            path = new Path();
+            path.Stroke = drawControl.getShapePrimaryColor();
+            path.StrokeThickness = drawControl.getShapeThickness();
+            path.ToolTip = null;
+            path.Data = new PathGeometry();
+            addToCanvas(path);
         }
 
         override public void drawMouseMove(Point e)
@@ -125,6 +132,9 @@ namespace MyPaint
             addToCanvas(l);
             points.Add(e);
             lines.Add(l);
+
+
+            
             if (ee.ChangedButton == MouseButton.Right)
             {
                 if (start)

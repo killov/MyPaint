@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace MyPaint
 {
-    public class HistoryShapeThickness : IHistoryNode
+    public class HistoryShapeThickness : IHistoryNodeSkipped
     {
         public MyShape shape;
         public double o, n;
@@ -26,6 +26,17 @@ namespace MyPaint
         public void forward()
         {
             shape.setThickness(n);
+        }
+
+        public void skip(IHistoryNodeSkipped node)
+        {
+            HistoryShapeThickness n = (HistoryShapeThickness)node;
+            this.n = n.n;
+        }
+
+        public bool optimal(IHistoryNodeSkipped node)
+        {
+            return node is HistoryShapeThickness;
         }
     }
 }

@@ -107,6 +107,11 @@ namespace MyPaint
             color = c;
         }
 
+        public Brush getColor()
+        {
+            return color;
+        }
+
         public void delete()
         {
             cv.Children.Remove(canvas);

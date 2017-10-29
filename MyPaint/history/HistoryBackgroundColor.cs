@@ -7,36 +7,36 @@ using System.Windows.Media;
 
 namespace MyPaint
 {
-    public class HistoryPrimaryColor : IHistoryNodeSkipped
+    public class HistoryBackgroundColor : IHistoryNodeSkipped
     {
-        public MyShape shape;
+        public MyLayer layer;
         public Brush o, n;
-        public HistoryPrimaryColor(MyShape s, Brush oldBrush, Brush newBrush)
+        public HistoryBackgroundColor(MyLayer l, Brush oldBrush, Brush newBrush)
         {
-            shape = s;
+            layer = l;
             o = oldBrush;
             n = newBrush;
         }
 
         public void back()
         {
-            shape.setPrimaryColor(o);
+            layer.setColor(o);
         }
 
         public void forward()
         {
-            shape.setPrimaryColor(n);
+            layer.setColor(n);
         }
 
         public void skip(IHistoryNodeSkipped node)
         {
-            HistoryPrimaryColor n = (HistoryPrimaryColor)node;
+            HistoryBackgroundColor n = (HistoryBackgroundColor)node;
             this.n = n.n;
         }
 
         public bool optimal(IHistoryNodeSkipped node)
         {
-            return (node is HistoryPrimaryColor) && ((HistoryPrimaryColor)node).shape.Equals(shape);
+            return (node is HistoryBackgroundColor) && ((HistoryBackgroundColor)node).layer.Equals(layer);
         }
     }
 }
