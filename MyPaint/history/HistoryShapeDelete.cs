@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPaint
+namespace MyPaint.History
 {
     public class HistoryShapeDelete : IHistoryNode
     {
-        public MyShape shape;
-        public HistoryShapeDelete(MyShape s)
+        public Shapes.MyShape shape;
+        public HistoryShapeDelete(Shapes.MyShape s)
         {
             shape = s;
         }

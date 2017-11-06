@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace MyPaint
+namespace MyPaint.History
 {
     public class HistoryShapeThickness : IHistoryNodeSkipped
     {
-        public MyShape shape;
+        public Shapes.MyShape shape;
         public double o, n;
-        public HistoryShapeThickness(MyShape s, double oldT, double newT)
+        public HistoryShapeThickness(Shapes.MyShape s, double oldT, double newT)
         {
             shape = s;
             o = oldT;

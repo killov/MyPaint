@@ -47,7 +47,7 @@ namespace MyPaint
         public Canvas canvas;
         public Brush color;
         private DrawControl drawControl;
-        public List<MyShape> shapes = new List<MyShape>();
+        public List<Shapes.MyShape> shapes = new List<Shapes.MyShape>();
 
         public MyLayer(Canvas c, DrawControl dc)
         {
@@ -76,19 +76,19 @@ namespace MyPaint
                 switch (shape.type)
                 {
                     case "LINE":
-                        shapes.Add(new MyLine(dc, this, shape));
+                        shapes.Add(new Shapes.MyLine(dc, this, shape));
                         break;
                     case "RECTANGLE":
-                        shapes.Add(new MyRectangle(dc, this, shape));
+                        shapes.Add(new Shapes.MyRectangle(dc, this, shape));
                         break;
                     case "ELLIPSE":
-                        shapes.Add(new MyEllipse(dc, this, shape));
+                        shapes.Add(new Shapes.MyEllipse(dc, this, shape));
                         break;
                     case "POLYGON":
-                        shapes.Add(new MyPolygon(dc, this, shape));
+                        shapes.Add(new Shapes.MyPolygon(dc, this, shape));
                         break;
                     case "IMAGE":
-                 //       shapes.Add(new MyImage(dc, this, shape));
+                        shapes.Add(new Shapes.MyImage(dc, this, shape));
                         break;
                 }
             }
@@ -145,7 +145,7 @@ namespace MyPaint
             if (i > 0)
             {
                 setPosition(i - 1);
-                drawControl.control.addHistory(new HistoryLayerPosition(this, i, i - 1));
+                drawControl.control.addHistory(new History.HistoryLayerPosition(this, i, i - 1));
             }
         }
 
@@ -155,7 +155,7 @@ namespace MyPaint
             if (i < drawControl.layers.Count - 1)
             {
                 setPosition(i + 1);
-                drawControl.control.addHistory(new HistoryLayerPosition(this, i, i + 1));
+                drawControl.control.addHistory(new History.HistoryLayerPosition(this, i, i + 1));
             }
         }
 
@@ -197,7 +197,7 @@ namespace MyPaint
             }
         }
 
-        public void setShapeSelect(Point e, MyShape shape)
+        public void setShapeSelect(Point e, Shapes.MyShape shape)
         {            
             if (drawControl.shape != null)
             {
@@ -210,7 +210,7 @@ namespace MyPaint
             shape.startMove(e);
         }
 
-        public void setShapeSelectable(MyShape shape)
+        public void setShapeSelectable(Shapes.MyShape shape)
         {
             shape.showVirtualShape((ee, s) =>
             {

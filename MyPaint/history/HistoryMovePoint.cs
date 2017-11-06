@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace MyPaint
+namespace MyPaint.History
 {
     public class HistoryMovePoint : IHistoryNode
     {

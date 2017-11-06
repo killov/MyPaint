@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 
-namespace MyPaint
+namespace MyPaint.Shapes
 {
     public class MyLine : MyShape
     {

@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace MyPaint
+namespace MyPaint.History
 {
     public class HistorySecondaryColor : IHistoryNodeSkipped
     {
-        public MyShape shape;
+        public Shapes.MyShape shape;
         public Brush o, n;
-        public HistorySecondaryColor(MyShape s, Brush oldBrush, Brush newBrush)
+        public HistorySecondaryColor(Shapes.MyShape s, Brush oldBrush, Brush newBrush)
         {
             shape = s;
             o = oldBrush;

@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace MyPaint
+namespace MyPaint.History
 {
     public class HistoryShapeChangeLayer : IHistoryNodeSkipped
     {
-        public MyShape shape;
+        public Shapes.MyShape shape;
         public MyLayer o, n;
-        public HistoryShapeChangeLayer(MyShape s, MyLayer oldL, MyLayer newL)
+        public HistoryShapeChangeLayer(Shapes.MyShape s, MyLayer oldL, MyLayer newL)
         {
             shape = s;
             o = oldL;

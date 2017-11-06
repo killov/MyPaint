@@ -17,13 +17,13 @@ namespace MyPaint
         Ellipse el;
         Canvas ca;
         Canvas canvas;
-        MyShape shape;
+        Shapes.MyShape shape;
         Point position;
         public bool drag = false;
         Point startPosition;
         posun posun;
         Canvas element;
-        public MovePoint(Canvas c, MyShape s, Point p, ScaleTransform revScale, posun pos)
+        public MovePoint(Canvas c, Shapes.MyShape s, Point p, ScaleTransform revScale, posun pos)
         {
             ca = new Canvas();
             TransformGroup g = new TransformGroup();
@@ -96,7 +96,7 @@ namespace MyPaint
         {
             if (drag && !startPosition.Equals(position))
             {
-                shape.drawControl.control.addHistory(new HistoryMovePoint(this, startPosition, position));
+                shape.drawControl.control.addHistory(new History.HistoryMovePoint(this, startPosition, position));
             }
             drag = false;
         }

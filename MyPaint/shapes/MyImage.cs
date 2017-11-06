@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace MyPaint
+namespace MyPaint.Shapes
 {
     public class MyImage : MyShape
     {

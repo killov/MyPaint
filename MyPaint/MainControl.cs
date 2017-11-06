@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Timers;
 using System.Web.Script.Serialization;
 using System.Collections.ObjectModel;
+using MyPaint.History;
 
 namespace MyPaint
 {

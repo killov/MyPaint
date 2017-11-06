@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace MyPaint
+namespace MyPaint.History
 {
     public class HistoryShapeMove : IHistoryNode
     {
-        public MyShape shape;
+        public Shapes.MyShape shape;
         Point o, n;
-        public HistoryShapeMove(MyShape s, Point oldPosition, Point newPosiotion)
+        public HistoryShapeMove(Shapes.MyShape s, Point oldPosition, Point newPosiotion)
         {
             shape = s;
             o = oldPosition;

@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 
-namespace MyPaint
+namespace MyPaint.Shapes
 {
     public class MyPolygon : MyShape
     {
@@ -18,9 +18,10 @@ namespace MyPaint
         List<MovePoint> movepoints = new List<MovePoint>();
         bool start = false;
         List<Point> points = new List<Point>();
-        List<Line> lines = new List<Line>();
-        Line l;
+
         Path path;
+        PathFigure pf;
+        LineSegment ls;
         public MyPolygon(DrawControl c, MyLayer la) : base(c, la)
         {
 
@@ -100,40 +101,34 @@ namespace MyPaint
             path.Stroke = drawControl.getShapePrimaryColor();
             path.StrokeThickness = drawControl.getShapeThickness();
             path.ToolTip = null;
-            path.Data = new PathGeometry();
+            PathGeometry p = new PathGeometry();
+            pf = new PathFigure();
+            pf.StartPoint = e;
+            p.Figures.Add(pf);
+            path.Data = p;
             addToCanvas(path);
+            ls = new LineSegment();
+            ls.Point = e;
+            pf.Segments.Add(ls);
         }
 
         override public void drawMouseMove(Point e)
         {
             if (start)
             {
-                double x = e.X;
-                double y = e.Y;
-
-                l.X2 = x;
-                l.Y2 = y;
+                ls.Point = e;
             }
         }
 
         override public void drawMouseUp(Point e, MouseButtonEventArgs ee)
         {
             start = true;
-            l = new Line();
+            ls.Point = e;
+            ls = new LineSegment();
+            ls.Point = e;
+            pf.Segments.Add(ls);
 
-            l.Stroke = drawControl.getShapePrimaryColor();
-            l.StrokeThickness = drawControl.getShapeThickness();
-            l.ToolTip = null;
-            l.Cursor = Cursors.Pen;
-            l.X1 = e.X;
-            l.X2 = e.X;
-            l.Y1 = e.Y;
-            l.Y2 = e.Y;
-            addToCanvas(l);
             points.Add(e);
-            lines.Add(l);
-
-
             
             if (ee.ChangedButton == MouseButton.Right)
             {
@@ -144,14 +139,11 @@ namespace MyPaint
                     {
                         ppoints.Add(p);
                     }
-                    foreach (var l in lines)
-                    {
-                        removeFromCanvas(l);
-                    }
+                    removeFromCanvas(path);
                     p = new Polygon();
                     p.Stroke = drawControl.getShapePrimaryColor();
                     p.Fill = drawControl.getShapeSecondaryColor();
-                    p.StrokeThickness = getThickness();
+                    p.StrokeThickness = drawControl.getShapeThickness();
                     p.Points = ppoints;
                     addToCanvas(p);
 

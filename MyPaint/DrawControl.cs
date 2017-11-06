@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using MyPaint.History;
 
 namespace MyPaint
 {
@@ -19,7 +20,7 @@ namespace MyPaint
         public Canvas topCanvas;
         public Brush primaryColor, secondaryColor;
         public double thickness;
-        public MyShape shape;
+        public Shapes.MyShape shape;
         public bool draw = false;
         public bool startdraw = false;
         public bool candraw = true;
@@ -199,7 +200,7 @@ namespace MyPaint
             {
                 if (!shape.hitTest())
                 {
-                    MyShape sh = shape;
+                    Shapes.MyShape sh = shape;
                     stopDraw();
                     if (activeShape == MyEnum.SELECT)
                     {
@@ -220,16 +221,16 @@ namespace MyPaint
                 switch (activeShape)
                 {
                     case MyEnum.LINE:
-                        shape = new MyLine(this, selectLayer);
+                        shape = new Shapes.MyLine(this, selectLayer);
                         break;
                     case MyEnum.RECT:
-                        shape = new MyRectangle(this, selectLayer);
+                        shape = new Shapes.MyRectangle(this, selectLayer);
                         break;
                     case MyEnum.ELLIPSE:
-                        shape = new MyEllipse(this, selectLayer);
+                        shape = new Shapes.MyEllipse(this, selectLayer);
                         break;
                     case MyEnum.POLYGON:
-                        shape = new MyPolygon(this, selectLayer);
+                        shape = new Shapes.MyPolygon(this, selectLayer);
                         break;
                 }
                 control.addHistory(new HistoryShape(shape));

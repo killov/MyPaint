@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 
-namespace MyPaint
+namespace MyPaint.Shapes
 {
     public delegate void MyOnMouseDown(Point e, MyShape s);
 
@@ -38,7 +38,7 @@ namespace MyPaint
         {
             if (addHistory)
             {
-                drawControl.control.addHistory(new HistoryPrimaryColor(this, getPrimaryColor(), s));
+                drawControl.control.addHistory(new History.HistoryPrimaryColor(this, getPrimaryColor(), s));
             }
 
         }
@@ -47,7 +47,7 @@ namespace MyPaint
         {
             if (addHistory)
             {
-                drawControl.control.addHistory(new HistorySecondaryColor(this, getSecondaryColor(), s));
+                drawControl.control.addHistory(new History.HistorySecondaryColor(this, getSecondaryColor(), s));
             }
         }
 
@@ -79,7 +79,7 @@ namespace MyPaint
         {
             if (addHistory)
             {
-                drawControl.control.addHistory(new HistoryShapeThickness(this, getThickness(), s));
+                drawControl.control.addHistory(new History.HistoryShapeThickness(this, getThickness(), s));
             }
         }
 

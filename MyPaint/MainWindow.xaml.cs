@@ -255,7 +255,7 @@ namespace MyPaint
             if (control.resolutionDrag)
             {
                 control.resolutionDrag = false;
-                control.addHistory(new HistoryResolution(control, oldR, control.resolution));
+                control.addHistory(new History.HistoryResolution(control, oldR, control.resolution));
             }
         }
 
