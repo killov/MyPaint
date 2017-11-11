@@ -26,7 +26,7 @@ namespace MyPaint
 
         public void copy(Shapes.MyShape s)
         {
-            //todo
+            //todos
         }
 
         public void paste()
