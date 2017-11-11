@@ -111,6 +111,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ClipboardControl.cs" />
     <Compile Include="DrawControl.cs" />
     <Compile Include="file\HTML.cs" />
     <Compile Include="file\BMP.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="shapes\MyRectangle.cs" />
     <Compile Include="shapes\MyLine.cs" />
     <Compile Include="shapes\MyShape.cs" />
+    <Compile Include="ToolControl.cs" />
     <Compile Include="Utils.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

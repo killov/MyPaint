@@ -1,0 +1,10 @@
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBox\bin\Release\ColorBox.dll
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBox\bin\Release\ColorBox.pdb
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBox\obj\Release\ColorBox.csprojResolveAssemblyReference.cache
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBox\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBox\obj\Release\ColorBox_MarkupCompile.cache
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBox\obj\Release\ColorBox_MarkupCompile.lref
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBox\obj\Release\Themes\Generic.baml
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBox\obj\Release\ColorBox.g.resources
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBox\obj\Release\ColorBox.dll
+C:\Users\ZD\Source\Repos\my_paint\ColorBox\ColorBox\obj\Release\ColorBox.pdb
