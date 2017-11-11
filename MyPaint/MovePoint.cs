@@ -96,7 +96,7 @@ namespace MyPaint
         {
             if (drag && !startPosition.Equals(position))
             {
-                shape.drawControl.control.addHistory(new History.HistoryMovePoint(this, startPosition, position));
+                shape.drawControl.historyControl.add(new History.HistoryMovePoint(this, startPosition, position));
             }
             drag = false;
         }

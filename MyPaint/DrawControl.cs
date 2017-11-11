@@ -9,12 +9,17 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using MyPaint.History;
+using System.Windows.Media.Imaging;
 
 namespace MyPaint
 {
     public class DrawControl
     {
+        public string path;
+        public string name;
+        public TabItem tabItem;
         public MainControl control;
+        public HistoryControl historyControl;
         public Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
         public Canvas canvas;
         public Canvas topCanvas;
@@ -35,13 +40,20 @@ namespace MyPaint
         public ScaleTransform revScale;
         private int layerCounter = 1;
 
-        public DrawControl(MainControl c, Canvas ca, Canvas tc, ScaleTransform revScale)
+        public DrawControl(MainControl c, ScaleTransform revScale, TabItem ti)
         {
             control = c;
-            canvas = ca;
-            topCanvas = tc;
+            canvas = new Canvas();
+            topCanvas = new Canvas();
+            topCanvas.Background = nullBrush;
+            topCanvas.Width = canvas.Width;
+            topCanvas.Height = canvas.Height;
+            historyControl = new HistoryControl(c);
             resetLayers();
+            historyControl.clear();
             this.revScale = revScale;
+            tabItem = ti;
+            lockDraw();
         }
 
         public void addLayer()
@@ -51,7 +63,7 @@ namespace MyPaint
             layerCounter++;
             setActiveLayer(layers.Count - 1);
             lockDraw();
-            control.addHistory(new HistoryLayerAdd(layer));
+            historyControl.add(new HistoryLayerAdd(layer));
         }
 
         public void resetLayers()
@@ -79,13 +91,13 @@ namespace MyPaint
                 if (shape != null)
                 {
                     shape.changeLayer(null);
-                    control.addHistory(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
+                    historyControl.add(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
                 }
                 if (selectLayer != null) selectLayer.unsetSelectable();
                 layers[i].setSelectable();
             }
             selectLayer = layers[i];
-            control.setBackgroundColor(selectLayer.color, false);
+            //control.setBackgroundColor(selectLayer.color, false);
             if (shape != null) shape.changeLayer(selectLayer);
         }
 
@@ -96,6 +108,8 @@ namespace MyPaint
             {
                 l.setResolution(res);
             }
+            canvas.Width = topCanvas.Width = res.X;
+            canvas.Height = topCanvas.Height = res.Y;
         }
 
         public void clear()
@@ -126,7 +140,7 @@ namespace MyPaint
         {
             if (selectLayer != null)
             {
-                control.addHistory(new HistoryBackgroundColor(selectLayer, selectLayer.getColor(), c));
+                historyControl.add(new HistoryBackgroundColor(selectLayer, selectLayer.getColor(), c));
                 selectLayer.setColor(c);
             }
         }
@@ -164,7 +178,7 @@ namespace MyPaint
                 shape.delete();
                 draw = false;
                 candraw = true;
-                control.addHistory(new HistoryShapeDelete(shape));
+                historyControl.add(new HistoryShapeDelete(shape));
                 shape = null;
             }
         }
@@ -217,7 +231,7 @@ namespace MyPaint
         {
             if (!draw && activeShape != MyEnum.SELECT)
             {
-                control.setChange(true);
+                //control.setChange(true);
                 switch (activeShape)
                 {
                     case MyEnum.LINE:
@@ -233,7 +247,7 @@ namespace MyPaint
                         shape = new Shapes.MyPolygon(this, selectLayer);
                         break;
                 }
-                control.addHistory(new HistoryShape(shape));
+                historyControl.add(new HistoryShape(shape));
                 shape.drawMouseDown(e.GetPosition(canvas), e);
             }
         }
@@ -277,12 +291,9 @@ namespace MyPaint
                     Point stop = shape.getPosition();
                     if (!start.Equals(stop))
                     {
-                        control.addHistory(new HistoryShapeMove(shape, start, stop));
+                        historyControl.add(new HistoryShapeMove(shape, start, stop));
                     }
                 }
-                
-                
-                
             }
         }
 
@@ -295,12 +306,12 @@ namespace MyPaint
                 shape = null;
                 lockDraw();
             }
-
         }
 
         public void lockDraw()
         {
-            control.lockDraw();
+            canvas.Children.Remove(topCanvas);
+            canvas.Children.Add(topCanvas);
         }
 
         public void setPrimaryColor(Brush c)
@@ -316,6 +327,24 @@ namespace MyPaint
         public void setThickness(double t)
         {
             control.setThickness(t, false);
+        }
+
+        public void pasteImage(BitmapSource bmi)
+        {
+            ImageBrush brush = new ImageBrush(bmi);
+            control.setResolution(bmi.Width, bmi.Height);
+            selectLayer.shapes.Add(new Shapes.MyImage(this, selectLayer, brush, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
+        }
+
+        public void setPath(string p)
+        {
+            path = p;
+        }
+
+        public void setName(string name)
+        {
+            this.name = name;
+            tabItem.Header = name;
         }
     }
 }

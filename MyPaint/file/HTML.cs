@@ -19,7 +19,7 @@ namespace MyPaint.file
                 string a = new Regex("width=\"(.+?)\"").Matches(code)[0].Groups[1].ToString();
                 double width = Double.Parse(new Regex("width=\"(.+?)\"").Matches(code)[0].Groups[1].ToString());
                 double height = Double.Parse(new Regex("height=\"(.+?)\"").Matches(code)[0].Groups[1].ToString());
-                dc.control.setResolution(width, height);
+                dc.setResolution(new System.Windows.Point(width, height));
                 Regex r = new Regex("var json = (.+);");
                 string json = r.Matches(code)[0].Groups[1].ToString();
                 jsonDeserialize.Picture pic = (jsonDeserialize.Picture)new JavaScriptSerializer().Deserialize(json, typeof(jsonDeserialize.Picture));

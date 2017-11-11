@@ -20,11 +20,14 @@
                     <GradientStop Color="#FFC5C2C2" Offset="1"/>
                 </LinearGradientBrush>
             </Menu.Background>
-            <MenuItem Header="Nový" Click="newClick" Height="20" />
-            <MenuItem Header="Otevřít" Click="openClick" Height="20" />
-            <MenuItem Header="Uložit" Click="saveClick" />
-            <MenuItem Header="Uložit jako" Click="saveAsClick" />
-            <MenuItem Header="Ukončit" Click="exitClick" />
+            <MenuItem Header="Soubor" Height="20">
+                <MenuItem Header="Nový" Click="newClick" Height="20" />
+                <MenuItem Header="Otevřít" Click="openClick" Height="20" />
+                <MenuItem Header="Uložit" Click="saveClick" />
+                <MenuItem Header="Uložit jako" Click="saveAsClick" />
+                <MenuItem Header="Ukončit" Click="exitClick" />
+            </MenuItem>
+
         </Menu>
         <Grid>
             <Grid.Background>
@@ -141,23 +144,35 @@
                 </ListBox>
 
             </Grid>
-            <Canvas x:Name="canvas_outer" Margin="191,63,0,0" MouseMove="canvas_outer_MouseMove" MouseUp="canvas_outer_MouseUp">
-                <Canvas.Background>
+            <Grid x:Name="canvas_outer" Margin="191,88,0,0" MouseMove="canvas_outer_MouseMove" MouseUp="canvas_outer_MouseUp">
+                <Grid.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                         <GradientStop Color="#FF3BA4BB" Offset="1"/>
                         <GradientStop Color="#FFAEDDE8"/>
                     </LinearGradientBrush>
-                </Canvas.Background>
-                <Canvas x:Name="canvas_out" Canvas.Left="12" Canvas.Top="11" Height="438" Width="485">
+                </Grid.Background>
+                <Canvas x:Name="canvas_out" Width="485" Margin="10,10,0,0" Height="438" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <Canvas.Background>
                         <ImageBrush ImageSource="fill.png" TileMode="Tile" Stretch="Uniform" AlignmentY="Top" Viewport="0,0,20,20" ViewportUnits="Absolute"/>
                     </Canvas.Background>
                     <Canvas ClipToBounds="True" x:Name="canvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="433" VerticalAlignment="Top">
-                        <Canvas x:Name="res" Height="433" Width="500" Background="#00000000" MouseUp="poz_mouseDown" />
                     </Canvas>
                     <Rectangle x:Name="resolution" Height="10" Width="10" Canvas.Left="500" Canvas.Top="433" RenderTransformOrigin="-0.261,0.95" Fill="White" Stroke="Black" MouseDown="resolution_MouseDown" />
                 </Canvas>
-            </Canvas>
+
+            </Grid>
+            <TabControl x:Name="tabControl" Margin="191,63,0,0" Height="28" VerticalAlignment="Top" SelectionChanged="tabControl_SelectionChanged" ItemsSource="{Binding}">
+                <TabControl.Resources>
+                    <DataTemplate x:Key="TabHeader" DataType="TabItem">
+                        <DockPanel>
+                            <Button Name="btnDelete" DockPanel.Dock="Right" Margin="5,0,0,0" Padding="0" Click="tabClose_Click" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}">
+                                X
+                            </Button>
+                            <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Header}" />
+                        </DockPanel>
+                    </DataTemplate>
+                </TabControl.Resources>
+            </TabControl>
             <Grid Background="LightGray" VerticalAlignment="Bottom" Height="26">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>

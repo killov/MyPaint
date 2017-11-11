@@ -24,6 +24,8 @@ namespace MyPaint.Shapes
             p.Points.Add(new Point(start.X + w, start.Y + h));
             p.Points.Add(new Point(start.X + w, start.Y));
 
+            createVirtualShape();
+
             p.Fill = im;
             addToCanvas(p);
             createPoints();
@@ -38,12 +40,12 @@ namespace MyPaint.Shapes
             bmi.StreamSource = ms;
             bmi.EndInit();
             ImageBrush brush = new ImageBrush(bmi);
-
+           
             p.Points.Add(new Point(s.A.x, s.A.y));
             p.Points.Add(new Point(s.B.x, s.A.y));
             p.Points.Add(new Point(s.B.x, s.B.y));
             p.Points.Add(new Point(s.A.x, s.B.y));
-
+            createVirtualShape();
             p.Fill = brush;
             addToCanvas(p);
             createPoints();
@@ -139,8 +141,6 @@ namespace MyPaint.Shapes
         {
             base.setActive();
             drawControl.setPrimaryColor(p.Stroke);
-            drawControl.setSecondaryColor(p.Fill);
-            drawControl.setThickness(p.StrokeThickness);
             p1.show();
             p2.show();
             p3.show();

@@ -38,7 +38,7 @@ namespace MyPaint.Shapes
         {
             if (addHistory)
             {
-                drawControl.control.addHistory(new History.HistoryPrimaryColor(this, getPrimaryColor(), s));
+                drawControl.historyControl.add(new History.HistoryPrimaryColor(this, getPrimaryColor(), s));
             }
 
         }
@@ -47,7 +47,7 @@ namespace MyPaint.Shapes
         {
             if (addHistory)
             {
-                drawControl.control.addHistory(new History.HistorySecondaryColor(this, getSecondaryColor(), s));
+                drawControl.historyControl.add(new History.HistorySecondaryColor(this, getSecondaryColor(), s));
             }
         }
 
@@ -79,7 +79,7 @@ namespace MyPaint.Shapes
         {
             if (addHistory)
             {
-                drawControl.control.addHistory(new History.HistoryShapeThickness(this, getThickness(), s));
+                drawControl.historyControl.add(new History.HistoryShapeThickness(this, getThickness(), s));
             }
         }
 

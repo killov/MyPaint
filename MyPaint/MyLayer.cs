@@ -145,7 +145,7 @@ namespace MyPaint
             if (i > 0)
             {
                 setPosition(i - 1);
-                drawControl.control.addHistory(new History.HistoryLayerPosition(this, i, i - 1));
+                drawControl.historyControl.add(new History.HistoryLayerPosition(this, i, i - 1));
             }
         }
 
@@ -155,7 +155,7 @@ namespace MyPaint
             if (i < drawControl.layers.Count - 1)
             {
                 setPosition(i + 1);
-                drawControl.control.addHistory(new History.HistoryLayerPosition(this, i, i + 1));
+                drawControl.historyControl.add(new History.HistoryLayerPosition(this, i, i + 1));
             }
         }
 

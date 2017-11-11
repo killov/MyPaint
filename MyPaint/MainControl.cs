@@ -25,9 +25,7 @@ namespace MyPaint
 
     public class MainControl
     {
-        
-        HistoryControl historyControl;
-        DrawControl drawControl;
+        DrawControl drawControl = null;
         public MyEnum activeColor;
         string path = "";
         bool change = false;
@@ -36,49 +34,175 @@ namespace MyPaint
         public Point resolution;
         public bool resolutionDrag = false;
         Brush cblock = null;
+        ClipboardControl clipboardControl;
+        private List<TabItem> tabItems;
+        private TabItem tabAdd;
+        private Dictionary<TabItem, DrawControl> files;
+        public ToolControl toolControl;
 
         public MainControl(MainWindow ww)
         {
             w = ww;
             scale = new ScaleTransform(1, 1);
             revScale = new ScaleTransform(1, 1);
-            historyControl = new HistoryControl(this);
-            drawControl = new DrawControl(this, w.canvas, w.res, revScale);
+            files = new Dictionary<TabItem, DrawControl>();
+            //drawControl = new DrawControl(this, revScale);
+            toolControl = new ToolControl();
+            clipboardControl = new ClipboardControl(drawControl);
             setTool(MyEnum.LINE);
             setActiveColor(MyEnum.PRIMARY);
-            setColor(Brushes.Black);
-            setThickness(1);
+            setColor(Brushes.Black, false);
+            setThickness(1, false);
             setResolution(500, 400);
-            historyControl.clear();
-            w.layers.ItemsSource = drawControl.layers;
+
             TransformGroup g = new TransformGroup();
-            
+
             g.Children.Add(scale);
             w.canvas_out.LayoutTransform = g;
             g = new TransformGroup();
             g.Children.Add(revScale);
             w.resolution.LayoutTransform = g;
+
+
+            tabItems = new List<TabItem>();
+
+            // add a tabItem with + in header 
+            tabAdd = new TabItem();
+            tabAdd.Header = "+";
+
+            tabItems.Add(tabAdd);
+
+
+            // bind tab control
+            w.tabControl.DataContext = tabItems;
+
+            w.tabControl.SelectedIndex = 0;
+            setFileActive(newFile());
+            
+        }
+
+        private TabItem newFile()
+        {
+            TabItem tab = AddTabItem();
+            DrawControl file = new DrawControl(this, revScale, tab);
+            file.setName("Bez názvu");
+            file.setResolution(new Point(500, 400));
+            files[tab] = file;
+            return tab;
+        }
+
+        private void setFileActive(TabItem tab)
+        {
+            if (files.Keys.Contains(tab))
+            {
+                DrawControl file = files[tab];
+                drawControl = file;
+                drawControl.stopDraw();
+                drawControl.setShapePrimaryColor(toolControl.primaryColor);
+                drawControl.setShapeSecondaryColor(toolControl.secondaryColor);
+                drawControl.setShapeThickness(toolControl.thickness);
+                drawControl.setActiveShape(toolControl.tool);
+                drawControl.historyControl.redraw();
+                setResolution(drawControl.resolution.X, drawControl.resolution.Y);
+                w.canvas.Children.Clear();
+                w.canvas.Children.Add(drawControl.canvas);
+                w.tabControl.SelectedItem = tab;
+                w.layers.ItemsSource = drawControl.layers;
+            }
+            
+        }
+
+        private TabItem AddTabItem()
+        {
+            int count = tabItems.Count;
+
+            // create new tab item
+            TabItem tab = new TabItem();
+            tab.Header = string.Format("Tab {0}", count);
+            tab.Name = string.Format("tab{0}", count);
+            tab.HeaderTemplate = w.tabControl.FindResource("TabHeader") as DataTemplate;
+            w.tabControl.DataContext = null;
+            tabItems.Insert(count - 1, tab);
+            w.tabControl.DataContext = tabItems;
+            return tab;
+        }
+
+        public void tabControlChange(TabItem tab)
+        {           
+            if (tab != null && tab.Header != null)
+            {
+                setFileActive(tab);
+                if (tab.Equals(tabAdd) && false)
+                {
+                    // clear tab control binding
+                    w.tabControl.DataContext = null;
+
+                    // add new tab
+                    TabItem newTab = this.AddTabItem();
+
+                    // bind tab control
+                    w.tabControl.DataContext = tabItems;
+
+                    // select newly added tab item
+                    w.tabControl.SelectedItem = newTab;
+                }
+                else
+                {
+                    // your code here...
+                }
+            }
+        }
+
+        public void tabControlDelete(TabItem tab)
+        {
+            if (tab != null)
+            {
+                if (tabItems.Count < 3)
+                {
+                    MessageBox.Show("Cannot remove last tab.");
+                }
+                else 
+                {
+                    // get selected tab
+                    TabItem selectedTab = w.tabControl.SelectedItem as TabItem;
+
+                    // clear tab control binding
+                    w.tabControl.DataContext = null;
+
+                    tabItems.Remove(tab);
+
+                    // bind tab control
+                    w.tabControl.DataContext = tabItems;
+
+                    // select previously selected tab. if that is removed then select first tab
+                    if (selectedTab == null || selectedTab.Equals(tab))
+                    {
+                        selectedTab = tabItems[0];
+                    }
+                    w.tabControl.SelectedItem = selectedTab;
+                }
+            }
         }
 
         public void addLayer()
         {
-            drawControl.addLayer();
+            if(drawControl != null) drawControl.addLayer();
         }
 
         public void layerChanged()
         {
-            drawControl.setActiveLayer(w.layers.SelectedIndex);
+            if (drawControl != null) drawControl.setActiveLayer(w.layers.SelectedIndex);
         }
 
         public void back()
         {
-            drawControl.stopDraw();
-            historyControl.back();
+            if (drawControl != null) drawControl.stopDraw();
+            if (drawControl != null) drawControl.historyControl.back();
         }
 
         public void forward()
         {
-            historyControl.forward();
+            if (drawControl != null) drawControl.historyControl.forward();
         }
 
         public void setHistory(bool b, bool f)
@@ -101,59 +225,60 @@ namespace MyPaint
             w.canvas.Height = hs;
             w.canvas_out.Width = ws;
             w.canvas_out.Height = hs;
-            w.res.Width = ws;
-            w.res.Height = hs;
             Canvas.SetLeft(w.resolution, ws);
             Canvas.SetTop(w.resolution, hs);
             w.labelResolution.Content = String.Format("{0}x{1}", (int)ws, (int)hs);
-            drawControl.setResolution(resolution);   
+            if (drawControl != null) drawControl.setResolution(resolution);
         }
 
         public void newC()
         {
-            if (!saveDialog()) return;            
-            setPath("");
-            change = false;
-            setResolution(500, 400);     
-            drawControl.clear();
-            historyControl.clear();
+            setFileActive(newFile());
+            
+            //if (!saveDialog()) return;
+
+            //change = false;
+            //setResolution(500, 400);
+            //drawControl.clear();
+            //drawControl.historyControl.clear();
         }
 
         public void setColorCB(Brush c)
         {
-            if (cblock == null || !cblock.Equals(c)){
+            if(drawControl == null) return;
+            if (cblock == null || !cblock.Equals(c)) {
                 cblock = c;
                 switch (activeColor)
                 {
                     case MyEnum.PRIMARY:
-                        drawControl.setShapePrimaryColor(c);
+                        if (drawControl != null) drawControl.setShapePrimaryColor(c);
                         w.primaryColor.Fill = c;
                         break;
                     case MyEnum.SECONDARY:
-                        drawControl.setShapeSecondaryColor(c);
+                        if (drawControl != null) drawControl.setShapeSecondaryColor(c);
                         w.secondaryColor.Fill = c;
                         break;
                     case MyEnum.BACKGROUND:
-                        drawControl.setBackgroundColor(c);
+                        if (drawControl != null) drawControl.setBackgroundColor(c);
                         w.backgroundColor.Fill = c;
                         break;
                 }
             }
         }
 
-        public void setColor(Brush c)
+        public void setColor(Brush c, bool back = true)
         {
             cblock = c;
             switch (activeColor)
             {
                 case MyEnum.PRIMARY:
-                    setPrimaryColor(c);
+                    setPrimaryColor(c, back);
                     break;
                 case MyEnum.SECONDARY:
-                    setSecondaryColor(c);
+                    setSecondaryColor(c, back);
                     break;
                 case MyEnum.BACKGROUND:
-                    setBackgroundColor(c);
+                    setBackgroundColor(c, back);
                     break;
             }
         }
@@ -161,8 +286,9 @@ namespace MyPaint
         public void setPrimaryColor(Brush c, bool back = true)
         {
             if (activeColor == MyEnum.PRIMARY) setCB(c);
-            if(back) drawControl.setShapePrimaryColor(c);
+            if (back) drawControl.setShapePrimaryColor(c);
             w.primaryColor.Fill = c;
+            toolControl.primaryColor = c;
         }
 
         public void setSecondaryColor(Brush c, bool back = true)
@@ -170,6 +296,7 @@ namespace MyPaint
             if (activeColor == MyEnum.SECONDARY) setCB(c);
             if (back) drawControl.setShapeSecondaryColor(c);
             w.secondaryColor.Fill = c;
+            toolControl.secondaryColor = c;
         }
 
         public void setBackgroundColor(Brush c, bool back = true)
@@ -188,41 +315,34 @@ namespace MyPaint
 
         public Brush getColor()
         {
-            switch (activeColor)
-            {
-                case MyEnum.PRIMARY:
-                    return drawControl.getShapePrimaryColor();
-                case MyEnum.SECONDARY:
-                    return drawControl.getShapeSecondaryColor();
-                case MyEnum.BACKGROUND:
-                    return drawControl.getBackgroundColor();
-                default:
-                    return drawControl.getShapePrimaryColor();
-            }
+            return null;
         }
 
         public void setThickness(double t, bool back = true)
         {
-            if(back) drawControl.setShapeThickness(t);
+            if (back) drawControl.setShapeThickness(t);
             w.thickness.Value = t;
+            toolControl.thickness = t;
         }
 
         public void stopDraw()
         {
-            drawControl.stopDraw();
+            if (drawControl != null) drawControl.stopDraw();
         }
 
         public void open()
         {
-            if (!saveDialog()) return;
+            
             Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.DefaultExt = ".html";
             dialog.Filter = "Všechny podporované |*.html;*.png;*.jpg;*.bmp|Soubory HTML (*.html)|*.html|Soubory PNG (*.png)|*.png|Soubory JPEG (*.jpg)|*.jpg|Soubory BMP (*.bmp)|*.bmp";
             Nullable<bool> result = dialog.ShowDialog();
             if (result == true)
             {
-                drawControl.clearCanvas();
-                historyControl.clear();
+                TabItem tab = AddTabItem();
+            DrawControl filee = new DrawControl(this, revScale, tab);
+            files[tab] = filee;
+            filee.setName("Bez názvu");
                 string filename = dialog.FileName;
 
                 Regex r = new Regex("\\.[a-zA-Z0-9]+$");
@@ -231,27 +351,27 @@ namespace MyPaint
                 switch (suffix)
                 {
                     case ".html":
-                        file.HTML.open(drawControl, filename);
+                        file.HTML.open(filee, filename);
                         break;
                     case ".jpg":
-                        file.JPEG.open(drawControl, filename);
+                        file.JPEG.open(filee, filename);
                         break;
                     case ".bmp":
-                        file.BMP.open(drawControl, filename);
+                        file.BMP.open(filee, filename);
                         break;
                     case ".png":
                     default:
-                        file.PNG.open(drawControl, filename);
+                        file.PNG.open(filee, filename);
                         break;
                 }
-                setPath(filename);
+                filee.setPath(filename);
+                setFileActive(tab);
             }
         }
 
-        public void lockDraw()
+        public void setPath(string path)
         {
-            w.canvas.Children.Remove(w.res);
-            w.canvas.Children.Add(w.res);
+            w.labelPath.Content = path;
         }
 
         public void saveAs()
@@ -264,14 +384,8 @@ namespace MyPaint
             {
                 string filename = dialog.FileName;
                 saveAs(filename);
-                setPath(filename);
+                drawControl.setPath(filename);
             }
-        }
-
-        public void setPath(string p)
-        {
-            path = p;
-            w.labelPath.Content = p;
         }
 
         void saveAs(string path)
@@ -307,7 +421,7 @@ namespace MyPaint
 
         public void delete()
         {
-            drawControl.shapeDelete();
+            if (drawControl != null) drawControl.shapeDelete();
         }
 
         public void save()
@@ -395,33 +509,45 @@ namespace MyPaint
                     w.button_polygon.Style = act;
                     break;
             }
-            drawControl.stopDraw();
-            drawControl.setActiveShape(s); 
+            if (drawControl != null) drawControl.stopDraw();
+            if (drawControl != null) drawControl.setActiveShape(s);
+            toolControl.tool = s;
         }
 
         public void mouseDown(MouseButtonEventArgs e)
         {
-            drawControl.mouseDown(e); 
-        }
-
-        public void addHistory(IHistoryNode s)
-        {
-            historyControl.add(s);
+            if (drawControl != null) drawControl.mouseDown(e); 
         }
 
         public void mouseMove(MouseEventArgs e)
         {
-            drawControl.mouseMove(e.GetPosition(w.canvas));
+            if (drawControl != null) drawControl.mouseMove(e.GetPosition(w.canvas));
         }
 
         public void mouseUp(MouseButtonEventArgs e)
         {
-            drawControl.mouseUp(e);
+            if (drawControl != null) drawControl.mouseUp(e);
         }
 
         public void setChange(bool b)
         {
             change = b;
+        }
+
+        public void keyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                delete();
+            }
+            if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.C))
+            {
+                
+            }
+            if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.V))
+            {
+                clipboardControl.paste();
+            }
         }
     }
 }

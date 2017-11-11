@@ -31,10 +31,7 @@ namespace MyPaint
         {
             InitializeComponent();
             control = new MainControl(this);
-
-            colorsInit();
-            
-            
+            colorsInit();  
         }
 
         private void colorsInit()
@@ -138,11 +135,6 @@ namespace MyPaint
             control.setTool(MyEnum.RECT);
         }
 
-        private void poz_mouseDown(object sender, MouseButtonEventArgs e)
-        {
-           //control.stopDraw();
-        }
-
         private void elipsa_Click(object sender, RoutedEventArgs e)
         {
             control.setTool(MyEnum.ELLIPSE);
@@ -211,12 +203,7 @@ namespace MyPaint
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            //MessageBox.Show(e.Key.ToString());
-            if (e.Key == Key.Delete)
-            {
-                control.delete();
-            }
-            
+            control.keyDown(sender, e);    
         }
 
         private void thickness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -227,11 +214,8 @@ namespace MyPaint
         long CBlastchange = 0;
         private void CB_ColorChanged(object sender, ColorBox.ColorChangedEventArgs e)
         {
-
-                control.setColorCB(CB.Brush);
-                CBlastchange = Stopwatch.GetTimestamp();
-            
-            
+            control.setColorCB(CB.Brush);
+            CBlastchange = Stopwatch.GetTimestamp();                   
         }
 
         private Point oldR;
@@ -255,7 +239,7 @@ namespace MyPaint
             if (control.resolutionDrag)
             {
                 control.resolutionDrag = false;
-                control.addHistory(new History.HistoryResolution(control, oldR, control.resolution));
+                //control.(new History.HistoryResolution(control, oldR, control.resolution));
             }
         }
 
@@ -319,6 +303,21 @@ namespace MyPaint
             Button button = sender as Button;
             MyLayer l = button.DataContext as MyLayer;
             l.remove();
+        }
+
+        private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TabItem tab = tabControl.SelectedItem as TabItem;
+
+            control.tabControlChange(tab);
+        }
+
+        private void tabClose_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+
+            TabItem tab = button.DataContext as TabItem;
+            control.tabControlDelete(tab);
         }
     }
 }

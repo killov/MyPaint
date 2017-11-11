@@ -69,7 +69,7 @@ namespace MyPaint.History
             redraw();
         }
 
-        void redraw()
+        public void redraw()
         {
             control.setHistory(backStack.Count > 0, forwardStack.Count > 0);
         }
