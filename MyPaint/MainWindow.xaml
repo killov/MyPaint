@@ -165,8 +165,21 @@
                 <TabControl.Resources>
                     <DataTemplate x:Key="TabHeader" DataType="TabItem">
                         <DockPanel>
-                            <Button Name="btnDelete" DockPanel.Dock="Right" Margin="5,0,0,0" Padding="0" Click="tabClose_Click" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}">
-                                X
+                            <Button Name="btnDelete" DockPanel.Dock="Right" Margin="3,0,0,0" Padding="0" Click="tabClose_Click" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}">
+                                <Path Stroke="Black" StrokeThickness="2">
+                                    <Path.Data>
+                                        <PathGeometry>
+                                            <PathGeometry.Figures>
+                                                <PathFigure StartPoint="1,1">
+                                                    <LineSegment Point="9,9"/>
+                                                </PathFigure>
+                                                <PathFigure StartPoint="1,9">
+                                                    <LineSegment Point="9,1"/>
+                                                </PathFigure>
+                                            </PathGeometry.Figures>
+                                        </PathGeometry>
+                                    </Path.Data>
+                                </Path>
                             </Button>
                             <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Header}" />
                         </DockPanel>

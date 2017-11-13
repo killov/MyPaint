@@ -25,7 +25,7 @@ namespace MyPaint
 
     public class MainControl
     {
-        DrawControl drawControl = null;
+        public DrawControl drawControl = null;
         public MyEnum activeColor;
         string path = "";
         bool change = false;
@@ -48,7 +48,7 @@ namespace MyPaint
             files = new Dictionary<TabItem, DrawControl>();
             //drawControl = new DrawControl(this, revScale);
             toolControl = new ToolControl();
-            clipboardControl = new ClipboardControl(drawControl);
+            clipboardControl = new ClipboardControl(this);
             setTool(MyEnum.LINE);
             setActiveColor(MyEnum.PRIMARY);
             setColor(Brushes.Black, false);
@@ -104,12 +104,12 @@ namespace MyPaint
                 drawControl.setActiveShape(toolControl.tool);
                 drawControl.historyControl.redraw();
                 setResolution(drawControl.resolution.X, drawControl.resolution.Y);
+                setPath(drawControl.path);
                 w.canvas.Children.Clear();
                 w.canvas.Children.Add(drawControl.canvas);
                 w.tabControl.SelectedItem = tab;
                 w.layers.ItemsSource = drawControl.layers;
             }
-            
         }
 
         private TabItem AddTabItem()
@@ -131,24 +131,14 @@ namespace MyPaint
         {           
             if (tab != null && tab.Header != null)
             {
-                setFileActive(tab);
-                if (tab.Equals(tabAdd) && false)
+                
+                if (tab.Equals(tabAdd))
                 {
-                    // clear tab control binding
-                    w.tabControl.DataContext = null;
-
-                    // add new tab
-                    TabItem newTab = this.AddTabItem();
-
-                    // bind tab control
-                    w.tabControl.DataContext = tabItems;
-
-                    // select newly added tab item
-                    w.tabControl.SelectedItem = newTab;
+                    setFileActive(newFile());
                 }
                 else
                 {
-                    // your code here...
+                    setFileActive(tab);
                 }
             }
         }
@@ -157,15 +147,10 @@ namespace MyPaint
         {
             if (tab != null)
             {
-                if (tabItems.Count < 3)
-                {
-                    MessageBox.Show("Cannot remove last tab.");
-                }
-                else 
-                {
                     // get selected tab
                     TabItem selectedTab = w.tabControl.SelectedItem as TabItem;
-
+                    DrawControl file = files[tab];
+                    files.Remove(tab);
                     // clear tab control binding
                     w.tabControl.DataContext = null;
 
@@ -175,12 +160,7 @@ namespace MyPaint
                     w.tabControl.DataContext = tabItems;
 
                     // select previously selected tab. if that is removed then select first tab
-                    if (selectedTab == null || selectedTab.Equals(tab))
-                    {
-                        selectedTab = tabItems[0];
-                    }
-                    w.tabControl.SelectedItem = selectedTab;
-                }
+            
             }
         }
 
@@ -347,7 +327,7 @@ namespace MyPaint
 
                 Regex r = new Regex("\\.[a-zA-Z0-9]+$");
                 string suffix = r.Matches(filename)[0].ToString().ToLower();
-
+                
                 switch (suffix)
                 {
                     case ".html":
@@ -385,6 +365,7 @@ namespace MyPaint
                 string filename = dialog.FileName;
                 saveAs(filename);
                 drawControl.setPath(filename);
+                setPath(filename);
             }
         }
 
@@ -393,8 +374,7 @@ namespace MyPaint
             drawControl.stopDraw();
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
-            try
-            {
+ 
                 switch (suffix)
                 {
                     case ".html":
@@ -412,10 +392,8 @@ namespace MyPaint
                         file.PNG.save(drawControl, path);
                         break;
                 }
-            }catch(Exception ex)
-            {
-                MessageBox.Show("Nepovedlo se uložit soubor");
-            }
+
+            drawControl.setPath(path);
             change = false;
         }
 
@@ -426,13 +404,13 @@ namespace MyPaint
 
         public void save()
         {
-            if (path == "")
+            if (drawControl.path == "")
             {
                 saveAs();
             }
             else
             {
-                saveAs(path);
+                saveAs(drawControl.path);
             }
         }
 

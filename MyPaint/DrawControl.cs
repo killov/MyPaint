@@ -10,12 +10,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using MyPaint.History;
 using System.Windows.Media.Imaging;
+using System.Text.RegularExpressions;
 
 namespace MyPaint
 {
     public class DrawControl
     {
-        public string path;
+        public string path = "";
         public string name;
         public TabItem tabItem;
         public MainControl control;
@@ -339,6 +340,8 @@ namespace MyPaint
         public void setPath(string p)
         {
             path = p;
+            string name = new Regex("[a-zA-Z0-9]+.[a-zA-Z0-9]+$").Matches(path)[0].ToString();
+            setName(name);
         }
 
         public void setName(string name)

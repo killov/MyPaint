@@ -13,10 +13,10 @@ namespace MyPaint
 {
     class ClipboardControl
     {
-        DrawControl drawControl;
-        public ClipboardControl(DrawControl dc)
+        MainControl control;
+        public ClipboardControl(MainControl c)
         {
-            drawControl = dc;
+            control = c;
         }
 
         public void copy(BitmapSource s)
@@ -42,11 +42,8 @@ namespace MyPaint
             BitmapSource s = Clipboard.GetImage();
             Clipboard.SetImage(s);
             s = Clipboard.GetImage();
+            control.drawControl.pasteImage(s);
             
-                drawControl.pasteImage(s);
-            
-
-
         }
     }
 }

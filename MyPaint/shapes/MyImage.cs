@@ -140,7 +140,6 @@ namespace MyPaint.Shapes
         override public void setActive()
         {
             base.setActive();
-            drawControl.setPrimaryColor(p.Stroke);
             p1.show();
             p2.show();
             p3.show();

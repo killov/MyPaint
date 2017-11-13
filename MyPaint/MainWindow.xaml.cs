@@ -314,9 +314,11 @@ namespace MyPaint
 
         private void tabClose_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
+            string tabName = (sender as Button).CommandParameter.ToString();
 
-            TabItem tab = button.DataContext as TabItem;
+            var item = tabControl.Items.Cast<TabItem>().Where(i => i.Name.Equals(tabName)).SingleOrDefault();
+
+            TabItem tab = item as TabItem;
             control.tabControlDelete(tab);
         }
     }
