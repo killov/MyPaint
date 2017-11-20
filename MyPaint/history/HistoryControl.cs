@@ -11,6 +11,7 @@ namespace MyPaint.History
         MainControl control;
         Stack<IHistoryNode> backStack = new Stack<IHistoryNode>();
         Stack<IHistoryNode> forwardStack = new Stack<IHistoryNode>();
+        IHistoryNode changeBack;
 
         public HistoryControl(MainControl c)
         {
@@ -19,6 +20,7 @@ namespace MyPaint.History
 
         public void clear()
         {
+            changeBack = null;
             backStack.Clear();
             forwardStack.Clear();
             redraw();
@@ -67,6 +69,23 @@ namespace MyPaint.History
                 backStack.Push(node);
             }
             redraw();
+        }
+
+        public void setNotChange()
+        {
+            if(backStack.Count == 0)
+            {
+                changeBack = null;
+            }
+            else
+            {
+                changeBack = backStack.Last();
+            }
+        }
+
+        public bool change()
+        {
+            return !((backStack.Count == 0 && changeBack == null) || backStack.Last().Equals(changeBack));
         }
 
         public void redraw()

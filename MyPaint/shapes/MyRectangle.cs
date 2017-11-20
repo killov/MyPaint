@@ -31,9 +31,11 @@ namespace MyPaint.Shapes
             setThickness(s.lineWidth);
 
             p.Points.Add(new Point(s.A.x, s.A.y));
-            p.Points.Add(new Point(s.B.x, s.A.y));
-            p.Points.Add(new Point(s.B.x, s.B.y));
             p.Points.Add(new Point(s.A.x, s.B.y));
+            p.Points.Add(new Point(s.B.x, s.B.y));
+            p.Points.Add(new Point(s.B.x, s.A.y));
+            
+            
 
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;

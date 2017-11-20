@@ -39,6 +39,7 @@ namespace MyPaint
         private TabItem tabAdd;
         private Dictionary<TabItem, DrawControl> files;
         public ToolControl toolControl;
+        Brush primaryColor, secondaryColor, layerColor;
 
         public MainControl(MainWindow ww)
         {
@@ -105,6 +106,7 @@ namespace MyPaint
                 drawControl.historyControl.redraw();
                 setResolution(drawControl.resolution.X, drawControl.resolution.Y);
                 setPath(drawControl.path);
+                setBackgroundColor(drawControl.getBackgroundColor(), false);
                 w.canvas.Children.Clear();
                 w.canvas.Children.Add(drawControl.canvas);
                 w.tabControl.SelectedItem = tab;
@@ -147,20 +149,29 @@ namespace MyPaint
         {
             if (tab != null)
             {
-                    // get selected tab
-                    TabItem selectedTab = w.tabControl.SelectedItem as TabItem;
-                    DrawControl file = files[tab];
-                    files.Remove(tab);
-                    // clear tab control binding
-                    w.tabControl.DataContext = null;
+                // get selected tab
+                TabItem selectedTab = w.tabControl.SelectedItem as TabItem;
+                DrawControl file = files[tab];
+                stopDraw();
+                if (file.historyControl.change())
+                {
+                    if (!saveDialog()) return;
+                }
+                files.Remove(tab);
+                // clear tab control binding
+                w.tabControl.DataContext = null;
 
-                    tabItems.Remove(tab);
+                tabItems.Remove(tab);
 
-                    // bind tab control
-                    w.tabControl.DataContext = tabItems;
+                // bind tab control
+                w.tabControl.DataContext = tabItems;
 
-                    // select previously selected tab. if that is removed then select first tab
-            
+                // select previously selected tab. if that is removed then select first tab
+                if (selectedTab == null || selectedTab.Equals(tab))
+                {
+                    selectedTab = tabItems[0];
+                }
+                w.tabControl.SelectedItem = selectedTab;
             }
         }
 
@@ -231,16 +242,13 @@ namespace MyPaint
                 switch (activeColor)
                 {
                     case MyEnum.PRIMARY:
-                        if (drawControl != null) drawControl.setShapePrimaryColor(c);
-                        w.primaryColor.Fill = c;
+                        setPrimaryColor(c, drawControl != null);
                         break;
                     case MyEnum.SECONDARY:
-                        if (drawControl != null) drawControl.setShapeSecondaryColor(c);
-                        w.secondaryColor.Fill = c;
+                        setSecondaryColor(c, drawControl != null);
                         break;
                     case MyEnum.BACKGROUND:
-                        if (drawControl != null) drawControl.setBackgroundColor(c);
-                        w.backgroundColor.Fill = c;
+                        setBackgroundColor(c, drawControl != null);
                         break;
                 }
             }
@@ -268,6 +276,7 @@ namespace MyPaint
             if (activeColor == MyEnum.PRIMARY) setCB(c);
             if (back) drawControl.setShapePrimaryColor(c);
             w.primaryColor.Fill = c;
+            primaryColor = c;
             toolControl.primaryColor = c;
         }
 
@@ -276,6 +285,7 @@ namespace MyPaint
             if (activeColor == MyEnum.SECONDARY) setCB(c);
             if (back) drawControl.setShapeSecondaryColor(c);
             w.secondaryColor.Fill = c;
+            secondaryColor = c;
             toolControl.secondaryColor = c;
         }
 
@@ -284,6 +294,7 @@ namespace MyPaint
             if (activeColor == MyEnum.BACKGROUND) setCB(c);
             if (back) drawControl.setBackgroundColor(c);
             w.backgroundColor.Fill = c;
+            layerColor = c;
         }
 
         void setCB(Brush color)
@@ -295,6 +306,15 @@ namespace MyPaint
 
         public Brush getColor()
         {
+            switch (activeColor)
+            {
+                case MyEnum.PRIMARY:
+                    return primaryColor;
+                case MyEnum.SECONDARY:
+                    return secondaryColor;
+                case MyEnum.BACKGROUND:
+                    return layerColor;
+            }
             return null;
         }
 
@@ -319,7 +339,7 @@ namespace MyPaint
             Nullable<bool> result = dialog.ShowDialog();
             if (result == true)
             {
-                TabItem tab = AddTabItem();
+            TabItem tab = AddTabItem();
             DrawControl filee = new DrawControl(this, revScale, tab);
             files[tab] = filee;
             filee.setName("Bez názvu");
@@ -394,7 +414,7 @@ namespace MyPaint
                 }
 
             drawControl.setPath(path);
-            change = false;
+            drawControl.historyControl.setNotChange();
         }
 
         public void delete()
@@ -416,17 +436,14 @@ namespace MyPaint
 
         public bool saveDialog()
         {
-            if (change)
+            MessageBoxResult result = MessageBox.Show("Chcete uložit změny?", "", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
             {
-                MessageBoxResult result = MessageBox.Show("Chcete uložit změny?", "", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
-                {
-                    save();
-                }
-                else if(result == MessageBoxResult.Cancel)
-                {
-                    return false;
-                }
+                save();
+            }
+            else if(result == MessageBoxResult.Cancel)
+            {
+                return false;
             }
             return true;
         }

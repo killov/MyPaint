@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyPaint.History;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace MyPaint
     {
         public string Name { get; set; }
         bool vis;
+        Brush col;
         public bool visible {
             get
             {
@@ -24,6 +26,17 @@ namespace MyPaint
             {
                 canvas.Visibility = value ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
                 vis = value;
+            }
+        }
+
+        public Brush Color {
+            get
+            {
+                return col;
+            }
+            set {
+                col = value;
+                if(PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Color"));
             }
         }
 
@@ -166,8 +179,9 @@ namespace MyPaint
             cv.Children.Insert(i, canvas);
         }
 
-        public void remove()
+        public void remove(bool history = true)
         {
+            if(history) drawControl.historyControl.add(new HistoryLayerRemove(this, drawControl.layers.IndexOf(this)));
             drawControl.layers.Remove(this);
             cv.Children.Remove(canvas);
             unsetSelectable();
@@ -179,10 +193,20 @@ namespace MyPaint
             
         }
 
-        public void add()
+        public void add(int i = -1)
         {
-            drawControl.layers.Add(this);
-            cv.Children.Add(canvas);
+            if(i == -1)
+            {
+                drawControl.layers.Add(this);
+                cv.Children.Add(canvas);
+            }
+            else
+            {
+                drawControl.layers.Remove(this);
+                drawControl.layers.Insert(i, this);
+                cv.Children.Remove(canvas);
+                cv.Children.Insert(i, canvas);
+            }
         }
 
         public void setSelectable()
@@ -224,6 +248,11 @@ namespace MyPaint
             {
                 shape.hideVirtualShape();
             }
+        }
+
+        public void setActive(bool act)
+        {
+            Color = act ? Brushes.Orange : null;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace MyPaint.Shapes
 
         public MyEllipse(DrawControl c, MyLayer la, jsonDeserialize.Shape s) : base(c, la, s)
         {
-            createVirtualShape();
+            
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
             setThickness(s.lineWidth);
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
@@ -41,7 +41,7 @@ namespace MyPaint.Shapes
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.B.x, s.B.y);
-
+            createVirtualShape();
             createPoints();
             
         }
@@ -82,7 +82,7 @@ namespace MyPaint.Shapes
         {
             base.setThickness(s, addHistory);
             p.StrokeThickness = s;
-            vs.StrokeThickness = s;
+            if(vs != null) vs.StrokeThickness = s;
         }
 
         override public double getThickness()

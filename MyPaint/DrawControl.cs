@@ -62,7 +62,7 @@ namespace MyPaint
             MyLayer layer = new MyLayer(canvas, this) { Name = "layer_" + layerCounter, visible = true };
             layers.Add(layer);
             layerCounter++;
-            setActiveLayer(layers.Count - 1);
+            setActiveLayer(layers.Count - 1, false);
             lockDraw();
             historyControl.add(new HistoryLayerAdd(layer));
         }
@@ -83,22 +83,26 @@ namespace MyPaint
             layers.Clear();
         }
 
-        public void setActiveLayer(int i)
+        public void setActiveLayer(int i, bool history = true)
         {
             if (i == -1) return;
-            control.w.layers.SelectedIndex = i;
+            foreach(MyLayer l in layers)
+            {
+                l.setActive(false);
+            }
             if (activeShape == MyEnum.SELECT)
             {
                 if (shape != null)
                 {
                     shape.changeLayer(null);
-                    historyControl.add(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
+                    if(history) historyControl.add(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
                 }
                 if (selectLayer != null) selectLayer.unsetSelectable();
                 layers[i].setSelectable();
             }
             selectLayer = layers[i];
-            //control.setBackgroundColor(selectLayer.color, false);
+            selectLayer.setActive(true);
+            control.setBackgroundColor(selectLayer.color, false);
             if (shape != null) shape.changeLayer(selectLayer);
         }
 
@@ -146,6 +150,12 @@ namespace MyPaint
             }
         }
 
+        public Brush getBackgroundColor()
+        {
+            if (selectLayer != null) return selectLayer.getColor();
+            return null;
+        }
+
         public Brush getShapePrimaryColor()
         {
             return primaryColor;
@@ -154,11 +164,6 @@ namespace MyPaint
         public Brush getShapeSecondaryColor()
         {
             return secondaryColor;
-        }
-
-        public Brush getBackgroundColor()
-        {
-            return selectLayer.color;
         }
 
         public void setShapeThickness(double t)

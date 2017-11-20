@@ -6,22 +6,24 @@ using System.Threading.Tasks;
 
 namespace MyPaint.History
 {
-    public class HistoryLayerAdd : IHistoryNode
+    public class HistoryLayerRemove : IHistoryNode
     {
         public MyLayer layer;
-        public HistoryLayerAdd(MyLayer l)
+        public int position;
+        public HistoryLayerRemove(MyLayer l, int p)
         {
             layer = l;
+            position = p;
         }
 
         public void back()
         {
-            layer.remove(false);
+            layer.add(position);
         }
 
         public void forward()
         {
-            layer.add();
+            layer.remove(false);
         }
     }
 }
