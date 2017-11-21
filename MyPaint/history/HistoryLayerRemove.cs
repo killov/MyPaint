@@ -12,7 +12,7 @@ namespace MyPaint.History
         public int position;
         public HistoryLayerRemove(MyLayer l, int p)
         {
-            layer = l;
+            layer = l; //
             position = p;
         }
 
