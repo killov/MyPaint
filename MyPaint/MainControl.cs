@@ -47,7 +47,6 @@ namespace MyPaint
             scale = new ScaleTransform(1, 1);
             revScale = new ScaleTransform(1, 1);
             files = new Dictionary<TabItem, DrawControl>();
-            //drawControl = new DrawControl(this, revScale);
             toolControl = new ToolControl();
             clipboardControl = new ClipboardControl(this);
             setTool(MyEnum.LINE);
@@ -374,7 +373,7 @@ namespace MyPaint
             w.labelPath.Content = path;
         }
 
-        public void saveAs()
+        public bool saveAs()
         { 
             Microsoft.Win32.SaveFileDialog dialog = new Microsoft.Win32.SaveFileDialog();
             dialog.DefaultExt = ".html";
@@ -387,6 +386,7 @@ namespace MyPaint
                 drawControl.setPath(filename);
                 setPath(filename);
             }
+            return result.HasValue && result.Value;
         }
 
         void saveAs(string path)
@@ -422,15 +422,16 @@ namespace MyPaint
             if (drawControl != null) drawControl.shapeDelete();
         }
 
-        public void save()
+        public bool save()
         {
             if (drawControl.path == "")
             {
-                saveAs();
+                return saveAs();
             }
             else
             {
                 saveAs(drawControl.path);
+                return true;
             }
         }
 
@@ -439,7 +440,7 @@ namespace MyPaint
             MessageBoxResult result = MessageBox.Show("Chcete uložit změny?", "", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                save();
+                return save();
             }
             else if(result == MessageBoxResult.Cancel)
             {
@@ -527,6 +528,25 @@ namespace MyPaint
         public void setChange(bool b)
         {
             change = b;
+        }
+
+        public void closed(System.ComponentModel.CancelEventArgs e)
+        {
+            foreach(var f in files)
+            {
+                DrawControl file = f.Value;
+                setFileActive(f.Key);
+                if (file.historyControl.change())
+                {
+                    if (!saveDialog())
+                    {
+                        e.Cancel = true;
+                        break;
+                    }
+                        
+                }
+
+            }
         }
 
         public void keyDown(object sender, KeyEventArgs e)

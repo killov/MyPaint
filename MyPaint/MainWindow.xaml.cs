@@ -104,7 +104,7 @@ namespace MyPaint
 
         private void closed(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = !control.saveDialog();
+            control.closed(e);
         }
 
 
@@ -316,7 +316,7 @@ namespace MyPaint
         {
             string tabName = (sender as Button).CommandParameter.ToString();
 
-            var item = tabControl.Items.Cast<TabItem>().Where(i => i.Name.Equals(tabName)).SingleOrDefault();
+            var item = tabControl.Items.Cast<TabItem>().Where(i => i.Name.Equals(tabName)).FirstOrDefault();
 
             TabItem tab = item as TabItem;
             control.tabControlDelete(tab);
