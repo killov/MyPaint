@@ -15,6 +15,7 @@ using System.Timers;
 using System.Web.Script.Serialization;
 using System.Collections.ObjectModel;
 using MyPaint.History;
+using System.Threading;
 
 namespace MyPaint
 {
@@ -54,7 +55,7 @@ namespace MyPaint
             setColor(Brushes.Black, false);
             setThickness(1, false);
             setResolution(500, 400);
-
+            //w.Dispatcher.BeginInvoke()
             TransformGroup g = new TransformGroup();
 
             g.Children.Add(scale);
@@ -394,27 +395,26 @@ namespace MyPaint
             drawControl.stopDraw();
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
- 
-                switch (suffix)
-                {
-                    case ".html":
-                    case ".htm":
-                        file.HTML.save(drawControl, path);
-                        break;
-                    case ".jpg":
-                        file.JPEG.save(drawControl, path);
-                        break;
-                    case ".bmp":
-                        file.BMP.save(drawControl, path);
-                        break;
-                    default:
-                    case ".png":
-                        file.PNG.save(drawControl, path);
-                        break;
-                }
-
             drawControl.setPath(path);
+            switch (suffix)
+            {
+                case ".html":
+                case ".htm":
+                    file.HTML.save(drawControl);
+                    break;
+                case ".jpg":
+                    file.JPEG.save(drawControl);
+                    break;
+                case ".bmp":
+                    file.BMP.save(drawControl);
+                    break;
+                default:
+                case ".png":
+                    file.PNG.save(drawControl);
+                    break;
+            }
             drawControl.historyControl.setNotChange();
+            
         }
 
         public void delete()
@@ -543,9 +543,7 @@ namespace MyPaint
                         e.Cancel = true;
                         break;
                     }
-                        
                 }
-
             }
         }
 

@@ -28,8 +28,9 @@ namespace MyPaint.file
             }
         }
 
-        public static void save(DrawControl dc, string filename)
+        public static void save(DrawControl dc)
         {
+            string filename = dc.path;
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)dc.resolution.X,
                 (int)dc.resolution.Y, 96, 96, PixelFormats.Default);
             rtb.Render(dc.canvas);

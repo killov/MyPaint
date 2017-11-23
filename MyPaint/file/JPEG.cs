@@ -24,12 +24,12 @@ namespace MyPaint.file
                 ImageBrush brush = new ImageBrush(bmi);
                 dc.setResolution(new System.Windows.Point(bmi.Width, bmi.Height));
                 dc.selectLayer.shapes.Add(new Shapes.MyImage(dc, dc.selectLayer, brush, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
-
             }
         }
 
-        public static void save(DrawControl dc, string filename)
+        public static void save(DrawControl dc)
         {
+            string filename = dc.path;
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)dc.resolution.X,
                 (int)dc.resolution.Y, 96, 96, PixelFormats.Default);
             rtb.Render(dc.canvas);

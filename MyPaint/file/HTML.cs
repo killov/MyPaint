@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
@@ -35,8 +36,14 @@ namespace MyPaint.file
             dc.lockDraw();
         }
 
-        public static void save(DrawControl dc, string filename)
+        public static void save(DrawControl dc)
         {
+            new Thread(save).Start(dc);
+        }
+
+        private static void save(object f) {
+            DrawControl dc = (DrawControl)f;
+            string filename = dc.path;
             System.IO.StreamWriter file = new System.IO.StreamWriter(filename);
             file.WriteLine("<!DOCTYPE HTML>");
             file.WriteLine("<html>");

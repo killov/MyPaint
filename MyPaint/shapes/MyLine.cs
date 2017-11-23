@@ -71,7 +71,7 @@ namespace MyPaint.Shapes
         {
             base.setThickness(s, addHistory);
             p.StrokeThickness = s;
-            vs.StrokeThickness = s;
+            if(vs != null) vs.StrokeThickness = s;
         }
 
         override public double getThickness()
