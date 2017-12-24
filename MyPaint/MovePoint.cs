@@ -92,6 +92,11 @@ namespace MyPaint
             drag = true;
         }
 
+        public Point getPosition()
+        {
+            return position;
+        }
+
         public void stopDrag()
         {
             if (drag && !startPosition.Equals(position))

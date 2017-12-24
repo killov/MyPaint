@@ -17,22 +17,30 @@ namespace MyPaint.Shapes
     {
         Polygon p = new Polygon(), vs;
         MovePoint p1, p2, p3, p4;
-        public MyImage(DrawControl c, MyLayer la, ImageBrush im, Point start, double w, double h) : base(c, la)
+        int width, height;
+        BitmapSource image;
+        public MyImage(DrawControl c, MyLayer la, BitmapSource bmi, Point start, double w, double h) : base(c, la)
         {
+            width = (int)w;
+            height = (int)h;
             p.Points.Add(new Point(start.X, start.Y));
             p.Points.Add(new Point(start.X, start.Y + h));
             p.Points.Add(new Point(start.X + w, start.Y + h));
             p.Points.Add(new Point(start.X + w, start.Y));
 
             createVirtualShape();
-
-            p.Fill = im;
+            image = bmi;
+            ImageBrush brush = new ImageBrush(bmi);
+            
+            p.Fill = brush;
             addToCanvas(p);
             createPoints();
         }
 
         public MyImage(DrawControl c, MyLayer la, jsonDeserialize.Shape s) : base(c, la, s)
         {
+            width = s.w;
+            height = s.h;
             byte[] imageBytes = Convert.FromBase64String(s.b64);
             MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
             BitmapImage bmi = new BitmapImage();
@@ -40,6 +48,7 @@ namespace MyPaint.Shapes
             bmi.StreamSource = ms;
             bmi.EndInit();
             ImageBrush brush = new ImageBrush(bmi);
+            image = bmi;
            
             p.Points.Add(new Point(s.A.x, s.A.y));
             p.Points.Add(new Point(s.B.x, s.A.y));
@@ -62,16 +71,6 @@ namespace MyPaint.Shapes
 
         }
 
-        override public Brush getPrimaryColor()
-        {
-            return null;
-        }
-
-        override public Brush getSecondaryColor()
-        {
-            return null;
-        }
-
         override public void addToCanvas()
         {
             addToCanvas(p);
@@ -86,12 +85,6 @@ namespace MyPaint.Shapes
         {
 
         }
-
-        override public double getThickness()
-        {
-            return 0;
-        }
-
 
         override public void drawMouseDown(Point e, MouseButtonEventArgs ee)
         {
@@ -188,10 +181,20 @@ namespace MyPaint.Shapes
 
         override public jsonSerialize.Shape renderShape()
         {
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)p.RenderSize.Width,
-            (int)p.RenderSize.Height, 96, 96, PixelFormats.Default);
-            rtb.Render(p);
+            Polygon po = new Polygon();
+            po.Points.Add(p1.getPosition());
+            po.Points.Add(p2.getPosition());
+            po.Points.Add(p3.getPosition());
+            po.Points.Add(p4.getPosition());
 
+            po.Fill = new ImageBrush(image);
+
+            ContentControl cc = new ContentControl();
+            Rect rect = new Rect(0, 0, width, height);
+            cc.Content = po;
+            cc.Arrange(rect);
+            RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Default);
+            rtb.Render(po);
 
             BitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(rtb));
@@ -204,9 +207,11 @@ namespace MyPaint.Shapes
 
             string base64String = Convert.ToBase64String(f);
             jsonSerialize.Image ret = new jsonSerialize.Image();
-            ret.A = new jsonSerialize.Point(p.Points[0].X, p.Points[0].Y);
-            ret.B = new jsonSerialize.Point(p.Points[2].X, p.Points[2].Y);
+            ret.A = new jsonSerialize.Point(p1.getPosition());
+            ret.B = new jsonSerialize.Point(p3.getPosition());
             ret.b64 = base64String;
+            ret.w = width;
+            ret.h = height;
             return ret;
         }
 

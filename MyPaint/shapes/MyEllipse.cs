@@ -58,16 +58,6 @@ namespace MyPaint.Shapes
             p.Fill = s;
         }
 
-        override public Brush getPrimaryColor()
-        {
-            return p.Stroke;
-        }
-
-        override public Brush getSecondaryColor()
-        {
-            return p.Fill;
-        }
-
         override public void addToCanvas()
         {
             addToCanvas(p);
@@ -83,11 +73,6 @@ namespace MyPaint.Shapes
             base.setThickness(s, addHistory);
             p.StrokeThickness = s;
             if(vs != null) vs.StrokeThickness = s;
-        }
-
-        override public double getThickness()
-        {
-            return p.StrokeThickness;
         }
 
         void moveS(Ellipse p, double x, double y)
@@ -171,7 +156,6 @@ namespace MyPaint.Shapes
 
         override public void createVirtualShape()
         {
-
             vs = new Ellipse();
             moveS(vs, sx, sy);
             moveE(vs, ex, ey);
@@ -259,9 +243,9 @@ namespace MyPaint.Shapes
         override public jsonSerialize.Shape renderShape()
         {
             jsonSerialize.Ellipse ret = new jsonSerialize.Ellipse();
-            ret.lineWidth = p.StrokeThickness;
-            ret.stroke = Utils.BrushToCanvas(p.Stroke);
-            ret.fill = Utils.BrushToCanvas(p.Fill);
+            ret.lineWidth = getThickness();
+            ret.stroke = sPrimaryColor;
+            ret.fill = sSecondaryColor;
             ret.A = new jsonSerialize.Point(sx, sy);
             ret.B = new jsonSerialize.Point(ex, ey);
             return ret;

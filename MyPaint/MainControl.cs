@@ -87,7 +87,7 @@ namespace MyPaint
             TabItem tab = AddTabItem();
             DrawControl file = new DrawControl(this, revScale, tab);
             file.setName("Bez názvu");
-            file.setResolution(new Point(500, 400));
+            file.setResolution(new Point(500, 400), true);
             files[tab] = file;
             return tab;
         }
@@ -104,7 +104,7 @@ namespace MyPaint
                 drawControl.setShapeThickness(toolControl.thickness);
                 drawControl.setActiveShape(toolControl.tool);
                 drawControl.historyControl.redraw();
-                setResolution(drawControl.resolution.X, drawControl.resolution.Y);
+                setResolution(drawControl.resolution.X, drawControl.resolution.Y, false);
                 setPath(drawControl.path);
                 setBackgroundColor(drawControl.getBackgroundColor(), false);
                 w.canvas.Children.Clear();
@@ -209,7 +209,7 @@ namespace MyPaint
             revScale.ScaleY = 1 / zoom;
         }
 
-        public void setResolution(double ws, double hs)
+        public void setResolution(double ws, double hs, bool back = true)
         {
             resolution = new Point(ws, hs);
             w.canvas.Width = ws;
@@ -219,7 +219,7 @@ namespace MyPaint
             Canvas.SetLeft(w.resolution, ws);
             Canvas.SetTop(w.resolution, hs);
             w.labelResolution.Content = String.Format("{0}x{1}", (int)ws, (int)hs);
-            if (drawControl != null) drawControl.setResolution(resolution);
+            if (back && drawControl != null) drawControl.setResolution(resolution);
         }
 
         public void newC()

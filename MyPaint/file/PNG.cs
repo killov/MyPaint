@@ -23,7 +23,7 @@ namespace MyPaint.file
                 bmi.EndInit();
                 ImageBrush brush = new ImageBrush(bmi);
                 dc.setResolution(new System.Windows.Point(bmi.Width, bmi.Height));
-                dc.selectLayer.shapes.Add(new Shapes.MyImage(dc, dc.selectLayer, brush, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
+                dc.selectLayer.shapes.Add(new Shapes.MyImage(dc, dc.selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
                 fs.Close();
             }
         }

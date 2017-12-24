@@ -61,16 +61,6 @@ namespace MyPaint.Shapes
             p.Fill = s;
         }
 
-        override public Brush getPrimaryColor()
-        {
-            return p.Stroke;
-        }
-
-        override public Brush getSecondaryColor()
-        {
-            return p.Fill;
-        }
-
         override public void addToCanvas()
         {
             addToCanvas(p);
@@ -87,12 +77,6 @@ namespace MyPaint.Shapes
             p.StrokeThickness = s;
             if(vs != null) vs.StrokeThickness = s;
         }
-
-        override public double getThickness()
-        {
-            return p.StrokeThickness;
-        }
-
 
         override public void drawMouseDown(Point e, MouseButtonEventArgs ee)
         {
@@ -244,13 +228,13 @@ namespace MyPaint.Shapes
         override public jsonSerialize.Shape renderShape()
         {
             jsonSerialize.Polygon ret = new jsonSerialize.Polygon();
-            ret.lineWidth = p.StrokeThickness;
-            ret.stroke = Utils.BrushToCanvas(p.Stroke);
-            ret.fill = Utils.BrushToCanvas(p.Fill);
+            ret.lineWidth = getThickness();
+            ret.stroke = sPrimaryColor;
+            ret.fill = sSecondaryColor;
             ret.points = new List<jsonSerialize.Point>();
-            foreach (var point in p.Points)
+            foreach (var point in movepoints)
             {
-                ret.points.Add(new jsonSerialize.Point(point.X, point.Y));
+                ret.points.Add(new jsonSerialize.Point(point.getPosition()));
             }
             return ret;
         }

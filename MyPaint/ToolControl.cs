@@ -11,6 +11,6 @@ namespace MyPaint
     {
         public Brush primaryColor, secondaryColor;
         public double thickness;
-        public MyEnum tool;//d
+        public MyEnum tool;
     }
 }

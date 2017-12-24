@@ -17,6 +17,9 @@ namespace MyPaint.Shapes
     public abstract class MyShape
     {
         protected bool hit = false;
+        protected Brush primaryColor, secondaryColor;
+        protected jsonSerialize.Brush sPrimaryColor, sSecondaryColor;
+        protected double thickness;
         MyLayer layer;
         public DrawControl drawControl;
         protected MyOnMouseDown virtualShapeCallback;
@@ -26,6 +29,9 @@ namespace MyPaint.Shapes
             drawControl = c;
             layer = la;
             layer.shapes.Add(this);
+            setPrimaryColor(drawControl.primaryColor);
+            setSecondaryColor(drawControl.secondaryColor);
+            setThickness(drawControl.thickness);
         }
 
         public MyShape(DrawControl c, MyLayer la, jsonDeserialize.Shape s)
@@ -36,6 +42,8 @@ namespace MyPaint.Shapes
 
         virtual public void setPrimaryColor(Brush s, bool addHistory = false)
         {
+            primaryColor = s;
+            sPrimaryColor = jsonSerialize.Brush.create(s);
             if (addHistory)
             {
                 drawControl.historyControl.add(new History.HistoryPrimaryColor(this, getPrimaryColor(), s));
@@ -45,15 +53,23 @@ namespace MyPaint.Shapes
 
         virtual public void setSecondaryColor(Brush s, bool addHistory = false)
         {
+            secondaryColor = s;
+            sSecondaryColor = jsonSerialize.Brush.create(s);
             if (addHistory)
             {
                 drawControl.historyControl.add(new History.HistorySecondaryColor(this, getSecondaryColor(), s));
             }
         }
 
-        abstract public Brush getPrimaryColor();
+        public Brush getPrimaryColor()
+        {
+            return primaryColor;
+        }
 
-        abstract public Brush getSecondaryColor();
+        public Brush getSecondaryColor()
+        {
+            return secondaryColor;
+        }
 
 
         public void changeLayer(MyLayer newLayer)
@@ -77,13 +93,17 @@ namespace MyPaint.Shapes
 
         virtual public void setThickness(double s, bool addHistory = false)
         {
+            thickness = s;
             if (addHistory)
             {
                 drawControl.historyControl.add(new History.HistoryShapeThickness(this, getThickness(), s));
             }
         }
 
-        public abstract double getThickness();
+        public double getThickness()
+        {
+            return thickness;
+        }
 
 
         virtual public void drawMouseDown(Point e, MouseButtonEventArgs ee)

@@ -106,8 +106,17 @@ namespace MyPaint
             if (shape != null) shape.changeLayer(selectLayer);
         }
 
-        public void setResolution(Point res)
+        public void setResolution(Point res, bool back = false)
         {
+            if (res.Equals(resolution))
+            {
+                return;
+            }
+            if (back)
+            {
+                control.setResolution(res.X, res.Y, false);
+            }
+            historyControl.add(new HistoryResolution(this, resolution, res));
             resolution = res;
             foreach (var l in layers)
             {
@@ -237,7 +246,6 @@ namespace MyPaint
         {
             if (!draw && activeShape != MyEnum.SELECT)
             {
-                //control.setChange(true);
                 switch (activeShape)
                 {
                     case MyEnum.LINE:
@@ -339,7 +347,8 @@ namespace MyPaint
         {
             ImageBrush brush = new ImageBrush(bmi);
             control.setResolution(bmi.Width, bmi.Height);
-            selectLayer.shapes.Add(new Shapes.MyImage(this, selectLayer, brush, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
+            Shapes.MyShape shape = new Shapes.MyImage(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
+            historyControl.add(new HistoryShape(shape));
         }
 
         public void setPath(string p)

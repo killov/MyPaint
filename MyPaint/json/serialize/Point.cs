@@ -15,5 +15,11 @@ namespace MyPaint.jsonSerialize
             x = xx;
             y = yy;
         }
+
+        public Point(System.Windows.Point p)
+        {
+            x = p.X;
+            y = p.Y;
+        }
     }
 }

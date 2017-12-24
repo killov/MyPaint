@@ -14,5 +14,6 @@ namespace MyPaint.jsonDeserialize
         public double lineWidth;
         public Point[] points;
         public string b64;
+        public int w, h;
     }
 }

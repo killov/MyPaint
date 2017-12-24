@@ -43,7 +43,6 @@ namespace MyPaint
             Clipboard.SetImage(s);
             s = Clipboard.GetImage();
             control.drawControl.pasteImage(s);
-            
         }
     }
 }

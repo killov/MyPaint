@@ -11,5 +11,6 @@ namespace MyPaint.jsonSerialize
         public string type = "IMAGE";
         public Point A, B;
         public string b64;
+        public int w, h;
     }
 }

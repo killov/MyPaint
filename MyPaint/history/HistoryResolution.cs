@@ -9,23 +9,23 @@ namespace MyPaint.History
 {
     public class HistoryResolution : IHistoryNode
     {
-        MainControl control;
+        DrawControl dc;
         public Point oldR, newR;
-        public HistoryResolution(MainControl c, Point o, Point n)
+        public HistoryResolution(DrawControl c, Point o, Point n)
         {
-            control = c;
+            dc = c;
             oldR = o;
             newR = n;
         }
 
         public void back()
         {
-            control.setResolution(oldR.X, oldR.Y);
+            dc.setResolution(oldR);
         }
 
         public void forward()
         {
-            control.setResolution(newR.X, newR.Y);
+            dc.setResolution(newR);
         }
     }
 }

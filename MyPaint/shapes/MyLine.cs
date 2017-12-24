@@ -47,16 +47,6 @@ namespace MyPaint.Shapes
 
         }
 
-        override public Brush getPrimaryColor()
-        {
-            return p.Stroke;
-        }
-
-        override public Brush getSecondaryColor()
-        {
-            return null;
-        }
-
         override public void addToCanvas()
         {
             addToCanvas(p);
@@ -73,12 +63,6 @@ namespace MyPaint.Shapes
             p.StrokeThickness = s;
             if(vs != null) vs.StrokeThickness = s;
         }
-
-        override public double getThickness()
-        {
-            return p.StrokeThickness;
-        }
-
 
         override public void drawMouseDown(Point e, MouseButtonEventArgs ee)
         {
@@ -182,10 +166,10 @@ namespace MyPaint.Shapes
         override public jsonSerialize.Shape renderShape()
         {
             jsonSerialize.Line ret = new jsonSerialize.Line();
-            ret.lineWidth = p.StrokeThickness;
-            ret.stroke = Utils.BrushToCanvas(p.Stroke);
-            ret.A = new jsonSerialize.Point(p.X1, p.Y1);
-            ret.B = new jsonSerialize.Point(p.X2, p.Y2);
+            ret.lineWidth = getThickness();
+            ret.stroke = sPrimaryColor;
+            ret.A = new jsonSerialize.Point(p1.getPosition());
+            ret.B = new jsonSerialize.Point(p2.getPosition());
             return ret;
         }
 

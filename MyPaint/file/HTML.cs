@@ -38,10 +38,12 @@ namespace MyPaint.file
 
         public static void save(DrawControl dc)
         {
-            new Thread(save).Start(dc);
+            Thread t = new Thread(save);
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start(dc);
         }
 
-        private static void save(object f) {
+        public static void save(object f) {
             DrawControl dc = (DrawControl)f;
             string filename = dc.path;
             System.IO.StreamWriter file = new System.IO.StreamWriter(filename);

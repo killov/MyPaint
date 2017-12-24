@@ -66,7 +66,7 @@ namespace MyPaint
         {
             cv = c;
             canvas = new Canvas();
-            canvas.Name = Name;
+            //canvas.Name = Name;
             cv.Children.Add(canvas);
             setResolution(dc.resolution);
             drawControl = dc;
@@ -141,7 +141,7 @@ namespace MyPaint
         public jsonSerialize.Layer render()
         {
             jsonSerialize.Layer la = new jsonSerialize.Layer();
-            la.color = Utils.BrushToCanvas(color);
+            la.color = jsonSerialize.Brush.create(color);
             la.visible = visible;
             la.name = Name;
             la.shapes = new List<jsonSerialize.Shape>();

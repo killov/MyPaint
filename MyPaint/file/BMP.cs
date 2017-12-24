@@ -20,10 +20,8 @@ namespace MyPaint.file
                 BmpBitmapDecoder decoder = new BmpBitmapDecoder(fs, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
                 BitmapSource bmi = decoder.Frames[0];
                 
-
-                ImageBrush brush = new ImageBrush(bmi);
                 dc.setResolution(new System.Windows.Point(bmi.Width, bmi.Height));
-                dc.selectLayer.shapes.Add(new Shapes.MyImage(dc, dc.selectLayer, brush, new System.Windows.Point(0,0), bmi.Width, bmi.Height));
+               // dc.selectLayer.shapes.Add(new Shapes.MyImage(dc, dc.selectLayer, bmi, new System.Windows.Point(0,0), bmi.Width, bmi.Height));
   
             }
         }
