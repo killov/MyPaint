@@ -17,6 +17,7 @@ namespace MyPaint.Shapes
         Ellipse p = new Ellipse(), vs;
         double sx, sy, ex, ey;
         MovePoint p1, p2, p3, p4;
+        double left, top, width, height;
         public MyEllipse(DrawControl c, MyLayer la) : base(c, la)
         {
 
@@ -38,6 +39,8 @@ namespace MyPaint.Shapes
             p.ToolTip = null;
 
             addToCanvas(p);
+            left = sx;
+            top = sy;
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.B.x, s.B.y);
@@ -79,21 +82,26 @@ namespace MyPaint.Shapes
         {
             if (x > ex)
             {
-                p.Width = x - ex;
+                width = x - ex;
+                p.Width = width;
             }
             else
             {
+                left = x;
                 Canvas.SetLeft(p, x);
                 p.Width = ex - x;
             }
             if (y > ey)
             {
-                p.Height = y - ey;
+                height = y - ey;
+                p.Height = height;
             }
             else
             {
+                top = y;
                 Canvas.SetTop(p, y);
-                p.Height = ey - y;
+                height = ey - y;
+                p.Height = height;
             }
             sx = x;
             sy = y;
@@ -103,21 +111,27 @@ namespace MyPaint.Shapes
         {
             if (x > sx)
             {
-                p.Width = x - sx;
+                width = x - sx;
+                p.Width = width;
             }
             else
             {
+                left = x;
                 Canvas.SetLeft(p, x);
-                p.Width = sx - x;
+                width = sx - x;
+                p.Width = width;
             }
             if (y > sy)
             {
-                p.Height = y - sy;
+                height = y - sy;
+                p.Height = height;
             }
             else
             {
+                top = y;
                 Canvas.SetTop(p, y);
-                p.Height = sy - y;
+                height = sy - y;
+                p.Height = height;
             }
             ex = x;
             ey = y;
@@ -297,6 +311,22 @@ namespace MyPaint.Shapes
                 p1.move(sx, sy);
                 p2.move(ex, ey);
             });
+        }
+
+        override public void create(Canvas canvas)
+        {
+            Ellipse p = new Ellipse();
+  
+            p.Stroke = primaryColor;
+            p.Fill = secondaryColor;
+            p.StrokeThickness = thickness;
+            p.ToolTip = null;
+            p.Width = width;
+            p.Height = height;
+            canvas.Children.Add(p);
+            Canvas.SetLeft(p, left);
+            Canvas.SetTop(p, top);
+            
         }
 
     }

@@ -214,5 +214,7 @@ namespace MyPaint.Shapes
         {
             drawControl.draw = false;
         }
+
+        abstract public void create(Canvas canvas);
     }
 }

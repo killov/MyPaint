@@ -72,7 +72,6 @@ namespace MyPaint
             drawControl = dc;
         }
 
-
         public MyLayer(Canvas c, DrawControl dc, jsonDeserialize.Layer layer)
         {
             cv = c;
@@ -106,7 +105,6 @@ namespace MyPaint
                 }
             }
         }
-
 
         public void setResolution(Point res)
         {
@@ -150,6 +148,22 @@ namespace MyPaint
                 la.shapes.Add(shape.renderShape());
             }
             return la;
+        }
+
+        public Canvas createImage()
+        {
+            Canvas canvas = new Canvas();
+            canvas.Background = color;
+            canvas.Width = drawControl.resolution.X;
+            canvas.Height = drawControl.resolution.Y;
+            if (visible)
+            {
+                foreach (var shape in shapes)
+                {
+                    shape.create(canvas);
+                }
+            }
+            return canvas;
         }
 
         public void up()

@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -31,9 +33,13 @@ namespace MyPaint.file
         public static void save(DrawControl dc)
         {
             string filename = dc.path;
+            ContentControl cc = new ContentControl();
+            Rect rect = new Rect(0, 0, dc.resolution.X, dc.resolution.Y);
+            cc.Content = dc.create();
+            cc.Arrange(rect);
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)dc.resolution.X,
                 (int)dc.resolution.Y, 96, 96, PixelFormats.Default);
-            rtb.Render(dc.canvas);
+            rtb.Render(cc);
             BitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(rtb));
             using (var fs = File.OpenWrite(@filename))

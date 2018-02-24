@@ -345,6 +345,7 @@ namespace MyPaint
 
         public void pasteImage(BitmapSource bmi)
         {
+            stopDraw();
             ImageBrush brush = new ImageBrush(bmi);
             control.setResolution(bmi.Width, bmi.Height);
             Shapes.MyShape shape = new Shapes.MyImage(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
@@ -362,6 +363,19 @@ namespace MyPaint
         {
             this.name = name;
             tabItem.Header = name;
+        }
+
+        public Canvas create()
+        {
+            Canvas canvas = new Canvas();
+            canvas.Width = resolution.X;
+            canvas.Height = resolution.Y;
+            canvas.Background = Brushes.Blue;
+            foreach(var layer in layers)
+            {
+                canvas.Children.Add(layer.createImage());
+            }
+            return canvas;
         }
     }
 }

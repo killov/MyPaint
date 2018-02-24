@@ -39,8 +39,6 @@ namespace MyPaint.Shapes
             {
                 p.Points.Add(new Point(point.x, point.y));
             }
-
-
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
 
@@ -260,6 +258,21 @@ namespace MyPaint.Shapes
                 if (i < p.Points.Count) p.Points[i] = po;
             });
             movepoints.Add(mp);
+        }
+
+        override public void create(Canvas canvas)
+        {
+            Polygon p = new Polygon();
+
+            foreach (var point in movepoints)
+            {
+                p.Points.Add(point.getPosition());
+            }
+            p.Stroke = primaryColor;
+            p.Fill = secondaryColor;
+            p.StrokeThickness = thickness;
+            p.ToolTip = null;
+            canvas.Children.Add(p);
         }
     }
 }

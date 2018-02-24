@@ -263,5 +263,23 @@ namespace MyPaint.Shapes
             });
         }
 
+        override public void create(Canvas canvas)
+        {
+            Polygon p = new Polygon();
+
+            p.Points.Add(p1.getPosition());
+            p.Points.Add(p2.getPosition());
+            p.Points.Add(p3.getPosition());
+            p.Points.Add(p4.getPosition());
+
+            p.Stroke = primaryColor;
+            p.Fill = new ImageBrush(image);
+            p.StrokeThickness = thickness;
+            p.ToolTip = null;
+
+            canvas.Children.Add(p);
+
+        }
+
     }
 }

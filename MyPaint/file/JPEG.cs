@@ -17,11 +17,9 @@ namespace MyPaint.file
     class JPEG
     {
         public DrawControl dc;
-        public string visualData;
 
         public static void open(DrawControl dc, string filename)
         {
-  
             using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 JpegBitmapDecoder decoder = new JpegBitmapDecoder(fs, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
@@ -29,7 +27,7 @@ namespace MyPaint.file
 
                 ImageBrush brush = new ImageBrush(bmi);
                 dc.setResolution(new System.Windows.Point(bmi.Width, bmi.Height));
-               // dc.selectLayer.shapes.Add(new Shapes.MyImage(dc, dc.selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
+                dc.selectLayer.shapes.Add(new Shapes.MyImage(dc, dc.selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
             }
         }
 
@@ -37,7 +35,6 @@ namespace MyPaint.file
         {
             JPEG info = new JPEG();
             info.dc = dc;
-            info.visualData = XamlWriter.Save(dc.canvas);
             Thread t = new Thread(thread_save);
             t.SetApartmentState(ApartmentState.STA);
             t.Start(info);
@@ -47,10 +44,12 @@ namespace MyPaint.file
         {
             JPEG info = (JPEG)i;
             DrawControl dc = info.dc;
+
             ContentControl cc = new ContentControl();
             Rect rect = new Rect(0, 0, dc.resolution.X, dc.resolution.Y);
-            cc.Content = XamlReader.Parse(info.visualData);
+            cc.Content = dc.create();
             cc.Arrange(rect);
+
             string filename = dc.path;
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)dc.resolution.X,
                 (int)dc.resolution.Y, 96, 96, PixelFormats.Default);

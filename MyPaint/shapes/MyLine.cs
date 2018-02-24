@@ -18,7 +18,7 @@ namespace MyPaint.Shapes
         MovePoint p1, p2;
         public MyLine(DrawControl c, MyLayer la) : base(c, la)
         {
-
+            
         }
 
         public MyLine(DrawControl c, MyLayer la, jsonDeserialize.Shape s) : base(c, la, s)
@@ -191,6 +191,21 @@ namespace MyPaint.Shapes
                 vs.X2 = p.X2 = e.X;
                 vs.Y2 = p.Y2 = e.Y;
             });
+        }
+
+        override public void create(Canvas canvas)
+        {
+            Line p = new Line();
+            Point a = p1.getPosition();
+            Point b = p2.getPosition();
+            p.X1 = a.X;
+            p.Y1 = a.Y;
+            p.X2 = b.X;
+            p.Y2 = b.Y;
+            p.Stroke = primaryColor;
+            p.StrokeThickness = thickness;
+            p.ToolTip = null;
+            canvas.Children.Add(p);
         }
 
     }
