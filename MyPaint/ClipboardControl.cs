@@ -21,7 +21,10 @@ namespace MyPaint
 
         public void copy(BitmapSource s)
         {
-            //todo
+            while (true)
+            {
+                Console.Write("sdhasudgaisudg");
+            }  
         }
 
         public void copy(Shapes.MyShape s)

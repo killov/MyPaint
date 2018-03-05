@@ -14,52 +14,17 @@ using System.Windows.Media.Imaging;
 
 namespace MyPaint.file
 {
-    class JPEG
+    class JPEG : Raster
     {
-        public DrawControl dc;
-
-        public static void open(DrawControl dc, string filename)
+        protected override BitmapSource getBitmap(FileStream fs)
         {
-            using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                JpegBitmapDecoder decoder = new JpegBitmapDecoder(fs, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
-                BitmapSource bmi = decoder.Frames[0];
-
-                ImageBrush brush = new ImageBrush(bmi);
-                dc.setResolution(new System.Windows.Point(bmi.Width, bmi.Height));
-                dc.selectLayer.shapes.Add(new Shapes.MyImage(dc, dc.selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
-            }
+            BitmapDecoder decoder = new JpegBitmapDecoder(fs, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+            return decoder.Frames[0];
         }
 
-        public static void save(DrawControl dc)
+        protected override BitmapEncoder getEncoder()
         {
-            JPEG info = new JPEG();
-            info.dc = dc;
-            Thread t = new Thread(thread_save);
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start(info);
-        }
-
-        public static void thread_save(object i)
-        {
-            JPEG info = (JPEG)i;
-            DrawControl dc = info.dc;
-
-            ContentControl cc = new ContentControl();
-            Rect rect = new Rect(0, 0, dc.resolution.X, dc.resolution.Y);
-            cc.Content = dc.create();
-            cc.Arrange(rect);
-
-            string filename = dc.path;
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)dc.resolution.X,
-                (int)dc.resolution.Y, 96, 96, PixelFormats.Default);
-            rtb.Render(cc);
-            BitmapEncoder encoder = new JpegBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(rtb));
-            using (var fs = File.OpenWrite(@filename))
-            {
-                encoder.Save(fs);
-            }
+            return new JpegBitmapEncoder();
         }
     }
 }

@@ -3,49 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
+
 namespace MyPaint.file
 {
-    class PNG
+    class PNG : Raster
     {
-        public static void open(DrawControl dc, string filename)
+        protected override BitmapSource getBitmap(FileStream fs)
         {
-            MemoryStream memoStream = new MemoryStream();
-            using (FileStream fs = File.OpenRead(@filename))
-            {
-                fs.CopyTo(memoStream);
-                BitmapImage bmi = new BitmapImage();
-                bmi.BeginInit();
-                bmi.StreamSource = memoStream;
-                bmi.EndInit();
-                ImageBrush brush = new ImageBrush(bmi);
-                dc.setResolution(new System.Windows.Point(bmi.Width, bmi.Height));
-                dc.selectLayer.shapes.Add(new Shapes.MyImage(dc, dc.selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
-                fs.Close();
-            }
+            BitmapDecoder decoder = new PngBitmapDecoder(fs, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+            return decoder.Frames[0];
         }
 
-        public static void save(DrawControl dc)
+        protected override BitmapEncoder getEncoder()
         {
-            string filename = dc.path;
-            ContentControl cc = new ContentControl();
-            Rect rect = new Rect(0, 0, dc.resolution.X, dc.resolution.Y);
-            cc.Content = dc.create();
-            cc.Arrange(rect);
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)dc.resolution.X,
-                (int)dc.resolution.Y, 96, 96, PixelFormats.Default);
-            rtb.Render(cc);
-            BitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(rtb));
-            using (var fs = File.OpenWrite(@filename))
-            {
-                encoder.Save(fs);
-            }
+            return new PngBitmapEncoder();
         }
     }
 }

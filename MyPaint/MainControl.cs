@@ -354,14 +354,14 @@ namespace MyPaint
                         file.HTML.open(filee, filename);
                         break;
                     case ".jpg":
-                        file.JPEG.open(filee, filename);
+                       // file.JPEG.open(filee, filename);
                         break;
                     case ".bmp":
-                        file.BMP.open(filee, filename);
+                        //file.BMP.open(filee, filename);
                         break;
                     case ".png":
                     default:
-                        file.PNG.open(filee, filename);
+                       // file.PNG.open(filee, filename);
                         break;
                 }
                 filee.setPath(filename);
@@ -403,14 +403,14 @@ namespace MyPaint
                     file.HTML.save(drawControl);
                     break;
                 case ".jpg":
-                    file.JPEG.save(drawControl);
+                  //  file.JPEG.save(drawControl);
                     break;
                 case ".bmp":
-                    file.BMP.save(drawControl);
+                 //   file.BMP.save(drawControl);
                     break;
                 default:
                 case ".png":
-                    file.PNG.save(drawControl);
+                  //  file.PNG.save(drawControl);
                     break;
             }
             drawControl.historyControl.setNotChange();

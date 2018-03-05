@@ -39,6 +39,7 @@ namespace MyPaint
         public ObservableCollection<MyLayer> layers = new ObservableCollection<MyLayer>();
         public MyLayer selectLayer;
         public ScaleTransform revScale;
+        
         private int layerCounter = 1;
 
         public DrawControl(MainControl c, ScaleTransform revScale, TabItem ti)
