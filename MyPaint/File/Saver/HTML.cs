@@ -8,43 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
-namespace MyPaint.file
+namespace MyPaint.FileSaver
 {
-    public class HTML
+    public class HTML : FileSaver
     {
-        public static void open(DrawControl dc, string filename)
-        {
-            using (StreamReader sr = new StreamReader(@filename))
-            {
-                string code = sr.ReadToEnd();
-                string a = new Regex("width=\"(.+?)\"").Matches(code)[0].Groups[1].ToString();
-                double width = Double.Parse(new Regex("width=\"(.+?)\"").Matches(code)[0].Groups[1].ToString());
-                double height = Double.Parse(new Regex("height=\"(.+?)\"").Matches(code)[0].Groups[1].ToString());
-                dc.setResolution(new System.Windows.Point(width, height));
-                Regex r = new Regex("var json = (.+);");
-                string json = r.Matches(code)[0].Groups[1].ToString();
-                JavaScriptSerializer dd = new JavaScriptSerializer();
-                dd.MaxJsonLength = int.MaxValue;
-                jsonDeserialize.Picture pic = (jsonDeserialize.Picture)dd.Deserialize(json, typeof(jsonDeserialize.Picture));
-                dc.deleteLayers();
-                foreach (var l in pic.layers)
-                {
-                    dc.layers.Add(new MyLayer(dc.canvas, dc, l));
-                }
-                dc.setActiveLayer(dc.layers.Count - 1);
-            }
-            dc.lockDraw();
-        }
-
-        public static void save(DrawControl dc)
-        {
-            Thread t = new Thread(save);
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start(dc);
-        }
-
-        public static void save(object f) {
-            DrawControl dc = (DrawControl)f;
+        override protected void thread_save() { 
             string filename = dc.path;
             System.IO.StreamWriter file = new System.IO.StreamWriter(filename);
             file.WriteLine("<!DOCTYPE HTML>");

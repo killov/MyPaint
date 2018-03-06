@@ -12,16 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 
-namespace MyPaint.file
+namespace MyPaint.FileSaver
 {
-    class PNG : Raster
+    public class PNG : Raster
     {
-        protected override BitmapSource getBitmap(FileStream fs)
-        {
-            BitmapDecoder decoder = new PngBitmapDecoder(fs, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
-            return decoder.Frames[0];
-        }
-
         protected override BitmapEncoder getEncoder()
         {
             return new PngBitmapEncoder();

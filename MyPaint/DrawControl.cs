@@ -39,7 +39,7 @@ namespace MyPaint
         public ObservableCollection<MyLayer> layers = new ObservableCollection<MyLayer>();
         public MyLayer selectLayer;
         public ScaleTransform revScale;
-        
+
         private int layerCounter = 1;
 
         public DrawControl(MainControl c, ScaleTransform revScale, TabItem ti)
@@ -87,7 +87,7 @@ namespace MyPaint
         public void setActiveLayer(int i, bool history = true)
         {
             if (i == -1) return;
-            foreach(MyLayer l in layers)
+            foreach (MyLayer l in layers)
             {
                 l.setActive(false);
             }
@@ -96,7 +96,7 @@ namespace MyPaint
                 if (shape != null)
                 {
                     shape.changeLayer(null);
-                    if(history) historyControl.add(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
+                    if (history) historyControl.add(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
                 }
                 if (selectLayer != null) selectLayer.unsetSelectable();
                 layers[i].setSelectable();
@@ -236,7 +236,7 @@ namespace MyPaint
                     {
                         selectLayer.unsetSelectable();
                         selectLayer.setSelectable();
-                        
+
                     }
                     startDraw(e);
                 }
@@ -298,8 +298,8 @@ namespace MyPaint
             {
                 if (!drag)
                 {
-                    shape.stopDrag();            
-                }else
+                    shape.stopDrag();
+                } else
                 {
                     drag = false;
                     Point start = posunStart;
@@ -372,11 +372,34 @@ namespace MyPaint
             canvas.Width = resolution.X;
             canvas.Height = resolution.Y;
             canvas.Background = Brushes.Blue;
-            foreach(var layer in layers)
+            foreach (var layer in layers)
             {
                 canvas.Children.Add(layer.createImage());
             }
             return canvas;
+        }
+
+        public void SaveAsFile(string path)
+        {
+            Regex r = new Regex("\\.[a-zA-Z0-9]+$");
+            string suffix = r.Matches(path)[0].ToString().ToLower();
+            setPath(path);
+            switch (suffix)
+            {
+                case ".html":
+                    new FileSaver.HTML().save(this);
+                    break;
+                case ".jpg":
+                    new FileSaver.JPEG().save(this); ;
+                    break;
+                case ".bmp":
+                    new FileSaver.BMP().save(this);
+                    break;
+                case ".png":
+                default:
+                    new FileSaver.PNG().save(this);
+                    break;
+            }
         }
     }
 }

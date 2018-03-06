@@ -12,19 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 
-namespace MyPaint.file
+namespace MyPaint.FileOpener
 {
-    class JPEG : Raster
+    public class BMP : Raster
     {
         protected override BitmapSource getBitmap(FileStream fs)
         {
-            BitmapDecoder decoder = new JpegBitmapDecoder(fs, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+            BmpBitmapDecoder decoder = new BmpBitmapDecoder(fs, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
             return decoder.Frames[0];
-        }
-
-        protected override BitmapEncoder getEncoder()
-        {
-            return new JpegBitmapEncoder();
         }
     }
 }

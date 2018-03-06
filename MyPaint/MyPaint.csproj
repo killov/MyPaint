@@ -117,6 +117,7 @@
     <Compile Include="file\BMP.cs" />
     <Compile Include="file\JPEG.cs" />
     <Compile Include="file\PNG.cs" />
+    <Compile Include="file\Raster.cs" />
     <Compile Include="history\HistoryControl.cs" />
     <Compile Include="history\HistoryLayerRemove.cs" />
     <Compile Include="history\HistoryMovePoint.cs" />

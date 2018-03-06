@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+
+
+namespace MyPaint.FileSaver
+{
+    public abstract class FileSaver
+    {
+        protected DrawControl dc;
+
+        public void save(DrawControl dc)
+        {
+            this.dc = dc;
+            Thread t = new Thread(thread_save);
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
+        }
+
+        abstract protected void thread_save();
+    }
+}

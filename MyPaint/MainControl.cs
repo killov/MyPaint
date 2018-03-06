@@ -347,11 +347,11 @@ namespace MyPaint
 
                 Regex r = new Regex("\\.[a-zA-Z0-9]+$");
                 string suffix = r.Matches(filename)[0].ToString().ToLower();
-                
+                filee.setPath(filename);
                 switch (suffix)
                 {
                     case ".html":
-                        file.HTML.open(filee, filename);
+                        FileSaver.HTML.open(filee, filename);
                         break;
                     case ".jpg":
                        // file.JPEG.open(filee, filename);
@@ -364,7 +364,7 @@ namespace MyPaint
                        // file.PNG.open(filee, filename);
                         break;
                 }
-                filee.setPath(filename);
+                
                 setFileActive(tab);
             }
         }
@@ -395,24 +395,7 @@ namespace MyPaint
             drawControl.stopDraw();
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
-            drawControl.setPath(path);
-            switch (suffix)
-            {
-                case ".html":
-                case ".htm":
-                    file.HTML.save(drawControl);
-                    break;
-                case ".jpg":
-                  //  file.JPEG.save(drawControl);
-                    break;
-                case ".bmp":
-                 //   file.BMP.save(drawControl);
-                    break;
-                default:
-                case ".png":
-                  //  file.PNG.save(drawControl);
-                    break;
-            }
+            drawControl.SaveAsFile(path);
             drawControl.historyControl.setNotChange();
             
         }
