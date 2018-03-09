@@ -21,9 +21,7 @@ namespace MyPaint.FileOpener
         public void open(DrawControl dc)
         {
             this.dc = dc;
-            Thread t = new Thread(thread_open);
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
+            thread_open();
         }
 
 

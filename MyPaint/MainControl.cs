@@ -88,6 +88,7 @@ namespace MyPaint
             DrawControl file = new DrawControl(this, revScale, tab);
             file.setName("Bez názvu");
             file.setResolution(new Point(500, 400), true);
+            file.historyControl.Enable();
             files[tab] = file;
             return tab;
         }
@@ -339,31 +340,15 @@ namespace MyPaint
             Nullable<bool> result = dialog.ShowDialog();
             if (result == true)
             {
-            TabItem tab = AddTabItem();
-            DrawControl filee = new DrawControl(this, revScale, tab);
-            files[tab] = filee;
-            filee.setName("Bez názvu");
+                TabItem tab = AddTabItem();
+                DrawControl filee = new DrawControl(this, revScale, tab);
+                files[tab] = filee;
+                filee.setName("Bez názvu");
                 string filename = dialog.FileName;
 
-                Regex r = new Regex("\\.[a-zA-Z0-9]+$");
-                string suffix = r.Matches(filename)[0].ToString().ToLower();
+                
                 filee.setPath(filename);
-                switch (suffix)
-                {
-                    case ".html":
-                        FileSaver.HTML.open(filee, filename);
-                        break;
-                    case ".jpg":
-                       // file.JPEG.open(filee, filename);
-                        break;
-                    case ".bmp":
-                        //file.BMP.open(filee, filename);
-                        break;
-                    case ".png":
-                    default:
-                       // file.PNG.open(filee, filename);
-                        break;
-                }
+                filee.OpenFromFile(filename);
                 
                 setFileActive(tab);
             }

@@ -39,6 +39,7 @@ namespace MyPaint
         public ObservableCollection<MyLayer> layers = new ObservableCollection<MyLayer>();
         public MyLayer selectLayer;
         public ScaleTransform revScale;
+        private DrawEnum state = DrawEnum.DRAW;
 
         private int layerCounter = 1;
 
@@ -222,7 +223,7 @@ namespace MyPaint
             {
                 return;
             }
-            if (candraw)
+            if (state == DrawEnum.DRAW)
             {
                 startDraw(e);
             }
@@ -236,7 +237,6 @@ namespace MyPaint
                     {
                         selectLayer.unsetSelectable();
                         selectLayer.setSelectable();
-
                     }
                     startDraw(e);
                 }
@@ -245,7 +245,7 @@ namespace MyPaint
 
         void startDraw(MouseButtonEventArgs e)
         {
-            if (!draw && activeShape != MyEnum.SELECT)
+            if (state == DrawEnum.DRAW && activeShape != MyEnum.SELECT)
             {
                 switch (activeShape)
                 {
@@ -271,45 +271,51 @@ namespace MyPaint
         {
             posunStart = start;
             posunStartMys = mys;
-            drag = true;
-            shapeMoved = false;
+            state = DrawEnum.MOVING;
         }
 
         public void mouseMove(Point e)
         {
-            if (draw) shape.drawMouseMove(e);
-            if (!candraw)
+            switch (state)
             {
-                shape.moveDrag(e);
-                if (drag)
-                {
+                case DrawEnum.DRAWING:
+                    shape.drawMouseMove(e);
+                    break;
+                case DrawEnum.EDIT:
+                    shape.moveDrag(e);
+                    break;
+                case DrawEnum.MOVING:
                     shape.moveShape(posunStart.X + (e.X - posunStartMys.X), posunStart.Y + (e.Y - posunStartMys.Y));
-                }
+                    break;
             }
         }
 
         public void mouseUp(MouseButtonEventArgs e)
         {
-            if (draw)
+
+            switch (state)
             {
-                shape.drawMouseUp(e.GetPosition(canvas), e);
-            }
-            else if (!candraw)
-            {
-                if (!drag)
-                {
+                case DrawEnum.DRAWING:
+                    shape.drawMouseUp(e.GetPosition(canvas), e);
+                    break;
+                case DrawEnum.EDIT:
                     shape.stopDrag();
-                } else
-                {
-                    drag = false;
+                    break;
+                case DrawEnum.MOVING:
                     Point start = posunStart;
                     Point stop = shape.getPosition();
                     if (!start.Equals(stop))
                     {
                         historyControl.add(new HistoryShapeMove(shape, start, stop));
                     }
-                }
-            }
+                    state = DrawEnum.EDIT;
+                    break;
+            }          
+        }
+
+        public void startDraw()
+        {
+
         }
 
         public void stopDraw()
@@ -320,6 +326,7 @@ namespace MyPaint
                 shape.stopEdit();
                 shape = null;
                 lockDraw();
+                state = DrawEnum.DRAW;
             }
         }
 
@@ -400,6 +407,29 @@ namespace MyPaint
                     new FileSaver.PNG().save(this);
                     break;
             }
+        }
+
+        public void OpenFromFile(string path)
+        {
+            setPath(path);
+            Regex r = new Regex("\\.[a-zA-Z0-9]+$");
+            string suffix = r.Matches(path)[0].ToString().ToLower();
+            switch (suffix)
+            {
+                case ".html":
+                    new FileOpener.HTML().open(this);
+                    break;
+                case ".jpg":
+                    new FileOpener.JPEG().open(this);
+                    break;
+                case ".bmp":
+                    new FileOpener.BMP().open(this);
+                    break;
+                case ".png":
+                    new FileOpener.PNG().open(this);
+                    break;
+            }
+            historyControl.Enable();
         }
     }
 }

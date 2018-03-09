@@ -12,6 +12,7 @@ namespace MyPaint.History
         Stack<IHistoryNode> backStack = new Stack<IHistoryNode>();
         Stack<IHistoryNode> forwardStack = new Stack<IHistoryNode>();
         IHistoryNode changeBack;
+        private bool enable = false;
 
         public HistoryControl(MainControl c)
         {
@@ -28,25 +29,28 @@ namespace MyPaint.History
 
         public void add(IHistoryNode node)
         {
-            if(backStack.Count > 0 && (node is IHistoryNodeSkipped))
-            {
-                IHistoryNode last = backStack.First();
-                if(last is IHistoryNodeSkipped)
+            if (enable)
+            {   
+                if(backStack.Count > 0 && (node is IHistoryNodeSkipped))
                 {
-                    IHistoryNodeSkipped l = (IHistoryNodeSkipped)last;
-                    IHistoryNodeSkipped n = (IHistoryNodeSkipped)node;
-                    if (l.optimal(n))
+                    IHistoryNode last = backStack.First();
+                    if(last is IHistoryNodeSkipped)
                     {
-                        l.skip(n);
-                        forwardStack.Clear();
-                        redraw();
-                        return;
+                        IHistoryNodeSkipped l = (IHistoryNodeSkipped)last;
+                        IHistoryNodeSkipped n = (IHistoryNodeSkipped)node;
+                        if (l.optimal(n))
+                        {
+                            l.skip(n);
+                            forwardStack.Clear();
+                            redraw();
+                            return;
+                        }
                     }
                 }
+                backStack.Push(node);
+                forwardStack.Clear();
+                redraw();
             }
-            backStack.Push(node);
-            forwardStack.Clear();
-            redraw();
         }
 
         public void back()
@@ -91,6 +95,11 @@ namespace MyPaint.History
         public void redraw()
         {
             control.setHistory(backStack.Count > 0, forwardStack.Count > 0);
+        }
+
+        public void Enable()
+        {
+            enable = true;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MyPaint.FileOpener
             {
                 BitmapSource bmi = getBitmap(fs);
                 ImageBrush brush = new ImageBrush(bmi);
-                dc.setResolution(new System.Windows.Point(bmi.Width, bmi.Height));
+                dc.setResolution(new System.Windows.Point(bmi.Width, bmi.Height), false);
                 dc.selectLayer.shapes.Add(new Shapes.MyImage(dc, dc.selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
             }
         }
