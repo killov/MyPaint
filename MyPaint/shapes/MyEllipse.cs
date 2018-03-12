@@ -35,7 +35,6 @@ namespace MyPaint.Shapes
             sx = s.A.x;
             sy = s.A.y;
 
-            
             p.ToolTip = null;
 
             addToCanvas(p);

@@ -26,12 +26,17 @@ namespace MyPaint
     public partial class MainWindow : Window
     {
         MainControl control;
+        bool resolutionDrag = false;
+        MyEnum activeColor = MyEnum.PRIMARY;
+        Brush CBLock;
 
         public MainWindow()
         {
             InitializeComponent();
             control = new MainControl(this);
-            colorsInit();  
+            colorsInit();
+            setActiveColor(MyEnum.PRIMARY);
+            setColor(Brushes.Black);
         }
 
         private void colorsInit()
@@ -67,7 +72,7 @@ namespace MyPaint
             rect.RadiusY = 3;
             rect.MouseDown += delegate (object sender, MouseButtonEventArgs e)
             {
-                control.setColor(br);
+                setColor(br);
             };
             colors.Children.Add(rect);
             Canvas.SetLeft(rect, x * 19+2);
@@ -106,12 +111,9 @@ namespace MyPaint
         {
             control.closed(e);
         }
-
-
         
         private void mouseDown(object sender, MouseButtonEventArgs e)
         {
-
             control.mouseDown(e);
         }
 
@@ -148,7 +150,6 @@ namespace MyPaint
         private void newClick(object sender, RoutedEventArgs e)
         {
             control.newC();
-
         }
 
         private void polygon_Click(object sender, RoutedEventArgs e)
@@ -193,12 +194,17 @@ namespace MyPaint
 
         private void primaryColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            control.setActiveColor(MyEnum.PRIMARY); 
+            setActiveColor(MyEnum.PRIMARY); 
         }
 
         private void secondaryColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            control.setActiveColor(MyEnum.SECONDARY);
+            setActiveColor(MyEnum.SECONDARY);
+        }
+
+        private void backgroundColor_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            setActiveColor(MyEnum.BACKGROUND);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -211,24 +217,63 @@ namespace MyPaint
             if(control != null) control.setThickness(e.NewValue);
         }
 
-        long CBlastchange = 0;
-        private void CB_ColorChanged(object sender, ColorBox.ColorChangedEventArgs e)
+        public void setActiveColor(MyEnum color)
         {
-            control.setColorCB(CB.Brush);
-            CBlastchange = Stopwatch.GetTimestamp();                   
+            activeColor = color;
+            primaryColor.Stroke = color == MyEnum.PRIMARY ? Brushes.Orange : null;
+            secondaryColor.Stroke = color == MyEnum.SECONDARY ? Brushes.Orange : null;
+            backgroundColor.Stroke = color == MyEnum.BACKGROUND ? Brushes.Orange : null;
         }
 
-        private Point oldR;
+        private void CB_ColorChanged(object sender, ColorBox.ColorChangedEventArgs e)
+        {
+            if(CBLock != null && CBLock.Equals(CB.Brush))
+            {
+                return;
+            }
+            updateColor(CB.Brush);
+            CBLock = CB.Brush;
+        }
+
+        private void setColor(Brush color)
+        {
+            updateColor(color);
+            if (color != null && color is SolidColorBrush)
+            {
+                color.Freeze();
+            }
+            CBLock = color;
+            CB.Brush = color;            
+        }
+
+        private void updateColor(Brush color)
+        {
+            switch (activeColor)
+            {
+                case MyEnum.PRIMARY:
+                    control.setPrimaryColor(color);
+                    primaryColor.Fill = color;
+                    break;
+                case MyEnum.SECONDARY:
+                    control.setSecondaryColor(color);
+                    secondaryColor.Fill = color;
+                    break;
+                case MyEnum.BACKGROUND:
+                    control.setBackgroundColor(color);
+                    backgroundColor.Fill = color;
+                    break;
+            }
+
+        }
 
         private void resolution_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            oldR = control.resolution;
-            control.resolutionDrag = true;
+            resolutionDrag = true;
         }
 
         private void canvas_outer_MouseMove(object sender, MouseEventArgs e)
         {
-            if (control.resolutionDrag)
+            if (resolutionDrag)
             {
                 control.setResolution(e.GetPosition(canvas_out).X, e.GetPosition(canvas_out).Y);
             }
@@ -236,16 +281,10 @@ namespace MyPaint
 
         private void canvas_outer_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (control.resolutionDrag)
+            if (resolutionDrag)
             {
-                control.resolutionDrag = false;
-                //control.(new History.HistoryResolution(control, oldR, control.resolution));
+                resolutionDrag = false;
             }
-        }
-
-        private void backgroundColor_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            control.setActiveColor(MyEnum.BACKGROUND);
         }
 
         private void button_back_Click(object sender, RoutedEventArgs e)
@@ -320,6 +359,31 @@ namespace MyPaint
 
             TabItem tab = item as TabItem;
             control.tabControlDelete(tab);
+        }
+
+        public void setPrimaryBrush(Brush brush)
+        {
+            primaryColor.Fill = brush;
+        }
+
+        public void setSecondaryBrush(Brush brush)
+        {
+            secondaryColor.Fill = brush;
+        }
+
+        public void setBackgroundBrush(Brush brush)
+        {
+            backgroundColor.Fill = brush;
+        }
+
+        public void setThickness(double t)
+        {
+            thickness.Value = t;
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

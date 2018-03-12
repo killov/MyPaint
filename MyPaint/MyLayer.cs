@@ -201,7 +201,7 @@ namespace MyPaint
             unsetSelectable();
             if(drawControl.selectLayer == this)
             {
-                drawControl.stopDraw();
+                drawControl.stopEdit();
                 drawControl.selectLayer = null;
             }
             

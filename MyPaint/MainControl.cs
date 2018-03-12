@@ -27,33 +27,27 @@ namespace MyPaint
     public class MainControl
     {
         public DrawControl drawControl = null;
-        public MyEnum activeColor;
-        string path = "";
-        bool change = false;
         public MainWindow w;
         ScaleTransform scale, revScale;
         public Point resolution;
         public bool resolutionDrag = false;
-        Brush cblock = null;
+
         ClipboardControl clipboardControl;
         private List<TabItem> tabItems;
         private TabItem tabAdd;
         private Dictionary<TabItem, DrawControl> files;
-        public ToolControl toolControl;
         Brush primaryColor, secondaryColor, layerColor;
-
+        MyEnum tool = MyEnum.LINE;
+        double thickness = 1;
         public MainControl(MainWindow ww)
         {
             w = ww;
             scale = new ScaleTransform(1, 1);
             revScale = new ScaleTransform(1, 1);
             files = new Dictionary<TabItem, DrawControl>();
-            toolControl = new ToolControl();
             clipboardControl = new ClipboardControl(this);
             setTool(MyEnum.LINE);
-            setActiveColor(MyEnum.PRIMARY);
-            setColor(Brushes.Black, false);
-            setThickness(1, false);
+
             setResolution(500, 400);
             //w.Dispatcher.BeginInvoke()
             TransformGroup g = new TransformGroup();
@@ -87,7 +81,7 @@ namespace MyPaint
             TabItem tab = AddTabItem();
             DrawControl file = new DrawControl(this, revScale, tab);
             file.setName("Bez názvu");
-            file.setResolution(new Point(500, 400), true);
+            file.setResolution(new Point(500, 400), true, true);
             file.historyControl.Enable();
             files[tab] = file;
             return tab;
@@ -99,15 +93,15 @@ namespace MyPaint
             {
                 DrawControl file = files[tab];
                 drawControl = file;
-                drawControl.stopDraw();
-                drawControl.setShapePrimaryColor(toolControl.primaryColor);
-                drawControl.setShapeSecondaryColor(toolControl.secondaryColor);
-                drawControl.setShapeThickness(toolControl.thickness);
-                drawControl.setActiveShape(toolControl.tool);
+                drawControl.stopEdit();
+                drawControl.setShapePrimaryColor(primaryColor);
+                drawControl.setShapeSecondaryColor(secondaryColor);
+                drawControl.setShapeThickness(thickness);
+                drawControl.setActiveShape(tool);
                 drawControl.historyControl.redraw();
                 setResolution(drawControl.resolution.X, drawControl.resolution.Y, false);
                 setPath(drawControl.path);
-                setBackgroundColor(drawControl.getBackgroundColor(), false);
+                w.setBackgroundBrush(drawControl.getBackgroundColor());
                 w.canvas.Children.Clear();
                 w.canvas.Children.Add(drawControl.canvas);
                 w.tabControl.SelectedItem = tab;
@@ -188,7 +182,7 @@ namespace MyPaint
 
         public void back()
         {
-            if (drawControl != null) drawControl.stopDraw();
+            if (drawControl != null) drawControl.stopEdit();
             if (drawControl != null) drawControl.historyControl.back();
         }
 
@@ -226,114 +220,63 @@ namespace MyPaint
         public void newC()
         {
             setFileActive(newFile());
-            
-            //if (!saveDialog()) return;
-
-            //change = false;
-            //setResolution(500, 400);
-            //drawControl.clear();
-            //drawControl.historyControl.clear();
         }
 
-        public void setColorCB(Brush c)
+        public void setPrimaryColor(Brush c)
         {
-            if(drawControl == null) return;
-            if (cblock == null || !cblock.Equals(c)) {
-                cblock = c;
-                switch (activeColor)
-                {
-                    case MyEnum.PRIMARY:
-                        setPrimaryColor(c, drawControl != null);
-                        break;
-                    case MyEnum.SECONDARY:
-                        setSecondaryColor(c, drawControl != null);
-                        break;
-                    case MyEnum.BACKGROUND:
-                        setBackgroundColor(c, drawControl != null);
-                        break;
-                }
-            }
-        }
-
-        public void setColor(Brush c, bool back = true)
-        {
-            cblock = c;
-            switch (activeColor)
-            {
-                case MyEnum.PRIMARY:
-                    setPrimaryColor(c, back);
-                    break;
-                case MyEnum.SECONDARY:
-                    setSecondaryColor(c, back);
-                    break;
-                case MyEnum.BACKGROUND:
-                    setBackgroundColor(c, back);
-                    break;
-            }
-        }
-
-        public void setPrimaryColor(Brush c, bool back = true)
-        {
-            if (activeColor == MyEnum.PRIMARY) setCB(c);
-            if (back) drawControl.setShapePrimaryColor(c);
-            w.primaryColor.Fill = c;
+            drawControl.setShapePrimaryColor(c);
             primaryColor = c;
-            toolControl.primaryColor = c;
         }
 
-        public void setSecondaryColor(Brush c, bool back = true)
+        public void setSecondaryColor(Brush c)
         {
-            if (activeColor == MyEnum.SECONDARY) setCB(c);
-            if (back) drawControl.setShapeSecondaryColor(c);
-            w.secondaryColor.Fill = c;
+            drawControl.setShapeSecondaryColor(c);
             secondaryColor = c;
-            toolControl.secondaryColor = c;
         }
 
-        public void setBackgroundColor(Brush c, bool back = true)
+        public void setBackgroundColor(Brush c)
         {
-            if (activeColor == MyEnum.BACKGROUND) setCB(c);
-            if (back) drawControl.setBackgroundColor(c);
-            w.backgroundColor.Fill = c;
+            drawControl.setBackgroundColor(c);
             layerColor = c;
         }
 
-        void setCB(Brush color)
+        public void setThickness(double t)
         {
-            if (color != null && color is SolidColorBrush)
-                color.Freeze();
-            w.CB.Brush = color;
+            drawControl.setShapeThickness(t);
+            thickness = t;
         }
 
-        public Brush getColor()
+        public void setWindowPrimaryBrush(Brush c)
         {
-            switch (activeColor)
-            {
-                case MyEnum.PRIMARY:
-                    return primaryColor;
-                case MyEnum.SECONDARY:
-                    return secondaryColor;
-                case MyEnum.BACKGROUND:
-                    return layerColor;
-            }
-            return null;
+            w.setPrimaryBrush(c);
+            primaryColor = c;
         }
 
-        public void setThickness(double t, bool back = true)
+        public void setWindowSecondaryBrush(Brush c)
         {
-            if (back) drawControl.setShapeThickness(t);
-            w.thickness.Value = t;
-            toolControl.thickness = t;
+            w.setSecondaryBrush(c);
+            secondaryColor = c;
+        }
+
+        public void setWindowBackgroundBrush(Brush c)
+        {
+            w.setBackgroundBrush(c);
+            layerColor = c;
+        }
+
+        public void setWindowThickness(double t)
+        {
+            w.setThickness(t);
+            thickness = t;
         }
 
         public void stopDraw()
         {
-            if (drawControl != null) drawControl.stopDraw();
+            if (drawControl != null) drawControl.stopEdit();
         }
 
         public void open()
-        {
-            
+        {      
             Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.DefaultExt = ".html";
             dialog.Filter = "Všechny podporované |*.html;*.png;*.jpg;*.bmp|Soubory HTML (*.html)|*.html|Soubory PNG (*.png)|*.png|Soubory JPEG (*.jpg)|*.jpg|Soubory BMP (*.bmp)|*.bmp";
@@ -345,11 +288,8 @@ namespace MyPaint
                 files[tab] = filee;
                 filee.setName("Bez názvu");
                 string filename = dialog.FileName;
-
-                
-                filee.setPath(filename);
                 filee.OpenFromFile(filename);
-                
+              
                 setFileActive(tab);
             }
         }
@@ -377,7 +317,7 @@ namespace MyPaint
 
         void saveAs(string path)
         {
-            drawControl.stopDraw();
+            drawControl.stopEdit();
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
             drawControl.SaveAsFile(path);
@@ -422,30 +362,6 @@ namespace MyPaint
              w.Close();  
         }
 
-        public void setActiveColor(MyEnum s)
-        {
-            activeColor = s;
-            switch (s)
-            {
-                case MyEnum.PRIMARY:
-                    w.primaryColor.Stroke = Brushes.Orange;
-                    w.secondaryColor.Stroke = null;
-                    w.backgroundColor.Stroke = null;
-                    break;
-                case MyEnum.SECONDARY:
-                    w.primaryColor.Stroke = null;
-                    w.secondaryColor.Stroke = Brushes.Orange;
-                    w.backgroundColor.Stroke = null;
-                    break;
-                case MyEnum.BACKGROUND:
-                    w.primaryColor.Stroke = null;
-                    w.secondaryColor.Stroke = null;
-                    w.backgroundColor.Stroke = Brushes.Orange;
-                    break;
-            }
-            setCB(getColor());
-        }
-
         public void setTool(MyEnum s)
         {
             Style def = w.FindResource("MyButton") as Style;
@@ -473,9 +389,9 @@ namespace MyPaint
                     w.button_polygon.Style = act;
                     break;
             }
-            if (drawControl != null) drawControl.stopDraw();
+            if (drawControl != null) drawControl.stopEdit();
             if (drawControl != null) drawControl.setActiveShape(s);
-            toolControl.tool = s;
+            tool = s;
         }
 
         public void mouseDown(MouseButtonEventArgs e)
@@ -491,11 +407,6 @@ namespace MyPaint
         public void mouseUp(MouseButtonEventArgs e)
         {
             if (drawControl != null) drawControl.mouseUp(e);
-        }
-
-        public void setChange(bool b)
-        {
-            change = b;
         }
 
         public void closed(System.ComponentModel.CancelEventArgs e)

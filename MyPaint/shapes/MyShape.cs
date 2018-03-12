@@ -207,12 +207,12 @@ namespace MyPaint.Shapes
 
         protected void startDraw()
         {
-            drawControl.draw = true;
+            drawControl.startDraw();
         }
 
         protected void stopDraw()
         {
-            drawControl.draw = false;
+            drawControl.stopDraw();
         }
 
         abstract public void create(Canvas canvas);

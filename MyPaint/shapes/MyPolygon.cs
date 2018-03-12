@@ -216,8 +216,9 @@ namespace MyPaint.Shapes
             base.moveShape(x, y);
             for (int i = 1; i < p.Points.Count; i++)
             {
-                p.Points[i] = new Point(p.Points[i].X - p.Points[0].X + x, p.Points[i].Y - p.Points[0].Y + y);
-                movepoints[i].move(p.Points[i].X - p.Points[0].X + x, p.Points[i].Y - p.Points[0].Y + y);
+                Point po = new Point(p.Points[i].X - p.Points[0].X + x, p.Points[i].Y - p.Points[0].Y + y);
+                p.Points[i] = po;
+                movepoints[i].movee(po);
             }
             p.Points[0] = new Point(x, y);
             movepoints[0].move(x, y);
@@ -255,7 +256,7 @@ namespace MyPaint.Shapes
         {
             MovePoint mp = new MovePoint(drawControl.topCanvas, this, p.Points[i], drawControl.revScale, (Point po) =>
             {
-                if (i < p.Points.Count) p.Points[i] = po;
+                p.Points[i] = po;
             });
             movepoints.Add(mp);
         }

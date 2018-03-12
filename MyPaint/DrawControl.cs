@@ -31,7 +31,6 @@ namespace MyPaint
         public bool startdraw = false;
         public bool candraw = true;
         public bool drag = false;
-        bool shapeMoved = false;
         Point posunStart = new Point();
         Point posunStartMys = new Point();
         public Point resolution;
@@ -104,11 +103,11 @@ namespace MyPaint
             }
             selectLayer = layers[i];
             selectLayer.setActive(true);
-            control.setBackgroundColor(selectLayer.color, false);
+            control.w.setBackgroundBrush(selectLayer.color);
             if (shape != null) shape.changeLayer(selectLayer);
         }
 
-        public void setResolution(Point res, bool back = false)
+        public void setResolution(Point res, bool back = false, bool history = false)
         {
             if (res.Equals(resolution))
             {
@@ -118,8 +117,13 @@ namespace MyPaint
             {
                 control.setResolution(res.X, res.Y, false);
             }
-            historyControl.add(new HistoryResolution(this, resolution, res));
+            if (history)
+            {
+                
+                historyControl.add(new HistoryResolution(this, resolution, res));
+            }
             resolution = res;
+
             foreach (var l in layers)
             {
                 l.setResolution(res);
@@ -135,7 +139,7 @@ namespace MyPaint
 
         public void clearCanvas()
         {
-            stopDraw();
+            stopEdit();
             resetLayers();
         }
 
@@ -231,8 +235,7 @@ namespace MyPaint
             {
                 if (!shape.hitTest())
                 {
-                    Shapes.MyShape sh = shape;
-                    stopDraw();
+                    stopEdit();
                     if (activeShape == MyEnum.SELECT)
                     {
                         selectLayer.unsetSelectable();
@@ -315,12 +318,17 @@ namespace MyPaint
 
         public void startDraw()
         {
-
+            state = DrawEnum.DRAWING;
         }
 
         public void stopDraw()
         {
-            if (!candraw)
+            state = DrawEnum.EDIT;
+        }
+
+        public void stopEdit()
+        {
+            if (state == DrawEnum.EDIT)
             {
                 candraw = true;
                 shape.stopEdit();
@@ -338,22 +346,22 @@ namespace MyPaint
 
         public void setPrimaryColor(Brush c)
         {
-            control.setPrimaryColor(c, false);
+            control.setWindowPrimaryBrush(c);
         }
 
         public void setSecondaryColor(Brush c)
         {
-            control.setSecondaryColor(c, false);
+            control.setWindowSecondaryBrush(c);
         }
 
         public void setThickness(double t)
         {
-            control.setThickness(t, false);
+            control.setWindowThickness(t);
         }
 
         public void pasteImage(BitmapSource bmi)
         {
-            stopDraw();
+            stopEdit();
             ImageBrush brush = new ImageBrush(bmi);
             control.setResolution(bmi.Width, bmi.Height);
             Shapes.MyShape shape = new Shapes.MyImage(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);

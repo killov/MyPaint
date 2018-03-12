@@ -20,7 +20,7 @@ namespace MyPaint.FileOpener
                 string a = new Regex("width=\"(.+?)\"").Matches(code)[0].Groups[1].ToString();
                 double width = Double.Parse(new Regex("width=\"(.+?)\"").Matches(code)[0].Groups[1].ToString());
                 double height = Double.Parse(new Regex("height=\"(.+?)\"").Matches(code)[0].Groups[1].ToString());
-                dc.setResolution(new System.Windows.Point(width, height));
+                dc.setResolution(new System.Windows.Point(width, height), false, true);
                 Regex r = new Regex("var json = (.+);");
                 string json = r.Matches(code)[0].Groups[1].ToString();
                 JavaScriptSerializer dd = new JavaScriptSerializer();
