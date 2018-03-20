@@ -8,9 +8,9 @@ namespace MyPaint.History
 {
     public class HistoryLayerPosition : IHistoryNode
     {
-        MyLayer layer;
+        Layer layer;
         int oldP, newP;
-        public HistoryLayerPosition(MyLayer l, int o, int n)
+        public HistoryLayerPosition(Layer l, int o, int n)
         {
             layer = l;
             oldP = o;
@@ -19,12 +19,12 @@ namespace MyPaint.History
 
         public void back()
         {
-            layer.setPosition(oldP);
+            layer.SetPosition(oldP);
         }
 
         public void forward()
         {
-            layer.setPosition(newP);
+            layer.SetPosition(newP);
         }
     }
 }

@@ -29,14 +29,17 @@ namespace MyPaint
         bool resolutionDrag = false;
         MyEnum activeColor = MyEnum.PRIMARY;
         Brush CBLock;
+        //public Canvas topCanvas = new Canvas();
 
         public MainWindow()
         {
             InitializeComponent();
+            //topCanvas = topCanvass;
             control = new MainControl(this);
             colorsInit();
             setActiveColor(MyEnum.PRIMARY);
             setColor(Brushes.Black);
+            
         }
 
         private void colorsInit()
@@ -89,7 +92,7 @@ namespace MyPaint
 
         private void openClick(object sender, RoutedEventArgs e)
         {
-            control.open();
+            control.Open();
         }
 
         private void saveClick(object sender, RoutedEventArgs e)
@@ -99,7 +102,7 @@ namespace MyPaint
 
         private void saveAsClick(object sender, RoutedEventArgs e)
         {
-            control.saveAs();
+            control.SaveAs();
         }
 
         private void exitClick(object sender, RoutedEventArgs e)
@@ -149,7 +152,7 @@ namespace MyPaint
 
         private void newClick(object sender, RoutedEventArgs e)
         {
-            control.newC();
+            control.NewC();
         }
 
         private void polygon_Click(object sender, RoutedEventArgs e)
@@ -214,7 +217,7 @@ namespace MyPaint
 
         private void thickness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if(control != null) control.setThickness(e.NewValue);
+            if(control != null) control.SetThickness(e.NewValue);
         }
 
         public void setActiveColor(MyEnum color)
@@ -251,15 +254,15 @@ namespace MyPaint
             switch (activeColor)
             {
                 case MyEnum.PRIMARY:
-                    control.setPrimaryColor(color);
+                    control.SetPrimaryBrush(color);
                     primaryColor.Fill = color;
                     break;
                 case MyEnum.SECONDARY:
-                    control.setSecondaryColor(color);
+                    control.SetSecondaryBrush(color);
                     secondaryColor.Fill = color;
                     break;
                 case MyEnum.BACKGROUND:
-                    control.setBackgroundColor(color);
+                    control.SetBackgroundBrush(color);
                     backgroundColor.Fill = color;
                     break;
             }
@@ -289,12 +292,12 @@ namespace MyPaint
 
         private void button_back_Click(object sender, RoutedEventArgs e)
         {
-            control.back();
+            control.Back();
         }
 
         private void button_forward_Click(object sender, RoutedEventArgs e)
         {
-            control.forward();
+            control.Forward();
         }
 
         public void setHistory(bool b, bool f)
@@ -305,17 +308,17 @@ namespace MyPaint
 
         private void button_addLayer_Click(object sender, RoutedEventArgs e)
         {
-            control.addLayer();
+            control.AddLayer();
         }
 
         private void layers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(control != null) control.layerChanged();
+            if(control != null) control.LayerChanged(layers.SelectedIndex);
         }
 
         private void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (control != null)  control.setZoom(e.NewValue/100);
+            if (control != null)  control.SetZoom(e.NewValue/100);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -326,29 +329,29 @@ namespace MyPaint
         private void Button_layer_down_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            MyLayer l = button.DataContext as MyLayer;
-            l.down();
+            Layer l = button.DataContext as Layer;
+            l.Down();
         }
 
         private void Button_layer_up_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            MyLayer l = button.DataContext as MyLayer;
-            l.up();
+            Layer l = button.DataContext as Layer;
+            l.Up();
         }
 
         private void Button_layer_delete_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            MyLayer l = button.DataContext as MyLayer;
-            l.remove();
+            Layer l = button.DataContext as Layer;
+            l.Remove();
         }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TabItem tab = tabControl.SelectedItem as TabItem;
 
-            control.tabControlChange(tab);
+            control.TabControlChange(tab);
         }
 
         private void tabClose_Click(object sender, RoutedEventArgs e)
@@ -358,7 +361,7 @@ namespace MyPaint
             var item = tabControl.Items.Cast<TabItem>().Where(i => i.Name.Equals(tabName)).FirstOrDefault();
 
             TabItem tab = item as TabItem;
-            control.tabControlDelete(tab);
+            control.TabControlDelete(tab);
         }
 
         public void setPrimaryBrush(Brush brush)

@@ -12,18 +12,18 @@ using System.Windows.Controls;
 
 namespace MyPaint.Shapes
 {
-    public class MyEllipse : MyShape
+    public class Ellipse : Shape
     {
-        Ellipse p = new Ellipse(), vs;
+        System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse(), vs;
         double sx, sy, ex, ey;
         MovePoint p1, p2, p3, p4;
         double left, top, width, height;
-        public MyEllipse(DrawControl c, MyLayer la) : base(c, la)
+        public Ellipse(FileControl c, Layer la) : base(c, la)
         {
 
         }
 
-        public MyEllipse(DrawControl c, MyLayer la, jsonDeserialize.Shape s) : base(c, la, s)
+        public Ellipse(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
         {
             
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
@@ -77,7 +77,7 @@ namespace MyPaint.Shapes
             if(vs != null) vs.StrokeThickness = s;
         }
 
-        void moveS(Ellipse p, double x, double y)
+        void moveS(System.Windows.Shapes.Ellipse p, double x, double y)
         {
             if (x > ex)
             {
@@ -106,7 +106,7 @@ namespace MyPaint.Shapes
             sy = y;
         }
 
-        void moveE(Ellipse p, double x, double y)
+        void moveE(System.Windows.Shapes.Ellipse p, double x, double y)
         {
             if (x > sx)
             {
@@ -169,12 +169,12 @@ namespace MyPaint.Shapes
 
         override public void createVirtualShape()
         {
-            vs = new Ellipse();
+            vs = new System.Windows.Shapes.Ellipse();
             moveS(vs, sx, sy);
             moveE(vs, ex, ey);
             vs.Cursor = Cursors.SizeAll;
-            vs.Stroke = drawControl.nullBrush;
-            vs.Fill = drawControl.nullBrush;
+            vs.Stroke = nullBrush;
+            vs.Fill = nullBrush;
             vs.StrokeThickness = p.StrokeThickness;
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
@@ -314,7 +314,7 @@ namespace MyPaint.Shapes
 
         override public void create(Canvas canvas)
         {
-            Ellipse p = new Ellipse();
+            System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse();
   
             p.Stroke = primaryColor;
             p.Fill = secondaryColor;

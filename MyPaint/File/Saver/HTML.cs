@@ -29,7 +29,7 @@ namespace MyPaint.FileSaver
             pic.layers = new List<jsonSerialize.Layer>();
             foreach (var layer in dc.layers)
             {
-                pic.layers.Add(layer.render());
+                pic.layers.Add(layer.CreateSerializer());
             }
             JavaScriptSerializer s = new JavaScriptSerializer();
             s.MaxJsonLength = int.MaxValue;

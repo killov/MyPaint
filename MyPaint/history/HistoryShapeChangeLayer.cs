@@ -9,9 +9,9 @@ namespace MyPaint.History
 {
     public class HistoryShapeChangeLayer : IHistoryNodeSkipped
     {
-        public Shapes.MyShape shape;
-        public MyLayer o, n;
-        public HistoryShapeChangeLayer(Shapes.MyShape s, MyLayer oldL, MyLayer newL)
+        public Shapes.Shape shape;
+        public Layer o, n;
+        public HistoryShapeChangeLayer(Shapes.Shape s, Layer oldL, Layer newL)
         {
             shape = s;
             o = oldL;

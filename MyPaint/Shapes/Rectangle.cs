@@ -1,61 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using System.Windows.Controls;
 
 namespace MyPaint.Shapes
 {
-    public class MyImage : MyShape
+    public class Rectangle : Shape
     {
-        Polygon p = new Polygon(), vs;
+        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs;
         MovePoint p1, p2, p3, p4;
-        int width, height;
-        BitmapSource image;
-        public MyImage(DrawControl c, MyLayer la, BitmapSource bmi, Point start, double w, double h) : base(c, la)
+        public Rectangle(FileControl c, Layer la) : base(c, la)
         {
-            width = (int)w;
-            height = (int)h;
-            p.Points.Add(new Point(start.X, start.Y));
-            p.Points.Add(new Point(start.X, start.Y + h));
-            p.Points.Add(new Point(start.X + w, start.Y + h));
-            p.Points.Add(new Point(start.X + w, start.Y));
 
-            createVirtualShape();
-            image = bmi;
-            ImageBrush brush = new ImageBrush(bmi);
-            
-            p.Fill = brush;
-            addToCanvas(p);
-            createPoints();
         }
 
-        public MyImage(DrawControl c, MyLayer la, jsonDeserialize.Shape s) : base(c, la, s)
+        public Rectangle(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
         {
-            width = s.w;
-            height = s.h;
-            byte[] imageBytes = Convert.FromBase64String(s.b64);
-            MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
-            BitmapImage bmi = new BitmapImage();
-            bmi.BeginInit();
-            bmi.StreamSource = ms;
-            bmi.EndInit();
-            ImageBrush brush = new ImageBrush(bmi);
-            image = bmi;
-           
-            p.Points.Add(new Point(s.A.x, s.A.y));
-            p.Points.Add(new Point(s.B.x, s.A.y));
-            p.Points.Add(new Point(s.B.x, s.B.y));
-            p.Points.Add(new Point(s.A.x, s.B.y));
             createVirtualShape();
-            p.Fill = brush;
+            setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
+            setThickness(s.lineWidth);
+            setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
+            setSecondaryColor(s.fill == null ? null : s.fill.createBrush());
+            setThickness(s.lineWidth);
+
+            p.Points.Add(new Point(s.A.x, s.A.y));
+            p.Points.Add(new Point(s.A.x, s.B.y));
+            p.Points.Add(new Point(s.B.x, s.B.y));
+            p.Points.Add(new Point(s.B.x, s.A.y));
+            
+            
+
+            p.ToolTip = null;
+            p.Cursor = Cursors.SizeAll;
+
             addToCanvas(p);
             createPoints();
             
@@ -63,12 +47,14 @@ namespace MyPaint.Shapes
 
         override public void setPrimaryColor(Brush s, bool addHistory = false)
         {
-
+            base.setPrimaryColor(s, addHistory);
+            p.Stroke = s;
         }
 
         override public void setSecondaryColor(Brush s, bool addHistory = false)
         {
-
+            base.setSecondaryColor(s, addHistory);
+            p.Fill = s;
         }
 
         override public void addToCanvas()
@@ -83,31 +69,50 @@ namespace MyPaint.Shapes
 
         override public void setThickness(double s, bool addHistory = false)
         {
-
+            base.setThickness(s, addHistory);
+            p.StrokeThickness = s;
+            if(vs != null) vs.StrokeThickness = s;
         }
 
         override public void drawMouseDown(Point e, MouseButtonEventArgs ee)
         {
-
+            PointCollection points = new PointCollection(4);
+            points.Add(e);
+            points.Add(e);
+            points.Add(e);
+            points.Add(e);
+            p.Stroke = drawControl.getShapePrimaryColor();
+            p.Fill = drawControl.getShapeSecondaryColor();
+            p.StrokeThickness = drawControl.getShapeThickness();
+            p.Points = points;
+            p.ToolTip = null;
+            p.Cursor = Cursors.Pen;
+            addToCanvas(p);
+            startDraw();
         }
 
         override public void drawMouseMove(Point e)
         {
-
+            p.Points[1] = new Point(p.Points[1].X, e.Y);
+            p.Points[2] = e;
+            p.Points[3] = new Point(e.X, p.Points[3].Y);
         }
 
         override public void drawMouseUp(Point e, MouseButtonEventArgs ee)
         {
-
+            stopDraw();
+            createPoints();
+            createVirtualShape();
+            setActive();
         }
 
         override public void createVirtualShape()
         {
 
-            vs = new Polygon();
+            vs = new System.Windows.Shapes.Polygon();
             vs.Points = p.Points;
-            vs.Stroke = drawControl.nullBrush;
-            vs.Fill = drawControl.nullBrush;
+            vs.Stroke = nullBrush;
+            vs.Fill = nullBrush;
             vs.StrokeThickness = p.StrokeThickness;
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
@@ -133,6 +138,9 @@ namespace MyPaint.Shapes
         override public void setActive()
         {
             base.setActive();
+            drawControl.setPrimaryColor(p.Stroke);
+            drawControl.setSecondaryColor(p.Fill);
+            drawControl.setThickness(p.StrokeThickness);
             p1.show();
             p2.show();
             p3.show();
@@ -181,37 +189,12 @@ namespace MyPaint.Shapes
 
         override public jsonSerialize.Shape renderShape()
         {
-            Polygon po = new Polygon();
-            po.Points.Add(p1.getPosition());
-            po.Points.Add(p2.getPosition());
-            po.Points.Add(p3.getPosition());
-            po.Points.Add(p4.getPosition());
-
-            po.Fill = new ImageBrush(image);
-
-            ContentControl cc = new ContentControl();
-            Rect rect = new Rect(0, 0, width, height);
-            cc.Content = po;
-            cc.Arrange(rect);
-            RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Default);
-            rtb.Render(po);
-
-            BitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(rtb));
-            byte[] f = null;
-            using (var stream = new MemoryStream())
-            {
-                encoder.Save(stream);
-                f = stream.ToArray();
-            }
-
-            string base64String = Convert.ToBase64String(f);
-            jsonSerialize.Image ret = new jsonSerialize.Image();
+            jsonSerialize.Rectangle ret = new jsonSerialize.Rectangle();
+            ret.lineWidth = getThickness();
+            ret.stroke = sPrimaryColor;
+            ret.fill = sSecondaryColor;
             ret.A = new jsonSerialize.Point(p1.getPosition());
             ret.B = new jsonSerialize.Point(p3.getPosition());
-            ret.b64 = base64String;
-            ret.w = width;
-            ret.h = height;
             return ret;
         }
 
@@ -265,7 +248,7 @@ namespace MyPaint.Shapes
 
         override public void create(Canvas canvas)
         {
-            Polygon p = new Polygon();
+            System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon();
 
             p.Points.Add(p1.getPosition());
             p.Points.Add(p2.getPosition());
@@ -273,12 +256,10 @@ namespace MyPaint.Shapes
             p.Points.Add(p4.getPosition());
 
             p.Stroke = primaryColor;
-            p.Fill = new ImageBrush(image);
+            p.Fill = secondaryColor;
             p.StrokeThickness = thickness;
             p.ToolTip = null;
-
             canvas.Children.Add(p);
-
         }
 
     }

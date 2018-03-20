@@ -19,7 +19,7 @@ namespace MyPaint
             control = c;
         }
 
-        public void copy(BitmapSource s)
+        public void Copy(BitmapSource s)
         {
             while (true)
             {
@@ -27,25 +27,25 @@ namespace MyPaint
             }  
         }
 
-        public void copy(Shapes.MyShape s)
+        public void Copy(Shapes.Shape s)
         {
             //todos
         }
 
-        public void paste()
+        public void Paste()
         {
             if (Clipboard.ContainsImage())
             {
-                pasteImage();
+                PasteImage();
             }
         }
 
-        void pasteImage()
+        void PasteImage()
         {
             BitmapSource s = Clipboard.GetImage();
             Clipboard.SetImage(s);
             s = Clipboard.GetImage();
-            control.drawControl.pasteImage(s);
+            control.file.pasteImage(s);
         }
     }
 }

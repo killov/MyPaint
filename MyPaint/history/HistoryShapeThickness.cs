@@ -9,9 +9,9 @@ namespace MyPaint.History
 {
     public class HistoryShapeThickness : IHistoryNodeSkipped
     {
-        public Shapes.MyShape shape;
+        public Shapes.Shape shape;
         public double o, n;
-        public HistoryShapeThickness(Shapes.MyShape s, double oldT, double newT)
+        public HistoryShapeThickness(Shapes.Shape s, double oldT, double newT)
         {
             shape = s;
             o = oldT;

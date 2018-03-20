@@ -8,9 +8,9 @@ namespace MyPaint.History
 {
     public class HistoryLayerRemove : IHistoryNode
     {
-        public MyLayer layer;
+        public Layer layer;
         public int position;
-        public HistoryLayerRemove(MyLayer l, int p)
+        public HistoryLayerRemove(Layer l, int p)
         {
             layer = l; //
             position = p;
@@ -18,12 +18,12 @@ namespace MyPaint.History
 
         public void back()
         {
-            layer.add(position);
+            layer.Add(position);
         }
 
         public void forward()
         {
-            layer.remove(false);
+            layer.Remove(false);
         }
     }
 }

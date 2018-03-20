@@ -112,7 +112,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClipboardControl.cs" />
-    <Compile Include="DrawControl.cs" />
+    <Compile Include="FileControl.cs" />
     <Compile Include="DrawEnum.cs" />
     <Compile Include="file\Opener\BMP.cs" />
     <Compile Include="file\Opener\FileOpener.cs" />
@@ -162,14 +162,13 @@
     <Compile Include="json\serialize\Rectangle.cs" />
     <Compile Include="json\serialize\Shape.cs" />
     <Compile Include="json\serialize\Line.cs" />
-    <Compile Include="MyLayer.cs" />
-    <Compile Include="shapes\MyEllipse.cs" />
-    <Compile Include="shapes\MyPolygon.cs" />
-    <Compile Include="shapes\MyImage.cs" />
-    <Compile Include="shapes\MyRectangle.cs" />
-    <Compile Include="shapes\MyLine.cs" />
-    <Compile Include="shapes\MyShape.cs" />
-    <Compile Include="ToolControl.cs" />
+    <Compile Include="Layer.cs" />
+    <Compile Include="Shapes\Ellipse.cs" />
+    <Compile Include="Shapes\Polygon.cs" />
+    <Compile Include="Shapes\Image.cs" />
+    <Compile Include="Shapes\Rectangle.cs" />
+    <Compile Include="Shapes\Line.cs" />
+    <Compile Include="Shapes\Shape.cs" />
     <Compile Include="Utils.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

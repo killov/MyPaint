@@ -17,13 +17,13 @@ namespace MyPaint
         Ellipse el;
         Canvas ca;
         Canvas canvas;
-        Shapes.MyShape shape;
+        Shapes.Shape shape;
         Point position;
         public bool drag = false;
         Point startPosition;
         posun posun;
         Canvas element;
-        public MovePoint(Canvas c, Shapes.MyShape s, Point p, ScaleTransform revScale, posun pos)
+        public MovePoint(Canvas c, Shapes.Shape s, Point p, ScaleTransform revScale, posun pos)
         {
             ca = new Canvas();
             TransformGroup g = new TransformGroup();

@@ -8,20 +8,20 @@ namespace MyPaint.History
 {
     public class HistoryLayerAdd : IHistoryNode
     {
-        public MyLayer layer;
-        public HistoryLayerAdd(MyLayer l)
+        public Layer layer;
+        public HistoryLayerAdd(Layer l)
         {
             layer = l;//
         }
 
         public void back()
         {
-            layer.remove(false);
+            layer.Remove(false);
         }
 
         public void forward()
         {
-            layer.add();
+            layer.Add();
         }
     }
 }

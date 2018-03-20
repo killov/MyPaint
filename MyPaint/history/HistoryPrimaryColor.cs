@@ -9,9 +9,9 @@ namespace MyPaint.History
 {
     public class HistoryPrimaryColor : IHistoryNodeSkipped
     {
-        public Shapes.MyShape shape;
+        public Shapes.Shape shape;
         public Brush o, n;
-        public HistoryPrimaryColor(Shapes.MyShape s, Brush oldBrush, Brush newBrush)
+        public HistoryPrimaryColor(Shapes.Shape s, Brush oldBrush, Brush newBrush)
         {
             shape = s;
             o = oldBrush;

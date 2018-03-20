@@ -14,42 +14,34 @@ using System.Text.RegularExpressions;
 
 namespace MyPaint
 {
-    public class DrawControl
+    public class FileControl
     {
         public string path = "";
         public string name;
         public TabItem tabItem;
         public MainControl control;
         public HistoryControl historyControl;
-        public Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
         public Canvas canvas;
         public Canvas topCanvas;
         public Brush primaryColor, secondaryColor;
         public double thickness;
-        public Shapes.MyShape shape;
-        public bool draw = false;
-        public bool startdraw = false;
-        public bool candraw = true;
-        public bool drag = false;
+        public Shapes.Shape shape;
         Point posunStart = new Point();
         Point posunStartMys = new Point();
         public Point resolution;
         MyEnum activeShape;
-        public ObservableCollection<MyLayer> layers = new ObservableCollection<MyLayer>();
-        public MyLayer selectLayer;
+        public ObservableCollection<Layer> layers = new ObservableCollection<Layer>();
+        public Layer selectLayer;
         public ScaleTransform revScale;
         private DrawEnum state = DrawEnum.DRAW;
 
         private int layerCounter = 1;
 
-        public DrawControl(MainControl c, ScaleTransform revScale, TabItem ti)
+        public FileControl(MainControl c, ScaleTransform revScale, TabItem ti, Canvas tC)
         {
             control = c;
             canvas = new Canvas();
-            topCanvas = new Canvas();
-            topCanvas.Background = nullBrush;
-            topCanvas.Width = canvas.Width;
-            topCanvas.Height = canvas.Height;
+            topCanvas = tC;
             historyControl = new HistoryControl(c);
             resetLayers();
             historyControl.clear();
@@ -60,7 +52,7 @@ namespace MyPaint
 
         public void addLayer()
         {
-            MyLayer layer = new MyLayer(canvas, this) { Name = "layer_" + layerCounter, visible = true };
+            Layer layer = new Layer(canvas, this) { Name = "layer_" + layerCounter, visible = true };
             layers.Add(layer);
             layerCounter++;
             setActiveLayer(layers.Count - 1, false);
@@ -79,7 +71,7 @@ namespace MyPaint
         {
             foreach (var l in layers)
             {
-                l.delete();
+                l.Delete();
             }
             layers.Clear();
         }
@@ -87,9 +79,9 @@ namespace MyPaint
         public void setActiveLayer(int i, bool history = true)
         {
             if (i == -1) return;
-            foreach (MyLayer l in layers)
+            foreach (Layer l in layers)
             {
-                l.setActive(false);
+                l.SetActive(false);
             }
             if (activeShape == MyEnum.SELECT)
             {
@@ -98,13 +90,41 @@ namespace MyPaint
                     shape.changeLayer(null);
                     if (history) historyControl.add(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
                 }
-                if (selectLayer != null) selectLayer.unsetSelectable();
-                layers[i].setSelectable();
+                if (selectLayer != null) selectLayer.UnsetSelectable();
+                layers[i].SetSelectable();
             }
             selectLayer = layers[i];
-            selectLayer.setActive(true);
+            selectLayer.SetActive(true);
             control.w.setBackgroundBrush(selectLayer.color);
             if (shape != null) shape.changeLayer(selectLayer);
+        }
+
+        public void Activate()
+        {
+            if (selectLayer != null)
+            {
+                if (activeShape == MyEnum.SELECT)
+                {
+                    selectLayer.UnsetSelectable();
+                    selectLayer.SetSelectable();
+                }
+                else
+                {
+                    selectLayer.UnsetSelectable();
+                }
+            }
+        }
+
+        public void Deactivate()
+        {
+            if (selectLayer != null)
+            {
+                if (activeShape == MyEnum.SELECT)
+                { 
+                    selectLayer.UnsetSelectable();
+                }
+            }
+            stopEdit();
         }
 
         public void setResolution(Point res, bool back = false, bool history = false)
@@ -126,7 +146,7 @@ namespace MyPaint
 
             foreach (var l in layers)
             {
-                l.setResolution(res);
+                l.SetResolution(res);
             }
             canvas.Width = topCanvas.Width = res.X;
             canvas.Height = topCanvas.Height = res.Y;
@@ -160,14 +180,14 @@ namespace MyPaint
         {
             if (selectLayer != null)
             {
-                historyControl.add(new HistoryBackgroundColor(selectLayer, selectLayer.getColor(), c));
-                selectLayer.setColor(c);
+                historyControl.add(new HistoryBackgroundColor(selectLayer, selectLayer.GetBackground(), c));
+                selectLayer.SetBackground(c);
             }
         }
 
         public Brush getBackgroundColor()
         {
-            if (selectLayer != null) return selectLayer.getColor();
+            if (selectLayer != null) return selectLayer.GetBackground();
             return null;
         }
 
@@ -181,7 +201,7 @@ namespace MyPaint
             return secondaryColor;
         }
 
-        public void setShapeThickness(double t)
+        public void SetShapeThickness(double t)
         {
             thickness = t;
             if (shape != null) shape.setThickness(t, true);
@@ -196,9 +216,8 @@ namespace MyPaint
         {
             if (shape != null)
             {
+                state = DrawEnum.DRAW;
                 shape.delete();
-                draw = false;
-                candraw = true;
                 historyControl.add(new HistoryShapeDelete(shape));
                 shape = null;
             }
@@ -210,12 +229,12 @@ namespace MyPaint
             {
                 if (s == MyEnum.SELECT)
                 {
-                    selectLayer.unsetSelectable();
-                    selectLayer.setSelectable();
+                    selectLayer.UnsetSelectable();
+                    selectLayer.SetSelectable();
                 }
                 else
                 {
-                    selectLayer.unsetSelectable();
+                    selectLayer.UnsetSelectable();
                 }
             }
             activeShape = s;
@@ -238,8 +257,8 @@ namespace MyPaint
                     stopEdit();
                     if (activeShape == MyEnum.SELECT)
                     {
-                        selectLayer.unsetSelectable();
-                        selectLayer.setSelectable();
+                        selectLayer.UnsetSelectable();
+                        selectLayer.SetSelectable();
                     }
                     startDraw(e);
                 }
@@ -253,16 +272,16 @@ namespace MyPaint
                 switch (activeShape)
                 {
                     case MyEnum.LINE:
-                        shape = new Shapes.MyLine(this, selectLayer);
+                        shape = new Shapes.Line(this, selectLayer);
                         break;
                     case MyEnum.RECT:
-                        shape = new Shapes.MyRectangle(this, selectLayer);
+                        shape = new Shapes.Rectangle(this, selectLayer);
                         break;
                     case MyEnum.ELLIPSE:
-                        shape = new Shapes.MyEllipse(this, selectLayer);
+                        shape = new Shapes.Ellipse(this, selectLayer);
                         break;
                     case MyEnum.POLYGON:
-                        shape = new Shapes.MyPolygon(this, selectLayer);
+                        shape = new Shapes.Polygon(this, selectLayer);
                         break;
                 }
                 historyControl.add(new HistoryShape(shape));
@@ -326,11 +345,15 @@ namespace MyPaint
             state = DrawEnum.EDIT;
         }
 
+        public void startEdit()
+        {
+            state = DrawEnum.EDIT;
+        }
+
         public void stopEdit()
         {
             if (state == DrawEnum.EDIT)
             {
-                candraw = true;
                 shape.stopEdit();
                 shape = null;
                 lockDraw();
@@ -340,8 +363,7 @@ namespace MyPaint
 
         public void lockDraw()
         {
-            canvas.Children.Remove(topCanvas);
-            canvas.Children.Add(topCanvas);
+            
         }
 
         public void setPrimaryColor(Brush c)
@@ -364,7 +386,7 @@ namespace MyPaint
             stopEdit();
             ImageBrush brush = new ImageBrush(bmi);
             control.setResolution(bmi.Width, bmi.Height);
-            Shapes.MyShape shape = new Shapes.MyImage(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
+            Shapes.Shape shape = new Shapes.Image(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
             historyControl.add(new HistoryShape(shape));
         }
 
@@ -372,10 +394,10 @@ namespace MyPaint
         {
             path = p;
             string name = new Regex("[a-zA-Z0-9]+.[a-zA-Z0-9]+$").Matches(path)[0].ToString();
-            setName(name);
+            SetName(name);
         }
 
-        public void setName(string name)
+        public void SetName(string name)
         {
             this.name = name;
             tabItem.Header = name;
@@ -386,10 +408,9 @@ namespace MyPaint
             Canvas canvas = new Canvas();
             canvas.Width = resolution.X;
             canvas.Height = resolution.Y;
-            canvas.Background = Brushes.Blue;
             foreach (var layer in layers)
             {
-                canvas.Children.Add(layer.createImage());
+                canvas.Children.Add(layer.CreateImage());
             }
             return canvas;
         }
@@ -438,6 +459,12 @@ namespace MyPaint
                     break;
             }
             historyControl.Enable();
+        }
+
+        public void PasteShape(jsonDeserialize.Shape s)
+        {
+            stopEdit();
+
         }
     }
 }

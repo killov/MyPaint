@@ -9,9 +9,9 @@ namespace MyPaint.History
 {
     public class HistoryResolution : IHistoryNode
     {
-        DrawControl dc;
+        FileControl dc;
         public Point oldR, newR;
-        public HistoryResolution(DrawControl c, Point o, Point n)
+        public HistoryResolution(FileControl c, Point o, Point n)
         {
             dc = c;
             oldR = o;

@@ -117,7 +117,7 @@
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="{x:Type ListBoxItem}">
                             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                          
+
                         </Style>
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
@@ -161,6 +161,7 @@
                     </Canvas.Background>
                     <Canvas ClipToBounds="True" x:Name="canvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="433" VerticalAlignment="Top">
                     </Canvas>
+                    <Canvas ClipToBounds="True" x:Name="topCanvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="433" VerticalAlignment="Top" Background="#00F50000"/>
                     <Rectangle x:Name="resolution" Height="10" Width="10" Canvas.Left="500" Canvas.Top="433" RenderTransformOrigin="-0.261,0.95" Fill="White" Stroke="Black" MouseDown="resolution_MouseDown" />
                 </Canvas>
 

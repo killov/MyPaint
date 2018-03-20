@@ -16,9 +16,9 @@ namespace MyPaint.FileSaver
 {
     public abstract class FileSaver
     {
-        protected DrawControl dc;
+        protected FileControl dc;
 
-        public void save(DrawControl dc)
+        public void save(FileControl dc)
         {
             this.dc = dc;
             Thread t = new Thread(thread_save);

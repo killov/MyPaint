@@ -12,19 +12,21 @@ using System.Windows.Controls;
 
 namespace MyPaint.Shapes
 {
-    public delegate void MyOnMouseDown(Point e, MyShape s);
+    public delegate void MyOnMouseDown(Point e, Shape s);
 
-    public abstract class MyShape
+    public abstract class Shape
     {
         protected bool hit = false;
         protected Brush primaryColor, secondaryColor;
         protected jsonSerialize.Brush sPrimaryColor, sSecondaryColor;
         protected double thickness;
-        MyLayer layer;
-        public DrawControl drawControl;
+        Layer layer;
+        public FileControl drawControl;
         protected MyOnMouseDown virtualShapeCallback;
+        protected Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
+        protected Canvas canvas, topCanvas;
 
-        public MyShape(DrawControl c, MyLayer la)
+        public Shape(FileControl c, Layer la)
         {
             drawControl = c;
             layer = la;
@@ -32,12 +34,16 @@ namespace MyPaint.Shapes
             setPrimaryColor(drawControl.primaryColor);
             setSecondaryColor(drawControl.secondaryColor);
             setThickness(drawControl.thickness);
+            canvas = layer.canvas;
+            topCanvas = drawControl.topCanvas;
         }
 
-        public MyShape(DrawControl c, MyLayer la, jsonDeserialize.Shape s)
+        public Shape(FileControl c, Layer la, jsonDeserialize.Shape s)
         {
             drawControl = c;
             layer = la;
+            canvas = layer.canvas;
+            topCanvas = drawControl.topCanvas;
         }
 
         virtual public void setPrimaryColor(Brush s, bool addHistory = false)
@@ -72,7 +78,7 @@ namespace MyPaint.Shapes
         }
 
 
-        public void changeLayer(MyLayer newLayer)
+        public void changeLayer(Layer newLayer)
         {
             if (layer != null)
             {
@@ -141,7 +147,7 @@ namespace MyPaint.Shapes
             {
                 drawControl.startMoveShape(getPosition(), e);
             });
-            drawControl.candraw = false;
+            drawControl.startEdit();
         }
 
         virtual public void moveDrag(Point e)
@@ -195,12 +201,12 @@ namespace MyPaint.Shapes
 
         abstract public void createPoints();
 
-        protected void addToCanvas(Shape s)
+        protected void addToCanvas(System.Windows.Shapes.Shape s)
         {
             layer.canvas.Children.Add(s);
         }
 
-        protected void removeFromCanvas(Shape s)
+        protected void removeFromCanvas(System.Windows.Shapes.Shape s)
         {
             layer.canvas.Children.Remove(s);
         }

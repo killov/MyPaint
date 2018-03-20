@@ -15,5 +15,23 @@ namespace MyPaint.jsonDeserialize
         public Point[] points;
         public string b64;
         public int w, h;
+
+        public Shapes.Shape Create(FileControl c, MyPaint.Layer la)
+        {
+            switch (type)
+            {
+                case "LINE":
+                    return new Shapes.Line(c, la, this);
+                case "RECTANGLE":
+                    return new Shapes.Rectangle(c, la, this);
+                case "ELLIPSE":
+                    return new Shapes.Ellipse(c, la, this);
+                case "POLYGON":
+                    return new Shapes.Polygon(c, la, this);
+                case "IMAGE":
+                    return new Shapes.Image(c, la, this);
+            }
+            return null;
+        }
     }
 }

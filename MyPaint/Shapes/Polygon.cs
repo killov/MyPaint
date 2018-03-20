@@ -12,9 +12,9 @@ using System.Windows.Controls;
 
 namespace MyPaint.Shapes
 {
-    public class MyPolygon : MyShape
+    public class Polygon : Shape
     {
-        Polygon p = new Polygon(), vs;
+        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs;
         List<MovePoint> movepoints = new List<MovePoint>();
         bool start = false;
         List<Point> points = new List<Point>();
@@ -22,12 +22,12 @@ namespace MyPaint.Shapes
         Path path;
         PathFigure pf;
         LineSegment ls;
-        public MyPolygon(DrawControl c, MyLayer la) : base(c, la)
+        public Polygon(FileControl c, Layer la) : base(c, la)
         {
 
         }
 
-        public MyPolygon(DrawControl c, MyLayer la, jsonDeserialize.Shape s) : base(c, la, s)
+        public Polygon(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
         {
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
             setThickness(s.lineWidth);
@@ -122,7 +122,7 @@ namespace MyPaint.Shapes
                         ppoints.Add(p);
                     }
                     removeFromCanvas(path);
-                    p = new Polygon();
+                    p = new System.Windows.Shapes.Polygon();
                     p.Stroke = drawControl.getShapePrimaryColor();
                     p.Fill = drawControl.getShapeSecondaryColor();
                     p.StrokeThickness = drawControl.getShapeThickness();
@@ -146,10 +146,10 @@ namespace MyPaint.Shapes
         override public void createVirtualShape()
         {
 
-            vs = new Polygon();
+            vs = new System.Windows.Shapes.Polygon();
             vs.Points = p.Points;
-            vs.Stroke = drawControl.nullBrush;
-            vs.Fill = drawControl.nullBrush;
+            vs.Stroke = nullBrush;
+            vs.Fill = nullBrush;
             vs.StrokeThickness = p.StrokeThickness;
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
@@ -263,7 +263,7 @@ namespace MyPaint.Shapes
 
         override public void create(Canvas canvas)
         {
-            Polygon p = new Polygon();
+            System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon();
 
             foreach (var point in movepoints)
             {

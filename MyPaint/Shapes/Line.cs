@@ -12,16 +12,16 @@ using System.Windows.Controls;
 
 namespace MyPaint.Shapes
 {
-    public class MyLine : MyShape
+    public class Line : Shape
     {
-        Line p = new Line(), vs;
+        System.Windows.Shapes.Line p = new System.Windows.Shapes.Line(), vs;
         MovePoint p1, p2;
-        public MyLine(DrawControl c, MyLayer la) : base(c, la)
+        public Line(FileControl c, Layer la) : base(c, la)
         {
             
         }
 
-        public MyLine(DrawControl c, MyLayer la, jsonDeserialize.Shape s) : base(c, la, s)
+        public Line(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
         {
             setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
             setThickness(s.lineWidth);
@@ -94,13 +94,13 @@ namespace MyPaint.Shapes
 
         override public void createVirtualShape()
         {
-            vs = new Line();
+            vs = new System.Windows.Shapes.Line();
             vs.X1 = p.X1;
             vs.X2 = p.X2;
             vs.Y1 = p.Y1;
             vs.Y2 = p.Y2;
             vs.Cursor = Cursors.SizeAll;
-            vs.Stroke = drawControl.nullBrush;
+            vs.Stroke = nullBrush;
             vs.StrokeThickness = p.StrokeThickness;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
@@ -195,7 +195,7 @@ namespace MyPaint.Shapes
 
         override public void create(Canvas canvas)
         {
-            Line p = new Line();
+            System.Windows.Shapes.Line p = new System.Windows.Shapes.Line();
             Point a = p1.getPosition();
             Point b = p2.getPosition();
             p.X1 = a.X;

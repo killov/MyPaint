@@ -29,7 +29,7 @@ namespace MyPaint.FileOpener
                 dc.deleteLayers();
                 foreach (var l in pic.layers)
                 {
-                    dc.layers.Add(new MyLayer(dc.canvas, dc, l));
+                    dc.layers.Add(new Layer(dc.canvas, dc, l));
                 }
                 dc.setActiveLayer(dc.layers.Count - 1);
             }

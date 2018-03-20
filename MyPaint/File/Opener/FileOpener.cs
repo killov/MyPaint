@@ -16,9 +16,9 @@ namespace MyPaint.FileOpener
 {
     public abstract class FileOpener
     {
-        protected DrawControl dc;
+        protected FileControl dc;
     
-        public void open(DrawControl dc)
+        public void open(FileControl dc)
         {
             this.dc = dc;
             thread_open();

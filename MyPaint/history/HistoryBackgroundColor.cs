@@ -9,9 +9,9 @@ namespace MyPaint.History
 {
     public class HistoryBackgroundColor : IHistoryNodeSkipped
     {
-        public MyLayer layer;
+        public Layer layer;
         public Brush o, n;
-        public HistoryBackgroundColor(MyLayer l, Brush oldBrush, Brush newBrush)
+        public HistoryBackgroundColor(Layer l, Brush oldBrush, Brush newBrush)
         {
             layer = l;
             o = oldBrush;
@@ -20,12 +20,12 @@ namespace MyPaint.History
 
         public void back()
         {
-            layer.setColor(o);
+            layer.SetBackground(o);
         }
 
         public void forward()
         {
-            layer.setColor(n);
+            layer.SetBackground(n);
         }
 
         public void skip(IHistoryNodeSkipped node)
