@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 namespace MyPaint
 {
-    public delegate void posun(Point b);
+    public delegate bool posun(Point b);
     public class MovePoint
     {
         Ellipse el;
@@ -37,6 +37,7 @@ namespace MyPaint
             el.Stroke = Brushes.Black;
             el.Width = 10;
             el.Height = 10;
+
             ca.Children.Add(el);
             shape = s;
             canvas = c;
@@ -44,20 +45,20 @@ namespace MyPaint
             el.MouseDown += delegate (object sender, MouseButtonEventArgs e) 
             {
                 startPosition = position;
-                shape.setHit(true);
-                startDrag();
+                shape.SetHit(true);
+                StartDrag();
             };
         }
 
-        public void move(Point e)
+        public void MoveDrag(Point e)
         {
             if (drag)
             {
-                movee(e);
+                Move(e);
             }
         }
 
-        public void movee(Point e)
+        public void Move(Point e)
         {
             position = e;
             Canvas.SetTop(ca, position.Y);
@@ -66,19 +67,19 @@ namespace MyPaint
             posun(position);
         }
 
-        public void move(double x, double y)
+        public void Move(double x, double y)
         {
             position = new Point(x, y);
             Canvas.SetTop(ca, y);
             Canvas.SetLeft(ca, x);
         }
 
-        public void hide()
+        public void Hide()
         {
             canvas.Children.Remove(ca);
         }
 
-        public void show()
+        public void Show()
         {
             canvas.Children.Add(ca);
             Canvas.SetTop(el, -5);
@@ -87,17 +88,17 @@ namespace MyPaint
             Canvas.SetLeft(ca, position.X);
         }
 
-        public void startDrag()
+        public void StartDrag()
         {
             drag = true;
         }
 
-        public Point getPosition()
+        public Point GetPosition()
         {
             return position;
         }
 
-        public void stopDrag()
+        public void StopDrag()
         {
             if (drag && !startPosition.Equals(position))
             {

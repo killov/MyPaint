@@ -16,7 +16,7 @@ namespace MyPaint.FileOpener
 {
     public class JPEG : Raster
     {
-        protected override BitmapSource getBitmap(FileStream fs)
+        protected override BitmapSource GetBitmap(FileStream fs)
         {
             BitmapDecoder decoder = new JpegBitmapDecoder(fs, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
             return decoder.Frames[0];

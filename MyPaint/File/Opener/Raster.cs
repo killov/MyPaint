@@ -16,17 +16,17 @@ namespace MyPaint.FileOpener
 {
     public abstract class Raster : FileOpener
     {
-        override protected void thread_open()
+        override protected void Thread_open()
         {
             using (FileStream fs = new FileStream(dc.path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                BitmapSource bmi = getBitmap(fs);
+                BitmapSource bmi = GetBitmap(fs);
                 ImageBrush brush = new ImageBrush(bmi);
-                dc.setResolution(new System.Windows.Point(bmi.Width, bmi.Height), false);
+                dc.SetResolution(new System.Windows.Point(bmi.Width, bmi.Height), false);
                 dc.selectLayer.shapes.Add(new Shapes.Image(dc, dc.selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
             }
         }
 
-        abstract protected BitmapSource getBitmap(FileStream fs);
+        abstract protected BitmapSource GetBitmap(FileStream fs);
     }
 }

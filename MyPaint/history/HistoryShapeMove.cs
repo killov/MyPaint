@@ -18,14 +18,14 @@ namespace MyPaint.History
             n = newPosiotion;
         }
 
-        public void back()
+        public void Back()
         {
-            shape.moveShape(o.X, o.Y);
+            shape.MoveShape(o.X, o.Y);
         }
 
-        public void forward()
+        public void Forward()
         {
-            shape.moveShape(n.X, n.Y);
+            shape.MoveShape(n.X, n.Y);
         }
     }
 }

@@ -18,14 +18,14 @@ namespace MyPaint.History
             newR = n;
         }
 
-        public void back()
+        public void Back()
         {
-            dc.setResolution(oldR);
+            dc.SetResolution(oldR);
         }
 
-        public void forward()
+        public void Forward()
         {
-            dc.setResolution(newR);
+            dc.SetResolution(newR);
         }
     }
 }

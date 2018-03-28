@@ -45,7 +45,7 @@ namespace MyPaint
             BitmapSource s = Clipboard.GetImage();
             Clipboard.SetImage(s);
             s = Clipboard.GetImage();
-            control.file.pasteImage(s);
+            control.file.PasteImage(s);
         }
     }
 }

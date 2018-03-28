@@ -14,12 +14,12 @@ namespace MyPaint.History
             layer = l;//
         }
 
-        public void back()
+        public void Back()
         {
             layer.Remove(false);
         }
 
-        public void forward()
+        public void Forward()
         {
             layer.Add();
         }

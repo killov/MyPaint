@@ -97,7 +97,7 @@ namespace MyPaint
 
         private void saveClick(object sender, RoutedEventArgs e)
         {
-            control.save();
+            control.Save();
         }
 
         private void saveAsClick(object sender, RoutedEventArgs e)
@@ -107,42 +107,42 @@ namespace MyPaint
 
         private void exitClick(object sender, RoutedEventArgs e)
         {
-            control.exit();
+            control.Exit();
         }
 
         private void closed(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            control.closed(e);
+            control.Closed(e);
         }
         
         private void mouseDown(object sender, MouseButtonEventArgs e)
         {
-            control.mouseDown(e);
+            control.MouseDown(e);
         }
 
         private void mouseMove(object sender, MouseEventArgs e)
         {
-            control.mouseMove(e);
+            control.MouseMove(e);
         }
 
         private void mouseUp(object sender, MouseButtonEventArgs e)
         {
-            control.mouseUp(e);
+            control.MouseUp(e);
         }
 
         private void cara_Click(object sender, RoutedEventArgs e)
         {
-            control.setTool(MyEnum.LINE);
+            control.SetTool(MyEnum.LINE);
         }
 
         private void obdelnik_Click(object sender, RoutedEventArgs e)
         {
-            control.setTool(MyEnum.RECT);
+            control.SetTool(MyEnum.RECT);
         }
 
         private void elipsa_Click(object sender, RoutedEventArgs e)
         {
-            control.setTool(MyEnum.ELLIPSE);
+            control.SetTool(MyEnum.ELLIPSE);
         }
 
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -157,7 +157,7 @@ namespace MyPaint
 
         private void polygon_Click(object sender, RoutedEventArgs e)
         {
-            control.setTool(MyEnum.POLYGON);
+            control.SetTool(MyEnum.POLYGON);
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -172,27 +172,27 @@ namespace MyPaint
 
         private void button_select_Click(object sender, RoutedEventArgs e)
         {
-            control.setTool(MyEnum.SELECT);
+            control.SetTool(MyEnum.SELECT);
         }
 
         private void button_line_Click(object sender, RoutedEventArgs e)
         {
-            control.setTool(MyEnum.LINE);
+            control.SetTool(MyEnum.LINE);
         }
 
         private void button_ellipse_Click(object sender, RoutedEventArgs e)
         {
-            control.setTool(MyEnum.ELLIPSE);
+            control.SetTool(MyEnum.ELLIPSE);
         }
 
         private void button_rectangle_Click(object sender, RoutedEventArgs e)
         {
-            control.setTool(MyEnum.RECT);
+            control.SetTool(MyEnum.RECT);
         }
 
         private void button_polygon_Click(object sender, RoutedEventArgs e)
         {
-            control.setTool(MyEnum.POLYGON);
+            control.SetTool(MyEnum.POLYGON);
         }
 
         private void primaryColor_MouseDown(object sender, MouseButtonEventArgs e)
@@ -212,7 +212,7 @@ namespace MyPaint
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            control.keyDown(sender, e);    
+            control.KeyDown(sender, e);    
         }
 
         private void thickness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -278,7 +278,7 @@ namespace MyPaint
         {
             if (resolutionDrag)
             {
-                control.setResolution(e.GetPosition(canvas_out).X, e.GetPosition(canvas_out).Y);
+                control.SetResolution(e.GetPosition(canvas_out).X, e.GetPosition(canvas_out).Y);
             }
         }
 

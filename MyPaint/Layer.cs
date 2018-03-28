@@ -81,7 +81,7 @@ namespace MyPaint
             SetResolution(dc.resolution);
             file = dc;
             visible = layer.visible;
-            SetBackground(layer.color == null ? null : layer.color.createBrush());
+            SetBackground(layer.color == null ? null : layer.color.CreateBrush());
             foreach (var shape in layer.shapes)
             {
                 shapes.Add(shape.Create(file, this));
@@ -128,7 +128,7 @@ namespace MyPaint
             la.shapes = new List<jsonSerialize.Shape>();
             foreach (var shape in shapes)
             {
-                la.shapes.Add(shape.renderShape());
+                la.shapes.Add(shape.CreateSerializer());
             }
             return la;
         }
@@ -143,7 +143,7 @@ namespace MyPaint
             {
                 foreach (var shape in shapes)
                 {
-                    shape.create(canvas);
+                    shape.CreateImage(canvas);
                 }
             }
             return canvas;
@@ -184,7 +184,7 @@ namespace MyPaint
             UnsetSelectable();
             if(file.selectLayer == this)
             {
-                file.stopEdit();
+                file.StopEdit();
                 file.selectLayer = null;
             }
             
@@ -210,8 +210,8 @@ namespace MyPaint
         {
             foreach(var shape in shapes)
             {
-                shape.hideVirtualShape();
-                shape.showVirtualShape((e, s) =>
+                shape.HideVirtualShape();
+                shape.ShowVirtualShape((e, s) =>
                 {
                     SetShapeSelect(e, s);
                 });
@@ -222,20 +222,20 @@ namespace MyPaint
         {            
             if (file.shape != null)
             {
-                file.shape.stopEdit();
+                file.shape.StopEdit();
             }
             UnsetSelectable();
             SetSelectable();
             file.shape = shape;
-            shape.setActive();
-            shape.startMove(e);
+            shape.SetActive();
+            shape.StartMove(e);
         }
 
         public void UnsetSelectable()
         {
             foreach (var shape in shapes)
             {
-                shape.hideVirtualShape();
+                shape.HideVirtualShape();
             }
         }
 

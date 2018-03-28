@@ -18,14 +18,14 @@ namespace MyPaint.History
             newP = n;
         }
 
-        public void back()
+        public void Back()
         {
-            point.movee(oldP);
+            point.Move(oldP);
         }
 
-        public void forward()
+        public void Forward()
         {
-            point.movee(newP);
+            point.Move(newP);
         }
     }
 }

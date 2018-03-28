@@ -8,8 +8,8 @@ namespace MyPaint.History
 {
     public interface IHistoryNode
     {
-        void back();
+        void Back();
 
-        void forward();
+        void Forward();
     }
 }

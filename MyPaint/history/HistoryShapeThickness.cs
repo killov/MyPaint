@@ -18,23 +18,23 @@ namespace MyPaint.History
             n = newT;
         }
 
-        public void back()
+        public void Back()
         {
-            shape.setThickness(o);
+            shape.SetThickness(o);
         }
 
-        public void forward()
+        public void Forward()
         {
-            shape.setThickness(n);
+            shape.SetThickness(n);
         }
 
-        public void skip(IHistoryNodeSkipped node)
+        public void Skip(IHistoryNodeSkipped node)
         {
             HistoryShapeThickness n = (HistoryShapeThickness)node;
             this.n = n.n;
         }
 
-        public bool optimal(IHistoryNodeSkipped node)
+        public bool Optimal(IHistoryNodeSkipped node)
         {
             return node is HistoryShapeThickness;
         }

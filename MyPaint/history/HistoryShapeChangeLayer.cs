@@ -18,23 +18,23 @@ namespace MyPaint.History
             n = newL;
         }
 
-        public void back()
+        public void Back()
         {
-            shape.changeLayer(o);
+            shape.ChangeLayer(o);
         }
 
-        public void forward()
+        public void Forward()
         {
-            shape.changeLayer(n);
+            shape.ChangeLayer(n);
         }
 
-        public void skip(IHistoryNodeSkipped node)
+        public void Skip(IHistoryNodeSkipped node)
         {
             HistoryShapeChangeLayer n = (HistoryShapeChangeLayer)node;
             this.n = n.n;
         }
 
-        public bool optimal(IHistoryNodeSkipped node)
+        public bool Optimal(IHistoryNodeSkipped node)
         {
             return (node is HistoryShapeChangeLayer) && ((HistoryShapeChangeLayer)node).shape.Equals(shape);
         }

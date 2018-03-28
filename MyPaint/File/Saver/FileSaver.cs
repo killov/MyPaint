@@ -18,14 +18,14 @@ namespace MyPaint.FileSaver
     {
         protected FileControl dc;
 
-        public void save(FileControl dc)
+        public void Save(FileControl dc)
         {
             this.dc = dc;
-            Thread t = new Thread(thread_save);
+            Thread t = new Thread(Thread_save);
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
         }
 
-        abstract protected void thread_save();
+        abstract protected void Thread_save();
     }
 }

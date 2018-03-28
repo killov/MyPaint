@@ -17,6 +17,7 @@ namespace MyPaint.Shapes
         System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse(), vs;
         double sx, sy, ex, ey;
         MovePoint p1, p2, p3, p4;
+        EditRect eR;
         double left, top, width, height;
         public Ellipse(FileControl c, Layer la) : base(c, la)
         {
@@ -24,55 +25,54 @@ namespace MyPaint.Shapes
         }
 
         public Ellipse(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
-        {
-            
-            setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
-            setThickness(s.lineWidth);
-            setPrimaryColor(s.stroke == null ? null : s.stroke.createBrush());
-            setSecondaryColor(s.fill == null ? null : s.fill.createBrush());
-            setThickness(s.lineWidth);
+        {            
+            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
+            SetThickness(s.lineWidth);
+            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
+            SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
+            SetThickness(s.lineWidth);
 
             sx = s.A.x;
             sy = s.A.y;
 
             p.ToolTip = null;
 
-            addToCanvas(p);
+            AddToCanvas(p);
             left = sx;
             top = sy;
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.B.x, s.B.y);
-            createVirtualShape();
-            createPoints();
+            CreateVirtualShape();
+            CreatePoints();
             
         }
 
-        override public void setPrimaryColor(Brush s, bool addHistory = false)
+        override public void SetPrimaryColor(Brush s, bool addHistory = false)
         {
-            base.setPrimaryColor(s, addHistory);
+            base.SetPrimaryColor(s, addHistory);
             p.Stroke = s;
         }
 
-        override public void setSecondaryColor(Brush s, bool addHistory = false)
+        override public void SetSecondaryColor(Brush s, bool addHistory = false)
         {
-            base.setSecondaryColor(s, addHistory);
+            base.SetSecondaryColor(s, addHistory);
             p.Fill = s;
         }
 
-        override public void addToCanvas()
+        override public void AddToCanvas()
         {
-            addToCanvas(p);
+            AddToCanvas(p);
         }
 
-        override public void removeFromCanvas()
+        override public void RemoveFromCanvas()
         {
-            removeFromCanvas(p);
+            RemoveFromCanvas(p);
         }
 
-        override public void setThickness(double s, bool addHistory = false)
+        override public void SetThickness(double s, bool addHistory = false)
         {
-            base.setThickness(s, addHistory);
+            base.SetThickness(s, addHistory);
             p.StrokeThickness = s;
             if(vs != null) vs.StrokeThickness = s;
         }
@@ -81,26 +81,23 @@ namespace MyPaint.Shapes
         {
             if (x > ex)
             {
-                width = x - ex;
-                p.Width = width;
+                Canvas.SetLeft(p, ex);
+                p.Width = x - ex;
             }
             else
             {
-                left = x;
                 Canvas.SetLeft(p, x);
                 p.Width = ex - x;
             }
             if (y > ey)
             {
-                height = y - ey;
-                p.Height = height;
+                Canvas.SetTop(p, ey);
+                p.Height = y - ey;
             }
             else
             {
-                top = y;
                 Canvas.SetTop(p, y);
-                height = ey - y;
-                p.Height = height;
+                p.Height = ey - y;
             }
             sx = x;
             sy = y;
@@ -110,64 +107,60 @@ namespace MyPaint.Shapes
         {
             if (x > sx)
             {
-                width = x - sx;
-                p.Width = width;
+                Canvas.SetLeft(p, sx);
+                p.Width = x - sx;
             }
             else
             {
-                left = x;
                 Canvas.SetLeft(p, x);
-                width = sx - x;
-                p.Width = width;
+                p.Width = sx - x;
             }
             if (y > sy)
             {
-                height = y - sy;
-                p.Height = height;
+                Canvas.SetTop(p, sy);
+                p.Height = y - sy;
             }
             else
             {
-                top = y;
                 Canvas.SetTop(p, y);
-                height = sy - y;
-                p.Height = height;
+                p.Height = sy - y;
             }
             ex = x;
             ey = y;
         }
 
-        override public void drawMouseDown(Point e, MouseButtonEventArgs ee)
+        override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             sx = e.X;
             sy = e.Y;
 
             p.ToolTip = null;
             p.Cursor = Cursors.Pen;
-            p.Stroke = drawControl.getShapePrimaryColor();
-            p.Fill = drawControl.getShapeSecondaryColor();
-            p.StrokeThickness = drawControl.getShapeThickness();
+            p.Stroke = drawControl.GetShapePrimaryColor();
+            p.Fill = drawControl.GetShapeSecondaryColor();
+            p.StrokeThickness = drawControl.GetShapeThickness();
 
-            addToCanvas(p);
+            AddToCanvas(p);
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             
-            startDraw();
+            StartDraw();
         }
 
-        override public void drawMouseMove(Point e)
+        override public void DrawMouseMove(Point e)
         {
             moveE(p, e.X, e.Y);
         }
 
-        override public void drawMouseUp(Point e, MouseButtonEventArgs ee)
+        override public void DrawMouseUp(Point e, MouseButtonEventArgs ee)
         {
-            stopDraw();
-            createPoints();
-            createVirtualShape();
-            setActive();
+            StopDraw();
+            CreatePoints();
+            CreateVirtualShape();
+            SetActive();
         }
 
-        override public void createVirtualShape()
+        override public void CreateVirtualShape()
         {
             vs = new System.Windows.Shapes.Ellipse();
             moveS(vs, sx, sy);
@@ -184,60 +177,48 @@ namespace MyPaint.Shapes
             };            
         }
 
-        override public void showVirtualShape(MyOnMouseDown mouseDown)
+        override public void ShowVirtualShape(MyOnMouseDown mouseDown)
         {
-            base.showVirtualShape(mouseDown);
-            hideVirtualShape();
+            base.ShowVirtualShape(mouseDown);
+            HideVirtualShape();
             drawControl.topCanvas.Children.Add(vs);
         }
 
-        override public void hideVirtualShape()
+        override public void HideVirtualShape()
         {
             drawControl.topCanvas.Children.Remove(vs);
         }
 
-        override public void setActive()
+        override public void SetActive()
         {
-            base.setActive();
-            drawControl.setPrimaryColor(p.Stroke);
-            drawControl.setSecondaryColor(p.Fill);
-            drawControl.setThickness(p.StrokeThickness);
-            p1.show();
-            p2.show();
-            p3.show();
-            p4.show();
+            base.SetActive();
+            drawControl.SetPrimaryColor(p.Stroke);
+            drawControl.SetSecondaryColor(p.Fill);
+            drawControl.SetThickness(p.StrokeThickness);
+            eR.SetActive();
         }
 
-        override public void moveDrag(Point e)
+        override public void MoveDrag(Point e)
         {
-            base.moveDrag(e);
-            p1.move(e);
-            p2.move(e);
-            p3.move(e);
-            p4.move(e);
+            base.MoveDrag(e);
+            eR.MoveDrag(e);
         }
 
-        override public void stopDrag()
+        override public void StopDrag()
         {
-            base.stopDrag();
-            p1.stopDrag();
-            p2.stopDrag();
-            p3.stopDrag();
-            p4.stopDrag();
+            base.StopDrag();
+            eR.StopDrag();
         }
 
-        override public void stopEdit()
+        override public void StopEdit()
         {
-            base.stopEdit();
-            p1.hide();
-            p2.hide();
-            p3.hide();
-            p4.hide();
+            base.StopEdit();
+            eR.StopEdit();
         }
 
-        override public void moveShape(double x, double y)
+        override public void MoveShape(double x, double y)
         {
-            base.moveShape(x, y);
+            base.MoveShape(x, y);
             sx += x - Canvas.GetLeft(p);
             ex += x - Canvas.GetLeft(p);
             sy += y - Canvas.GetTop(p);
@@ -247,72 +228,59 @@ namespace MyPaint.Shapes
             Canvas.SetLeft(vs, x);
             Canvas.SetTop(vs, y);
 
-            p1.move(sx, sy);
-            p2.move(ex, ey);
-            p3.move(ex, sy);
-            p4.move(sx, ey);
+            eR.Move(x, y);
         }
 
-        override public jsonSerialize.Shape renderShape()
+        override public jsonSerialize.Shape CreateSerializer()
         {
             jsonSerialize.Ellipse ret = new jsonSerialize.Ellipse();
-            ret.lineWidth = getThickness();
-            ret.stroke = sPrimaryColor;
-            ret.fill = sSecondaryColor;
+            ret.lineWidth = GetThickness();
+            ret.stroke = PrimaryColor;
+            ret.fill = SecondaryColor;
             ret.A = new jsonSerialize.Point(sx, sy);
             ret.B = new jsonSerialize.Point(ex, ey);
             return ret;
         }
 
-        override public Point getPosition()
+        override public Point GetPosition()
         {
             return new Point(Canvas.GetLeft(p), Canvas.GetTop(p));
         }
 
-        override public void createPoints()
+        override public void CreatePoints()
         {
-            p1 = new MovePoint(drawControl.topCanvas, this, new Point(sx, sy), drawControl.revScale, (po) =>
+            eR = new EditRect(drawControl.topCanvas, this, new Point(sx, sy), new Point(ex, ey), drawControl.revScale,
+            (po) =>
             {
                 moveS(p, po.X, po.Y);
                 moveS(vs, po.X, po.Y);
-                p1.move(po.X, po.Y);
-                p3.move(ex, sy);
-                p4.move(sx, ey);
-            });
-
-            p2 = new MovePoint(drawControl.topCanvas, this, new Point(ex, ey), drawControl.revScale, (po) =>
+                return true;
+            },
+            (po) =>
+            {
+                moveE(p, ex, po.Y);
+                moveE(vs, ex, po.Y);
+                moveS(p, po.X, sy);
+                moveS(vs, po.X, sy);
+                return true;
+            },
+            (po) =>
             {
                 moveE(p, po.X, po.Y);
                 moveE(vs, po.X, po.Y);
-                p2.move(po.X, po.Y);
-                p3.move(ex, sy);
-                p4.move(sx, ey);
-            });
-
-            p3 = new MovePoint(drawControl.topCanvas, this, new Point(ex, sy), drawControl.revScale, (po) =>
+                return true;
+            },
+            (po) =>
             {
                 moveE(p, po.X, ey);
-                moveS(p, sx, po.Y);
                 moveE(vs, po.X, ey);
+                moveS(p, sx, po.Y);
                 moveS(vs, sx, po.Y);
-                p3.move(po.X, po.Y);
-                p1.move(sx, sy);
-                p2.move(ex, ey);
-            });
-
-            p4 = new MovePoint(drawControl.topCanvas, this, new Point(sx, ey), drawControl.revScale, (po) =>
-            {
-                moveE(p, ex, po.Y);
-                moveS(p, po.X, sy);
-                moveE(vs, ex, po.Y);
-                moveS(vs, po.X, sy);
-                p4.move(po.X, po.Y);
-                p1.move(sx, sy);
-                p2.move(ex, ey);
+                return true;
             });
         }
 
-        override public void create(Canvas canvas)
+        override public void CreateImage(Canvas canvas)
         {
             System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse();
   

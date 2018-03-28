@@ -38,9 +38,9 @@ namespace MyPaint.History
                     {
                         IHistoryNodeSkipped l = (IHistoryNodeSkipped)last;
                         IHistoryNodeSkipped n = (IHistoryNodeSkipped)node;
-                        if (l.optimal(n))
+                        if (l.Optimal(n))
                         {
-                            l.skip(n);
+                            l.Skip(n);
                             forwardStack.Clear();
                             redraw();
                             return;
@@ -58,7 +58,7 @@ namespace MyPaint.History
             if (backStack.Count > 0)
             {
                 IHistoryNode node = backStack.Pop();
-                node.back();
+                node.Back();
                 forwardStack.Push(node);
             }
             redraw();
@@ -69,7 +69,7 @@ namespace MyPaint.History
             if (forwardStack.Count > 0)
             {
                 IHistoryNode node = forwardStack.Pop();
-                node.forward();
+                node.Forward();
                 backStack.Push(node);
             }
             redraw();

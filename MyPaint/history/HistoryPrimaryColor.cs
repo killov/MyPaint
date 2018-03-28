@@ -18,23 +18,23 @@ namespace MyPaint.History
             n = newBrush;
         }
 
-        public void back()
+        public void Back()
         {
-            shape.setPrimaryColor(o);
+            shape.SetPrimaryColor(o);
         }
 
-        public void forward()
+        public void Forward()
         {
-            shape.setPrimaryColor(n);
+            shape.SetPrimaryColor(n);
         }
 
-        public void skip(IHistoryNodeSkipped node)
+        public void Skip(IHistoryNodeSkipped node)
         {
             HistoryPrimaryColor n = (HistoryPrimaryColor)node;
             this.n = n.n;
         }
 
-        public bool optimal(IHistoryNodeSkipped node)
+        public bool Optimal(IHistoryNodeSkipped node)
         {
             return (node is HistoryPrimaryColor) && ((HistoryPrimaryColor)node).shape.Equals(shape);
         }

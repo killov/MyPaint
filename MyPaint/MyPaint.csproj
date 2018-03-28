@@ -163,6 +163,7 @@
     <Compile Include="json\serialize\Shape.cs" />
     <Compile Include="json\serialize\Line.cs" />
     <Compile Include="Layer.cs" />
+    <Compile Include="EditRect.cs" />
     <Compile Include="Shapes\Ellipse.cs" />
     <Compile Include="Shapes\Polygon.cs" />
     <Compile Include="Shapes\Image.cs" />

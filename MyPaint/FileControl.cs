@@ -43,31 +43,29 @@ namespace MyPaint
             canvas = new Canvas();
             topCanvas = tC;
             historyControl = new HistoryControl(c);
-            resetLayers();
+            ResetLayers();
             historyControl.clear();
             this.revScale = revScale;
             tabItem = ti;
-            lockDraw();
         }
 
-        public void addLayer()
+        public void AddLayer()
         {
             Layer layer = new Layer(canvas, this) { Name = "layer_" + layerCounter, visible = true };
             layers.Add(layer);
             layerCounter++;
-            setActiveLayer(layers.Count - 1, false);
-            lockDraw();
+            SetActiveLayer(layers.Count - 1, false);
             historyControl.add(new HistoryLayerAdd(layer));
         }
 
-        public void resetLayers()
+        public void ResetLayers()
         {
             layerCounter = 1;
-            deleteLayers();
-            addLayer();
+            DeleteLayers();
+            AddLayer();
         }
 
-        public void deleteLayers()
+        public void DeleteLayers()
         {
             foreach (var l in layers)
             {
@@ -76,7 +74,7 @@ namespace MyPaint
             layers.Clear();
         }
 
-        public void setActiveLayer(int i, bool history = true)
+        public void SetActiveLayer(int i, bool history = true)
         {
             if (i == -1) return;
             foreach (Layer l in layers)
@@ -85,18 +83,18 @@ namespace MyPaint
             }
             if (activeShape == MyEnum.SELECT)
             {
-                if (shape != null)
-                {
-                    shape.changeLayer(null);
-                    if (history) historyControl.add(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
-                }
                 if (selectLayer != null) selectLayer.UnsetSelectable();
                 layers[i].SetSelectable();
+            }
+            if (shape != null)
+            {
+                shape.ChangeLayer(null);
+                if (history) historyControl.add(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
             }
             selectLayer = layers[i];
             selectLayer.SetActive(true);
             control.w.setBackgroundBrush(selectLayer.color);
-            if (shape != null) shape.changeLayer(selectLayer);
+            if (shape != null) shape.ChangeLayer(selectLayer);
         }
 
         public void Activate()
@@ -124,10 +122,10 @@ namespace MyPaint
                     selectLayer.UnsetSelectable();
                 }
             }
-            stopEdit();
+            StopEdit();
         }
 
-        public void setResolution(Point res, bool back = false, bool history = false)
+        public void SetResolution(Point res, bool back = false, bool history = false)
         {
             if (res.Equals(resolution))
             {
@@ -135,7 +133,7 @@ namespace MyPaint
             }
             if (back)
             {
-                control.setResolution(res.X, res.Y, false);
+                control.SetResolution(res.X, res.Y, false);
             }
             if (history)
             {
@@ -152,31 +150,20 @@ namespace MyPaint
             canvas.Height = topCanvas.Height = res.Y;
         }
 
-        public void clear()
-        {
-            clearCanvas();
-        }
-
-        public void clearCanvas()
-        {
-            stopEdit();
-            resetLayers();
-        }
-
-        public void setShapePrimaryColor(Brush c)
+        public void SetShapePrimaryColor(Brush c)
         {
             primaryColor = c;
-            if (shape != null) shape.setPrimaryColor(c, true);
+            if (shape != null) shape.SetPrimaryColor(c, true);
         }
 
-        public void setShapeSecondaryColor(Brush c)
+        public void SetShapeSecondaryColor(Brush c)
         {
             secondaryColor = c;
-            if (shape != null) shape.setSecondaryColor(c, true);
+            if (shape != null) shape.SetSecondaryColor(c, true);
         }
 
 
-        public void setBackgroundColor(Brush c)
+        public void SetBackgroundColor(Brush c)
         {
             if (selectLayer != null)
             {
@@ -185,18 +172,18 @@ namespace MyPaint
             }
         }
 
-        public Brush getBackgroundColor()
+        public Brush GetBackgroundColor()
         {
             if (selectLayer != null) return selectLayer.GetBackground();
             return null;
         }
 
-        public Brush getShapePrimaryColor()
+        public Brush GetShapePrimaryColor()
         {
             return primaryColor;
         }
 
-        public Brush getShapeSecondaryColor()
+        public Brush GetShapeSecondaryColor()
         {
             return secondaryColor;
         }
@@ -204,26 +191,26 @@ namespace MyPaint
         public void SetShapeThickness(double t)
         {
             thickness = t;
-            if (shape != null) shape.setThickness(t, true);
+            if (shape != null) shape.SetThickness(t, true);
         }
 
-        public double getShapeThickness()
+        public double GetShapeThickness()
         {
             return thickness;
         }
 
-        public void shapeDelete()
+        public void ShapeDelete()
         {
             if (shape != null)
             {
                 state = DrawEnum.DRAW;
-                shape.delete();
+                shape.Delete();
                 historyControl.add(new HistoryShapeDelete(shape));
                 shape = null;
             }
         }
 
-        public void setActiveShape(MyEnum s)
+        public void SetActiveShape(MyEnum s)
         {
             if (selectLayer != null)
             {
@@ -240,7 +227,7 @@ namespace MyPaint
             activeShape = s;
         }
 
-        public void mouseDown(MouseButtonEventArgs e)
+        public void MouseDown(MouseButtonEventArgs e)
         {
             if (selectLayer == null)
             {
@@ -248,24 +235,24 @@ namespace MyPaint
             }
             if (state == DrawEnum.DRAW)
             {
-                startDraw(e);
+                StartDraw(e);
             }
             else
             {
-                if (!shape.hitTest())
+                if (!shape.HitTest())
                 {
-                    stopEdit();
+                    StopEdit();
                     if (activeShape == MyEnum.SELECT)
                     {
                         selectLayer.UnsetSelectable();
                         selectLayer.SetSelectable();
                     }
-                    startDraw(e);
+                    StartDraw(e);
                 }
             }
         }
 
-        void startDraw(MouseButtonEventArgs e)
+        void StartDraw(MouseButtonEventArgs e)
         {
             if (state == DrawEnum.DRAW && activeShape != MyEnum.SELECT)
             {
@@ -285,47 +272,47 @@ namespace MyPaint
                         break;
                 }
                 historyControl.add(new HistoryShape(shape));
-                shape.drawMouseDown(e.GetPosition(canvas), e);
+                shape.DrawMouseDown(e.GetPosition(canvas), e);
             }
         }
 
-        public void startMoveShape(Point start, Point mys)
+        public void StartMoveShape(Point start, Point mys)
         {
             posunStart = start;
             posunStartMys = mys;
             state = DrawEnum.MOVING;
         }
 
-        public void mouseMove(Point e)
+        public void MouseMove(Point e)
         {
             switch (state)
             {
                 case DrawEnum.DRAWING:
-                    shape.drawMouseMove(e);
+                    shape.DrawMouseMove(e);
                     break;
                 case DrawEnum.EDIT:
-                    shape.moveDrag(e);
+                    shape.MoveDrag(e);
                     break;
                 case DrawEnum.MOVING:
-                    shape.moveShape(posunStart.X + (e.X - posunStartMys.X), posunStart.Y + (e.Y - posunStartMys.Y));
+                    shape.MoveShape(posunStart.X + (e.X - posunStartMys.X), posunStart.Y + (e.Y - posunStartMys.Y));
                     break;
             }
         }
 
-        public void mouseUp(MouseButtonEventArgs e)
+        public void MouseUp(MouseButtonEventArgs e)
         {
 
             switch (state)
             {
                 case DrawEnum.DRAWING:
-                    shape.drawMouseUp(e.GetPosition(canvas), e);
+                    shape.DrawMouseUp(e.GetPosition(canvas), e);
                     break;
                 case DrawEnum.EDIT:
-                    shape.stopDrag();
+                    shape.StopDrag();
                     break;
                 case DrawEnum.MOVING:
                     Point start = posunStart;
-                    Point stop = shape.getPosition();
+                    Point stop = shape.GetPosition();
                     if (!start.Equals(stop))
                     {
                         historyControl.add(new HistoryShapeMove(shape, start, stop));
@@ -335,62 +322,56 @@ namespace MyPaint
             }          
         }
 
-        public void startDraw()
+        public void StartDraw()
         {
             state = DrawEnum.DRAWING;
         }
 
-        public void stopDraw()
+        public void StopDraw()
         {
             state = DrawEnum.EDIT;
         }
 
-        public void startEdit()
+        public void StartEdit()
         {
             state = DrawEnum.EDIT;
         }
 
-        public void stopEdit()
+        public void StopEdit()
         {
             if (state == DrawEnum.EDIT)
             {
-                shape.stopEdit();
+                shape.StopEdit();
                 shape = null;
-                lockDraw();
                 state = DrawEnum.DRAW;
             }
         }
 
-        public void lockDraw()
+        public void SetPrimaryColor(Brush c)
         {
-            
+            control.SetWindowPrimaryBrush(c);
         }
 
-        public void setPrimaryColor(Brush c)
+        public void SetSecondaryColor(Brush c)
         {
-            control.setWindowPrimaryBrush(c);
+            control.SetWindowSecondaryBrush(c);
         }
 
-        public void setSecondaryColor(Brush c)
+        public void SetThickness(double t)
         {
-            control.setWindowSecondaryBrush(c);
+            control.SetWindowThickness(t);
         }
 
-        public void setThickness(double t)
+        public void PasteImage(BitmapSource bmi)
         {
-            control.setWindowThickness(t);
-        }
-
-        public void pasteImage(BitmapSource bmi)
-        {
-            stopEdit();
+            StopEdit();
             ImageBrush brush = new ImageBrush(bmi);
-            control.setResolution(bmi.Width, bmi.Height);
+            control.SetResolution(bmi.Width, bmi.Height);
             Shapes.Shape shape = new Shapes.Image(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
             historyControl.add(new HistoryShape(shape));
         }
 
-        public void setPath(string p)
+        public void SetPath(string p)
         {
             path = p;
             string name = new Regex("[a-zA-Z0-9]+.[a-zA-Z0-9]+$").Matches(path)[0].ToString();
@@ -403,7 +384,7 @@ namespace MyPaint
             tabItem.Header = name;
         }
 
-        public Canvas create()
+        public Canvas CreateImage()
         {
             Canvas canvas = new Canvas();
             canvas.Width = resolution.X;
@@ -419,43 +400,43 @@ namespace MyPaint
         {
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
-            setPath(path);
+            SetPath(path);
             switch (suffix)
             {
                 case ".html":
-                    new FileSaver.HTML().save(this);
+                    new FileSaver.HTML().Save(this);
                     break;
                 case ".jpg":
-                    new FileSaver.JPEG().save(this); ;
+                    new FileSaver.JPEG().Save(this); ;
                     break;
                 case ".bmp":
-                    new FileSaver.BMP().save(this);
+                    new FileSaver.BMP().Save(this);
                     break;
                 case ".png":
                 default:
-                    new FileSaver.PNG().save(this);
+                    new FileSaver.PNG().Save(this);
                     break;
             }
         }
 
         public void OpenFromFile(string path)
         {
-            setPath(path);
+            SetPath(path);
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
             switch (suffix)
             {
                 case ".html":
-                    new FileOpener.HTML().open(this);
+                    new FileOpener.HTML().Open(this);
                     break;
                 case ".jpg":
-                    new FileOpener.JPEG().open(this);
+                    new FileOpener.JPEG().Open(this);
                     break;
                 case ".bmp":
-                    new FileOpener.BMP().open(this);
+                    new FileOpener.BMP().Open(this);
                     break;
                 case ".png":
-                    new FileOpener.PNG().open(this);
+                    new FileOpener.PNG().Open(this);
                     break;
             }
             historyControl.Enable();
@@ -463,8 +444,7 @@ namespace MyPaint
 
         public void PasteShape(jsonDeserialize.Shape s)
         {
-            stopEdit();
-
+            StopEdit();
         }
     }
 }

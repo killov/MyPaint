@@ -14,14 +14,14 @@ namespace MyPaint.History
             shape = s;
         }
 
-        public void back()
+        public void Back()
         {
-            shape.refresh();
+            shape.Refresh();
         }
 
-        public void forward()
+        public void Forward()
         {
-            shape.delete();
+            shape.Delete();
         }
     }
 }

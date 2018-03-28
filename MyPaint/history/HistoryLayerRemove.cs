@@ -16,12 +16,12 @@ namespace MyPaint.History
             position = p;
         }
 
-        public void back()
+        public void Back()
         {
             layer.Add(position);
         }
 
-        public void forward()
+        public void Forward()
         {
             layer.Remove(false);
         }

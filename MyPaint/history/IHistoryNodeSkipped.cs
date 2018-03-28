@@ -8,8 +8,8 @@ namespace MyPaint.History
 {
     public interface IHistoryNodeSkipped : IHistoryNode
     {
-        void skip(IHistoryNodeSkipped node);
+        void Skip(IHistoryNodeSkipped node);
 
-        bool optimal(IHistoryNodeSkipped node);
+        bool Optimal(IHistoryNodeSkipped node);
     }
 }

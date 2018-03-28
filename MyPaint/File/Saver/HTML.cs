@@ -12,7 +12,7 @@ namespace MyPaint.FileSaver
 {
     public class HTML : FileSaver
     {
-        override protected void thread_save() { 
+        override protected void Thread_save() { 
             string filename = dc.path;
             System.IO.StreamWriter file = new System.IO.StreamWriter(filename);
             file.WriteLine("<!DOCTYPE HTML>");

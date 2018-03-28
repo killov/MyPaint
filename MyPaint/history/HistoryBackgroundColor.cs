@@ -18,23 +18,23 @@ namespace MyPaint.History
             n = newBrush;
         }
 
-        public void back()
+        public void Back()
         {
             layer.SetBackground(o);
         }
 
-        public void forward()
+        public void Forward()
         {
             layer.SetBackground(n);
         }
 
-        public void skip(IHistoryNodeSkipped node)
+        public void Skip(IHistoryNodeSkipped node)
         {
             HistoryBackgroundColor n = (HistoryBackgroundColor)node;
             this.n = n.n;
         }
 
-        public bool optimal(IHistoryNodeSkipped node)
+        public bool Optimal(IHistoryNodeSkipped node)
         {
             return (node is HistoryBackgroundColor) && ((HistoryBackgroundColor)node).layer.Equals(layer);
         }

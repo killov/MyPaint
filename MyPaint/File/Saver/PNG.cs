@@ -16,7 +16,7 @@ namespace MyPaint.FileSaver
 {
     public class PNG : Raster
     {
-        protected override BitmapEncoder getEncoder()
+        protected override BitmapEncoder GetEncoder()
         {
             return new PngBitmapEncoder();
         }

@@ -16,7 +16,7 @@ namespace MyPaint.FileOpener
 {
     public class BMP : Raster
     {
-        protected override BitmapSource getBitmap(FileStream fs)
+        protected override BitmapSource GetBitmap(FileStream fs)
         {
             BmpBitmapDecoder decoder = new BmpBitmapDecoder(fs, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
             return decoder.Frames[0];

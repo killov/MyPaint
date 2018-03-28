@@ -18,7 +18,7 @@ namespace MyPaint.Shapes
     {
         protected bool hit = false;
         protected Brush primaryColor, secondaryColor;
-        protected jsonSerialize.Brush sPrimaryColor, sSecondaryColor;
+        protected jsonSerialize.Brush PrimaryColor, SecondaryColor;
         protected double thickness;
         Layer layer;
         public FileControl drawControl;
@@ -31,9 +31,9 @@ namespace MyPaint.Shapes
             drawControl = c;
             layer = la;
             layer.shapes.Add(this);
-            setPrimaryColor(drawControl.primaryColor);
-            setSecondaryColor(drawControl.secondaryColor);
-            setThickness(drawControl.thickness);
+            SetPrimaryColor(drawControl.primaryColor);
+            SetSecondaryColor(drawControl.secondaryColor);
+            SetThickness(drawControl.thickness);
             canvas = layer.canvas;
             topCanvas = drawControl.topCanvas;
         }
@@ -46,181 +46,182 @@ namespace MyPaint.Shapes
             topCanvas = drawControl.topCanvas;
         }
 
-        virtual public void setPrimaryColor(Brush s, bool addHistory = false)
+        virtual public void SetPrimaryColor(Brush s, bool addHistory = false)
         {
             primaryColor = s;
-            sPrimaryColor = jsonSerialize.Brush.create(s);
+            PrimaryColor = jsonSerialize.Brush.create(s);
             if (addHistory)
             {
-                drawControl.historyControl.add(new History.HistoryPrimaryColor(this, getPrimaryColor(), s));
+                drawControl.historyControl.add(new History.HistoryPrimaryColor(this, GetPrimaryColor(), s));
             }
 
         }
 
-        virtual public void setSecondaryColor(Brush s, bool addHistory = false)
+        virtual public void SetSecondaryColor(Brush s, bool addHistory = false)
         {
             secondaryColor = s;
-            sSecondaryColor = jsonSerialize.Brush.create(s);
+            SecondaryColor = jsonSerialize.Brush.create(s);
             if (addHistory)
             {
-                drawControl.historyControl.add(new History.HistorySecondaryColor(this, getSecondaryColor(), s));
+                drawControl.historyControl.add(new History.HistorySecondaryColor(this, GetSecondaryColor(), s));
             }
         }
 
-        public Brush getPrimaryColor()
+        public Brush GetPrimaryColor()
         {
             return primaryColor;
         }
 
-        public Brush getSecondaryColor()
+        public Brush GetSecondaryColor()
         {
             return secondaryColor;
         }
 
 
-        public void changeLayer(Layer newLayer)
+        public void ChangeLayer(Layer newLayer)
         {
             if (layer != null)
             {
-                removeFromCanvas();
+                RemoveFromCanvas();
                 layer.shapes.Remove(this);
             }
             layer = newLayer;
             if (layer != null)
             {
-                addToCanvas();
+                AddToCanvas();
                 layer.shapes.Add(this);
             }
         }
 
-        abstract public void addToCanvas();
+        abstract public void AddToCanvas();
 
-        abstract public void removeFromCanvas();
+        abstract public void RemoveFromCanvas();
 
-        virtual public void setThickness(double s, bool addHistory = false)
+        virtual public void SetThickness(double s, bool addHistory = false)
         {
             thickness = s;
             if (addHistory)
             {
-                drawControl.historyControl.add(new History.HistoryShapeThickness(this, getThickness(), s));
+                drawControl.historyControl.add(new History.HistoryShapeThickness(this, GetThickness(), s));
             }
         }
 
-        public double getThickness()
+        public double GetThickness()
         {
             return thickness;
         }
 
 
-        virtual public void drawMouseDown(Point e, MouseButtonEventArgs ee)
+        virtual public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
 
         }
 
-        virtual public void drawMouseMove(Point e)
+        virtual public void DrawMouseMove(Point e)
         {
 
         }
 
-        virtual public void drawMouseUp(Point e, MouseButtonEventArgs ee)
+        virtual public void DrawMouseUp(Point e, MouseButtonEventArgs ee)
         {
 
         }
 
-        abstract public void createVirtualShape();
+        abstract public void CreateVirtualShape();
 
-        virtual public void showVirtualShape(MyOnMouseDown mouseDown)
+        virtual public void ShowVirtualShape(MyOnMouseDown mouseDown)
         {
             virtualShapeCallback = mouseDown;
         }
 
-        abstract public void hideVirtualShape();
+        abstract public void HideVirtualShape();
 
-        public void startMove(Point e)
+        public void StartMove(Point e)
         {
-            drawControl.startMoveShape(getPosition(), e);
+            drawControl.StartMoveShape(GetPosition(), e);
         }
 
-        virtual public void setActive()
+        virtual public void SetActive()
         { 
-            showVirtualShape((e, s) =>
+            ShowVirtualShape((e, s) =>
             {
-                drawControl.startMoveShape(getPosition(), e);
+                drawControl.StartMoveShape(GetPosition(), e);
             });
-            drawControl.startEdit();
+            drawControl.StartEdit();
         }
 
-        virtual public void moveDrag(Point e)
+        virtual public void MoveDrag(Point e)
         {
             hit = false;
         }
 
-        virtual public void stopDrag()
+        virtual public void StopDrag()
         {
             hit = false;
         }
 
-        virtual public void stopEdit()
+        virtual public void StopEdit()
         {
-            hideVirtualShape();
+            HideVirtualShape();
         }
 
-        virtual public void moveShape(double x, double y)
+        virtual public void MoveShape(double x, double y)
         {
             hit = true;
         }
 
-        abstract public jsonSerialize.Shape renderShape();
+        abstract public jsonSerialize.Shape CreateSerializer();
 
-        public void setHit(bool h)
+        public void SetHit(bool h)
         {
             hit = h;
         }
 
-        public bool hitTest()
+        public bool HitTest()
         {
             return hit;
         }
 
-        public void delete()
+        public int Delete()
         {
-            removeFromCanvas();
+            RemoveFromCanvas();
+            int ord = layer.shapes.IndexOf(this);
             layer.shapes.Remove(this);
-            stopEdit();
-            hideVirtualShape();
+            StopEdit();
+            HideVirtualShape();
+            return ord;
         }
 
-        public void refresh()
+        public void Refresh()
         {
             layer.shapes.Add(this);
-            addToCanvas();
-            drawControl.lockDraw();
+            AddToCanvas();
         }
 
-        abstract public Point getPosition();
+        abstract public Point GetPosition();
 
-        abstract public void createPoints();
+        abstract public void CreatePoints();
 
-        protected void addToCanvas(System.Windows.Shapes.Shape s)
+        protected void AddToCanvas(System.Windows.Shapes.Shape s)
         {
             layer.canvas.Children.Add(s);
         }
 
-        protected void removeFromCanvas(System.Windows.Shapes.Shape s)
+        protected void RemoveFromCanvas(System.Windows.Shapes.Shape s)
         {
             layer.canvas.Children.Remove(s);
         }
 
-        protected void startDraw()
+        protected void StartDraw()
         {
-            drawControl.startDraw();
+            drawControl.StartDraw();
         }
 
-        protected void stopDraw()
+        protected void StopDraw()
         {
-            drawControl.stopDraw();
+            drawControl.StopDraw();
         }
 
-        abstract public void create(Canvas canvas);
+        abstract public void CreateImage(Canvas canvas);
     }
 }

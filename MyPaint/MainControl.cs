@@ -45,7 +45,7 @@ namespace MyPaint
             revScale = new ScaleTransform(1, 1);
             files = new Dictionary<TabItem, FileControl>();
             clipboardControl = new ClipboardControl(this);
-            setTool(MyEnum.LINE);
+            SetTool(MyEnum.LINE);
 
             TransformGroup g = new TransformGroup();
 
@@ -72,7 +72,7 @@ namespace MyPaint
             TabItem tab = AddTabItem();
             FileControl file = new FileControl(this, revScale, tab, w.topCanvas);
             file.SetName("Bez názvu");
-            file.setResolution(new Point(500, 400));
+            file.SetResolution(new Point(500, 400));
             file.historyControl.Enable();
             files[tab] = file;
             return file;
@@ -84,16 +84,16 @@ namespace MyPaint
             {
                 if (this.file != null) this.file.Deactivate();
                 this.file = file;
-                this.file.stopEdit();
-                this.file.setShapePrimaryColor(primaryBrush);
-                this.file.setShapeSecondaryColor(secondaryBrush);
+                this.file.StopEdit();
+                this.file.SetShapePrimaryColor(primaryBrush);
+                this.file.SetShapeSecondaryColor(secondaryBrush);
                 this.file.SetShapeThickness(thickness);
-                this.file.setActiveShape(tool);
+                this.file.SetActiveShape(tool);
                 this.file.historyControl.redraw();
                 this.file.Activate();
-                setResolution(this.file.resolution.X, this.file.resolution.Y, false);
+                SetResolution(this.file.resolution.X, this.file.resolution.Y, false);
                 SetPath(this.file.path);
-                w.setBackgroundBrush(this.file.getBackgroundColor());
+                w.setBackgroundBrush(this.file.GetBackgroundColor());
                 w.canvas.Children.Clear();
                 w.canvas.Children.Add(this.file.canvas);
                 w.tabControl.SelectedItem = file.tabItem;
@@ -138,7 +138,7 @@ namespace MyPaint
                 file.Deactivate();
                 if (file.historyControl.change())
                 {
-                    if (!saveDialog()) return;
+                    if (!SaveDialog()) return;
                 }
                 files.Remove(tab);
                 w.tabControl.DataContext = null;
@@ -154,17 +154,17 @@ namespace MyPaint
 
         public void AddLayer()
         {
-            if(file != null) file.addLayer();
+            if(file != null) file.AddLayer();
         }
 
         public void LayerChanged(int index)
         {
-            if (file != null) file.setActiveLayer(index);
+            if (file != null) file.SetActiveLayer(index);
         }
 
         public void Back()
         {
-            if (file != null) file.stopEdit();
+            if (file != null) file.StopEdit();
             if (file != null) file.historyControl.back();
         }
 
@@ -186,7 +186,7 @@ namespace MyPaint
             revScale.ScaleY = 1 / zoom;
         }
 
-        public void setResolution(double ws, double hs, bool back = true)
+        public void SetResolution(double ws, double hs, bool back = true)
         {
             resolution = new Point(ws, hs);
             w.canvas.Width = ws;
@@ -198,7 +198,7 @@ namespace MyPaint
             Canvas.SetLeft(w.resolution, ws);
             Canvas.SetTop(w.resolution, hs);
             w.labelResolution.Content = String.Format("{0}x{1}", (int)ws, (int)hs);
-            if (back && file != null) file.setResolution(resolution);
+            if (back && file != null) file.SetResolution(resolution);
         }
 
         public void NewC()
@@ -208,19 +208,19 @@ namespace MyPaint
 
         public void SetPrimaryBrush(Brush c)
         {
-            file.setShapePrimaryColor(c);
+            file.SetShapePrimaryColor(c);
             primaryBrush = c;
         }
 
         public void SetSecondaryBrush(Brush c)
         {
-            file.setShapeSecondaryColor(c);
+            file.SetShapeSecondaryColor(c);
             secondaryBrush = c;
         }
 
         public void SetBackgroundBrush(Brush c)
         {
-            file.setBackgroundColor(c);
+            file.SetBackgroundColor(c);
             layerColor = c;
         }
 
@@ -230,25 +230,25 @@ namespace MyPaint
             thickness = t;
         }
 
-        public void setWindowPrimaryBrush(Brush c)
+        public void SetWindowPrimaryBrush(Brush c)
         {
             w.setPrimaryBrush(c);
             primaryBrush = c;
         }
 
-        public void setWindowSecondaryBrush(Brush c)
+        public void SetWindowSecondaryBrush(Brush c)
         {
             w.setSecondaryBrush(c);
             secondaryBrush = c;
         }
 
-        public void setWindowBackgroundBrush(Brush c)
+        public void SetWindowBackgroundBrush(Brush c)
         {
             w.setBackgroundBrush(c);
             layerColor = c;
         }
 
-        public void setWindowThickness(double t)
+        public void SetWindowThickness(double t)
         {
             w.setThickness(t);
             thickness = t;
@@ -288,7 +288,7 @@ namespace MyPaint
             {
                 string filename = dialog.FileName;
                 SaveAs(filename);
-                file.setPath(filename);
+                file.SetPath(filename);
                 SetPath(filename);
             }
             return result.HasValue && result.Value;
@@ -296,7 +296,7 @@ namespace MyPaint
 
         void SaveAs(string path)
         {
-            file.stopEdit();
+            file.StopEdit();
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
             file.SaveAsFile(path);
@@ -304,7 +304,7 @@ namespace MyPaint
             
         }
 
-        public bool save()
+        public bool Save()
         {
             if (file.path == "")
             {
@@ -317,12 +317,12 @@ namespace MyPaint
             }
         }
 
-        public bool saveDialog()
+        public bool SaveDialog()
         {
             MessageBoxResult result = MessageBox.Show("Chcete uložit změny?", "", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                return save();
+                return Save();
             }
             else if(result == MessageBoxResult.Cancel)
             {
@@ -331,12 +331,12 @@ namespace MyPaint
             return true;
         }
 
-        public void exit()
+        public void Exit()
         {
              w.Close();  
         }
 
-        public void setTool(MyEnum s)
+        public void SetTool(MyEnum s)
         {
             Style def = w.FindResource("MyButton") as Style;
             Style act = w.FindResource("MyButtonActive") as Style;
@@ -363,27 +363,27 @@ namespace MyPaint
                     w.button_polygon.Style = act;
                     break;
             }
-            if (file != null) file.stopEdit();
-            if (file != null) file.setActiveShape(s);
+            if (file != null) file.StopEdit();
+            if (file != null) file.SetActiveShape(s);
             tool = s;
         }
 
-        public void mouseDown(MouseButtonEventArgs e)
+        public void MouseDown(MouseButtonEventArgs e)
         {
-            if (file != null) file.mouseDown(e); 
+            if (file != null) file.MouseDown(e); 
         }
 
-        public void mouseMove(MouseEventArgs e)
+        public void MouseMove(MouseEventArgs e)
         {
-            if (file != null) file.mouseMove(e.GetPosition(w.canvas));
+            if (file != null) file.MouseMove(e.GetPosition(w.canvas));
         }
 
-        public void mouseUp(MouseButtonEventArgs e)
+        public void MouseUp(MouseButtonEventArgs e)
         {
-            if (file != null) file.mouseUp(e);
+            if (file != null) file.MouseUp(e);
         }
 
-        public void closed(System.ComponentModel.CancelEventArgs e)
+        public void Closed(System.ComponentModel.CancelEventArgs e)
         {
             foreach(var f in files)
             {
@@ -391,7 +391,7 @@ namespace MyPaint
                 SetFileActive(f.Value);
                 if (file.historyControl.change())
                 {
-                    if (!saveDialog())
+                    if (!SaveDialog())
                     {
                         e.Cancel = true;
                         break;
@@ -400,11 +400,11 @@ namespace MyPaint
             }
         }
 
-        public void keyDown(object sender, KeyEventArgs e)
+        public void KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
             {
-                if(file != null) file.shapeDelete();
+                if(file != null) file.ShapeDelete();
             }
             if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.C))
             {

@@ -16,18 +16,18 @@ namespace MyPaint.FileSaver
 {
     public abstract class Raster : FileSaver
     {
-        override protected void thread_save()
+        override protected void Thread_save()
         {
             ContentControl cc = new ContentControl();
             Rect rect = new Rect(0, 0, dc.resolution.X, dc.resolution.Y);
-            cc.Content = dc.create();
+            cc.Content = dc.CreateImage();
             cc.Arrange(rect);
 
             string filename = dc.path;
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)dc.resolution.X,
                 (int)dc.resolution.Y, 96, 96, PixelFormats.Default);
             rtb.Render(cc);
-            BitmapEncoder encoder = getEncoder();
+            BitmapEncoder encoder = GetEncoder();
             encoder.Frames.Add(BitmapFrame.Create(rtb));
             using (var fs = File.OpenWrite(@filename))
             {
@@ -35,6 +35,6 @@ namespace MyPaint.FileSaver
             }
         }
 
-        abstract protected BitmapEncoder getEncoder();
+        abstract protected BitmapEncoder GetEncoder();
     }
 }

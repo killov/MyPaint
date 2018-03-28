@@ -18,13 +18,13 @@ namespace MyPaint.FileOpener
     {
         protected FileControl dc;
     
-        public void open(FileControl dc)
+        public void Open(FileControl dc)
         {
             this.dc = dc;
-            thread_open();
+            Thread_open();
         }
 
 
-        abstract protected void thread_open();
+        abstract protected void Thread_open();
     }
 }

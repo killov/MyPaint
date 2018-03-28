@@ -17,12 +17,12 @@ namespace MyPaint.History
             newP = n;
         }
 
-        public void back()
+        public void Back()
         {
             layer.SetPosition(oldP);
         }
 
-        public void forward()
+        public void Forward()
         {
             layer.SetPosition(newP);
         }
