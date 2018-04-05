@@ -29,6 +29,7 @@ namespace MyPaint
             TransformGroup g = new TransformGroup();
             g.Children.Add(revScale);
             ca.LayoutTransform = g;
+            
             posun = pos;
             position = p;
             el = new Ellipse();

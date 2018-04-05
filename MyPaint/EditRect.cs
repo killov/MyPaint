@@ -17,14 +17,15 @@ namespace MyPaint
         System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs;
         MovePoint p1, p2, p3, p4;
         Canvas canvas;
+        double scale;
         public EditRect(Canvas c, Shapes.Shape s, Point A, Point B, ScaleTransform revScale, posun Af, posun Bf, posun Cf, posun Df)
         {
             p.Points.Add(new Point(A.X, A.Y));
-            p.Points.Add(new Point(A.X, B.Y));
-            p.Points.Add(new Point(B.X, B.Y));
             p.Points.Add(new Point(B.X, A.Y));
+            p.Points.Add(new Point(B.X, B.Y));
+            p.Points.Add(new Point(A.X, B.Y));
             p.Stroke = Brushes.Black;
-            //p.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
+            p.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
             p.StrokeThickness = 1;
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
@@ -39,13 +40,37 @@ namespace MyPaint
             canvas = c;
             p1 = new MovePoint(c, s, p.Points[0], revScale, (po) =>
             {
+                if(Keyboard.Modifiers == ModifierKeys.Shift)
+                {
+                    double x, y;
+                    if(((p.Points[0].X - p.Points[2].X) * (po.Y - p.Points[2].Y) - (p.Points[0].Y - p.Points[2].Y) * (po.X - p.Points[2].X)) > 0)
+                    {
+                        x = po.X;
+                        y = p.Points[3].Y - ((p.Points[1].X - x) * scale);
+                    }
+                    else
+                    {
+                        y = po.Y;
+                        x = p.Points[1].X - ((p.Points[3].Y - y) / scale);
+                    }
+   
+                    p.Points[0] = new Point(x, y);
+                    p.Points[1] = new Point(p.Points[1].X, y);
+                    p.Points[3] = new Point(x, p.Points[3].Y);
+                    p1.Move(x, y);
+                    p2.Move(p.Points[1].X, y);
+                    p4.Move(x, p.Points[3].Y);
+                    Af(new Point(x, y));
+                    return true;
+                }
                 p.Points[0] = po;
-                p.Points[1] = new Point(po.X, p.Points[1].Y);
-                p.Points[3] = new Point(p.Points[3].X, po.Y);
+                p.Points[1] = new Point(p.Points[1].X, po.Y);
+                p.Points[3] = new Point(po.X, p.Points[3].Y);
                 p1.Move(po.X, po.Y);
-                p2.Move(po.X, p.Points[1].Y);
-                p4.Move(p.Points[3].X, po.Y);
+                p2.Move(p.Points[1].X, po.Y);
+                p4.Move(po.X, p.Points[3].Y);
                 Af(po);
+                UpdateScale();
                 return true;
             });
 
@@ -84,6 +109,15 @@ namespace MyPaint
                 Df(po);
                 return true;
             });
+        }
+
+        private void UpdateScale()
+        {
+            scale = Math.Abs((p.Points[1].Y - p.Points[2].Y) / (p.Points[0].X - p.Points[1].X));
+            if(scale == double.NaN)
+            {
+                scale = 1;
+            }
         }
 
         public void Move(double x, double y)

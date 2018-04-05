@@ -219,15 +219,16 @@ namespace MyPaint.Shapes
         override public void MoveShape(double x, double y)
         {
             base.MoveShape(x, y);
-            sx += x - Canvas.GetLeft(p);
-            ex += x - Canvas.GetLeft(p);
-            sy += y - Canvas.GetTop(p);
-            ey += y - Canvas.GetTop(p);
-            Canvas.SetLeft(p, x);
-            Canvas.SetTop(p, y);
-            Canvas.SetLeft(vs, x);
-            Canvas.SetTop(vs, y);
 
+
+            double zx = x - sx + ex;
+            double zy = y - sy + ey;
+
+            
+            moveE(p, zx, zy);
+            moveE(vs, zx, zy);
+            moveS(p, x, y);
+            moveS(vs, x, y);
             eR.Move(x, y);
         }
 
@@ -244,7 +245,7 @@ namespace MyPaint.Shapes
 
         override public Point GetPosition()
         {
-            return new Point(Canvas.GetLeft(p), Canvas.GetTop(p));
+            return new Point(sx, sy);
         }
 
         override public void CreatePoints()
@@ -258,10 +259,10 @@ namespace MyPaint.Shapes
             },
             (po) =>
             {
-                moveE(p, ex, po.Y);
-                moveE(vs, ex, po.Y);
-                moveS(p, po.X, sy);
-                moveS(vs, po.X, sy);
+                moveE(p, po.X, ey);
+                moveE(vs, po.X, ey);
+                moveS(p, sx, po.Y);
+                moveS(vs, sx, po.Y);
                 return true;
             },
             (po) =>
@@ -272,10 +273,10 @@ namespace MyPaint.Shapes
             },
             (po) =>
             {
-                moveE(p, po.X, ey);
-                moveE(vs, po.X, ey);
-                moveS(p, sx, po.Y);
-                moveS(vs, sx, po.Y);
+                moveE(p, ex, po.Y);
+                moveE(vs, ex, po.Y);
+                moveS(p, po.X, sy);
+                moveS(vs, po.X, sy);
                 return true;
             });
         }

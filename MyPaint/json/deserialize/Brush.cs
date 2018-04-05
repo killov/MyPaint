@@ -19,7 +19,7 @@ namespace MyPaint.jsonDeserialize
             return Color.FromArgb(A, R, G, B);
         }
 
-        public System.Windows.Media.Brush createBrush()
+        public System.Windows.Media.Brush CreateBrush()
         {
             switch (type)
             {
