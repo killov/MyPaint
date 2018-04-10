@@ -112,8 +112,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClipboardControl.cs" />
+    <Compile Include="Enums\ToolEnum.cs" />
     <Compile Include="FileControl.cs" />
-    <Compile Include="DrawEnum.cs" />
+    <Compile Include="Enums\DrawEnum.cs" />
     <Compile Include="file\Opener\BMP.cs" />
     <Compile Include="file\Opener\FileOpener.cs" />
     <Compile Include="file\Opener\HTML.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="json\serialize\Ellipse.cs" />
     <Compile Include="json\serialize\Image.cs" />
     <Compile Include="json\serialize\Layer.cs" />
+    <Compile Include="json\serialize\PolyLine.cs" />
     <Compile Include="json\serialize\RadialGradient.cs" />
     <Compile Include="json\serialize\LinearGradient.cs" />
     <Compile Include="json\serialize\GradientStop.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Layer.cs" />
     <Compile Include="EditRect.cs" />
     <Compile Include="Shapes\Ellipse.cs" />
+    <Compile Include="Shapes\PolyLine.cs" />
     <Compile Include="Shapes\Polygon.cs" />
     <Compile Include="Shapes\Image.cs" />
     <Compile Include="Shapes\Rectangle.cs" />

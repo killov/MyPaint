@@ -22,6 +22,8 @@ namespace MyPaint.jsonDeserialize
             {
                 case "LINE":
                     return new Shapes.Line(c, la, this);
+                case "POLYLINE":
+                    return new Shapes.PolyLine(c, la, this);
                 case "RECTANGLE":
                     return new Shapes.Rectangle(c, la, this);
                 case "ELLIPSE":

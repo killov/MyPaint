@@ -48,23 +48,22 @@ namespace MyPaint.Shapes
 
         virtual public void SetPrimaryColor(Brush s, bool addHistory = false)
         {
-            primaryColor = s;
-            PrimaryColor = jsonSerialize.Brush.create(s);
             if (addHistory)
             {
                 drawControl.historyControl.add(new History.HistoryPrimaryColor(this, GetPrimaryColor(), s));
             }
-
+            primaryColor = s;
+            PrimaryColor = jsonSerialize.Brush.create(s);
         }
 
         virtual public void SetSecondaryColor(Brush s, bool addHistory = false)
         {
-            secondaryColor = s;
-            SecondaryColor = jsonSerialize.Brush.create(s);
             if (addHistory)
             {
                 drawControl.historyControl.add(new History.HistorySecondaryColor(this, GetSecondaryColor(), s));
             }
+            secondaryColor = s;
+            SecondaryColor = jsonSerialize.Brush.create(s);
         }
 
         public Brush GetPrimaryColor()

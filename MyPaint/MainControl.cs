@@ -21,7 +21,7 @@ namespace MyPaint
 {
     public enum MyEnum
     {
-        SELECT, LINE, RECT, ELLIPSE, POLYGON, PRIMARY, SECONDARY, BACKGROUND
+        PRIMARY, SECONDARY, BACKGROUND
     }
 
     public class MainControl
@@ -36,7 +36,7 @@ namespace MyPaint
         TabItem tabAdd;
         Dictionary<TabItem, FileControl> files;
         Brush primaryBrush, secondaryBrush, layerColor;
-        MyEnum tool = MyEnum.LINE;
+        ToolEnum tool = ToolEnum.LINE;
         double thickness = 1;
         public MainControl(MainWindow ww)
         {
@@ -45,7 +45,7 @@ namespace MyPaint
             revScale = new ScaleTransform(1, 1);
             files = new Dictionary<TabItem, FileControl>();
             clipboardControl = new ClipboardControl(this);
-            SetTool(MyEnum.LINE);
+            SetTool(ToolEnum.LINE);
 
             TransformGroup g = new TransformGroup();
 
@@ -336,30 +336,34 @@ namespace MyPaint
              w.Close();  
         }
 
-        public void SetTool(MyEnum s)
+        public void SetTool(ToolEnum s)
         {
             Style def = w.FindResource("MyButton") as Style;
             Style act = w.FindResource("MyButtonActive") as Style;
             w.button_select.Style = def;
             w.button_line.Style = def;
+            w.button_polyline.Style = def;
             w.button_rectangle.Style = def;
             w.button_ellipse.Style = def;
             w.button_polygon.Style = def;
             switch (s)
             {
-                case MyEnum.SELECT:
+                case ToolEnum.SELECT:
                     w.button_select.Style = act;
                     break;
-                case MyEnum.LINE:
+                case ToolEnum.LINE:
                     w.button_line.Style = act;
                     break;
-                case MyEnum.RECT:
+                case ToolEnum.POLYLINE:
+                    w.button_polyline.Style = act;
+                    break;
+                case ToolEnum.RECT:
                     w.button_rectangle.Style = act;
                     break;
-                case MyEnum.ELLIPSE:
+                case ToolEnum.ELLIPSE:
                     w.button_ellipse.Style = act;
                     break;
-                case MyEnum.POLYGON:
+                case ToolEnum.POLYGON:
                     w.button_polygon.Style = act;
                     break;
             }

@@ -132,22 +132,17 @@ namespace MyPaint
 
         private void cara_Click(object sender, RoutedEventArgs e)
         {
-            control.SetTool(MyEnum.LINE);
+            control.SetTool(ToolEnum.LINE);
         }
 
         private void obdelnik_Click(object sender, RoutedEventArgs e)
         {
-            control.SetTool(MyEnum.RECT);
+            control.SetTool(ToolEnum.RECT);
         }
 
         private void elipsa_Click(object sender, RoutedEventArgs e)
         {
-            control.SetTool(MyEnum.ELLIPSE);
-        }
-
-        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            //if(control!=null) control.StrokeThickness = e.NewValue;
+            control.SetTool(ToolEnum.ELLIPSE);
         }
 
         private void newClick(object sender, RoutedEventArgs e)
@@ -157,7 +152,7 @@ namespace MyPaint
 
         private void polygon_Click(object sender, RoutedEventArgs e)
         {
-            control.SetTool(MyEnum.POLYGON);
+            control.SetTool(ToolEnum.POLYGON);
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -172,27 +167,32 @@ namespace MyPaint
 
         private void button_select_Click(object sender, RoutedEventArgs e)
         {
-            control.SetTool(MyEnum.SELECT);
+            control.SetTool(ToolEnum.SELECT);
         }
 
         private void button_line_Click(object sender, RoutedEventArgs e)
         {
-            control.SetTool(MyEnum.LINE);
+            control.SetTool(ToolEnum.LINE);
+        }
+
+        private void button_polyline_Click(object sender, RoutedEventArgs e)
+        {
+            control.SetTool(ToolEnum.POLYLINE);
         }
 
         private void button_ellipse_Click(object sender, RoutedEventArgs e)
         {
-            control.SetTool(MyEnum.ELLIPSE);
+            control.SetTool(ToolEnum.ELLIPSE);
         }
 
         private void button_rectangle_Click(object sender, RoutedEventArgs e)
         {
-            control.SetTool(MyEnum.RECT);
+            control.SetTool(ToolEnum.RECT);
         }
 
         private void button_polygon_Click(object sender, RoutedEventArgs e)
         {
-            control.SetTool(MyEnum.POLYGON);
+            control.SetTool(ToolEnum.POLYGON);
         }
 
         private void primaryColor_MouseDown(object sender, MouseButtonEventArgs e)
@@ -388,5 +388,7 @@ namespace MyPaint
         {
 
         }
+
+
     }
 }

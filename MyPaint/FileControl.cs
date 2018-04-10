@@ -29,7 +29,7 @@ namespace MyPaint
         Point posunStart = new Point();
         Point posunStartMys = new Point();
         public Point resolution;
-        MyEnum activeShape;
+        ToolEnum activeShape;
         public ObservableCollection<Layer> layers = new ObservableCollection<Layer>();
         public Layer selectLayer;
         public ScaleTransform revScale;
@@ -81,7 +81,7 @@ namespace MyPaint
             {
                 l.SetActive(false);
             }
-            if (activeShape == MyEnum.SELECT)
+            if (activeShape == ToolEnum.SELECT)
             {
                 if (selectLayer != null) selectLayer.UnsetSelectable();
                 layers[i].SetSelectable();
@@ -101,7 +101,7 @@ namespace MyPaint
         {
             if (selectLayer != null)
             {
-                if (activeShape == MyEnum.SELECT)
+                if (activeShape == ToolEnum.SELECT)
                 {
                     selectLayer.UnsetSelectable();
                     selectLayer.SetSelectable();
@@ -117,7 +117,7 @@ namespace MyPaint
         {
             if (selectLayer != null)
             {
-                if (activeShape == MyEnum.SELECT)
+                if (activeShape == ToolEnum.SELECT)
                 { 
                     selectLayer.UnsetSelectable();
                 }
@@ -210,11 +210,11 @@ namespace MyPaint
             }
         }
 
-        public void SetActiveShape(MyEnum s)
+        public void SetActiveShape(ToolEnum s)
         {
             if (selectLayer != null)
             {
-                if (s == MyEnum.SELECT)
+                if (s == ToolEnum.SELECT)
                 {
                     selectLayer.UnsetSelectable();
                     selectLayer.SetSelectable();
@@ -242,7 +242,7 @@ namespace MyPaint
                 if (!shape.HitTest())
                 {
                     StopEdit();
-                    if (activeShape == MyEnum.SELECT)
+                    if (activeShape == ToolEnum.SELECT)
                     {
                         selectLayer.UnsetSelectable();
                         selectLayer.SetSelectable();
@@ -254,20 +254,23 @@ namespace MyPaint
 
         void StartDraw(MouseButtonEventArgs e)
         {
-            if (state == DrawEnum.DRAW && activeShape != MyEnum.SELECT)
+            if (state == DrawEnum.DRAW && activeShape != ToolEnum.SELECT)
             {
                 switch (activeShape)
                 {
-                    case MyEnum.LINE:
+                    case ToolEnum.LINE:
                         shape = new Shapes.Line(this, selectLayer);
                         break;
-                    case MyEnum.RECT:
+                    case ToolEnum.POLYLINE:
+                        shape = new Shapes.PolyLine(this, selectLayer);
+                        break;
+                    case ToolEnum.RECT:
                         shape = new Shapes.Rectangle(this, selectLayer);
                         break;
-                    case MyEnum.ELLIPSE:
+                    case ToolEnum.ELLIPSE:
                         shape = new Shapes.Ellipse(this, selectLayer);
                         break;
-                    case MyEnum.POLYGON:
+                    case ToolEnum.POLYGON:
                         shape = new Shapes.Polygon(this, selectLayer);
                         break;
                 }

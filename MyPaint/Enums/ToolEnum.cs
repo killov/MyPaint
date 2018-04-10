@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MyPaint
 {
-    enum DrawEnum
+    public enum ToolEnum
     {
-        DRAW, DRAWING, EDIT, MOVING
+        SELECT, LINE, POLYLINE, RECT, ELLIPSE, POLYGON
     }
 }
