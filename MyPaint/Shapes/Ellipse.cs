@@ -16,7 +16,6 @@ namespace MyPaint.Shapes
     {
         System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse(), vs;
         double sx, sy, ex, ey;
-        MovePoint p1, p2, p3, p4;
         EditRect eR;
         double left, top, width, height;
         public Ellipse(FileControl c, Layer la) : base(c, la)
