@@ -449,5 +449,10 @@ namespace MyPaint
         {
             StopEdit();
         }
+
+        public void ChangeZoom()
+        {
+            if (shape != null) shape.ChangeZoom();
+        }
     }
 }

@@ -18,15 +18,17 @@ namespace MyPaint
         public MovePoint p1, p2, p3, p4;
         Canvas canvas;
         double scale;
+        ScaleTransform revScale;
         public EditRect(Canvas c, Shapes.Shape s, Point A, Point B, ScaleTransform revScale, posun Af, posun Bf, posun Cf, posun Df)
         {
+            this.revScale = revScale;
             p.Points.Add(new Point(A.X, A.Y));
             p.Points.Add(new Point(B.X, A.Y));
             p.Points.Add(new Point(B.X, B.Y));
             p.Points.Add(new Point(A.X, B.Y));
             p.Stroke = Brushes.Black;
             p.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
-            p.StrokeThickness = 1;
+            p.StrokeThickness = revScale.ScaleX;
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
             p.MouseDown +=  (o, e) =>
@@ -198,6 +200,11 @@ namespace MyPaint
             p3.Hide();
             p4.Hide();
             canvas.Children.Remove(p);
+        }
+
+        public void ChangeZoom()
+        {
+            p.StrokeThickness = revScale.ScaleX;
         }
 
     }

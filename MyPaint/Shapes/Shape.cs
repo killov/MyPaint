@@ -222,5 +222,10 @@ namespace MyPaint.Shapes
         }
 
         abstract public void CreateImage(Canvas canvas);
+
+        virtual public void ChangeZoom()
+        {
+
+        }
     }
 }

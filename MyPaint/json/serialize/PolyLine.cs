@@ -8,7 +8,7 @@ namespace MyPaint.jsonSerialize
 {
     class PolyLine : Shape
     {
-        public string type = "POLYĹINE";
+        public string type = "POLYLINE";
 
         public Brush stroke, fill;
         public double lineWidth;

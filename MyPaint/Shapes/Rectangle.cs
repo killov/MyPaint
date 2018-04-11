@@ -240,5 +240,9 @@ namespace MyPaint.Shapes
             canvas.Children.Add(p);
         }
 
+        override public void ChangeZoom()
+        {
+            eR.ChangeZoom();
+        }
     }
 }

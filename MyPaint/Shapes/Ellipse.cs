@@ -296,5 +296,10 @@ namespace MyPaint.Shapes
             
         }
 
+        override public void ChangeZoom()
+        {
+            eR.ChangeZoom();
+        }
+
     }
 }

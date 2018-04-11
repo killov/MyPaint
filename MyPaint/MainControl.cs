@@ -184,6 +184,7 @@ namespace MyPaint
             scale.ScaleY = zoom;
             revScale.ScaleX = 1 / zoom;
             revScale.ScaleY = 1 / zoom;
+            if (file != null) file.ChangeZoom();
         }
 
         public void SetResolution(double ws, double hs, bool back = true)
