@@ -27,12 +27,13 @@ namespace MyPaint
             p.Points.Add(new Point(B.X, B.Y));
             p.Points.Add(new Point(A.X, B.Y));
             p.Stroke = Brushes.Black;
-            p.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
-            p.StrokeThickness = revScale.ScaleX;
+            //p.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
+            p.StrokeThickness = revScale.ScaleX*3;
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
             p.MouseDown +=  (o, e) =>
             {
+                s.SetHit(true);
                 s.drawControl.StartMoveShape(s.GetPosition(), e.GetPosition(canvas));
             };
             DoubleCollection dash = new DoubleCollection();
@@ -204,7 +205,7 @@ namespace MyPaint
 
         public void ChangeZoom()
         {
-            p.StrokeThickness = revScale.ScaleX;
+            p.StrokeThickness = revScale.ScaleX * 3;
         }
 
     }

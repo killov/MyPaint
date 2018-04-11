@@ -12,7 +12,7 @@ using System.Windows.Controls;
 
 namespace MyPaint.Shapes
 {
-    public delegate void MyOnMouseDown(Point e, Shape s);
+    public delegate void MyOnMouseDown(Point e, Shape s, bool enableMoving = true);
 
     public abstract class Shape
     {
@@ -142,9 +142,9 @@ namespace MyPaint.Shapes
 
         virtual public void SetActive()
         { 
-            ShowVirtualShape((e, s) =>
+            ShowVirtualShape((e, s, m) =>
             {
-                drawControl.StartMoveShape(GetPosition(), e);
+                if(m) drawControl.StartMoveShape(GetPosition(), e);
             });
             drawControl.StartEdit();
         }
@@ -201,12 +201,12 @@ namespace MyPaint.Shapes
 
         abstract public void CreatePoints();
 
-        protected void AddToCanvas(System.Windows.Shapes.Shape s)
+        protected void AddToCanvas(UIElement s)
         {
             layer.canvas.Children.Add(s);
         }
 
-        protected void RemoveFromCanvas(System.Windows.Shapes.Shape s)
+        protected void RemoveFromCanvas(UIElement s)
         {
             layer.canvas.Children.Remove(s);
         }

@@ -347,6 +347,7 @@ namespace MyPaint
             w.button_rectangle.Style = def;
             w.button_ellipse.Style = def;
             w.button_polygon.Style = def;
+            w.button_text.Style = def;
             switch (s)
             {
                 case ToolEnum.SELECT:
@@ -366,6 +367,9 @@ namespace MyPaint
                     break;
                 case ToolEnum.POLYGON:
                     w.button_polygon.Style = act;
+                    break;
+                case ToolEnum.TEXT:
+                    w.button_text.Style = act;
                     break;
             }
             if (file != null) file.StopEdit();

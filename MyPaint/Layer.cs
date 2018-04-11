@@ -211,14 +211,14 @@ namespace MyPaint
             foreach(var shape in shapes)
             {
                 shape.HideVirtualShape();
-                shape.ShowVirtualShape((e, s) =>
+                shape.ShowVirtualShape((e, s, m) =>
                 {
-                    SetShapeSelect(e, s);
+                    SetShapeSelect(e, s, m);
                 });
             }
         }
 
-        private void SetShapeSelect(Point e, Shapes.Shape shape)
+        private void SetShapeSelect(Point e, Shapes.Shape shape, bool enableMoving)
         {            
             if (file.shape != null)
             {
@@ -228,7 +228,7 @@ namespace MyPaint
             SetSelectable();
             file.shape = shape;
             shape.SetActive();
-            shape.StartMove(e);
+            if(enableMoving) shape.StartMove(e);
         }
 
         public void UnsetSelectable()

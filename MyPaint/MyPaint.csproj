@@ -170,6 +170,7 @@
     <Compile Include="Shapes\PolyLine.cs" />
     <Compile Include="Shapes\Polygon.cs" />
     <Compile Include="Shapes\Image.cs" />
+    <Compile Include="Shapes\Text.cs" />
     <Compile Include="Shapes\Rectangle.cs" />
     <Compile Include="Shapes\Line.cs" />
     <Compile Include="Shapes\Shape.cs" />

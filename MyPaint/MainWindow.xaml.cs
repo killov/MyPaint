@@ -155,6 +155,11 @@ namespace MyPaint
             control.SetTool(ToolEnum.POLYGON);
         }
 
+        private void text_Click(object sender, RoutedEventArgs e)
+        {
+            control.SetTool(ToolEnum.POLYGON);
+        }
+
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -193,6 +198,11 @@ namespace MyPaint
         private void button_polygon_Click(object sender, RoutedEventArgs e)
         {
             control.SetTool(ToolEnum.POLYGON);
+        }
+
+        private void button_text_Click(object sender, RoutedEventArgs e)
+        {
+            control.SetTool(ToolEnum.TEXT);
         }
 
         private void primaryColor_MouseDown(object sender, MouseButtonEventArgs e)

@@ -8,6 +8,6 @@ namespace MyPaint
 {
     public enum ToolEnum
     {
-        SELECT, LINE, POLYLINE, RECT, ELLIPSE, POLYGON
+        SELECT, LINE, POLYLINE, RECT, ELLIPSE, POLYGON, TEXT
     }
 }

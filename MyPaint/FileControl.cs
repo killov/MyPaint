@@ -136,8 +136,7 @@ namespace MyPaint
                 control.SetResolution(res.X, res.Y, false);
             }
             if (history)
-            {
-                
+            {                
                 historyControl.add(new HistoryResolution(this, resolution, res));
             }
             resolution = res;
@@ -273,6 +272,9 @@ namespace MyPaint
                     case ToolEnum.POLYGON:
                         shape = new Shapes.Polygon(this, selectLayer);
                         break;
+                    case ToolEnum.TEXT:
+                        shape = new Shapes.Text(this, selectLayer);
+                        break;
                 }
                 historyControl.add(new HistoryShape(shape));
                 shape.DrawMouseDown(e.GetPosition(canvas), e);
@@ -369,7 +371,7 @@ namespace MyPaint
         {
             StopEdit();
             ImageBrush brush = new ImageBrush(bmi);
-            control.SetResolution(bmi.Width, bmi.Height);
+            control.SetResolution(Math.Max(bmi.Width,resolution.X), Math.Max(bmi.Height,resolution.Y));
             Shapes.Shape shape = new Shapes.Image(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
             historyControl.add(new HistoryShape(shape));
         }
