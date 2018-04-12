@@ -22,9 +22,10 @@ namespace MyPaint.Shapes
         PathFigure pf;
         LineSegment ls;
         bool fclick;
+
         public PolyLine(FileControl c, Layer la) : base(c, la)
         {
-
+            multiDraw = true;
         }
 
         public PolyLine(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)

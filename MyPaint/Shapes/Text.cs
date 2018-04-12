@@ -35,7 +35,7 @@ namespace MyPaint.Shapes
             sy = s.A.y;
 
             p.ToolTip = null;
- 
+            p.BorderThickness = new Thickness(0);
             AddToCanvas(p);
             left = sx;
             top = sy;
@@ -56,7 +56,7 @@ namespace MyPaint.Shapes
         override public void SetSecondaryColor(Brush s, bool addHistory = false)
         {
             base.SetSecondaryColor(s, addHistory);
-  
+            p.Background = s;
         }
 
         override public void AddToCanvas()
@@ -71,9 +71,7 @@ namespace MyPaint.Shapes
 
         override public void SetThickness(double s, bool addHistory = false)
         {
-            base.SetThickness(s, addHistory);
 
-            if (vs != null) ;
         }
 
         void moveS(TextBox p, double x, double y)
@@ -133,12 +131,11 @@ namespace MyPaint.Shapes
             sx = e.X;
             sy = e.Y;
 
-            p.ToolTip = null;
-            p.Cursor = Cursors.Pen;
-            //p.Stroke = drawControl.GetShapePrimaryColor();
-            //p.Fill = drawControl.GetShapeSecondaryColor();
-            //p.StrokeThickness = drawControl.GetShapeThickness();
 
+            p.BorderThickness = new Thickness(1);
+            p.Foreground = drawControl.GetShapePrimaryColor();
+            p.Background = drawControl.GetShapeSecondaryColor();
+            
             AddToCanvas(p);
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
@@ -165,12 +162,12 @@ namespace MyPaint.Shapes
             vs.Background = nullBrush;
             vs.Foreground = nullBrush;
 
+            vs.CaretBrush = Brushes.Black;
+            vs.AcceptsReturn = true;
+            vs.BorderThickness = new Thickness(0);
+            p.BorderThickness = new Thickness(0);
             moveS(vs, sx, sy);
             moveE(vs, ex, ey);
-            vs.Cursor = Cursors.Hand;
-            //vs.Stroke = nullBrush;
-            //vs.Fill = nullBrush;
-            //vs.StrokeThickness = p.StrokeThickness;
 
             vs.GotFocus += (sender, ee) =>
             {
@@ -225,6 +222,7 @@ namespace MyPaint.Shapes
         override public void StopEdit()
         {
             base.StopEdit();
+            Keyboard.Focus(null);
             eR.StopEdit();
         }
 

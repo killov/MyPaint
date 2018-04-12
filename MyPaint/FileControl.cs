@@ -29,6 +29,7 @@ namespace MyPaint
         Point posunStart = new Point();
         Point posunStartMys = new Point();
         public Point resolution;
+        Point startDraw;
         ToolEnum activeShape;
         public ObservableCollection<Layer> layers = new ObservableCollection<Layer>();
         public Layer selectLayer;
@@ -94,7 +95,13 @@ namespace MyPaint
             selectLayer = layers[i];
             selectLayer.SetActive(true);
             control.w.setBackgroundBrush(selectLayer.color);
-            if (shape != null) shape.ChangeLayer(selectLayer);
+            if (shape != null)
+            {
+                shape.ChangeLayer(selectLayer);
+                shape.StopEdit();
+                shape.SetActive();
+            }
+                    
         }
 
         public void Activate()
@@ -211,6 +218,11 @@ namespace MyPaint
 
         public void SetActiveShape(ToolEnum s)
         {
+            if (state == DrawEnum.DRAWING)
+            {
+                shape.Delete();
+                state = DrawEnum.DRAW;
+            }
             if (selectLayer != null)
             {
                 if (s == ToolEnum.SELECT)
@@ -276,7 +288,7 @@ namespace MyPaint
                         shape = new Shapes.Text(this, selectLayer);
                         break;
                 }
-                historyControl.add(new HistoryShape(shape));
+                startDraw = e.GetPosition(canvas);
                 shape.DrawMouseDown(e.GetPosition(canvas), e);
             }
         }
@@ -306,10 +318,15 @@ namespace MyPaint
 
         public void MouseUp(MouseButtonEventArgs e)
         {
-
             switch (state)
             {
                 case DrawEnum.DRAWING:
+                    if(!shape.multiDraw && startDraw == e.GetPosition(canvas))
+                    {
+                        shape.Delete();
+                        state = DrawEnum.DRAW;
+                        return;
+                    }
                     shape.DrawMouseUp(e.GetPosition(canvas), e);
                     break;
                 case DrawEnum.EDIT:
@@ -334,6 +351,7 @@ namespace MyPaint
 
         public void StopDraw()
         {
+            historyControl.add(new HistoryShape(shape));
             state = DrawEnum.EDIT;
         }
 

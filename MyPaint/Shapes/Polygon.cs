@@ -24,7 +24,7 @@ namespace MyPaint.Shapes
         LineSegment ls;
         public Polygon(FileControl c, Layer la) : base(c, la)
         {
-
+            multiDraw = true;
         }
 
         public Polygon(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
@@ -51,12 +51,14 @@ namespace MyPaint.Shapes
         {
             base.SetPrimaryColor(s, addHistory);
             p.Stroke = s;
+            if (path != null) path.Stroke = s;
         }
 
         override public void SetSecondaryColor(Brush s, bool addHistory = false)
         {
             base.SetSecondaryColor(s, addHistory);
             p.Fill = s;
+            if (path != null) path.Fill = s;
         }
 
         override public void AddToCanvas()
@@ -67,6 +69,7 @@ namespace MyPaint.Shapes
         override public void RemoveFromCanvas()
         {
             RemoveFromCanvas(p);
+            if(path != null) RemoveFromCanvas(path);
         }
 
         override public void SetThickness(double s, bool addHistory = false)
@@ -145,7 +148,6 @@ namespace MyPaint.Shapes
 
         override public void CreateVirtualShape()
         {
-
             vs = new System.Windows.Shapes.Polygon();
             vs.Points = p.Points;
             vs.Stroke = nullBrush;

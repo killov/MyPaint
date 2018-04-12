@@ -11,7 +11,7 @@ namespace MyPaint.History
         public Layer layer;
         public HistoryLayerAdd(Layer l)
         {
-            layer = l;//
+            layer = l;
         }
 
         public void Back()

@@ -236,6 +236,18 @@ namespace MyPaint
             primaryColor.Stroke = color == MyEnum.PRIMARY ? Brushes.Orange : null;
             secondaryColor.Stroke = color == MyEnum.SECONDARY ? Brushes.Orange : null;
             backgroundColor.Stroke = color == MyEnum.BACKGROUND ? Brushes.Orange : null;
+            switch (activeColor)
+            {
+                case MyEnum.PRIMARY:
+                    CBSetBrush(primaryColor.Fill);
+                    break;
+                case MyEnum.SECONDARY:
+                    CBSetBrush(secondaryColor.Fill);
+                    break;
+                case MyEnum.BACKGROUND:
+                    CBSetBrush(backgroundColor.Fill);
+                    break;
+            }
         }
 
         private void CB_ColorChanged(object sender, ColorBox.ColorChangedEventArgs e)
@@ -251,12 +263,16 @@ namespace MyPaint
         private void setColor(Brush color)
         {
             updateColor(color);
-            if (color != null && color is SolidColorBrush)
+            CBSetBrush(color);          
+        }
+
+        void CBSetBrush(Brush brush)
+        {
+            if (brush != null && brush is SolidColorBrush)
             {
-                color.Freeze();
+                brush.Freeze();
             }
-            CBLock = color;
-            CB.Brush = color;            
+            CB.Brush = brush;
         }
 
         private void updateColor(Brush color)
@@ -276,7 +292,6 @@ namespace MyPaint
                     backgroundColor.Fill = color;
                     break;
             }
-
         }
 
         private void resolution_MouseDown(object sender, MouseButtonEventArgs e)
@@ -377,26 +392,33 @@ namespace MyPaint
         public void setPrimaryBrush(Brush brush)
         {
             primaryColor.Fill = brush;
+            if (activeColor == MyEnum.PRIMARY)
+            {
+                CBSetBrush(brush);
+            }
         }
 
         public void setSecondaryBrush(Brush brush)
         {
             secondaryColor.Fill = brush;
+            if(activeColor == MyEnum.SECONDARY)
+            {
+                CBSetBrush(brush);
+            }
         }
 
         public void setBackgroundBrush(Brush brush)
         {
             backgroundColor.Fill = brush;
+            if (activeColor == MyEnum.BACKGROUND)
+            {
+                CBSetBrush(brush);
+            }
         }
 
         public void setThickness(double t)
         {
             thickness.Value = t;
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
 
 

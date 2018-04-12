@@ -16,10 +16,12 @@ namespace MyPaint.Shapes
 
     public abstract class Shape
     {
+        public bool multiDraw = false;
         protected bool hit = false;
         protected Brush primaryColor, secondaryColor;
         protected jsonSerialize.Brush PrimaryColor, SecondaryColor;
         protected double thickness;
+        bool exist;
         Layer layer;
         public FileControl drawControl;
         protected MyOnMouseDown virtualShapeCallback;
@@ -36,6 +38,7 @@ namespace MyPaint.Shapes
             SetThickness(drawControl.thickness);
             canvas = layer.canvas;
             topCanvas = drawControl.topCanvas;
+            exist = false;
         }
 
         public Shape(FileControl c, Layer la, jsonDeserialize.Shape s)
@@ -44,6 +47,7 @@ namespace MyPaint.Shapes
             layer = la;
             canvas = layer.canvas;
             topCanvas = drawControl.topCanvas;
+            exist = true;
         }
 
         virtual public void SetPrimaryColor(Brush s, bool addHistory = false)
@@ -186,8 +190,7 @@ namespace MyPaint.Shapes
             RemoveFromCanvas();
             int ord = layer.shapes.IndexOf(this);
             layer.shapes.Remove(this);
-            StopEdit();
-            HideVirtualShape();
+            if(exist) StopEdit();
             return ord;
         }
 
@@ -218,6 +221,7 @@ namespace MyPaint.Shapes
 
         protected void StopDraw()
         {
+            exist = true;
             drawControl.StopDraw();
         }
 
