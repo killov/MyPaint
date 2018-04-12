@@ -39,7 +39,9 @@ namespace MyPaint
             colorsInit();
             setActiveColor(MyEnum.PRIMARY);
             setColor(Brushes.Black);
-            
+            font.SelectedValue = new FontFamily("Arial");
+
+
         }
 
         private void colorsInit()
@@ -421,6 +423,9 @@ namespace MyPaint
             thickness.Value = t;
         }
 
-
+        private void font_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FontFamily f = (FontFamily)font.SelectedValue;
+        }
     }
 }
