@@ -69,6 +69,12 @@
                 <Button Style="{StaticResource MyButton}" x:Name="button_text" Canvas.Left="277" Canvas.Top="10" Width="40" Height="40" Click="button_text_Click" Margin="0">
                     <TextBlock Text="T" FontSize="36" FontFamily="Shonar Bangla" />
                 </Button>
+                <Canvas Height="58" Width="272" Canvas.Left="472">
+                    <ComboBox x:Name="font" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="84" Canvas.Left="28" Canvas.Top="33" SelectionChanged="font_SelectionChanged" Height="15" FontSize="8"/>
+                    <Slider x:Name="font_size" Height="15" Width="62" Style="{StaticResource SpinButton}" Canvas.Left="117" Maximum="100" Minimum="0" Value="12" Background="{x:Null}" Canvas.Top="33" ValueChanged="thickness_ValueChanged"/>
+                    <Label Content="Tloušťka&#xD;&#xA;" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182" Canvas.Left="117" Canvas.Top="6"/>
+                    <Label Content="Písmo" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182" Canvas.Left="28" Canvas.Top="6"/>
+                </Canvas>
 
 
 
@@ -153,23 +159,27 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
-            <Grid x:Name="canvas_outer" Margin="191,88,0,0" MouseMove="canvas_outer_MouseMove" MouseUp="canvas_outer_MouseUp">
-                <Grid.Background>
+            <ScrollViewer x:Name="canvas_outer" Margin="191,88,0,26" MouseMove="canvas_outer_MouseMove" MouseUp="canvas_outer_MouseUp" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <ScrollViewer.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                         <GradientStop Color="#FF3BA4BB" Offset="1"/>
                         <GradientStop Color="#FFAEDDE8"/>
                     </LinearGradientBrush>
-                </Grid.Background>
-                <Canvas x:Name="canvas_out" Width="485" Margin="10,10,0,0" Height="438" VerticalAlignment="Top" HorizontalAlignment="Left">
+                </ScrollViewer.Background>
+
+                <Canvas x:Name="canvas_out" Width="485" Margin="10,10,30,30" Height="438" VerticalAlignment="Top" HorizontalAlignment="Left">
+                   
                     <Canvas.Background>
                         <ImageBrush ImageSource="fill.png" TileMode="Tile" Stretch="Uniform" AlignmentY="Top" Viewport="0,0,20,20" ViewportUnits="Absolute"/>
                     </Canvas.Background>
                     <Canvas ClipToBounds="True" x:Name="canvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="433" VerticalAlignment="Top"/>
                     <Canvas ClipToBounds="True" x:Name="topCanvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="433" VerticalAlignment="Top" Background="#00F50000"/>
+                
                     <Rectangle x:Name="resolution" Height="10" Width="10" Canvas.Left="500" Canvas.Top="433" RenderTransformOrigin="-0.261,0.95" Fill="White" Stroke="Black" MouseDown="resolution_MouseDown" />
                 </Canvas>
 
-            </Grid>
+
+            </ScrollViewer>
             <TabControl x:Name="tabControl" Margin="191,63,0,0" Height="28" VerticalAlignment="Top" SelectionChanged="tabControl_SelectionChanged" ItemsSource="{Binding}">
                 <TabControl.Resources>
                     <DataTemplate x:Key="TabHeader" DataType="TabItem">
