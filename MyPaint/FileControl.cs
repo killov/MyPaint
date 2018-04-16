@@ -23,7 +23,6 @@ namespace MyPaint
         public HistoryControl historyControl;
         public Canvas canvas;
         public Canvas topCanvas;
-        public Brush primaryColor, secondaryColor;
         public double thickness;
         public Shapes.Shape shape;
         Point posunStart = new Point();
@@ -158,13 +157,11 @@ namespace MyPaint
 
         public void SetShapePrimaryColor(Brush c)
         {
-            primaryColor = c;
             if (shape != null) shape.SetPrimaryColor(c, true);
         }
 
         public void SetShapeSecondaryColor(Brush c)
         {
-            secondaryColor = c;
             if (shape != null) shape.SetSecondaryColor(c, true);
         }
 
@@ -186,12 +183,12 @@ namespace MyPaint
 
         public Brush GetShapePrimaryColor()
         {
-            return primaryColor;
+            return control.GetPrimaryBrush();
         }
 
         public Brush GetShapeSecondaryColor()
         {
-            return secondaryColor;
+            return control.GetSecondaryBrush();
         }
 
         public void SetShapeThickness(double t)

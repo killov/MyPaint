@@ -207,10 +207,20 @@ namespace MyPaint
             SetFileActive(NewFile());
         }
 
+        public Brush GetPrimaryBrush()
+        {
+            return primaryBrush;
+        }
+
         public void SetPrimaryBrush(Brush c)
         {
             file.SetShapePrimaryColor(c);
             primaryBrush = c;
+        }
+
+        public Brush GetSecondaryBrush()
+        {
+            return secondaryBrush;
         }
 
         public void SetSecondaryBrush(Brush c)

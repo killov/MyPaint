@@ -168,14 +168,14 @@
                 </ScrollViewer.Background>
 
                 <Canvas x:Name="canvas_out" Width="485" Margin="10,10,30,30" Height="438" VerticalAlignment="Top" HorizontalAlignment="Left">
-                   
+
                     <Canvas.Background>
                         <ImageBrush ImageSource="fill.png" TileMode="Tile" Stretch="Uniform" AlignmentY="Top" Viewport="0,0,20,20" ViewportUnits="Absolute"/>
                     </Canvas.Background>
                     <Canvas ClipToBounds="True" x:Name="canvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="433" VerticalAlignment="Top"/>
-                    <Canvas ClipToBounds="True" x:Name="topCanvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="433" VerticalAlignment="Top" Background="#00F50000"/>
-                
-                    <Rectangle x:Name="resolution" Height="10" Width="10" Canvas.Left="500" Canvas.Top="433" RenderTransformOrigin="-0.261,0.95" Fill="White" Stroke="Black" MouseDown="resolution_MouseDown" />
+                    <Canvas ClipToBounds="True" x:Name="topCanvas" HorizontalAlignment="Left" Width="485" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="438" VerticalAlignment="Top" Background="#00F50000"/>
+
+                    <Rectangle x:Name="resolution" Height="10" Width="10" Canvas.Left="486" Canvas.Top="438" RenderTransformOrigin="-0.261,0.95" Fill="White" Stroke="Black" MouseDown="resolution_MouseDown" />
                 </Canvas>
 
 

@@ -17,7 +17,10 @@ namespace MyPaint.Shapes
         TextBox p = new TextBox(), vs;
         double sx, sy, ex, ey;
         EditRect eR;
+        FontFamily font;
+        double size;
         double left, top, width, height;
+        string text = "";
         public Text(FileControl c, Layer la) : base(c, la)
         {
 
@@ -159,16 +162,14 @@ namespace MyPaint.Shapes
         override public void CreateVirtualShape()
         {
             vs = new TextBox();
-            vs.Background = nullBrush;
-            vs.Foreground = nullBrush;
-
+           // vs.Background = nullBrush;
+            //vs.Foreground = nullBrush;
             vs.CaretBrush = Brushes.Black;
             vs.AcceptsReturn = true;
             vs.BorderThickness = new Thickness(0);
             p.BorderThickness = new Thickness(0);
             moveS(vs, sx, sy);
             moveE(vs, ex, ey);
-
             vs.GotFocus += (sender, ee) =>
             {
                 if (virtualShapeCallback != null)
@@ -181,7 +182,15 @@ namespace MyPaint.Shapes
             vs.TextChanged += (sender, ee) =>
             {
                 p.Text = vs.Text;
+                vs.ScrollToVerticalOffset(0);
             };
+
+            vs.MouseWheel += (sender, ee) =>
+            {
+                vs.ScrollToVerticalOffset(0);
+            };
+
+  
 
         }
 
@@ -311,6 +320,56 @@ namespace MyPaint.Shapes
         {
             eR.ChangeZoom();
         }
+
+        public string GetText()
+        {
+            return text;
+        }
+
+        public void SetText(string t, bool addHistory = false)
+        {
+            if (addHistory)
+            {
+                drawControl.historyControl.add(new History.HistoryShapeText(this, GetText(), t));
+            }
+            text = t;
+            p.Text= t;
+            vs.Text = t;
+        }
+
+        public FontFamily GetFont()
+        {
+            return font;
+        }
+
+        public void SetFont(FontFamily f, bool addHistory = false)
+        {
+            if (addHistory)
+            {
+                drawControl.historyControl.add(new History.HistoryShapeTextFont(this, GetFont(), f));
+            }
+            font = f;
+            p.FontFamily = f;
+            vs.FontFamily = f;
+        }
+
+        public double GetFontSize()
+        {
+            return size;
+        }
+
+        public void SetFontSize(double s, bool addHistory = false)
+        {
+            if (addHistory)
+            {
+                drawControl.historyControl.add(new History.HistoryShapeTextFontSize(this, GetFontSize(), s));
+            }
+            size = s;
+            p.FontSize = s;
+            vs.FontSize = s;
+        }
+
+
 
     }
 }

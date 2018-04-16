@@ -132,6 +132,9 @@
     <Compile Include="history\HistoryMovePoint.cs" />
     <Compile Include="history\HistoryBackgroundColor.cs" />
     <Compile Include="history\HistoryShapeChangeLayer.cs" />
+    <Compile Include="history\HistoryShapeTextFontSize.cs" />
+    <Compile Include="history\HistoryShapeTextFont .cs" />
+    <Compile Include="history\HistoryShapeText.cs" />
     <Compile Include="history\HistoryShapeThickness.cs" />
     <Compile Include="history\HistorySecondaryColor.cs" />
     <Compile Include="history\HistoryResolution.cs" />

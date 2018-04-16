@@ -33,8 +33,8 @@ namespace MyPaint.Shapes
             drawControl = c;
             layer = la;
             layer.shapes.Add(this);
-            SetPrimaryColor(drawControl.primaryColor);
-            SetSecondaryColor(drawControl.secondaryColor);
+            SetPrimaryColor(drawControl.GetShapePrimaryColor());
+            SetSecondaryColor(drawControl.GetShapeSecondaryColor());
             SetThickness(drawControl.thickness);
             canvas = layer.canvas;
             topCanvas = drawControl.topCanvas;
