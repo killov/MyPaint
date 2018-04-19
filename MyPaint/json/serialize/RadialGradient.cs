@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace MyPaint.jsonSerialize
+namespace MyPaint.Serializer
 {
     public class RadialGradient : Brush
     {
@@ -13,7 +13,7 @@ namespace MyPaint.jsonSerialize
         public Point S, E, RA;
         public List<GradientStop> stops;
 
-        public override System.Windows.Media.Brush createBrush()
+        public override System.Windows.Media.Brush CreateBrush()
         {
             RadialGradientBrush rg = new RadialGradientBrush();
             rg.GradientOrigin = new System.Windows.Point(S.x, S.y);

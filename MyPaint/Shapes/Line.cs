@@ -14,23 +14,19 @@ namespace MyPaint.Shapes
 {
     public class Line : Shape
     {
-        System.Windows.Shapes.Line p = new System.Windows.Shapes.Line(), vs;
+        System.Windows.Shapes.Line p = new System.Windows.Shapes.Line(), vs = new System.Windows.Shapes.Line();
         MovePoint p1, p2;
         public Line(FileControl c, Layer la) : base(c, la)
         {
             
         }
 
-        public Line(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
+        public Line(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetThickness(s.lineWidth);
             p.X1 = s.A.x;
             p.Y1 = s.A.y;
             p.X2 = s.B.x;
             p.Y2 = s.B.y;
-            p.ToolTip = null;
-            p.Cursor = Cursors.SizeAll;
             AddToCanvas(p);
             CreatePoints();
             CreateVirtualShape();
@@ -61,19 +57,15 @@ namespace MyPaint.Shapes
         {
             base.SetThickness(s, addHistory);
             p.StrokeThickness = s;
-            if(vs != null) vs.StrokeThickness = s;
+            if (vs != null) vs.StrokeThickness = Math.Max(3, s);
         }
 
         override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
-            p.Stroke = drawControl.GetShapePrimaryColor();
-            p.StrokeThickness = drawControl.GetShapeThickness();
             p.X1 = e.X;
             p.Y1 = e.Y;
             p.X2 = e.X;
             p.Y2 = e.Y;
-            p.ToolTip = null;
-            p.Cursor = Cursors.Pen;
             AddToCanvas(p);
             StartDraw();
         }
@@ -94,14 +86,13 @@ namespace MyPaint.Shapes
 
         override public void CreateVirtualShape()
         {
-            vs = new System.Windows.Shapes.Line();
             vs.X1 = p.X1;
             vs.X2 = p.X2;
             vs.Y1 = p.Y1;
             vs.Y2 = p.Y2;
             vs.Cursor = Cursors.SizeAll;
             vs.Stroke = nullBrush;
-            vs.StrokeThickness = p.StrokeThickness;
+            vs.StrokeThickness = Math.Max(3, p.StrokeThickness); ;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
                 virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
@@ -163,13 +154,13 @@ namespace MyPaint.Shapes
             p2.Move(p.X2, p.Y2);
         }
 
-        override public jsonSerialize.Shape CreateSerializer()
+        override public Serializer.Shape CreateSerializer()
         {
-            jsonSerialize.Line ret = new jsonSerialize.Line();
+            Serializer.Line ret = new Serializer.Line();
             ret.lineWidth = GetThickness();
             ret.stroke = PrimaryColor;
-            ret.A = new jsonSerialize.Point(p1.GetPosition());
-            ret.B = new jsonSerialize.Point(p2.GetPosition());
+            ret.A = new Serializer.Point(p1.GetPosition());
+            ret.B = new Serializer.Point(p2.GetPosition());
             return ret;
         }
 

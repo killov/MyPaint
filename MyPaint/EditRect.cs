@@ -14,7 +14,7 @@ namespace MyPaint
 {
     public class EditRect
     {
-        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs;
+        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon();
         public MovePoint p1, p2, p3, p4;
         Canvas canvas;
         double scale;

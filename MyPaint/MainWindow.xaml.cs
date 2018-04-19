@@ -314,6 +314,7 @@ namespace MyPaint
             if (resolutionDrag)
             {
                 resolutionDrag = false;
+                control.SetResolutionEnd();
             }
         }
 
@@ -327,7 +328,7 @@ namespace MyPaint
             control.Forward();
         }
 
-        public void setHistory(bool b, bool f)
+        public void SetHistory(bool b, bool f)
         {
             back.Fill = b ? Brushes.Azure : Brushes.Gray;
             forward.Fill = f ? Brushes.Azure : Brushes.Gray;
@@ -426,6 +427,11 @@ namespace MyPaint
         private void font_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FontFamily f = (FontFamily)font.SelectedValue;
+        }
+
+        private void font_size_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
         }
     }
 }

@@ -128,15 +128,17 @@ namespace MyPaint
                     selectLayer.UnsetSelectable();
                 }
             }
+            if(state == DrawEnum.DRAWING)
+            {
+                shape.Delete();
+                shape = null;
+                state = DrawEnum.DRAW;
+            }
             StopEdit();
         }
 
         public void SetResolution(Point res, bool back = false, bool history = false)
         {
-            if (res.Equals(resolution))
-            {
-                return;
-            }
             if (back)
             {
                 control.SetResolution(res.X, res.Y, false);
@@ -144,9 +146,8 @@ namespace MyPaint
             if (history)
             {                
                 historyControl.add(new HistoryResolution(this, resolution, res));
+                resolution = res;
             }
-            resolution = res;
-
             foreach (var l in layers)
             {
                 l.SetResolution(res);
@@ -213,7 +214,7 @@ namespace MyPaint
             }
         }
 
-        public void SetActiveShape(ToolEnum s)
+        public void SetTool(ToolEnum s)
         {
             if (state == DrawEnum.DRAWING)
             {
@@ -387,7 +388,8 @@ namespace MyPaint
             StopEdit();
             ImageBrush brush = new ImageBrush(bmi);
             control.SetResolution(Math.Max(bmi.Width,resolution.X), Math.Max(bmi.Height,resolution.Y));
-            Shapes.Shape shape = new Shapes.Image(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
+            shape = new Shapes.Image(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
+            shape.SetActive();
             historyControl.add(new HistoryShape(shape));
         }
 
@@ -462,7 +464,7 @@ namespace MyPaint
             historyControl.Enable();
         }
 
-        public void PasteShape(jsonDeserialize.Shape s)
+        public void PasteShape(Deserializer.Shape s)
         {
             StopEdit();
         }

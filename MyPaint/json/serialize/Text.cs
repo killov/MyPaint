@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace MyPaint.Serializer
 {
-    class PolyLine : Shape
+    class Text : Shape
     {
-        public string type = "POLYLINE";
-
+        public string type = "TEXT";
         public Brush stroke, fill;
-        public double lineWidth;
-        public List<Point> points;
+        public string b64;
+        public Point A;
+        public int w, h;
     }
 }

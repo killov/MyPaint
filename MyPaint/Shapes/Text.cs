@@ -26,13 +26,12 @@ namespace MyPaint.Shapes
 
         }
 
-        public Text(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
+        public Text(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
             SetThickness(s.lineWidth);
             SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
             SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
-            SetThickness(s.lineWidth);
 
             sx = s.A.x;
             sy = s.A.y;
@@ -45,8 +44,9 @@ namespace MyPaint.Shapes
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.B.x, s.B.y);
-            CreateVirtualShape();
             CreatePoints();
+            CreateVirtualShape();
+            
 
         }
 
@@ -162,11 +162,14 @@ namespace MyPaint.Shapes
         override public void CreateVirtualShape()
         {
             vs = new TextBox();
-           // vs.Background = nullBrush;
+           //vs.Background = nullBrush;
             //vs.Foreground = nullBrush;
             vs.CaretBrush = Brushes.Black;
             vs.AcceptsReturn = true;
+            vs.AcceptsTab = true;
+
             vs.BorderThickness = new Thickness(0);
+            
             p.BorderThickness = new Thickness(0);
             moveS(vs, sx, sy);
             moveE(vs, ex, ey);
@@ -251,14 +254,14 @@ namespace MyPaint.Shapes
             eR.Move(x, y);
         }
 
-        override public jsonSerialize.Shape CreateSerializer()
+        override public Serializer.Shape CreateSerializer()
         {
-            jsonSerialize.Ellipse ret = new jsonSerialize.Ellipse();
-            ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryColor;
-            ret.fill = SecondaryColor;
-            ret.A = new jsonSerialize.Point(sx, sy);
-            ret.B = new jsonSerialize.Point(ex, ey);
+            Serializer.Text ret = new Serializer.Text();
+            ret.A = new Serializer.Point(Math.Min(sx, ex), Math.Min(sy, ey));
+            ret.w = (int)Math.Abs(sx - ex);
+            ret.h = (int)Math.Abs(sy - ey);
+            ret.stroke = Serializer.Brush.Create(GetPrimaryColor());
+            ret.fill = Serializer.Brush.Create(GetSecondaryColor());
             return ret;
         }
 

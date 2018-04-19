@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPaint.jsonDeserialize
+namespace MyPaint.Deserializer
 {
     public class Picture
     {

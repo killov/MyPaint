@@ -71,7 +71,7 @@
                 </Button>
                 <Canvas Height="58" Width="272" Canvas.Left="472">
                     <ComboBox x:Name="font" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="84" Canvas.Left="28" Canvas.Top="33" SelectionChanged="font_SelectionChanged" Height="15" FontSize="8"/>
-                    <Slider x:Name="font_size" Height="15" Width="62" Style="{StaticResource SpinButton}" Canvas.Left="117" Maximum="100" Minimum="0" Value="12" Background="{x:Null}" Canvas.Top="33" ValueChanged="thickness_ValueChanged"/>
+                    <Slider x:Name="font_size" Height="15" Width="62" Style="{StaticResource SpinButton}" Canvas.Left="117" Maximum="100" Minimum="0" Value="12" Background="{x:Null}" Canvas.Top="33" ValueChanged="font_size_ValueChanged"/>
                     <Label Content="Tloušťka&#xD;&#xA;" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182" Canvas.Left="117" Canvas.Top="6"/>
                     <Label Content="Písmo" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182" Canvas.Left="28" Canvas.Top="6"/>
                 </Canvas>

@@ -25,7 +25,7 @@ namespace MyPaint.FileOpener
                 string json = r.Matches(code)[0].Groups[1].ToString();
                 JavaScriptSerializer dd = new JavaScriptSerializer();
                 dd.MaxJsonLength = int.MaxValue;
-                jsonDeserialize.Picture pic = (jsonDeserialize.Picture)dd.Deserialize(json, typeof(jsonDeserialize.Picture));
+                Deserializer.Picture pic = (Deserializer.Picture)dd.Deserialize(json, typeof(Deserializer.Picture));
                 dc.DeleteLayers();
                 foreach (var l in pic.layers)
                 {

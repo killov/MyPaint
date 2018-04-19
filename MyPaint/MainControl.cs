@@ -72,7 +72,7 @@ namespace MyPaint
             TabItem tab = AddTabItem();
             FileControl file = new FileControl(this, revScale, tab, w.topCanvas);
             file.SetName("Bez názvu");
-            file.SetResolution(new Point(500, 400));
+            file.SetResolution(new Point(500, 400), false, true);
             file.historyControl.Enable();
             files[tab] = file;
             return file;
@@ -84,11 +84,10 @@ namespace MyPaint
             {
                 if (this.file != null) this.file.Deactivate();
                 this.file = file;
-                this.file.StopEdit();
                 this.file.SetShapePrimaryColor(primaryBrush);
                 this.file.SetShapeSecondaryColor(secondaryBrush);
                 this.file.SetShapeThickness(thickness);
-                this.file.SetActiveShape(tool);
+                this.file.SetTool(tool);
                 this.file.historyControl.redraw();
                 this.file.Activate();
                 SetResolution(this.file.resolution.X, this.file.resolution.Y, false);
@@ -164,18 +163,26 @@ namespace MyPaint
 
         public void Back()
         {
-            if (file != null) file.StopEdit();
-            if (file != null) file.historyControl.back();
+            if (file != null)
+            {
+                file.StopEdit();
+                file.historyControl.back();
+                file.Activate();
+            }
         }
 
         public void Forward()
         {
-            if (file != null) file.historyControl.forward();
+            if (file != null)
+            {
+                file.historyControl.forward();
+                file.Activate();
+            }
         }
 
         public void SetHistory(bool b, bool f)
         {
-            w.setHistory(b, f);
+            w.SetHistory(b, f);
         }
 
         public void SetZoom(double zoom)
@@ -200,6 +207,11 @@ namespace MyPaint
             Canvas.SetTop(w.resolution, hs);
             w.labelResolution.Content = String.Format("{0}x{1}", (int)ws, (int)hs);
             if (back && file != null) file.SetResolution(resolution);
+        }
+
+        public void SetResolutionEnd()
+        {
+            if (file != null) file.SetResolution(resolution, false, true);
         }
 
         public void NewC()
@@ -383,7 +395,7 @@ namespace MyPaint
                     break;
             }
             if (file != null) file.StopEdit();
-            if (file != null) file.SetActiveShape(s);
+            if (file != null) file.SetTool(s);
             tool = s;
         }
 

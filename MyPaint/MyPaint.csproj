@@ -153,8 +153,10 @@
     <Compile Include="json\deserialize\Point.cs" />
     <Compile Include="json\deserialize\Shape.cs" />
     <Compile Include="json\serialize\Brush.cs" />
+    <Compile Include="json\serialize\NullBrush.cs" />
     <Compile Include="json\serialize\Color.cs" />
     <Compile Include="json\serialize\Ellipse.cs" />
+    <Compile Include="json\serialize\Text.cs" />
     <Compile Include="json\serialize\Image.cs" />
     <Compile Include="json\serialize\Layer.cs" />
     <Compile Include="json\serialize\PolyLine.cs" />

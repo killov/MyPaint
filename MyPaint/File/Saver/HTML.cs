@@ -24,9 +24,9 @@ namespace MyPaint.FileSaver
             file.WriteLine("<canvas width=\"" + dc.resolution.X + "\" height=\"" + dc.resolution.Y + "\" style=\"border: 1px solid black;\" id=\"MyPaint\"></canvas>");
             file.WriteLine("<script>");
             file.WriteLine("var ctx = document.getElementById(\"MyPaint\").getContext(\"2d\");");
-            var pic = new jsonSerialize.Picture();
-            pic.resolution = new jsonSerialize.Point(dc.resolution.X, dc.resolution.Y);
-            pic.layers = new List<jsonSerialize.Layer>();
+            var pic = new Serializer.Picture();
+            pic.resolution = new Serializer.Point(dc.resolution.X, dc.resolution.Y);
+            pic.layers = new List<Serializer.Layer>();
             foreach (var layer in dc.layers)
             {
                 pic.layers.Add(layer.CreateSerializer());

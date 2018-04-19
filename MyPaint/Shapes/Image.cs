@@ -27,17 +27,16 @@ namespace MyPaint.Shapes
             p.Points.Add(new Point(start.X + w, start.Y));
             p.Points.Add(new Point(start.X + w, start.Y + h));
             p.Points.Add(new Point(start.X, start.Y + h));
-
             CreateVirtualShape();
             image = bmi;
             ImageBrush brush = new ImageBrush(bmi);
-            
             p.Fill = brush;
             AddToCanvas(p);
             CreatePoints();
+            exist = true;
         }
 
-        public Image(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
+        public Image(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             width = s.w;
             height = s.h;
@@ -164,7 +163,7 @@ namespace MyPaint.Shapes
             eR.Move(x, y);
         }
 
-        override public jsonSerialize.Shape CreateSerializer()
+        override public Serializer.Shape CreateSerializer()
         {
             System.Windows.Shapes.Polygon po = new System.Windows.Shapes.Polygon();
             po.Points.Add(eR.p1.GetPosition());
@@ -191,9 +190,7 @@ namespace MyPaint.Shapes
             }
 
             string base64String = Convert.ToBase64String(f);
-            jsonSerialize.Image ret = new jsonSerialize.Image();
-            ret.A = new jsonSerialize.Point(eR.p1.GetPosition());
-            ret.B = new jsonSerialize.Point(eR.p3.GetPosition());
+            Serializer.Image ret = new Serializer.Image();
             ret.b64 = base64String;
             ret.w = width;
             ret.h = height;

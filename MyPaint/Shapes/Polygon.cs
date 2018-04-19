@@ -27,9 +27,8 @@ namespace MyPaint.Shapes
             multiDraw = true;
         }
 
-        public Polygon(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
+        public Polygon(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
             SetThickness(s.lineWidth);
             SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
             SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
@@ -84,6 +83,7 @@ namespace MyPaint.Shapes
             StartDraw();
             path = new Path();
             path.Stroke = drawControl.GetShapePrimaryColor();
+            path.Fill = drawControl.GetShapeSecondaryColor();
             path.StrokeThickness = drawControl.GetShapeThickness();
             path.ToolTip = null;
             PathGeometry p = new PathGeometry();
@@ -226,16 +226,16 @@ namespace MyPaint.Shapes
             movepoints[0].Move(x, y);
         }
 
-        override public jsonSerialize.Shape CreateSerializer()
+        override public Serializer.Shape CreateSerializer()
         {
-            jsonSerialize.Polygon ret = new jsonSerialize.Polygon();
+            Serializer.Polygon ret = new Serializer.Polygon();
             ret.lineWidth = GetThickness();
             ret.stroke = PrimaryColor;
             ret.fill = SecondaryColor;
-            ret.points = new List<jsonSerialize.Point>();
+            ret.points = new List<Serializer.Point>();
             foreach (var point in movepoints)
             {
-                ret.points.Add(new jsonSerialize.Point(point.GetPosition()));
+                ret.points.Add(new Serializer.Point(point.GetPosition()));
             }
             return ret;
         }
@@ -272,10 +272,9 @@ namespace MyPaint.Shapes
             {
                 p.Points.Add(point.GetPosition());
             }
-            p.Stroke = primaryColor;
-            p.Fill = secondaryColor;
-            p.StrokeThickness = thickness;
-            p.ToolTip = null;
+            p.Stroke = PrimaryColor.CreateBrush();
+            p.Fill = SecondaryColor.CreateBrush();
+            p.StrokeThickness = GetThickness();
             canvas.Children.Add(p);
         }
     }

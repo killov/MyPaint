@@ -28,7 +28,7 @@ namespace MyPaint.Shapes
             multiDraw = true;
         }
 
-        public PolyLine(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
+        public PolyLine(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
             SetThickness(s.lineWidth);
@@ -237,16 +237,16 @@ namespace MyPaint.Shapes
             movepoints[0].Move(x, y);
         }
 
-        override public jsonSerialize.Shape CreateSerializer()
+        override public Serializer.Shape CreateSerializer()
         {
-            jsonSerialize.Polygon ret = new jsonSerialize.Polygon();
+            Serializer.Polygon ret = new Serializer.Polygon();
             ret.lineWidth = GetThickness();
             ret.stroke = PrimaryColor;
             ret.fill = SecondaryColor;
-            ret.points = new List<jsonSerialize.Point>();
+            ret.points = new List<Serializer.Point>();
             foreach (var point in movepoints)
             {
-                ret.points.Add(new jsonSerialize.Point(point.GetPosition()));
+                ret.points.Add(new Serializer.Point(point.GetPosition()));
             }
             return ret;
         }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace MyPaint.jsonSerialize
+namespace MyPaint.Serializer
 {
     public class Color : Brush
     {
@@ -29,7 +29,7 @@ namespace MyPaint.jsonSerialize
             A = color.A;
         }
 
-        public override System.Windows.Media.Brush createBrush()
+        public override System.Windows.Media.Brush CreateBrush()
         {
             return new SolidColorBrush(System.Windows.Media.Color.FromArgb(A, R, G, B));
         }

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPaint.jsonSerialize
+namespace MyPaint.Serializer
 {
     abstract public class Brush
     {
-        public static Brush create(System.Windows.Media.Brush brush)
+        public static Brush Create(System.Windows.Media.Brush brush)
         {
             if(brush is System.Windows.Media.SolidColorBrush)
             {
@@ -17,9 +17,9 @@ namespace MyPaint.jsonSerialize
             {
                 return new LinearGradient(brush as System.Windows.Media.LinearGradientBrush);
             }
-            return null;
+            return new NullBrush();
         }
 
-        abstract public System.Windows.Media.Brush createBrush();
+        abstract public System.Windows.Media.Brush CreateBrush();
     }
 }

@@ -14,7 +14,7 @@ namespace MyPaint.Shapes
 {
     public class Rectangle : Shape
     {
-        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs;
+        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs = new System.Windows.Shapes.Polygon();
 
         EditRect eR;
         public Rectangle(FileControl c, Layer la) : base(c, la)
@@ -22,28 +22,16 @@ namespace MyPaint.Shapes
 
         }
 
-        public Rectangle(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
+        public Rectangle(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             CreateVirtualShape();
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetThickness(s.lineWidth);
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
-            SetThickness(s.lineWidth);
-
             p.Points.Add(new Point(s.A.x, s.A.y));
             p.Points.Add(new Point(s.A.x, s.B.y));
             p.Points.Add(new Point(s.B.x, s.B.y));
             p.Points.Add(new Point(s.B.x, s.A.y));
             
-            
-
-            p.ToolTip = null;
-            p.Cursor = Cursors.SizeAll;
-
             AddToCanvas(p);
             CreatePoints();
-            
         }
 
         override public void SetPrimaryColor(Brush s, bool addHistory = false)
@@ -82,12 +70,7 @@ namespace MyPaint.Shapes
             points.Add(e);
             points.Add(e);
             points.Add(e);
-            p.Stroke = drawControl.GetShapePrimaryColor();
-            p.Fill = drawControl.GetShapeSecondaryColor();
-            p.StrokeThickness = drawControl.GetShapeThickness();
             p.Points = points;
-            p.ToolTip = null;
-            p.Cursor = Cursors.Pen;
             AddToCanvas(p);
             StartDraw();
         }
@@ -109,18 +92,15 @@ namespace MyPaint.Shapes
 
         override public void CreateVirtualShape()
         {
-            vs = new System.Windows.Shapes.Polygon();
             vs.Points = p.Points;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
-            vs.StrokeThickness = p.StrokeThickness;
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
                 virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
                 hit = true;
-            };
-            
+            };           
         }
 
         override public void ShowVirtualShape(MyOnMouseDown mouseDown)
@@ -172,14 +152,14 @@ namespace MyPaint.Shapes
             eR.Move(x, y);
         }
 
-        override public jsonSerialize.Shape CreateSerializer()
+        override public Serializer.Shape CreateSerializer()
         {
-            jsonSerialize.Rectangle ret = new jsonSerialize.Rectangle();
+            Serializer.Rectangle ret = new Serializer.Rectangle();
             ret.lineWidth = GetThickness();
             ret.stroke = PrimaryColor;
             ret.fill = SecondaryColor;
-            ret.A = new jsonSerialize.Point(eR.p1.GetPosition());
-            ret.B = new jsonSerialize.Point(eR.p3.GetPosition());
+            ret.A = new Serializer.Point(eR.p1.GetPosition());
+            ret.B = new Serializer.Point(eR.p3.GetPosition());
             return ret;
         }
 
@@ -232,11 +212,9 @@ namespace MyPaint.Shapes
             p.Points.Add(eR.p2.GetPosition());
             p.Points.Add(eR.p3.GetPosition());
             p.Points.Add(eR.p4.GetPosition());
-
-            p.Stroke = primaryColor;
-            p.Fill = secondaryColor;
-            p.StrokeThickness = thickness;
-            p.ToolTip = null;
+            p.Stroke = PrimaryColor == null ? null : PrimaryColor.CreateBrush();
+            p.Fill = SecondaryColor == null ? null : SecondaryColor.CreateBrush();
+            p.StrokeThickness = GetThickness();
             canvas.Children.Add(p);
         }
 

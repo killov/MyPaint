@@ -14,37 +14,25 @@ namespace MyPaint.Shapes
 {
     public class Ellipse : Shape
     {
-        System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse(), vs;
+        System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse(), vs = new System.Windows.Shapes.Ellipse();
         double sx, sy, ex, ey;
         EditRect eR;
-        double left, top, width, height;
+
         public Ellipse(FileControl c, Layer la) : base(c, la)
         {
 
         }
 
-        public Ellipse(FileControl c, Layer la, jsonDeserialize.Shape s) : base(c, la, s)
+        public Ellipse(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {            
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetThickness(s.lineWidth);
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
-            SetThickness(s.lineWidth);
-
             sx = s.A.x;
             sy = s.A.y;
-
-            p.ToolTip = null;
-
             AddToCanvas(p);
-            left = sx;
-            top = sy;
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.B.x, s.B.y);
             CreateVirtualShape();
             CreatePoints();
-            
         }
 
         override public void SetPrimaryColor(Brush s, bool addHistory = false)
@@ -132,17 +120,9 @@ namespace MyPaint.Shapes
         {
             sx = e.X;
             sy = e.Y;
-
-            p.ToolTip = null;
-            p.Cursor = Cursors.Pen;
-            p.Stroke = drawControl.GetShapePrimaryColor();
-            p.Fill = drawControl.GetShapeSecondaryColor();
-            p.StrokeThickness = drawControl.GetShapeThickness();
-
             AddToCanvas(p);
             Canvas.SetLeft(p, sx);
-            Canvas.SetTop(p, sy);
-            
+            Canvas.SetTop(p, sy);           
             StartDraw();
         }
 
@@ -161,13 +141,11 @@ namespace MyPaint.Shapes
 
         override public void CreateVirtualShape()
         {
-            vs = new System.Windows.Shapes.Ellipse();
             moveS(vs, sx, sy);
             moveE(vs, ex, ey);
             vs.Cursor = Cursors.SizeAll;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
-            vs.StrokeThickness = p.StrokeThickness;
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
@@ -231,14 +209,14 @@ namespace MyPaint.Shapes
             eR.Move(x, y);
         }
 
-        override public jsonSerialize.Shape CreateSerializer()
+        override public Serializer.Shape CreateSerializer()
         {
-            jsonSerialize.Ellipse ret = new jsonSerialize.Ellipse();
+            Serializer.Ellipse ret = new Serializer.Ellipse();
             ret.lineWidth = GetThickness();
             ret.stroke = PrimaryColor;
             ret.fill = SecondaryColor;
-            ret.A = new jsonSerialize.Point(sx, sy);
-            ret.B = new jsonSerialize.Point(ex, ey);
+            ret.A = new Serializer.Point(sx, sy);
+            ret.B = new Serializer.Point(ex, ey);
             return ret;
         }
 
@@ -283,17 +261,15 @@ namespace MyPaint.Shapes
         override public void CreateImage(Canvas canvas)
         {
             System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse();
-  
-            p.Stroke = primaryColor;
-            p.Fill = secondaryColor;
-            p.StrokeThickness = thickness;
+            p.Stroke = PrimaryColor.CreateBrush();
+            p.Fill =  SecondaryColor.CreateBrush();
+            p.StrokeThickness = GetThickness();
             p.ToolTip = null;
-            p.Width = width;
-            p.Height = height;
+            p.Width = Math.Abs(sx - ex);
+            p.Height = Math.Abs(sy - ey);
             canvas.Children.Add(p);
-            Canvas.SetLeft(p, left);
-            Canvas.SetTop(p, top);
-            
+            Canvas.SetLeft(p, Math.Min(sx,ex));
+            Canvas.SetTop(p, Math.Min(sy,ey));      
         }
 
         override public void ChangeZoom()

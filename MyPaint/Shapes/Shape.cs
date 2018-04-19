@@ -19,9 +19,9 @@ namespace MyPaint.Shapes
         public bool multiDraw = false;
         protected bool hit = false;
         protected Brush primaryColor, secondaryColor;
-        protected jsonSerialize.Brush PrimaryColor, SecondaryColor;
+        protected Serializer.Brush PrimaryColor, SecondaryColor;
         protected double thickness;
-        bool exist;
+        protected bool exist;
         Layer layer;
         public FileControl drawControl;
         protected MyOnMouseDown virtualShapeCallback;
@@ -35,16 +35,19 @@ namespace MyPaint.Shapes
             layer.shapes.Add(this);
             SetPrimaryColor(drawControl.GetShapePrimaryColor());
             SetSecondaryColor(drawControl.GetShapeSecondaryColor());
-            SetThickness(drawControl.thickness);
+            SetThickness(drawControl.GetShapeThickness());
             canvas = layer.canvas;
             topCanvas = drawControl.topCanvas;
             exist = false;
         }
 
-        public Shape(FileControl c, Layer la, jsonDeserialize.Shape s)
+        public Shape(FileControl c, Layer la, Deserializer.Shape s)
         {
             drawControl = c;
             layer = la;
+            SetThickness(s.lineWidth);
+            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
+            SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
             canvas = layer.canvas;
             topCanvas = drawControl.topCanvas;
             exist = true;
@@ -57,7 +60,7 @@ namespace MyPaint.Shapes
                 drawControl.historyControl.add(new History.HistoryPrimaryColor(this, GetPrimaryColor(), s));
             }
             primaryColor = s;
-            PrimaryColor = jsonSerialize.Brush.create(s);
+            PrimaryColor = Serializer.Brush.Create(s);
         }
 
         virtual public void SetSecondaryColor(Brush s, bool addHistory = false)
@@ -67,7 +70,7 @@ namespace MyPaint.Shapes
                 drawControl.historyControl.add(new History.HistorySecondaryColor(this, GetSecondaryColor(), s));
             }
             secondaryColor = s;
-            SecondaryColor = jsonSerialize.Brush.create(s);
+            SecondaryColor = Serializer.Brush.Create(s);
         }
 
         public Brush GetPrimaryColor()
@@ -173,7 +176,7 @@ namespace MyPaint.Shapes
             hit = true;
         }
 
-        abstract public jsonSerialize.Shape CreateSerializer();
+        abstract public Serializer.Shape CreateSerializer();
 
         public void SetHit(bool h)
         {

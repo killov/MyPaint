@@ -71,7 +71,7 @@ namespace MyPaint
             file = dc;
         }
 
-        public Layer(Canvas c, FileControl dc, jsonDeserialize.Layer layer)
+        public Layer(Canvas c, FileControl dc, Deserializer.Layer layer)
         {
             cv = c;
             canvas = new Canvas();
@@ -119,13 +119,13 @@ namespace MyPaint
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
 
-        public jsonSerialize.Layer CreateSerializer()
+        public Serializer.Layer CreateSerializer()
         {
-            jsonSerialize.Layer la = new jsonSerialize.Layer();
-            la.color = jsonSerialize.Brush.create(color);
+            Serializer.Layer la = new Serializer.Layer();
+            la.color = Serializer.Brush.Create(color);
             la.visible = visible;
             la.name = Name;
-            la.shapes = new List<jsonSerialize.Shape>();
+            la.shapes = new List<Serializer.Shape>();
             foreach (var shape in shapes)
             {
                 la.shapes.Add(shape.CreateSerializer());

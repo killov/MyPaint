@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace MyPaint.jsonSerialize
+namespace MyPaint.Serializer
 {
     public class LinearGradient : Brush
     {
@@ -15,19 +15,19 @@ namespace MyPaint.jsonSerialize
 
         public LinearGradient(LinearGradientBrush brush)
         {
-            S = new jsonSerialize.Point(brush.StartPoint.X, brush.StartPoint.Y);
-            E = new jsonSerialize.Point(brush.EndPoint.X, brush.EndPoint.Y);
-            stops = new List<jsonSerialize.GradientStop>();
+            S = new Serializer.Point(brush.StartPoint.X, brush.StartPoint.Y);
+            E = new Serializer.Point(brush.EndPoint.X, brush.EndPoint.Y);
+            stops = new List<Serializer.GradientStop>();
             foreach (var stop in brush.GradientStops)
             {
                 GradientStop s = new GradientStop();
-                s.color = new jsonSerialize.Color(stop.Color.R, stop.Color.G, stop.Color.B, stop.Color.A);
+                s.color = new Serializer.Color(stop.Color.R, stop.Color.G, stop.Color.B, stop.Color.A);
                 s.offset = stop.Offset;
                 stops.Add(s);
             }
         }
 
-        public override System.Windows.Media.Brush createBrush()
+        public override System.Windows.Media.Brush CreateBrush()
         {
             LinearGradientBrush lg = new LinearGradientBrush();
             lg.StartPoint = new System.Windows.Point(S.x, S.y);

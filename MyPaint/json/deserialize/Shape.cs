@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyPaint.jsonDeserialize
+namespace MyPaint.Deserializer
 {
     public class Shape
     {
@@ -32,6 +32,8 @@ namespace MyPaint.jsonDeserialize
                     return new Shapes.Polygon(c, la, this);
                 case "IMAGE":
                     return new Shapes.Image(c, la, this);
+                case "TEXT":
+                    return new Shapes.Text(c, la, this);
             }
             return null;
         }
