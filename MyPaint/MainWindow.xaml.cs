@@ -29,19 +29,18 @@ namespace MyPaint
         bool resolutionDrag = false;
         MyEnum activeColor = MyEnum.PRIMARY;
         Brush CBLock;
+        bool fontLock = false;
         //public Canvas topCanvas = new Canvas();
 
         public MainWindow()
         {
             InitializeComponent();
-            //topCanvas = topCanvass;
             control = new MainControl(this);
             colorsInit();
             setActiveColor(MyEnum.PRIMARY);
             setColor(Brushes.Black);
-            font.SelectedValue = new FontFamily("Arial");
-
-
+            control.SetWindowTextFont(new FontFamily("Arial"));
+            control.SetWindowTextSize(12);
         }
 
         private void colorsInit()
@@ -424,14 +423,44 @@ namespace MyPaint
             thickness.Value = t;
         }
 
+        public void setFont(FontFamily f)
+        {
+            if(font.SelectedValue != f)
+            {
+                fontLock = true;
+                font.SelectedValue = f;
+            }       
+        }
+
+        public void setFontSize(double s)
+        {
+            font_size.Value = s;
+        }
+
         private void font_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            FontFamily f = (FontFamily)font.SelectedValue;
+ 
+            if (!fontLock)
+            {
+                FontFamily f = (FontFamily)font.SelectedValue;
+                control.SetTextFont(f);
+               
+            }
+            else
+            {
+                fontLock = false;
+            }
+            
         }
 
         private void font_size_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (control != null) control.SetTextFontSize(e.NewValue);
+        }
 
+        public void ShowFontPanel(bool t)
+        {
+            font_panel.Visibility = t ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }

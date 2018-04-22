@@ -31,12 +31,7 @@
 
         </Menu>
         <Grid>
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0,1" StartPoint="3,0">
-                    <GradientStop Color="#FF4F3FB4" Offset="0.025"/>
-                    <GradientStop Color="#FFB0DADE" Offset="1"/>
-                </LinearGradientBrush>
-            </Grid.Background>
+
 
             <Canvas Grid.Row="0" Height="58" VerticalAlignment="Top">
 
@@ -69,7 +64,7 @@
                 <Button Style="{StaticResource MyButton}" x:Name="button_text" Canvas.Left="277" Canvas.Top="10" Width="40" Height="40" Click="button_text_Click" Margin="0">
                     <TextBlock Text="T" FontSize="36" FontFamily="Shonar Bangla" />
                 </Button>
-                <Canvas Height="58" Width="272" Canvas.Left="472">
+                <Canvas x:Name="font_panel" Height="58" Width="272" Canvas.Left="472">
                     <ComboBox x:Name="font" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="84" Canvas.Left="28" Canvas.Top="33" SelectionChanged="font_SelectionChanged" Height="15" FontSize="8"/>
                     <Slider x:Name="font_size" Height="15" Width="62" Style="{StaticResource SpinButton}" Canvas.Left="117" Maximum="100" Minimum="0" Value="12" Background="{x:Null}" Canvas.Top="33" ValueChanged="font_size_ValueChanged"/>
                     <Label Content="Tloušťka&#xD;&#xA;" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182" Canvas.Left="117" Canvas.Top="6"/>
@@ -86,7 +81,8 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="130"/>
-                    <RowDefinition Height="330"/>
+                    <RowDefinition Height="216"/>
+                    <RowDefinition Height="114"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
@@ -116,21 +112,23 @@
                     </Canvas>
                     <Canvas x:Name="colors" Height="51" Canvas.Left="10" Canvas.Top="68" Width="170" Background="#66FFFFFF"/>
                 </Canvas>
-                <ncore:ColorBox x:Name="CB" VerticalAlignment="Stretch" ColorChanged="CB_ColorChanged" Width="170" Canvas.Top="143" Canvas.Left="10" Grid.Row="1" Grid.Column="0"/>
-                <Button Style="{StaticResource MyButton}" x:Name="button_addLayer" Canvas.Left="55" Canvas.Top="368" Margin="0,0,153,8" RenderTransformOrigin="1.15,5.612" Grid.Row="3" FontSize="11" Click="button_addLayer_Click" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="23">+</Button>
-                <ListBox x:Name="layers"  Grid.Row="2" Margin="0,0,10,2" HorizontalAlignment="Right" Width="166" SelectionChanged="layers_SelectionChanged">
-                    <ListBox.Resources>
-                        <!-- Background of selected item when focussed -->
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Snow" />
-                        <!-- Background of selected item when not focussed -->
-                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Snow" />
-                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="snow" />
-
-                    </ListBox.Resources>
+                <ncore:ColorBox x:Name="CB" VerticalAlignment="Stretch" ColorChanged="CB_ColorChanged" Width="170" Grid.Row="1" Grid.Column="0" Margin="8,0" Grid.RowSpan="2"/>
+                <Button Style="{StaticResource MyButton}" x:Name="button_addLayer" Margin="0,0,153,8" RenderTransformOrigin="1.15,5.612" Grid.Row="4" FontSize="11" Click="button_addLayer_Click" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="23">+</Button>
+                <ListBox x:Name="layers"  Grid.Row="3" Margin="0,0,0,2" HorizontalAlignment="Right" Width="176" SelectionChanged="layers_SelectionChanged">
+                    
                     <ListBox.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListBoxItem}">
-                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-
+                        
+                        <Style TargetType="ListBoxItem">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True" >
+                                    <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="Background" Value="#FF18E4BF" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Trigger>
+                            </Style.Triggers>
+                            <Style.Resources>
+                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                            </Style.Resources>
                         </Style>
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>

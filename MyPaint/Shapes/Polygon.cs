@@ -14,12 +14,12 @@ namespace MyPaint.Shapes
 {
     public class Polygon : Shape
     {
-        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs;
+        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs = new System.Windows.Shapes.Polygon();
         List<MovePoint> movepoints = new List<MovePoint>();
         bool start = false;
         List<Point> points = new List<Point>();
 
-        Path path;
+        Path path = new Path();
         PathFigure pf;
         LineSegment ls;
         public Polygon(FileControl c, Layer la) : base(c, la)
@@ -28,10 +28,7 @@ namespace MyPaint.Shapes
         }
 
         public Polygon(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
-        {
-            SetThickness(s.lineWidth);
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
+        {      
             SetThickness(s.lineWidth);
 
             foreach (var point in s.points)
@@ -81,11 +78,6 @@ namespace MyPaint.Shapes
         override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             StartDraw();
-            path = new Path();
-            path.Stroke = drawControl.GetShapePrimaryColor();
-            path.Fill = drawControl.GetShapeSecondaryColor();
-            path.StrokeThickness = drawControl.GetShapeThickness();
-            path.ToolTip = null;
             PathGeometry p = new PathGeometry();
             pf = new PathFigure();
             pf.StartPoint = e;
@@ -125,16 +117,10 @@ namespace MyPaint.Shapes
                         ppoints.Add(p);
                     }
                     RemoveFromCanvas(path);
-                    p = new System.Windows.Shapes.Polygon();
-                    p.Stroke = drawControl.GetShapePrimaryColor();
-                    p.Fill = drawControl.GetShapeSecondaryColor();
-                    p.StrokeThickness = drawControl.GetShapeThickness();
+ 
+
                     p.Points = ppoints;
                     AddToCanvas(p);
-
-                    p.ToolTip = null;
-                    p.Cursor = Cursors.SizeAll;
-
 
                     StopDraw();
                     CreatePoints();
@@ -148,7 +134,6 @@ namespace MyPaint.Shapes
 
         override public void CreateVirtualShape()
         {
-            vs = new System.Windows.Shapes.Polygon();
             vs.Points = p.Points;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
@@ -159,7 +144,6 @@ namespace MyPaint.Shapes
                 virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
                 hit = true;
             };
-
         }
 
         override public void ShowVirtualShape(MyOnMouseDown mouseDown)

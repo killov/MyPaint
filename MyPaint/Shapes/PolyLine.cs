@@ -18,7 +18,7 @@ namespace MyPaint.Shapes
         List<MovePoint> movepoints = new List<MovePoint>();
         bool start = false;
 
-        Path path = new Path(), vs;
+        Path path = new Path(), vs = new Path();
         PathFigure pf;
         LineSegment ls;
         bool fclick;
@@ -30,12 +30,6 @@ namespace MyPaint.Shapes
 
         public PolyLine(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetThickness(s.lineWidth);
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
-            SetThickness(s.lineWidth);
-
             PathGeometry p = new PathGeometry();
            
             ls = new LineSegment();
@@ -55,8 +49,6 @@ namespace MyPaint.Shapes
                 ls.Point = new Point(point.x, point.y);
                 pf.Segments.Add(ls);
             }
-            path.ToolTip = null;
-
             AddToCanvas(path);
             CreatePoints();
             CreateVirtualShape();

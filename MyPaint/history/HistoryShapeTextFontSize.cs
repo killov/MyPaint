@@ -36,7 +36,7 @@ namespace MyPaint.History
 
         public bool Optimal(IHistoryNodeSkipped node)
         {
-            return node is HistoryShapeTextFontSize;
+            return (node is HistoryShapeTextFontSize) && ((HistoryShapeTextFontSize)node).shape.Equals(shape);
         }
     }
 }

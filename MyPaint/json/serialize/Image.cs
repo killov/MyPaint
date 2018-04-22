@@ -10,7 +10,7 @@ namespace MyPaint.Serializer
     {
         public string type = "IMAGE";
         public string b64;
-        Point A;
+        public Point A = null;
         public int w, h;
     }
 }

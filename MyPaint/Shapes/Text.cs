@@ -14,40 +14,29 @@ namespace MyPaint.Shapes
 {
     public class Text : Shape
     {
-        TextBox p = new TextBox(), vs;
+        TextBox p = new TextBox(), vs = new TextBox();
         double sx, sy, ex, ey;
         EditRect eR;
         FontFamily font;
         double size;
-        double left, top, width, height;
         string text = "";
         public Text(FileControl c, Layer la) : base(c, la)
         {
-
+            SetFont(drawControl.GetTextFont());
+            SetFontSize(drawControl.GetTextFontSize());
         }
 
         public Text(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetThickness(s.lineWidth);
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
-
             sx = s.A.x;
             sy = s.A.y;
-
-            p.ToolTip = null;
             p.BorderThickness = new Thickness(0);
             AddToCanvas(p);
-            left = sx;
-            top = sy;
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.B.x, s.B.y);
             CreatePoints();
             CreateVirtualShape();
-            
-
         }
 
         override public void SetPrimaryColor(Brush s, bool addHistory = false)
@@ -161,9 +150,8 @@ namespace MyPaint.Shapes
 
         override public void CreateVirtualShape()
         {
-            vs = new TextBox();
-           //vs.Background = nullBrush;
-            //vs.Foreground = nullBrush;
+            vs.Background = nullBrush;
+            vs.Foreground = nullBrush;
             vs.CaretBrush = Brushes.Black;
             vs.AcceptsReturn = true;
             vs.AcceptsTab = true;
@@ -192,9 +180,6 @@ namespace MyPaint.Shapes
             {
                 vs.ScrollToVerticalOffset(0);
             };
-
-  
-
         }
 
         override public void ShowVirtualShape(MyOnMouseDown mouseDown)
@@ -212,9 +197,11 @@ namespace MyPaint.Shapes
         override public void SetActive()
         {
             base.SetActive();
-            //drawControl.SetPrimaryColor(p.Stroke);
-            //drawControl.SetSecondaryColor(p.Fill);
-            //drawControl.SetThickness(p.StrokeThickness);
+            drawControl.SetPrimaryColor(GetPrimaryColor());
+            drawControl.SetSecondaryColor(GetSecondaryColor());
+            drawControl.SetFont(GetFont());
+            drawControl.SetFontSize(GetFontSize());
+            drawControl.ShowWindowFontPanel(true);
             eR.SetActive();
             Keyboard.Focus(vs);
         }
@@ -234,6 +221,9 @@ namespace MyPaint.Shapes
         override public void StopEdit()
         {
             base.StopEdit();
+            if(text != vs.Text){
+                SetText(vs.Text, true);
+            }
             Keyboard.Focus(null);
             eR.StopEdit();
         }
@@ -305,18 +295,17 @@ namespace MyPaint.Shapes
 
         override public void CreateImage(Canvas canvas)
         {
-            System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse();
-
-            p.Stroke = primaryColor;
-            p.Fill = secondaryColor;
-            p.StrokeThickness = thickness;
-            p.ToolTip = null;
-            p.Width = width;
-            p.Height = height;
+            TextBox p = new TextBox();
+            p.Foreground = PrimaryColor.CreateBrush();
+            p.Background = SecondaryColor.CreateBrush();
+            p.Width = Math.Abs(sx - ex);
+            p.Height = Math.Abs(sy - ey);
+            p.Text = text;
+            p.FontFamily = font;
+            p.FontSize = size;
             canvas.Children.Add(p);
-            Canvas.SetLeft(p, left);
-            Canvas.SetTop(p, top);
-
+            Canvas.SetLeft(p, Math.Min(sx,ex));
+            Canvas.SetTop(p, Math.Min(sy,ey));
         }
 
         override public void ChangeZoom()
@@ -336,7 +325,7 @@ namespace MyPaint.Shapes
                 drawControl.historyControl.add(new History.HistoryShapeText(this, GetText(), t));
             }
             text = t;
-            p.Text= t;
+            p.Text = t;
             vs.Text = t;
         }
 

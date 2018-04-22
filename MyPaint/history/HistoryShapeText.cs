@@ -36,7 +36,7 @@ namespace MyPaint.History
 
         public bool Optimal(IHistoryNodeSkipped node)
         {
-            return node is HistoryShapeText;
+            return (node is HistoryShapeText) && ((HistoryShapeText)node).shape.Equals(shape);
         }
     }
 }

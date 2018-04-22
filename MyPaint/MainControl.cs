@@ -36,6 +36,8 @@ namespace MyPaint
         TabItem tabAdd;
         Dictionary<TabItem, FileControl> files;
         Brush primaryBrush, secondaryBrush, layerColor;
+        FontFamily font;
+        double fontSize;
         ToolEnum tool = ToolEnum.LINE;
         double thickness = 1;
         public MainControl(MainWindow ww)
@@ -97,6 +99,7 @@ namespace MyPaint
                 w.canvas.Children.Add(this.file.canvas);
                 w.tabControl.SelectedItem = file.tabItem;
                 w.layers.ItemsSource = this.file.layers;
+                w.layers.SelectedItem = file.selectLayer;
             }
         }
 
@@ -247,10 +250,37 @@ namespace MyPaint
             layerColor = c;
         }
 
+        public double GetThickness()
+        {
+            return thickness;
+        }
+
         public void SetThickness(double t)
         {
             file.SetShapeThickness(t);
             thickness = t;
+        }
+
+        public FontFamily GetTextFont()
+        {
+            return font;
+        }
+
+        public void SetTextFont(FontFamily f)
+        {
+            file.SetTextFont(f);
+            font = f;
+        }
+
+        public double GetTextFontSize()
+        {
+            return fontSize;
+        }
+
+        public void SetTextFontSize(double s)
+        {
+            file.SetTextFontSize(s);
+            fontSize = s;
         }
 
         public void SetWindowPrimaryBrush(Brush c)
@@ -275,6 +305,23 @@ namespace MyPaint
         {
             w.setThickness(t);
             thickness = t;
+        }
+
+        public void SetWindowTextFont(FontFamily f)
+        {
+            w.setFont(f);
+            font = f;
+        }
+
+        public void SetWindowTextSize(double s)
+        {
+            w.setFontSize(s);
+            fontSize = s;
+        }
+
+        public void ShowWindowFontPanel(bool t)
+        {
+            w.ShowFontPanel(t);
         }
 
         public void Open()

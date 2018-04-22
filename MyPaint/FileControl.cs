@@ -23,7 +23,6 @@ namespace MyPaint
         public HistoryControl historyControl;
         public Canvas canvas;
         public Canvas topCanvas;
-        public double thickness;
         public Shapes.Shape shape;
         Point posunStart = new Point();
         Point posunStartMys = new Point();
@@ -77,10 +76,6 @@ namespace MyPaint
         public void SetActiveLayer(int i, bool history = true)
         {
             if (i == -1) return;
-            foreach (Layer l in layers)
-            {
-                l.SetActive(false);
-            }
             if (activeShape == ToolEnum.SELECT)
             {
                 if (selectLayer != null) selectLayer.UnsetSelectable();
@@ -92,15 +87,14 @@ namespace MyPaint
                 if (history) historyControl.add(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
             }
             selectLayer = layers[i];
-            selectLayer.SetActive(true);
+            control.w.layers.SelectedIndex = i;
             control.w.setBackgroundBrush(selectLayer.color);
             if (shape != null)
             {
                 shape.ChangeLayer(selectLayer);
                 shape.StopEdit();
                 shape.SetActive();
-            }
-                    
+            }         
         }
 
         public void Activate()
@@ -166,6 +160,26 @@ namespace MyPaint
             if (shape != null) shape.SetSecondaryColor(c, true);
         }
 
+        public void SetShapeThickness(double t)
+        {
+            if (shape != null) shape.SetThickness(t, true);
+        }
+
+        public void SetTextFont(FontFamily f)
+        {
+            if (shape != null && shape is Shapes.Text)
+            {
+                ((Shapes.Text)shape).SetFont(f, true);
+            }
+        }
+
+        public void SetTextFontSize(double s)
+        {
+            if (shape != null && shape is Shapes.Text)
+            {
+                ((Shapes.Text)shape).SetFontSize(s, true);
+            }
+        }
 
         public void SetBackgroundColor(Brush c)
         {
@@ -192,15 +206,24 @@ namespace MyPaint
             return control.GetSecondaryBrush();
         }
 
-        public void SetShapeThickness(double t)
-        {
-            thickness = t;
-            if (shape != null) shape.SetThickness(t, true);
-        }
-
         public double GetShapeThickness()
         {
-            return thickness;
+            return control.GetThickness();
+        }
+
+        public FontFamily GetTextFont()
+        {
+            return control.GetTextFont();
+        }
+
+        public double GetTextFontSize()
+        {
+            return control.GetTextFontSize();
+        }
+
+        public void ShowWindowFontPanel(bool t)
+        {
+            control.ShowWindowFontPanel(t);
         }
 
         public void ShapeDelete()
@@ -322,6 +345,7 @@ namespace MyPaint
                     if(!shape.multiDraw && startDraw == e.GetPosition(canvas))
                     {
                         shape.Delete();
+                        shape = null;
                         state = DrawEnum.DRAW;
                         return;
                     }
@@ -362,6 +386,7 @@ namespace MyPaint
         {
             if (state == DrawEnum.EDIT)
             {
+                ShowWindowFontPanel(false);
                 shape.StopEdit();
                 shape = null;
                 state = DrawEnum.DRAW;
@@ -381,6 +406,16 @@ namespace MyPaint
         public void SetThickness(double t)
         {
             control.SetWindowThickness(t);
+        }
+
+        public void SetFont(FontFamily f)
+        {
+            control.SetWindowTextFont(f);
+        }
+
+        public void SetFontSize(double s)
+        {
+            control.SetWindowTextSize(s);
         }
 
         public void PasteImage(BitmapSource bmi)
