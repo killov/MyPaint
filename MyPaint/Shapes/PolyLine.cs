@@ -71,6 +71,11 @@ namespace MyPaint.Shapes
             AddToCanvas(path);
         }
 
+        override public void InsertToCanvas(int pos)
+        {
+            InsertToCanvas(pos, path);
+        }
+
         override public void RemoveFromCanvas()
         {
             RemoveFromCanvas(path);

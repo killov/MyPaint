@@ -75,6 +75,11 @@ namespace MyPaint.Shapes
             AddToCanvas(p);
         }
 
+        override public void InsertToCanvas(int pos)
+        {
+            InsertToCanvas(pos, p);
+        }
+
         override public void RemoveFromCanvas()
         {
             RemoveFromCanvas(p);
@@ -102,7 +107,6 @@ namespace MyPaint.Shapes
 
         override public void CreateVirtualShape()
         {
-
             vs = new System.Windows.Shapes.Polygon();
             vs.Points = p.Points;
             vs.Stroke = nullBrush;

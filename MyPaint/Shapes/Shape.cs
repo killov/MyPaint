@@ -57,7 +57,7 @@ namespace MyPaint.Shapes
         {
             if (addHistory)
             {
-                drawControl.historyControl.add(new History.HistoryPrimaryColor(this, GetPrimaryColor(), s));
+                drawControl.historyControl.Add(new History.HistoryPrimaryColor(this, GetPrimaryColor(), s));
             }
             primaryColor = s;
             PrimaryColor = Serializer.Brush.Create(s);
@@ -67,7 +67,7 @@ namespace MyPaint.Shapes
         {
             if (addHistory)
             {
-                drawControl.historyControl.add(new History.HistorySecondaryColor(this, GetSecondaryColor(), s));
+                drawControl.historyControl.Add(new History.HistorySecondaryColor(this, GetSecondaryColor(), s));
             }
             secondaryColor = s;
             SecondaryColor = Serializer.Brush.Create(s);
@@ -84,22 +84,29 @@ namespace MyPaint.Shapes
         }
 
 
-        public void ChangeLayer(Layer newLayer)
+        public void ChangeLayer(Layer newLayer, bool addHistory = false)
         {
-            if (layer != null)
-            {
-                RemoveFromCanvas();
-                layer.shapes.Remove(this);
-            }
+            RemoveFromCanvas();
+            int pos = layer.shapes.IndexOf(this);
+            layer.shapes.Remove(this);   
+            if (addHistory) drawControl.historyControl.Add(new History.HistoryShapeChangeLayer(this, layer, newLayer, pos));
             layer = newLayer;
-            if (layer != null)
-            {
-                AddToCanvas();
-                layer.shapes.Add(this);
-            }
+            AddToCanvas();
+            layer.shapes.Add(this);
+        }
+
+        public void ChangeLayer(Layer newLayer, int pos)
+        {
+            RemoveFromCanvas();
+            layer.shapes.Remove(this);  
+            layer = newLayer;
+            InsertToCanvas(pos);
+            layer.shapes.Insert(pos, this);
         }
 
         abstract public void AddToCanvas();
+
+        abstract public void InsertToCanvas(int pos);
 
         abstract public void RemoveFromCanvas();
 
@@ -108,7 +115,7 @@ namespace MyPaint.Shapes
             thickness = s;
             if (addHistory)
             {
-                drawControl.historyControl.add(new History.HistoryShapeThickness(this, GetThickness(), s));
+                drawControl.historyControl.Add(new History.HistoryShapeThickness(this, GetThickness(), s));
             }
         }
 
@@ -203,6 +210,12 @@ namespace MyPaint.Shapes
             AddToCanvas();
         }
 
+        public void Refresh(int pos)
+        {
+            layer.shapes.Insert(pos, this);
+            InsertToCanvas(pos);
+        }
+
         abstract public Point GetPosition();
 
         abstract public void CreatePoints();
@@ -210,6 +223,11 @@ namespace MyPaint.Shapes
         protected void AddToCanvas(UIElement s)
         {
             layer.canvas.Children.Add(s);
+        }
+
+        protected void InsertToCanvas(int pos, UIElement s)
+        {
+            layer.canvas.Children.Insert(pos, s);
         }
 
         protected void RemoveFromCanvas(UIElement s)

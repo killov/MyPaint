@@ -56,6 +56,11 @@ namespace MyPaint.Shapes
             AddToCanvas(p);
         }
 
+        override public void InsertToCanvas(int pos)
+        {
+            InsertToCanvas(pos, p);
+        }
+
         override public void RemoveFromCanvas()
         {
             RemoveFromCanvas(p);
@@ -322,7 +327,7 @@ namespace MyPaint.Shapes
         {
             if (addHistory)
             {
-                drawControl.historyControl.add(new History.HistoryShapeText(this, GetText(), t));
+                drawControl.historyControl.Add(new History.HistoryShapeText(this, GetText(), t));
             }
             text = t;
             p.Text = t;
@@ -338,7 +343,7 @@ namespace MyPaint.Shapes
         {
             if (addHistory)
             {
-                drawControl.historyControl.add(new History.HistoryShapeTextFont(this, GetFont(), f));
+                drawControl.historyControl.Add(new History.HistoryShapeTextFont(this, GetFont(), f));
             }
             font = f;
             p.FontFamily = f;
@@ -354,7 +359,7 @@ namespace MyPaint.Shapes
         {
             if (addHistory)
             {
-                drawControl.historyControl.add(new History.HistoryShapeTextFontSize(this, GetFontSize(), s));
+                drawControl.historyControl.Add(new History.HistoryShapeTextFontSize(this, GetFontSize(), s));
             }
             size = s;
             p.FontSize = s;

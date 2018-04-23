@@ -90,7 +90,7 @@ namespace MyPaint
                 this.file.SetShapeSecondaryColor(secondaryBrush);
                 this.file.SetShapeThickness(thickness);
                 this.file.SetTool(tool);
-                this.file.historyControl.redraw();
+                this.file.historyControl.Redraw();
                 this.file.Activate();
                 SetResolution(this.file.resolution.X, this.file.resolution.Y, false);
                 SetPath(this.file.path);
@@ -138,7 +138,7 @@ namespace MyPaint
                 TabItem selectedTab = w.tabControl.SelectedItem as TabItem;
                 FileControl file = files[tab];
                 file.Deactivate();
-                if (file.historyControl.change())
+                if (file.historyControl.Change())
                 {
                     if (!SaveDialog()) return;
                 }
@@ -169,7 +169,7 @@ namespace MyPaint
             if (file != null)
             {
                 file.StopEdit();
-                file.historyControl.back();
+                file.historyControl.Back();
                 file.Activate();
             }
         }
@@ -178,7 +178,7 @@ namespace MyPaint
         {
             if (file != null)
             {
-                file.historyControl.forward();
+                file.historyControl.Forward();
                 file.Activate();
             }
         }
@@ -370,7 +370,7 @@ namespace MyPaint
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
             file.SaveAsFile(path);
-            file.historyControl.setNotChange();
+            file.historyControl.SetNotChange();
             
         }
 
@@ -467,7 +467,7 @@ namespace MyPaint
             {
                 FileControl file = f.Value;
                 SetFileActive(f.Value);
-                if (file.historyControl.change())
+                if (file.historyControl.Change())
                 {
                     if (!SaveDialog())
                     {

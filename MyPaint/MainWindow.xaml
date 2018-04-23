@@ -62,7 +62,7 @@
                     <Path x:Name="forward" Fill="#FF2343B0" Data="M2,1 L1,0 L1,0.5 L0,0.5 L0,1.5 L1,1.5 1,2z" Width="18" Height="17.5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
                 <Button Style="{StaticResource MyButton}" x:Name="button_text" Canvas.Left="277" Canvas.Top="10" Width="40" Height="40" Click="button_text_Click" Margin="0">
-                    <TextBlock Text="T" FontSize="36" FontFamily="Shonar Bangla" />
+                    <TextBlock Text="T" FontSize="34" FontFamily="Times new roman" />
                 </Button>
                 <Canvas x:Name="font_panel" Height="58" Width="272" Canvas.Left="472">
                     <ComboBox x:Name="font" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="84" Canvas.Left="28" Canvas.Top="33" SelectionChanged="font_SelectionChanged" Height="15" FontSize="8"/>

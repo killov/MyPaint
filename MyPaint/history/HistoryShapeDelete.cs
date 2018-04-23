@@ -9,14 +9,16 @@ namespace MyPaint.History
     public class HistoryShapeDelete : IHistoryNode
     {
         public Shapes.Shape shape;
-        public HistoryShapeDelete(Shapes.Shape s)
+        int pos;
+        public HistoryShapeDelete(Shapes.Shape s, int p)
         {
             shape = s;
+            pos = p;
         }
 
         public void Back()
         {
-            shape.Refresh();
+            shape.Refresh(pos);
         }
 
         public void Forward()

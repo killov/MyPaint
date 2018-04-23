@@ -51,6 +51,11 @@ namespace MyPaint.Shapes
             AddToCanvas(p);
         }
 
+        override public void InsertToCanvas(int pos)
+        {
+            InsertToCanvas(pos, p);
+        }
+
         override public void RemoveFromCanvas()
         {
             RemoveFromCanvas(p);
@@ -92,9 +97,10 @@ namespace MyPaint.Shapes
 
         override public void CreateVirtualShape()
         {
+            vs.Fill = Brushes.Aqua;
             vs.Points = p.Points;
             vs.Stroke = nullBrush;
-            vs.Fill = nullBrush;
+            //vs.Fill = nullBrush;
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {

@@ -19,15 +19,15 @@ namespace MyPaint.History
             control = c;
         }
 
-        public void clear()
+        public void Clear()
         {
             changeBack = null;
             backStack.Clear();
             forwardStack.Clear();
-            redraw();
+            Redraw();
         }
 
-        public void add(IHistoryNode node)
+        public void Add(IHistoryNode node)
         {
             if (enable)
             {   
@@ -42,18 +42,18 @@ namespace MyPaint.History
                         {
                             l.Skip(n);
                             forwardStack.Clear();
-                            redraw();
+                            Redraw();
                             return;
                         }
                     }
                 }
                 backStack.Push(node);
                 forwardStack.Clear();
-                redraw();
+                Redraw();
             }
         }
 
-        public void back()
+        public void Back()
         {
             if (backStack.Count > 0)
             {
@@ -61,10 +61,10 @@ namespace MyPaint.History
                 node.Back();
                 forwardStack.Push(node);
             }
-            redraw();
+            Redraw();
         }
 
-        public void forward()
+        public void Forward()
         {
             if (forwardStack.Count > 0)
             {
@@ -72,10 +72,10 @@ namespace MyPaint.History
                 node.Forward();
                 backStack.Push(node);
             }
-            redraw();
+            Redraw();
         }
 
-        public void setNotChange()
+        public void SetNotChange()
         {
             if(backStack.Count == 0)
             {
@@ -87,12 +87,12 @@ namespace MyPaint.History
             }
         }
 
-        public bool change()
+        public bool Change()
         {
             return !((backStack.Count == 0 && changeBack == null) || backStack.Last().Equals(changeBack));
         }
 
-        public void redraw()
+        public void Redraw()
         {
             control.SetHistory(backStack.Count > 0, forwardStack.Count > 0);
         }

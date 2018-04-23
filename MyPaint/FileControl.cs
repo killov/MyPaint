@@ -43,7 +43,7 @@ namespace MyPaint
             topCanvas = tC;
             historyControl = new HistoryControl(c);
             ResetLayers();
-            historyControl.clear();
+            historyControl.Clear();
             this.revScale = revScale;
             tabItem = ti;
         }
@@ -53,8 +53,8 @@ namespace MyPaint
             Layer layer = new Layer(canvas, this) { Name = "layer_" + layerCounter, visible = true };
             layers.Add(layer);
             layerCounter++;
-            SetActiveLayer(layers.Count - 1, false);
-            historyControl.add(new HistoryLayerAdd(layer));
+            historyControl.Add(new HistoryLayerAdd(layer));
+            SetActiveLayer(layers.Count - 1); 
         }
 
         public void ResetLayers()
@@ -73,25 +73,22 @@ namespace MyPaint
             layers.Clear();
         }
 
-        public void SetActiveLayer(int i, bool history = true)
+        public void SetActiveLayer(int i)
         {
             if (i == -1) return;
+            if (layers[i].Equals(selectLayer)) return;
+            Layer old = selectLayer;
+            selectLayer = layers[i];
             if (activeShape == ToolEnum.SELECT)
             {
-                if (selectLayer != null) selectLayer.UnsetSelectable();
-                layers[i].SetSelectable();
-            }
-            if (shape != null)
-            {
-                shape.ChangeLayer(null);
-                if (history) historyControl.add(new HistoryShapeChangeLayer(shape, selectLayer, layers[i]));
-            }
-            selectLayer = layers[i];
+                if (old != null) old.UnsetSelectable();
+                selectLayer.SetSelectable();
+            }     
             control.w.layers.SelectedIndex = i;
             control.w.setBackgroundBrush(selectLayer.color);
             if (shape != null)
             {
-                shape.ChangeLayer(selectLayer);
+                shape.ChangeLayer(selectLayer, true);
                 shape.StopEdit();
                 shape.SetActive();
             }         
@@ -139,7 +136,7 @@ namespace MyPaint
             }
             if (history)
             {                
-                historyControl.add(new HistoryResolution(this, resolution, res));
+                historyControl.Add(new HistoryResolution(this, resolution, res));
                 resolution = res;
             }
             foreach (var l in layers)
@@ -185,7 +182,7 @@ namespace MyPaint
         {
             if (selectLayer != null)
             {
-                historyControl.add(new HistoryBackgroundColor(selectLayer, selectLayer.GetBackground(), c));
+                historyControl.Add(new HistoryBackgroundColor(selectLayer, selectLayer.GetBackground(), c));
                 selectLayer.SetBackground(c);
             }
         }
@@ -231,8 +228,8 @@ namespace MyPaint
             if (shape != null)
             {
                 state = DrawEnum.DRAW;
-                shape.Delete();
-                historyControl.add(new HistoryShapeDelete(shape));
+                int pos = shape.Delete();
+                historyControl.Add(new HistoryShapeDelete(shape, pos));
                 shape = null;
             }
         }
@@ -359,7 +356,7 @@ namespace MyPaint
                     Point stop = shape.GetPosition();
                     if (!start.Equals(stop))
                     {
-                        historyControl.add(new HistoryShapeMove(shape, start, stop));
+                        historyControl.Add(new HistoryShapeMove(shape, start, stop));
                     }
                     state = DrawEnum.EDIT;
                     break;
@@ -373,7 +370,7 @@ namespace MyPaint
 
         public void StopDraw()
         {
-            historyControl.add(new HistoryShape(shape));
+            historyControl.Add(new HistoryShape(shape));
             state = DrawEnum.EDIT;
         }
 
@@ -422,10 +419,10 @@ namespace MyPaint
         {
             StopEdit();
             ImageBrush brush = new ImageBrush(bmi);
-            control.SetResolution(Math.Max(bmi.Width,resolution.X), Math.Max(bmi.Height,resolution.Y));
+            SetResolution(new Point(Math.Max(bmi.Width, resolution.X), Math.Max(bmi.Height, resolution.Y)), true, true);
             shape = new Shapes.Image(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
             shape.SetActive();
-            historyControl.add(new HistoryShape(shape));
+            historyControl.Add(new HistoryShape(shape));
         }
 
         public void SetPath(string p)

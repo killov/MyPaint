@@ -340,7 +340,8 @@ namespace MyPaint
 
         private void layers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(control != null) control.LayerChanged(layers.SelectedIndex);
+            int i = layers.SelectedIndex;
+            if (control != null) control.LayerChanged(i);
         }
 
         private void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

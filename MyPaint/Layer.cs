@@ -155,7 +155,7 @@ namespace MyPaint
             if (i > 0)
             {
                 SetPosition(i - 1);
-                file.historyControl.add(new History.HistoryLayerPosition(this, i, i - 1));
+                file.historyControl.Add(new History.HistoryLayerPosition(this, i, i - 1));
             }
         }
 
@@ -165,7 +165,7 @@ namespace MyPaint
             if (i < file.layers.Count - 1)
             {
                 SetPosition(i + 1);
-                file.historyControl.add(new History.HistoryLayerPosition(this, i, i + 1));
+                file.historyControl.Add(new History.HistoryLayerPosition(this, i, i + 1));
             }
         }
 
@@ -178,7 +178,7 @@ namespace MyPaint
 
         public void Remove(bool history = true)
         {
-            if(history) file.historyControl.add(new HistoryLayerRemove(this, file.layers.IndexOf(this)));
+            if(history) file.historyControl.Add(new HistoryLayerRemove(this, file.layers.IndexOf(this)));
             file.layers.Remove(this);
             cv.Children.Remove(canvas);
             UnsetSelectable();

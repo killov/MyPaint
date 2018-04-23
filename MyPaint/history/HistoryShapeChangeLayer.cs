@@ -11,20 +11,24 @@ namespace MyPaint.History
     {
         public Shapes.Shape shape;
         public Layer o, n;
-        public HistoryShapeChangeLayer(Shapes.Shape s, Layer oldL, Layer newL)
+        int pos;
+        public HistoryShapeChangeLayer(Shapes.Shape s, Layer oldL, Layer newL, int p)
         {
             shape = s;
             o = oldL;
             n = newL;
+            pos = p;
         }
 
         public void Back()
         {
-            shape.ChangeLayer(o);
+            shape.StopEdit();
+            shape.ChangeLayer(o, pos);
         }
 
         public void Forward()
         {
+            shape.StopEdit();
             shape.ChangeLayer(n);
         }
 

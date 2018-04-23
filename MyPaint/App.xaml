@@ -99,9 +99,9 @@
                             CornerRadius="3">
                             <Border.Background>
                                 <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-                                    <GradientStop Color="#FF8E1CFF" Offset="0"/>
-                                    <GradientStop Color="#FF8514F7" Offset="1"/>
-                                    <GradientStop Color="#FF2950D8" Offset="0.515"/>
+                                    <GradientStop Color="#FF1332F5" Offset="0"/>
+                                    <GradientStop Color="#FF6686F1" Offset="1"/>
+                                    <GradientStop Color="#FF92BAFF" Offset="0.515"/>
                                 </LinearGradientBrush>
                             </Border.Background>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
