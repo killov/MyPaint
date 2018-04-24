@@ -97,7 +97,7 @@ namespace MyPaint.Shapes
             vs.Y2 = p.Y2;
             vs.Cursor = Cursors.SizeAll;
             vs.Stroke = nullBrush;
-            vs.StrokeThickness = Math.Max(3, p.StrokeThickness); ;
+            vs.StrokeThickness = Math.Max(3 * drawControl.revScale.ScaleX, p.StrokeThickness);
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
                 virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
@@ -105,7 +105,7 @@ namespace MyPaint.Shapes
             };
         }
 
-        override public void ShowVirtualShape(MyOnMouseDown mouseDown)
+        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
         {
             base.ShowVirtualShape(mouseDown);
             HideVirtualShape();
@@ -206,5 +206,9 @@ namespace MyPaint.Shapes
             canvas.Children.Add(p);
         }
 
+        public override void ChangeZoom()
+        {
+            vs.StrokeThickness = Math.Max(3 * drawControl.revScale.ScaleX, p.StrokeThickness);
+        }
     }
 }

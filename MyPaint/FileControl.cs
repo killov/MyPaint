@@ -68,7 +68,7 @@ namespace MyPaint
         {
             foreach (var l in layers)
             {
-                l.Delete();
+                l.Remove();
             }
             layers.Clear();
         }
@@ -271,11 +271,6 @@ namespace MyPaint
                 if (!shape.HitTest())
                 {
                     StopEdit();
-                    if (activeShape == ToolEnum.SELECT)
-                    {
-                        selectLayer.UnsetSelectable();
-                        selectLayer.SetSelectable();
-                    }
                     StartDraw(e);
                 }
             }
@@ -387,6 +382,11 @@ namespace MyPaint
                 shape.StopEdit();
                 shape = null;
                 state = DrawEnum.DRAW;
+                if (activeShape == ToolEnum.SELECT)
+                {
+                    selectLayer.UnsetSelectable();
+                    selectLayer.SetSelectable();
+                }
             }
         }
 
@@ -418,11 +418,25 @@ namespace MyPaint
         public void PasteImage(BitmapSource bmi)
         {
             StopEdit();
-            ImageBrush brush = new ImageBrush(bmi);
-            SetResolution(new Point(Math.Max(bmi.Width, resolution.X), Math.Max(bmi.Height, resolution.Y)), true, true);
-            shape = new Shapes.Image(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
-            shape.SetActive();
-            historyControl.Add(new HistoryShape(shape));
+            if (selectLayer != null)
+            {
+                ImageBrush brush = new ImageBrush(bmi);
+                SetResolution(new Point(Math.Max(bmi.Width, resolution.X), Math.Max(bmi.Height, resolution.Y)), true, true);
+                shape = new Shapes.Image(this, selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
+                shape.SetActive();
+                historyControl.Add(new HistoryShape(shape));
+            }
+        }
+
+        public void PasteShape(Deserializer.Shape s)
+        {
+            StopEdit();
+            if (selectLayer != null)
+            {
+                shape = s.Create(this, selectLayer);
+                shape.SetActive();
+                historyControl.Add(new HistoryShape(shape));
+            }
         }
 
         public void SetPath(string p)
@@ -496,14 +510,14 @@ namespace MyPaint
             historyControl.Enable();
         }
 
-        public void PasteShape(Deserializer.Shape s)
-        {
-            StopEdit();
-        }
-
         public void ChangeZoom()
         {
-            if (shape != null) shape.ChangeZoom();
+            if (shape != null && (state == DrawEnum.EDIT || state == DrawEnum.MOVING)) shape.ChangeZoom();
+        }
+
+        public bool ShapeDrawed()
+        {
+            return state == DrawEnum.EDIT || state == DrawEnum.MOVING;
         }
     }
 }

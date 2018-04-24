@@ -31,10 +31,11 @@ namespace MyPaint.Shapes
             sx = s.A.x;
             sy = s.A.y;
             p.BorderThickness = new Thickness(0);
+            SetText(s.b64);
             AddToCanvas(p);
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
-            moveE(p, s.B.x, s.B.y);
+            moveE(p, s.A.x + s.w, s.A.y + s.h);
             CreatePoints();
             CreateVirtualShape();
         }
@@ -178,6 +179,7 @@ namespace MyPaint.Shapes
             vs.TextChanged += (sender, ee) =>
             {
                 p.Text = vs.Text;
+                text = vs.Text;
                 vs.ScrollToVerticalOffset(0);
             };
 
@@ -187,7 +189,7 @@ namespace MyPaint.Shapes
             };
         }
 
-        override public void ShowVirtualShape(MyOnMouseDown mouseDown)
+        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
         {
             base.ShowVirtualShape(mouseDown);
             HideVirtualShape();
@@ -236,12 +238,8 @@ namespace MyPaint.Shapes
         override public void MoveShape(double x, double y)
         {
             base.MoveShape(x, y);
-
-
             double zx = x - sx + ex;
             double zy = y - sy + ey;
-
-
             moveE(p, zx, zy);
             moveE(vs, zx, zy);
             moveS(p, x, y);
@@ -257,6 +255,7 @@ namespace MyPaint.Shapes
             ret.h = (int)Math.Abs(sy - ey);
             ret.stroke = Serializer.Brush.Create(GetPrimaryColor());
             ret.fill = Serializer.Brush.Create(GetSecondaryColor());
+            ret.b64 = GetText();
             return ret;
         }
 
@@ -296,6 +295,7 @@ namespace MyPaint.Shapes
                 moveS(vs, po.X, sy);
                 return true;
             });
+            eR.SetFill(false);
         }
 
         override public void CreateImage(Canvas canvas)
@@ -303,6 +303,7 @@ namespace MyPaint.Shapes
             TextBox p = new TextBox();
             p.Foreground = PrimaryColor.CreateBrush();
             p.Background = SecondaryColor.CreateBrush();
+            p.BorderThickness = new Thickness(0);
             p.Width = Math.Abs(sx - ex);
             p.Height = Math.Abs(sy - ey);
             p.Text = text;
@@ -341,13 +342,16 @@ namespace MyPaint.Shapes
 
         public void SetFont(FontFamily f, bool addHistory = false)
         {
-            if (addHistory)
+            if(f != null)
             {
-                drawControl.historyControl.Add(new History.HistoryShapeTextFont(this, GetFont(), f));
-            }
-            font = f;
-            p.FontFamily = f;
-            vs.FontFamily = f;
+                if (addHistory)
+                {
+                    drawControl.historyControl.Add(new History.HistoryShapeTextFont(this, GetFont(), f));
+                }
+                font = f;
+                p.FontFamily = f;
+                vs.FontFamily = f;
+            }  
         }
 
         public double GetFontSize()
@@ -357,16 +361,16 @@ namespace MyPaint.Shapes
 
         public void SetFontSize(double s, bool addHistory = false)
         {
-            if (addHistory)
+            if (s > 0)
             {
-                drawControl.historyControl.Add(new History.HistoryShapeTextFontSize(this, GetFontSize(), s));
+                if (addHistory)
+                {
+                    drawControl.historyControl.Add(new History.HistoryShapeTextFontSize(this, GetFontSize(), s));
+                }
+                size = s;
+                p.FontSize = s;
+                vs.FontSize = s;
             }
-            size = s;
-            p.FontSize = s;
-            vs.FontSize = s;
         }
-
-
-
     }
 }

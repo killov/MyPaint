@@ -97,10 +97,9 @@ namespace MyPaint.Shapes
 
         override public void CreateVirtualShape()
         {
-            vs.Fill = Brushes.Aqua;
             vs.Points = p.Points;
             vs.Stroke = nullBrush;
-            //vs.Fill = nullBrush;
+            vs.Fill = nullBrush;
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
@@ -109,7 +108,7 @@ namespace MyPaint.Shapes
             };           
         }
 
-        override public void ShowVirtualShape(MyOnMouseDown mouseDown)
+        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
         {
             base.ShowVirtualShape(mouseDown);
             HideVirtualShape();

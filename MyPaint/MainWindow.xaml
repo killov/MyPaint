@@ -71,9 +71,6 @@
                     <Label Content="Písmo" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182" Canvas.Left="28" Canvas.Top="6"/>
                 </Canvas>
 
-
-
-
             </Canvas>
             <Grid Margin="0,58,0,26" HorizontalAlignment="Left" Width="186">
                 <Grid.ColumnDefinitions>
@@ -136,20 +133,20 @@
                             <Grid Margin="0,2" Background="{Binding Color,Mode=TwoWay}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="25" />
-                                    <ColumnDefinition Width="90" />
-                                    <ColumnDefinition Width="15" />
-                                    <ColumnDefinition Width="15" />
-                                    <ColumnDefinition Width="15" />
+                                    <ColumnDefinition Width="85" />
+                                    <ColumnDefinition Width="18" />
+                                    <ColumnDefinition Width="18" />
+                                    <ColumnDefinition Width="18" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Name}" Grid.Column="1"/>
                                 <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Width="20" IsChecked="{Binding visible, Mode=TwoWay}"/>
-                                <Button Grid.Column="2" Click="Button_layer_down_Click">
+                                <Button Grid.Column="2" Click="Button_layer_down_Click" Style="{StaticResource MyButton}">
                                     <Path Fill="Black" Data="M0,0 L2,0 1,1z" Width="10" Height="5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Button>
-                                <Button Grid.Column="3" Click="Button_layer_up_Click">
+                                <Button Grid.Column="3" Click="Button_layer_up_Click" Style="{StaticResource MyButton}">
                                     <Path Fill="Black" Data="M0,1 L2,1 1,0z" Width="10" Height="5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Button>
-                                <Button Grid.Column="4" Click="Button_layer_delete_Click">
+                                <Button FontWeight="Bold" Grid.Column="4" Click="Button_layer_delete_Click" Style="{StaticResource MyButton}">
                                     X
                                 </Button>
                             </Grid>

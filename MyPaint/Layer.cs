@@ -59,6 +59,7 @@ namespace MyPaint
         Canvas cv;
         public Canvas canvas;
         public Brush color;
+        Serializer.Brush background = Serializer.Brush.Create(null);
         private FileControl file;
         public List<Shapes.Shape> shapes = new List<Shapes.Shape>();
 
@@ -97,18 +98,13 @@ namespace MyPaint
         public void SetBackground(Brush c)
         {
             canvas.Background = c;
+            background = Serializer.Brush.Create(c);
             color = c;
         }
 
         public Brush GetBackground()
         {
             return color;
-        }
-
-        public void Delete()
-        {
-            cv.Children.Remove(canvas);
-            UnsetSelectable();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -136,7 +132,7 @@ namespace MyPaint
         public Canvas CreateImage()
         {
             Canvas canvas = new Canvas();
-            canvas.Background = color;
+            canvas.Background = background.CreateBrush();
             canvas.Width = file.resolution.X;
             canvas.Height = file.resolution.Y;
             if (visible)

@@ -12,8 +12,6 @@ using System.Windows.Controls;
 
 namespace MyPaint.Shapes
 {
-    public delegate void MyOnMouseDown(Point e, Shape s, bool enableMoving = true);
-
     public abstract class Shape
     {
         public bool multiDraw = false;
@@ -24,7 +22,7 @@ namespace MyPaint.Shapes
         protected bool exist;
         Layer layer;
         public FileControl drawControl;
-        protected MyOnMouseDown virtualShapeCallback;
+        protected OnMouseDownDelegate virtualShapeCallback;
         protected Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
         protected Canvas canvas, topCanvas;
 
@@ -45,6 +43,7 @@ namespace MyPaint.Shapes
         {
             drawControl = c;
             layer = la;
+            layer.shapes.Add(this);
             SetThickness(s.lineWidth);
             SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
             SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
@@ -142,7 +141,7 @@ namespace MyPaint.Shapes
 
         abstract public void CreateVirtualShape();
 
-        virtual public void ShowVirtualShape(MyOnMouseDown mouseDown)
+        virtual public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
         {
             virtualShapeCallback = mouseDown;
         }

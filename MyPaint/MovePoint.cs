@@ -11,7 +11,6 @@ using System.Windows.Controls;
 
 namespace MyPaint
 {
-    public delegate bool posun(Point b);
     public class MovePoint
     {
         Ellipse el;
@@ -21,9 +20,9 @@ namespace MyPaint
         Point position;
         public bool drag = false;
         Point startPosition;
-        posun posun;
+        MoveDelegate posun;
         Canvas element;
-        public MovePoint(Canvas c, Shapes.Shape s, Point p, ScaleTransform revScale, posun pos)
+        public MovePoint(Canvas c, Shapes.Shape s, Point p, ScaleTransform revScale, MoveDelegate pos)
         {
             ca = new Canvas();
             TransformGroup g = new TransformGroup();
@@ -46,6 +45,7 @@ namespace MyPaint
             el.MouseDown += delegate (object sender, MouseButtonEventArgs e) 
             {
                 startPosition = position;
+
                 shape.SetHit(true);
                 StartDrag();
             };

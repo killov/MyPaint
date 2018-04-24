@@ -19,11 +19,6 @@ using System.Threading;
 
 namespace MyPaint
 {
-    public enum MyEnum
-    {
-        PRIMARY, SECONDARY, BACKGROUND
-    }
-
     public class MainControl
     {
         public FileControl file;
@@ -303,19 +298,19 @@ namespace MyPaint
 
         public void SetWindowThickness(double t)
         {
-            w.setThickness(t);
+            w.SetThickness(t);
             thickness = t;
         }
 
         public void SetWindowTextFont(FontFamily f)
         {
-            w.setFont(f);
+            w.SetFont(f);
             font = f;
         }
 
         public void SetWindowTextSize(double s)
         {
-            w.setFontSize(s);
+            w.SetFontSize(s);
             fontSize = s;
         }
 
@@ -486,7 +481,7 @@ namespace MyPaint
             }
             if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.C))
             {
-                
+                clipboardControl.Copy();
             }
             if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.V))
             {

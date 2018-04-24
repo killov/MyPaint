@@ -17,12 +17,9 @@ namespace MyPaint.Shapes
     {
         System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs;
         EditRect eR;
-        int width, height;
         BitmapSource image;
         public Image(FileControl c, Layer la, BitmapSource bmi, Point start, double w, double h) : base(c, la)
         {
-            width = (int)w;
-            height = (int)h;
             p.Points.Add(new Point(start.X, start.Y)); 
             p.Points.Add(new Point(start.X + w, start.Y));
             p.Points.Add(new Point(start.X + w, start.Y + h));
@@ -38,8 +35,6 @@ namespace MyPaint.Shapes
 
         public Image(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
-            width = s.w;
-            height = s.h;
             byte[] imageBytes = Convert.FromBase64String(s.b64);
             MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
             BitmapImage bmi = new BitmapImage();
@@ -121,7 +116,7 @@ namespace MyPaint.Shapes
             
         }
 
-        override public void ShowVirtualShape(MyOnMouseDown mouseDown)
+        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
         {
             base.ShowVirtualShape(mouseDown);
             HideVirtualShape();
@@ -169,19 +164,16 @@ namespace MyPaint.Shapes
 
         override public Serializer.Shape CreateSerializer()
         {
-            System.Windows.Shapes.Polygon po = new System.Windows.Shapes.Polygon();
-            po.Points.Add(eR.p1.GetPosition());
-            po.Points.Add(eR.p2.GetPosition());
-            po.Points.Add(eR.p3.GetPosition());
-            po.Points.Add(eR.p4.GetPosition());
-
+            System.Windows.Shapes.Rectangle po = new System.Windows.Shapes.Rectangle();
+            po.Width = eR.GetWidth();
+            po.Height = eR.GetHeight();
             po.Fill = new ImageBrush(image);
 
             ContentControl cc = new ContentControl();
-            Rect rect = new Rect(0, 0, width, height);
+            Rect rect = new Rect(0, 0, eR.GetWidth(), eR.GetHeight());
             cc.Content = po;
             cc.Arrange(rect);
-            RenderTargetBitmap rtb = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Default);
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)eR.GetWidth(), (int)eR.GetHeight(), 96, 96, PixelFormats.Default);
             rtb.Render(po);
 
             BitmapEncoder encoder = new PngBitmapEncoder();
@@ -196,8 +188,8 @@ namespace MyPaint.Shapes
             string base64String = Convert.ToBase64String(f);
             Serializer.Image ret = new Serializer.Image();
             ret.b64 = base64String;
-            ret.w = width;
-            ret.h = height;
+            ret.w = (int)eR.GetWidth();
+            ret.h = (int)eR.GetHeight();
             return ret;
         }
 
@@ -258,6 +250,37 @@ namespace MyPaint.Shapes
         override public void ChangeZoom()
         {
             eR.ChangeZoom();
+        }
+
+        public BitmapSource CreateBitmap()
+        {
+            System.Windows.Shapes.Rectangle po = new System.Windows.Shapes.Rectangle();
+            po.Width = eR.GetWidth();
+            po.Height = eR.GetHeight();
+            po.Fill = new ImageBrush(image);
+
+            ContentControl cc = new ContentControl();
+            Rect rect = new Rect(0, 0, eR.GetWidth(), eR.GetHeight());
+            cc.Content = po;
+            cc.Arrange(rect);
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)eR.GetWidth(), (int)eR.GetHeight(), 96, 96, PixelFormats.Default);
+            rtb.Render(po);
+
+            BitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(rtb));
+            byte[] f = null;
+            using (var stream = new MemoryStream())
+            {
+                encoder.Save(stream);
+                f = stream.ToArray();
+            }
+
+            MemoryStream ms = new MemoryStream(f, 0, f.Length);
+            BitmapImage bmi = new BitmapImage();
+            bmi.BeginInit();
+            bmi.StreamSource = ms;
+            bmi.EndInit();
+            return bmi;
         }
 
     }

@@ -151,7 +151,7 @@ namespace MyPaint.Shapes
             };
         }
 
-        override public void ShowVirtualShape(MyOnMouseDown mouseDown)
+        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
         {
             base.ShowVirtualShape(mouseDown);
             HideVirtualShape();

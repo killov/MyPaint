@@ -15,19 +15,22 @@ namespace MyPaint
     public class EditRect
     {
         System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon();
+        System.Windows.Shapes.Polygon pv = new System.Windows.Shapes.Polygon();
         public MovePoint p1, p2, p3, p4;
         Canvas canvas;
         double scale;
         ScaleTransform revScale;
-        public EditRect(Canvas c, Shapes.Shape s, Point A, Point B, ScaleTransform revScale, posun Af, posun Bf, posun Cf, posun Df)
+        Brush fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
+        public EditRect(Canvas c, Shapes.Shape s, Point A, Point B, ScaleTransform revScale, MoveDelegate Af, MoveDelegate Bf, MoveDelegate Cf, MoveDelegate Df)
         {
             this.revScale = revScale;
             p.Points.Add(new Point(A.X, A.Y));
             p.Points.Add(new Point(B.X, A.Y));
             p.Points.Add(new Point(B.X, B.Y));
             p.Points.Add(new Point(A.X, B.Y));
-            p.Stroke = Brushes.Black;
-            //p.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
+            pv.Points = p.Points;
+            p.Stroke = fill;
+            p.Fill = fill;
             p.StrokeThickness = revScale.ScaleX*3;
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
@@ -39,7 +42,11 @@ namespace MyPaint
             DoubleCollection dash = new DoubleCollection();
             dash.Add(4);
             dash.Add(6);
-            p.StrokeDashArray = dash;
+            pv.StrokeDashArray = dash;
+            pv.StrokeThickness = revScale.ScaleX;
+            pv.ToolTip = null;
+            pv.Cursor = Cursors.SizeAll;
+            pv.Stroke = Brushes.Blue;
             canvas = c;
             p1 = new MovePoint(c, s, p.Points[0], revScale, (po) =>
             {
@@ -171,6 +178,7 @@ namespace MyPaint
 
         public void SetActive()
         {
+            canvas.Children.Add(pv);
             canvas.Children.Add(p);
             p1.Show();
             p2.Show();
@@ -201,11 +209,28 @@ namespace MyPaint
             p3.Hide();
             p4.Hide();
             canvas.Children.Remove(p);
+            canvas.Children.Remove(pv);
         }
 
         public void ChangeZoom()
         {
             p.StrokeThickness = revScale.ScaleX * 3;
+            pv.StrokeThickness = revScale.ScaleX;
+        }
+
+        public double GetWidth()
+        {
+            return Math.Abs(p1.GetPosition().X - p3.GetPosition().X);
+        }
+
+        public double GetHeight()
+        {
+            return Math.Abs(p1.GetPosition().Y - p3.GetPosition().Y);
+        }
+
+        public void SetFill(bool f)
+        {
+            p.Fill = f ? fill : null;
         }
 
     }

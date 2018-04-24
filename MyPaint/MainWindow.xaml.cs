@@ -27,7 +27,7 @@ namespace MyPaint
     {
         MainControl control;
         bool resolutionDrag = false;
-        MyEnum activeColor = MyEnum.PRIMARY;
+        BrushEnum activeColor = BrushEnum.PRIMARY;
         Brush CBLock;
         bool fontLock = false;
         //public Canvas topCanvas = new Canvas();
@@ -37,10 +37,11 @@ namespace MyPaint
             InitializeComponent();
             control = new MainControl(this);
             colorsInit();
-            setActiveColor(MyEnum.PRIMARY);
+            setActiveColor(BrushEnum.PRIMARY);
             setColor(Brushes.Black);
             control.SetWindowTextFont(new FontFamily("Arial"));
             control.SetWindowTextSize(12);
+            ShowFontPanel(false);
         }
 
         private void colorsInit()
@@ -131,44 +132,9 @@ namespace MyPaint
             control.MouseUp(e);
         }
 
-        private void cara_Click(object sender, RoutedEventArgs e)
-        {
-            control.SetTool(ToolEnum.LINE);
-        }
-
-        private void obdelnik_Click(object sender, RoutedEventArgs e)
-        {
-            control.SetTool(ToolEnum.RECT);
-        }
-
-        private void elipsa_Click(object sender, RoutedEventArgs e)
-        {
-            control.SetTool(ToolEnum.ELLIPSE);
-        }
-
         private void newClick(object sender, RoutedEventArgs e)
         {
             control.NewC();
-        }
-
-        private void polygon_Click(object sender, RoutedEventArgs e)
-        {
-            control.SetTool(ToolEnum.POLYGON);
-        }
-
-        private void text_Click(object sender, RoutedEventArgs e)
-        {
-            control.SetTool(ToolEnum.POLYGON);
-        }
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void button_select_Click(object sender, RoutedEventArgs e)
@@ -208,17 +174,17 @@ namespace MyPaint
 
         private void primaryColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            setActiveColor(MyEnum.PRIMARY); 
+            setActiveColor(BrushEnum.PRIMARY); 
         }
 
         private void secondaryColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            setActiveColor(MyEnum.SECONDARY);
+            setActiveColor(BrushEnum.SECONDARY);
         }
 
         private void backgroundColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            setActiveColor(MyEnum.BACKGROUND);
+            setActiveColor(BrushEnum.BACKGROUND);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -231,21 +197,21 @@ namespace MyPaint
             if(control != null) control.SetThickness(e.NewValue);
         }
 
-        public void setActiveColor(MyEnum color)
+        public void setActiveColor(BrushEnum color)
         {
             activeColor = color;
-            primaryColor.Stroke = color == MyEnum.PRIMARY ? Brushes.Orange : null;
-            secondaryColor.Stroke = color == MyEnum.SECONDARY ? Brushes.Orange : null;
-            backgroundColor.Stroke = color == MyEnum.BACKGROUND ? Brushes.Orange : null;
+            primaryColor.Stroke = color == BrushEnum.PRIMARY ? Brushes.Orange : null;
+            secondaryColor.Stroke = color == BrushEnum.SECONDARY ? Brushes.Orange : null;
+            backgroundColor.Stroke = color == BrushEnum.BACKGROUND ? Brushes.Orange : null;
             switch (activeColor)
             {
-                case MyEnum.PRIMARY:
+                case BrushEnum.PRIMARY:
                     CBSetBrush(primaryColor.Fill);
                     break;
-                case MyEnum.SECONDARY:
+                case BrushEnum.SECONDARY:
                     CBSetBrush(secondaryColor.Fill);
                     break;
-                case MyEnum.BACKGROUND:
+                case BrushEnum.BACKGROUND:
                     CBSetBrush(backgroundColor.Fill);
                     break;
             }
@@ -280,15 +246,15 @@ namespace MyPaint
         {
             switch (activeColor)
             {
-                case MyEnum.PRIMARY:
+                case BrushEnum.PRIMARY:
                     control.SetPrimaryBrush(color);
                     primaryColor.Fill = color;
                     break;
-                case MyEnum.SECONDARY:
+                case BrushEnum.SECONDARY:
                     control.SetSecondaryBrush(color);
                     secondaryColor.Fill = color;
                     break;
-                case MyEnum.BACKGROUND:
+                case BrushEnum.BACKGROUND:
                     control.SetBackgroundBrush(color);
                     backgroundColor.Fill = color;
                     break;
@@ -395,7 +361,7 @@ namespace MyPaint
         public void setPrimaryBrush(Brush brush)
         {
             primaryColor.Fill = brush;
-            if (activeColor == MyEnum.PRIMARY)
+            if (activeColor == BrushEnum.PRIMARY)
             {
                 CBSetBrush(brush);
             }
@@ -404,7 +370,7 @@ namespace MyPaint
         public void setSecondaryBrush(Brush brush)
         {
             secondaryColor.Fill = brush;
-            if(activeColor == MyEnum.SECONDARY)
+            if(activeColor == BrushEnum.SECONDARY)
             {
                 CBSetBrush(brush);
             }
@@ -413,18 +379,18 @@ namespace MyPaint
         public void setBackgroundBrush(Brush brush)
         {
             backgroundColor.Fill = brush;
-            if (activeColor == MyEnum.BACKGROUND)
+            if (activeColor == BrushEnum.BACKGROUND)
             {
                 CBSetBrush(brush);
             }
         }
 
-        public void setThickness(double t)
+        public void SetThickness(double t)
         {
             thickness.Value = t;
         }
 
-        public void setFont(FontFamily f)
+        public void SetFont(FontFamily f)
         {
             if(font.SelectedValue != f)
             {
@@ -433,7 +399,7 @@ namespace MyPaint
             }       
         }
 
-        public void setFontSize(double s)
+        public void SetFontSize(double s)
         {
             font_size.Value = s;
         }
