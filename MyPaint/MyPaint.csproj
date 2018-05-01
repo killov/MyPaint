@@ -88,7 +88,7 @@
   <ItemGroup>
     <Reference Include="ColorBox, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f971124b2576acfc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ColorBox\ColorBox\bin\Release\ColorBox.dll</HintPath>
+      <HintPath>..\..\my_paint - kopie\MyPaint\ColorBox.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -133,6 +133,7 @@
     <Compile Include="history\HistoryMovePoint.cs" />
     <Compile Include="history\HistoryBackgroundColor.cs" />
     <Compile Include="history\HistoryShapeChangeLayer.cs" />
+    <Compile Include="history\HistoryShapePosition.cs" />
     <Compile Include="history\HistoryShapeTextFontSize.cs" />
     <Compile Include="history\HistoryShapeTextFont .cs" />
     <Compile Include="history\HistoryShapeText.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="json\Serializer\NullBrush.cs" />
     <Compile Include="json\Serializer\Color.cs" />
     <Compile Include="json\Serializer\Ellipse.cs" />
+    <Compile Include="json\Serializer\QuadraticCurve.cs" />
     <Compile Include="json\Serializer\Text.cs" />
     <Compile Include="json\Serializer\Image.cs" />
     <Compile Include="json\Serializer\Layer.cs" />
@@ -175,6 +177,7 @@
     <Compile Include="MoveDelegate.cs" />
     <Compile Include="OnMouseDownDelegate.cs" />
     <Compile Include="Shapes\Ellipse.cs" />
+    <Compile Include="Shapes\QuadraticCurve.cs" />
     <Compile Include="Shapes\PolyLine.cs" />
     <Compile Include="Shapes\Polygon.cs" />
     <Compile Include="Shapes\Image.cs" />

@@ -29,17 +29,6 @@ namespace MyPaint
             }
         }
 
-        public Brush Color {
-            get
-            {
-                return col;
-            }
-            set {
-                col = value;
-                if(PropertyChanged != null) PropertyChanged(this, new PropertyChangedEventArgs("Color"));
-            }
-        }
-
         public bool IsNotFirst
         {
             get
@@ -85,7 +74,7 @@ namespace MyPaint
             SetBackground(layer.color == null ? null : layer.color.CreateBrush());
             foreach (var shape in layer.shapes)
             {
-                shapes.Add(shape.Create(file, this));
+                shape.Create(file, this);
             }
         }
 
@@ -118,7 +107,7 @@ namespace MyPaint
         public Serializer.Layer CreateSerializer()
         {
             Serializer.Layer la = new Serializer.Layer();
-            la.color = Serializer.Brush.Create(color);
+            la.color = background;
             la.visible = visible;
             la.name = Name;
             la.shapes = new List<Serializer.Shape>();
@@ -177,13 +166,12 @@ namespace MyPaint
             if(history) file.historyControl.Add(new HistoryLayerRemove(this, file.layers.IndexOf(this)));
             file.layers.Remove(this);
             cv.Children.Remove(canvas);
-            UnsetSelectable();
             if(file.selectLayer == this)
             {
                 file.StopEdit();
                 file.selectLayer = null;
+                UnsetSelectable();
             }
-            
         }
 
         public void Add(int i = -1)
@@ -233,11 +221,6 @@ namespace MyPaint
             {
                 shape.HideVirtualShape();
             }
-        }
-
-        public void SetActive(bool act)
-        {
-            Color = act ? Brushes.Orange : null;
         }
     }
 }

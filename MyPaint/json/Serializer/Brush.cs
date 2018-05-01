@@ -10,12 +10,17 @@ namespace MyPaint.Serializer
     {
         public static Brush Create(System.Windows.Media.Brush brush)
         {
-            if(brush is System.Windows.Media.SolidColorBrush)
+            if (brush is System.Windows.Media.SolidColorBrush)
             {
                 return new Color(brush as System.Windows.Media.SolidColorBrush);
-            }else if (brush is System.Windows.Media.LinearGradientBrush)
+            }
+            else if (brush is System.Windows.Media.LinearGradientBrush)
             {
                 return new LinearGradient(brush as System.Windows.Media.LinearGradientBrush);
+            }
+            else if (brush is System.Windows.Media.RadialGradientBrush)
+            {
+                return new RadialGradient(brush as System.Windows.Media.RadialGradientBrush);
             }
             return new NullBrush();
         }

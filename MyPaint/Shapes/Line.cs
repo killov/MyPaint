@@ -18,16 +18,17 @@ namespace MyPaint.Shapes
         MovePoint p1, p2;
         public Line(FileControl c, Layer la) : base(c, la)
         {
-            
+            element = p;
         }
 
         public Line(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
+            element = p;
             p.X1 = s.A.x;
             p.Y1 = s.A.y;
             p.X2 = s.B.x;
             p.Y2 = s.B.y;
-            AddToCanvas(p);
+            AddToCanvas();
             CreatePoints();
             CreateVirtualShape();
         }
@@ -43,21 +44,6 @@ namespace MyPaint.Shapes
 
         }
 
-        override public void AddToCanvas()
-        {
-            AddToCanvas(p);
-        }
-
-        override public void InsertToCanvas(int pos)
-        {
-            InsertToCanvas(pos, p);
-        }
-
-        override public void RemoveFromCanvas()
-        {
-            RemoveFromCanvas(p);
-        }
-
         override public void SetThickness(double s, bool addHistory = false)
         {
             base.SetThickness(s, addHistory);
@@ -71,7 +57,7 @@ namespace MyPaint.Shapes
             p.Y1 = e.Y;
             p.X2 = e.X;
             p.Y2 = e.Y;
-            AddToCanvas(p);
+            AddToCanvas();
             StartDraw();
         }
 

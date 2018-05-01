@@ -25,10 +25,12 @@ namespace MyPaint.Shapes
         public Polygon(FileControl c, Layer la) : base(c, la)
         {
             multiDraw = true;
+            element = p;
         }
 
         public Polygon(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
-        {      
+        {
+            element = p;
             SetThickness(s.lineWidth);
 
             foreach (var point in s.points)
@@ -38,7 +40,7 @@ namespace MyPaint.Shapes
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
 
-            AddToCanvas(p);
+            AddToCanvas();
             CreatePoints();
             CreateVirtualShape();
         }
@@ -55,22 +57,6 @@ namespace MyPaint.Shapes
             base.SetSecondaryColor(s, addHistory);
             p.Fill = s;
             if (path != null) path.Fill = s;
-        }
-
-        override public void AddToCanvas()
-        {
-            AddToCanvas(p);
-        }
-
-        override public void InsertToCanvas(int pos)
-        {
-            InsertToCanvas(pos, p);
-        }
-
-        override public void RemoveFromCanvas()
-        {
-            RemoveFromCanvas(p);
-            if(path != null) RemoveFromCanvas(path);
         }
 
         override public void SetThickness(double s, bool addHistory = false)
@@ -125,7 +111,7 @@ namespace MyPaint.Shapes
  
 
                     p.Points = ppoints;
-                    AddToCanvas(p);
+                    AddToCanvas();
 
                     StopDraw();
                     CreatePoints();
@@ -133,8 +119,6 @@ namespace MyPaint.Shapes
                     SetActive();
                 }
             }
-
-            
         }
 
         override public void CreateVirtualShape()

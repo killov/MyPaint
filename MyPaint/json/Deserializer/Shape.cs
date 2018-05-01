@@ -9,12 +9,13 @@ namespace MyPaint.Deserializer
     public class Shape
     {
         public string type;
-        public Point A, B;
+        public Point A, B, C;
         public Brush stroke, fill;
         public double lineWidth;
         public Point[] points;
         public string b64;
         public int w, h;
+        public string font;
 
         public Shapes.Shape Create(FileControl c, MyPaint.Layer la)
         {
@@ -34,6 +35,8 @@ namespace MyPaint.Deserializer
                     return new Shapes.Image(c, la, this);
                 case "TEXT":
                     return new Shapes.Text(c, la, this);
+                case "QLINE":
+                    return new Shapes.QuadraticCurve(c, la, this);
             }
             return null;
         }

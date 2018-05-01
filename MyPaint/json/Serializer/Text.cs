@@ -13,5 +13,7 @@ namespace MyPaint.Serializer
         public string b64;
         public Point A;
         public int w, h;
+        public string font;
+        public double lineWidth;
     }
 }

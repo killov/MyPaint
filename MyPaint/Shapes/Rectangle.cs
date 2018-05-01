@@ -19,18 +19,19 @@ namespace MyPaint.Shapes
         EditRect eR;
         public Rectangle(FileControl c, Layer la) : base(c, la)
         {
-
+            element = p;
         }
 
         public Rectangle(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
+            element = p;
             CreateVirtualShape();
             p.Points.Add(new Point(s.A.x, s.A.y));
             p.Points.Add(new Point(s.A.x, s.B.y));
             p.Points.Add(new Point(s.B.x, s.B.y));
             p.Points.Add(new Point(s.B.x, s.A.y));
             
-            AddToCanvas(p);
+            AddToCanvas();
             CreatePoints();
         }
 
@@ -44,21 +45,6 @@ namespace MyPaint.Shapes
         {
             base.SetSecondaryColor(s, addHistory);
             p.Fill = s;
-        }
-
-        override public void AddToCanvas()
-        {
-            AddToCanvas(p);
-        }
-
-        override public void InsertToCanvas(int pos)
-        {
-            InsertToCanvas(pos, p);
-        }
-
-        override public void RemoveFromCanvas()
-        {
-            RemoveFromCanvas(p);
         }
 
         override public void SetThickness(double s, bool addHistory = false)
@@ -76,7 +62,7 @@ namespace MyPaint.Shapes
             points.Add(e);
             points.Add(e);
             p.Points = points;
-            AddToCanvas(p);
+            AddToCanvas();
             StartDraw();
         }
 

@@ -411,6 +411,7 @@ namespace MyPaint
             w.button_rectangle.Style = def;
             w.button_ellipse.Style = def;
             w.button_polygon.Style = def;
+            w.button_q_curve.Style = def;
             w.button_text.Style = def;
             switch (s)
             {
@@ -431,6 +432,9 @@ namespace MyPaint
                     break;
                 case ToolEnum.POLYGON:
                     w.button_polygon.Style = act;
+                    break;
+                case ToolEnum.QUADRATICCURVE:
+                    w.button_q_curve.Style = act;
                     break;
                 case ToolEnum.TEXT:
                     w.button_text.Style = act;
@@ -477,17 +481,57 @@ namespace MyPaint
         {
             if (e.Key == Key.Delete)
             {
-                if(file != null) file.ShapeDelete();
+                Delete();
             }
-            if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.C))
+            else if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.C))
             {
-                clipboardControl.Copy();
+                Copy();
             }
-            if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.V))
+            else if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.V))
             {
-                clipboardControl.Paste();
+                Paste();
+            }
+            else if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.X))
+            {
+                Cut();
             }
         }
+
+        public bool ContextMenuShape()
+        {
+            return file != null && file.ContextMenuShape();    
+        }
+
+        public void Cut()
+        {
+            clipboardControl.Cut();
+        }
+
+        public void Paste()
+        {
+            clipboardControl.Paste();
+        }
+
+        public void Copy()
+        {
+            clipboardControl.Copy();
+        }
+
+        public void Delete()
+        {
+            if (file != null) file.ShapeDelete();
+        }
+
+        public void SetShapeTop()
+        {
+            if (file != null) file.SetShapePosition(-1);
+        }
+
+        public void SetShapeBottom()
+        {
+            if (file != null) file.SetShapePosition(0);
+        }
+
     }
 }
 

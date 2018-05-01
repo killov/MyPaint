@@ -26,13 +26,14 @@ namespace MyPaint.Shapes
         public PolyLine(FileControl c, Layer la) : base(c, la)
         {
             multiDraw = true;
+            element = path;
         }
 
         public PolyLine(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
+            element = path;
             PathGeometry p = new PathGeometry();
            
-            ls = new LineSegment();
             
             bool f = true;
             foreach (var point in s.points)
@@ -44,10 +45,9 @@ namespace MyPaint.Shapes
                     p.Figures.Add(pf);
                     path.Data = p;
                     f = false;
-                    return;
+                    continue;
                 }
-                ls.Point = new Point(point.x, point.y);
-                pf.Segments.Add(ls);
+                pf.Segments.Add(new LineSegment(new Point(point.x, point.y), true));
             }
             AddToCanvas(path);
             CreatePoints();
@@ -64,21 +64,6 @@ namespace MyPaint.Shapes
         {
             base.SetSecondaryColor(s, addHistory);
             path.Fill = s;
-        }
-
-        override public void AddToCanvas()
-        {
-            AddToCanvas(path);
-        }
-
-        override public void InsertToCanvas(int pos)
-        {
-            InsertToCanvas(pos, path);
-        }
-
-        override public void RemoveFromCanvas()
-        {
-            RemoveFromCanvas(path);
         }
 
         override public void SetThickness(double s, bool addHistory = false)
@@ -99,7 +84,7 @@ namespace MyPaint.Shapes
             pf.StartPoint = e;
             p.Figures.Add(pf);
             path.Data = p;
-            AddToCanvas(path);
+            AddToCanvas();
             ls = new LineSegment();
             ls.Point = e;
             pf.Segments.Add(ls);
@@ -154,7 +139,6 @@ namespace MyPaint.Shapes
         override public void CreateVirtualShape()
         {
 
-            vs = new System.Windows.Shapes.Path();
             vs.Data = path.Data;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
@@ -236,7 +220,7 @@ namespace MyPaint.Shapes
 
         override public Serializer.Shape CreateSerializer()
         {
-            Serializer.Polygon ret = new Serializer.Polygon();
+            Serializer.PolyLine ret = new Serializer.PolyLine();
             ret.lineWidth = GetThickness();
             ret.stroke = PrimaryColor;
             ret.fill = SecondaryColor;
@@ -281,14 +265,18 @@ namespace MyPaint.Shapes
 
         override public void CreateImage(Canvas canvas)
         {
-            System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon();
-
-            foreach (var point in movepoints)
+            Path p = new Path();
+            PathGeometry pg = new PathGeometry();
+            p.DataContext = pg;
+            PathFigure pf = new PathFigure();
+            pg.Figures.Add(pf);
+            pf.StartPoint = movepoints[0].GetPosition();
+            for(int i = 1; i < movepoints.Count; i++)
             {
-                p.Points.Add(point.GetPosition());
+                pf.Segments.Add(new LineSegment(movepoints[i].GetPosition(), true));
             }
-            p.Stroke = primaryColor;
-            p.Fill = secondaryColor;
+            p.Stroke = PrimaryColor.CreateBrush();
+            p.Fill = SecondaryColor.CreateBrush();
             p.StrokeThickness = thickness;
             p.ToolTip = null;
             canvas.Children.Add(p);

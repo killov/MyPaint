@@ -167,6 +167,11 @@ namespace MyPaint
             control.SetTool(ToolEnum.POLYGON);
         }
 
+        private void button_q_cueve_Click(object sender, RoutedEventArgs e)
+        {
+            control.SetTool(ToolEnum.QUADRATICCURVE);
+        }
+
         private void button_text_Click(object sender, RoutedEventArgs e)
         {
             control.SetTool(ToolEnum.TEXT);
@@ -223,8 +228,23 @@ namespace MyPaint
             {
                 return;
             }
-            updateColor(CB.Brush);
+            Brush brush = CB.Brush;
+            if (!brush.IsFrozen)
+            {
+                brush.Changed += Brush_Changed;
+            }
+            brush = Serializer.Brush.Create(brush).CreateBrush();
+            
+            updateColor(brush);
             CBLock = CB.Brush;
+        }
+
+        public void Brush_Changed(object sender, EventArgs e)
+        {
+            if(sender is Brush && !(sender as Brush).IsFrozen)
+            {
+                updateColor(Serializer.Brush.Create(sender as Brush).CreateBrush());
+            }
         }
 
         private void setColor(Brush color)
@@ -235,9 +255,20 @@ namespace MyPaint
 
         void CBSetBrush(Brush brush)
         {
-            if (brush != null && brush is SolidColorBrush)
+            if (brush != null)
             {
-                brush.Freeze();
+                if (brush is SolidColorBrush)
+                {
+                    brush.Freeze();
+                }
+                else
+                {
+                    brush = Serializer.Brush.Create(brush).CreateBrush();
+                    if (!brush.IsFrozen)
+                    {
+                        brush.Changed += Brush_Changed;
+                    }
+                }
             }
             CB.Brush = brush;
         }
@@ -428,6 +459,40 @@ namespace MyPaint
         public void ShowFontPanel(bool t)
         {
             font_panel.Visibility = t ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        private void mouseRightUp(object sender, MouseButtonEventArgs e)
+        {
+            if (control.ContextMenuShape())
+            {
+                ContextMenu cm = FindResource("cmShape") as ContextMenu;
+                cm.IsOpen = true;
+            }
+        }
+
+        private void cut(object sender, RoutedEventArgs e)
+        {
+            control.Cut();
+        }
+
+        private void delete(object sender, RoutedEventArgs e)
+        {
+            control.Delete();
+        }
+
+        private void copy(object sender, RoutedEventArgs e)
+        {
+            control.Copy();
+        }
+
+        private void shape_top(object sender, RoutedEventArgs e)
+        {
+            control.SetShapeTop();
+        }
+
+        private void shape_bottom(object sender, RoutedEventArgs e)
+        {
+            control.SetShapeBottom();
         }
     }
 }

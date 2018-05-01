@@ -66,10 +66,6 @@ namespace MyPaint
 
         public void DeleteLayers()
         {
-            foreach (var l in layers)
-            {
-                l.Remove();
-            }
             layers.Clear();
         }
 
@@ -176,6 +172,11 @@ namespace MyPaint
             {
                 ((Shapes.Text)shape).SetFontSize(s, true);
             }
+        }
+
+        public void SetShapePosition(int pos)
+        {
+            if (shape != null) shape.SetPosition(pos, true);
         }
 
         public void SetBackgroundColor(Brush c)
@@ -296,6 +297,9 @@ namespace MyPaint
                         break;
                     case ToolEnum.POLYGON:
                         shape = new Shapes.Polygon(this, selectLayer);
+                        break;
+                    case ToolEnum.QUADRATICCURVE:
+                        shape = new Shapes.QuadraticCurve(this, selectLayer);
                         break;
                     case ToolEnum.TEXT:
                         shape = new Shapes.Text(this, selectLayer);
@@ -518,6 +522,11 @@ namespace MyPaint
         public bool ShapeDrawed()
         {
             return state == DrawEnum.EDIT || state == DrawEnum.MOVING;
+        }
+
+        public bool ContextMenuShape()
+        {
+            return ShapeDrawed() && shape.HitTest();
         }
     }
 }

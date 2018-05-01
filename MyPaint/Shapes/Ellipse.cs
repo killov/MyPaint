@@ -20,14 +20,15 @@ namespace MyPaint.Shapes
 
         public Ellipse(FileControl c, Layer la) : base(c, la)
         {
-
+            element = p;
         }
 
         public Ellipse(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
-        {            
+        {
+            element = p;
             sx = s.A.x;
             sy = s.A.y;
-            AddToCanvas(p);
+            AddToCanvas();
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.B.x, s.B.y);
@@ -45,21 +46,6 @@ namespace MyPaint.Shapes
         {
             base.SetSecondaryColor(s, addHistory);
             p.Fill = s;
-        }
-
-        override public void AddToCanvas()
-        {
-            AddToCanvas(p);
-        }
-
-        override public void InsertToCanvas(int pos)
-        {
-            InsertToCanvas(pos, p);
-        }
-
-        override public void RemoveFromCanvas()
-        {
-            RemoveFromCanvas(p);
         }
 
         override public void SetThickness(double s, bool addHistory = false)
@@ -125,7 +111,7 @@ namespace MyPaint.Shapes
         {
             sx = e.X;
             sy = e.Y;
-            AddToCanvas(p);
+            AddToCanvas();
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);           
             StartDraw();

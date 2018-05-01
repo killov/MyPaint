@@ -22,17 +22,23 @@ namespace MyPaint.Shapes
         string text = "";
         public Text(FileControl c, Layer la) : base(c, la)
         {
+            element = p;
             SetFont(drawControl.GetTextFont());
             SetFontSize(drawControl.GetTextFontSize());
         }
 
         public Text(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
+            p.AcceptsTab = false;
+            vs.AcceptsTab = false;
+            element = p;
             sx = s.A.x;
             sy = s.A.y;
             p.BorderThickness = new Thickness(0);
             SetText(s.b64);
-            AddToCanvas(p);
+            SetFontSize(s.lineWidth);
+            SetFont(new FontFamily(s.font));
+            AddToCanvas();
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.A.x + s.w, s.A.y + s.h);
@@ -50,21 +56,6 @@ namespace MyPaint.Shapes
         {
             base.SetSecondaryColor(s, addHistory);
             p.Background = s;
-        }
-
-        override public void AddToCanvas()
-        {
-            AddToCanvas(p);
-        }
-
-        override public void InsertToCanvas(int pos)
-        {
-            InsertToCanvas(pos, p);
-        }
-
-        override public void RemoveFromCanvas()
-        {
-            RemoveFromCanvas(p);
         }
 
         override public void SetThickness(double s, bool addHistory = false)
@@ -134,7 +125,7 @@ namespace MyPaint.Shapes
             p.Foreground = drawControl.GetShapePrimaryColor();
             p.Background = drawControl.GetShapeSecondaryColor();
             
-            AddToCanvas(p);
+            AddToCanvas();
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
 
@@ -253,9 +244,11 @@ namespace MyPaint.Shapes
             ret.A = new Serializer.Point(Math.Min(sx, ex), Math.Min(sy, ey));
             ret.w = (int)Math.Abs(sx - ex);
             ret.h = (int)Math.Abs(sy - ey);
-            ret.stroke = Serializer.Brush.Create(GetPrimaryColor());
-            ret.fill = Serializer.Brush.Create(GetSecondaryColor());
+            ret.stroke = PrimaryColor;
+            ret.fill = SecondaryColor;
             ret.b64 = GetText();
+            ret.font = font.Source;
+            ret.lineWidth = size;
             return ret;
         }
 

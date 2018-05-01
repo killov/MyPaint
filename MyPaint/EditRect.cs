@@ -228,6 +228,13 @@ namespace MyPaint
             return Math.Abs(p1.GetPosition().Y - p3.GetPosition().Y);
         }
 
+        public Point GetPoint()
+        {
+            Point a = p1.GetPosition();
+            Point b = p3.GetPosition();
+            return new Point(Math.Min(a.X, b.X), Math.Min(a.Y, b.Y));
+        }
+
         public void SetFill(bool f)
         {
             p.Fill = f ? fill : null;

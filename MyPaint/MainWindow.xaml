@@ -22,9 +22,19 @@
                 </LinearGradientBrush>
             </Menu.Background>
             <MenuItem Header="Soubor" Height="20">
-                <MenuItem Header="Nový" Click="newClick" Height="20" />
+                <MenuItem Header="Nový" Click="newClick" Height="20">
+
+                </MenuItem>
                 <MenuItem Header="Otevřít" Click="openClick" Height="20" />
-                <MenuItem Header="Uložit" Click="saveClick" />
+                <MenuItem Header="Uložit" Click="saveClick" HorizontalAlignment="Left" Width="129">
+                    <MenuItem.Icon>
+                        <Viewbox Width="20" Height="16" HorizontalAlignment="Left" Margin="1,0,-1,0">
+                            <Canvas Width="24" Height="24" HorizontalAlignment="Right">
+                                <Path Data="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="Uložit jako" Click="saveAsClick" />
                 <MenuItem Header="Ukončit" Click="exitClick" />
             </MenuItem>
@@ -36,7 +46,11 @@
             <Canvas Grid.Row="0" Height="58" VerticalAlignment="Top">
 
                 <Button Style="{StaticResource MyButton}" x:Name="button_select" Canvas.Left="7" Canvas.Top="10" Width="40" Height="40" Click="button_select_Click" ForceCursor="True" Margin="0">
-                    <Path Fill="Black" Data="M0,0 L4,3 L2,2.5 L3,4 L2,4 L1,2.5 0,3z" Width="13" Height="20" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Viewbox Width="30" Height="40">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M10.07,14.27C10.57,14.03 11.16,14.25 11.4,14.75L13.7,19.74L15.5,18.89L13.19,13.91C12.95,13.41 13.17,12.81 13.67,12.58L13.95,12.5L16.25,12.05L8,5.12V15.9L9.82,14.43L10.07,14.27M13.64,21.97C13.14,22.21 12.54,22 12.31,21.5L10.13,16.76L7.62,18.78C7.45,18.92 7.24,19 7,19A1,1 0 0,1 6,18V3A1,1 0 0,1 7,2C7.24,2 7.47,2.09 7.64,2.23L7.65,2.22L19.14,11.86C19.57,12.22 19.62,12.85 19.27,13.27C19.12,13.45 18.91,13.57 18.7,13.61L15.54,14.23L17.74,18.96C18,19.46 17.76,20.05 17.26,20.28L13.64,21.97Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
                 </Button>
                 <Button Style="{StaticResource MyButtonActive}" x:Name="button_line" Canvas.Left="52" Canvas.Top="10" Width="40" Height="40" Click="button_line_Click" ForceCursor="True" Margin="0">
                     <Line X1="0" Y1="0" X2="25" Y2="25" Stroke="Black" StrokeThickness="3" Height="25" Width="25"/>
@@ -54,15 +68,25 @@
                     <Polygon Points="3,3 3,20 10,10 18,12 16,5" Stroke="Black" StrokeThickness="3" Height="25" Width="21"  />
                 </Button>
 
-                <Button Style="{StaticResource MyButton}" x:Name="button_back" Canvas.Left="346" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_back_Click">
+                <Button Style="{StaticResource MyButton}" x:Name="button_q_curve" Canvas.Left="277" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_q_cueve_Click">
+                    <Path Stroke="Black" StrokeThickness="3" Data="M 1,4 Q 3,30 20,4" />
+                </Button>
+
+
+                <Button Style="{StaticResource MyButton}" x:Name="button_text" Canvas.Left="322" Canvas.Top="10" Width="40" Height="40" Click="button_text_Click" Margin="0">
+                    <Viewbox Width="30" Height="40">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M18.5,4L19.66,8.35L18.7,8.61C18.25,7.74 17.79,6.87 17.26,6.43C16.73,6 16.11,6 15.5,6H13V16.5C13,17 13,17.5 13.33,17.75C13.67,18 14.33,18 15,18V19H9V18C9.67,18 10.33,18 10.67,17.75C11,17.5 11,17 11,16.5V6H8.5C7.89,6 7.27,6 6.74,6.43C6.21,6.87 5.75,7.74 5.3,8.61L4.34,8.35L5.5,4H18.5Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+
+                <Button Style="{StaticResource MyButton}" x:Name="button_back" Canvas.Left="383" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_back_Click">
                     <Path x:Name="back" Fill="#FF2343B0" Data="M0,1 L1,0 L1,0.5 L2,0.5 L2,1.5 L1,1.5 1,2z" Width="18" Height="17.5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
 
-                <Button Style="{StaticResource MyButton}" x:Name="button_forward" Canvas.Left="391" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_forward_Click">
+                <Button Style="{StaticResource MyButton}" x:Name="button_forward" Canvas.Left="428" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_forward_Click">
                     <Path x:Name="forward" Fill="#FF2343B0" Data="M2,1 L1,0 L1,0.5 L0,0.5 L0,1.5 L1,1.5 1,2z" Width="18" Height="17.5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_text" Canvas.Left="277" Canvas.Top="10" Width="40" Height="40" Click="button_text_Click" Margin="0">
-                    <TextBlock Text="T" FontSize="34" FontFamily="Times new roman" />
                 </Button>
                 <Canvas x:Name="font_panel" Height="58" Width="272" Canvas.Left="472">
                     <ComboBox x:Name="font" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="84" Canvas.Left="28" Canvas.Top="33" SelectionChanged="font_SelectionChanged" Height="15" FontSize="8"/>
@@ -108,13 +132,14 @@
 
                     </Canvas>
                     <Canvas x:Name="colors" Height="51" Canvas.Left="10" Canvas.Top="68" Width="170" Background="#66FFFFFF"/>
+
                 </Canvas>
                 <ncore:ColorBox x:Name="CB" VerticalAlignment="Stretch" ColorChanged="CB_ColorChanged" Width="170" Grid.Row="1" Grid.Column="0" Margin="8,0" Grid.RowSpan="2"/>
                 <Button Style="{StaticResource MyButton}" x:Name="button_addLayer" Margin="0,0,153,8" RenderTransformOrigin="1.15,5.612" Grid.Row="4" FontSize="11" Click="button_addLayer_Click" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="23">+</Button>
-                <ListBox x:Name="layers"  Grid.Row="3" Margin="0,0,0,2" HorizontalAlignment="Right" Width="176" SelectionChanged="layers_SelectionChanged">
-                    
+                <ListBox x:Name="layers"  Grid.Row="3" Margin="0,0,-7,2" HorizontalAlignment="Right" Width="183" SelectionChanged="layers_SelectionChanged">
+
                     <ListBox.ItemContainerStyle>
-                        
+
                         <Style TargetType="ListBoxItem">
                             <Style.Triggers>
                                 <Trigger Property="IsSelected" Value="True" >
@@ -154,7 +179,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
-            <ScrollViewer x:Name="canvas_outer" Margin="191,88,0,26" MouseMove="canvas_outer_MouseMove" MouseUp="canvas_outer_MouseUp" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer x:Name="canvas_outer" Margin="204,88,0,26" MouseMove="canvas_outer_MouseMove" MouseUp="canvas_outer_MouseUp" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <ScrollViewer.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                         <GradientStop Color="#FF3BA4BB" Offset="1"/>
@@ -167,15 +192,15 @@
                     <Canvas.Background>
                         <ImageBrush ImageSource="fill.png" TileMode="Tile" Stretch="Uniform" AlignmentY="Top" Viewport="0,0,20,20" ViewportUnits="Absolute"/>
                     </Canvas.Background>
-                    <Canvas ClipToBounds="True" x:Name="canvas" HorizontalAlignment="Left" Width="500" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="433" VerticalAlignment="Top"/>
-                    <Canvas ClipToBounds="True" x:Name="topCanvas" HorizontalAlignment="Left" Width="485" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="438" VerticalAlignment="Top" Background="#00F50000"/>
+                    <Canvas ClipToBounds="True" x:Name="canvas" HorizontalAlignment="Left" Width="500" Margin="0,0,0,0" Height="433" VerticalAlignment="Top"/>
+                    <Canvas ClipToBounds="True" x:Name="topCanvas" HorizontalAlignment="Left" Width="485" MouseDown="mouseDown" MouseMove="mouseMove" MouseUp="mouseUp" Margin="0,0,0,0" Height="438" VerticalAlignment="Top" Background="#00F50000" MouseRightButtonUp="mouseRightUp"/>
 
                     <Rectangle x:Name="resolution" Height="10" Width="10" Canvas.Left="486" Canvas.Top="438" RenderTransformOrigin="-0.261,0.95" Fill="White" Stroke="Black" MouseDown="resolution_MouseDown" />
                 </Canvas>
 
 
             </ScrollViewer>
-            <TabControl x:Name="tabControl" Margin="191,63,0,0" Height="28" VerticalAlignment="Top" SelectionChanged="tabControl_SelectionChanged" ItemsSource="{Binding}">
+            <TabControl x:Name="tabControl" Margin="204,63,0,0" Height="28" VerticalAlignment="Top" SelectionChanged="tabControl_SelectionChanged" ItemsSource="{Binding}">
                 <TabControl.Resources>
                     <DataTemplate x:Key="TabHeader" DataType="TabItem">
                         <DockPanel>
@@ -219,5 +244,57 @@
         </Grid>
 
     </DockPanel>
-
+    <Window.Resources>
+        <ContextMenu x:Key="cmShape">
+            
+            
+            <MenuItem Header="Přenést dopředu" Click="shape_top">
+                <MenuItem.Icon>
+                    <Viewbox Width="16" Height="16">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M8,11H11V21H13V11H16L12,7L8,11M4,3V5H20V3H4Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Přenést dozadu" Click="shape_bottom">
+                <MenuItem.Icon>
+                    <Viewbox Width="16" Height="16">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M16,13H13V3H11V13H8L12,17L16,13M4,19V21H20V19H4Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator/>
+            <MenuItem Header="Výjmout" Click="cut" InputGestureText="Ctrl+X">
+                <MenuItem.Icon>
+                    <Viewbox Width="16" Height="16">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M19,3L13,9L15,11L22,4V3M12,12.5A0.5,0.5 0 0,1 11.5,12A0.5,0.5 0 0,1 12,11.5A0.5,0.5 0 0,1 12.5,12A0.5,0.5 0 0,1 12,12.5M6,20A2,2 0 0,1 4,18C4,16.89 4.9,16 6,16A2,2 0 0,1 8,18C8,19.11 7.1,20 6,20M6,8A2,2 0 0,1 4,6C4,4.89 4.9,4 6,4A2,2 0 0,1 8,6C8,7.11 7.1,8 6,8M9.64,7.64C9.87,7.14 10,6.59 10,6A4,4 0 0,0 6,2A4,4 0 0,0 2,6A4,4 0 0,0 6,10C6.59,10 7.14,9.87 7.64,9.64L10,12L7.64,14.36C7.14,14.13 6.59,14 6,14A4,4 0 0,0 2,18A4,4 0 0,0 6,22A4,4 0 0,0 10,18C10,17.41 9.87,16.86 9.64,16.36L12,14L19,21H22V20L9.64,7.64Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Kopírovat" Click="copy" InputGestureText="Ctrl+C">
+                <MenuItem.Icon>
+                    <Viewbox Width="16" Height="16">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Header="Odstranit" Click="delete" InputGestureText="Del">
+                <MenuItem.Icon>
+                    <Viewbox Width="16" Height="16">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+    </Window.Resources>
 </Window>
+

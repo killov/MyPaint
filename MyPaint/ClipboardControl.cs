@@ -22,12 +22,21 @@ namespace MyPaint
             control = c;
         }
 
+        public void Cut()
+        {
+            Copy();
+            if (control.file.shape != null && control.file.ShapeDrawed())
+            {
+                control.file.ShapeDelete();
+            }
+        }
+
         public void Copy()
         {
-            if(control.file.shape != null && control.file.ShapeDrawed())
+            if (control.file.shape != null && control.file.ShapeDrawed())
             {
                 Shapes.Shape s = control.file.shape;
-                if(s is Shapes.Image)
+                if (s is Shapes.Image)
                 {
                     Shapes.Image im = (Shapes.Image)s;
                     Clipboard.SetImage(im.CreateBitmap());
@@ -38,7 +47,7 @@ namespace MyPaint
                     Clipboard.Clear();
                     clipboard = s.CreateSerializer();
                 }
-                
+
             }
         }
 

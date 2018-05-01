@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace MyPaint.Serializer
 {
-    class PolyLine : Polygon
-    {
-        public PolyLine()
+    class QuadraticCurve : Line
+    { 
+        public Point C;
+        public QuadraticCurve()
         {
-            type = "POLYLINE";
+            type = "QLINE";
         }
     }
 }

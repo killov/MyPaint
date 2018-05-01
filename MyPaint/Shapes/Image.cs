@@ -15,11 +15,12 @@ namespace MyPaint.Shapes
 {
     public class Image : Shape
     {
-        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs;
+        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs = new System.Windows.Shapes.Polygon();
         EditRect eR;
         BitmapSource image;
         public Image(FileControl c, Layer la, BitmapSource bmi, Point start, double w, double h) : base(c, la)
         {
+            element = p;
             p.Points.Add(new Point(start.X, start.Y)); 
             p.Points.Add(new Point(start.X + w, start.Y));
             p.Points.Add(new Point(start.X + w, start.Y + h));
@@ -28,13 +29,14 @@ namespace MyPaint.Shapes
             image = bmi;
             ImageBrush brush = new ImageBrush(bmi);
             p.Fill = brush;
-            AddToCanvas(p);
+            AddToCanvas();
             CreatePoints();
             exist = true;
         }
 
         public Image(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
+            element = p;
             byte[] imageBytes = Convert.FromBase64String(s.b64);
             MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
             BitmapImage bmi = new BitmapImage();
@@ -45,14 +47,13 @@ namespace MyPaint.Shapes
             image = bmi;
            
             p.Points.Add(new Point(s.A.x, s.A.y));
-            p.Points.Add(new Point(s.B.x, s.A.y));
-            p.Points.Add(new Point(s.B.x, s.B.y));
-            p.Points.Add(new Point(s.A.x, s.B.y));
+            p.Points.Add(new Point(s.A.x + s.w, s.A.y));
+            p.Points.Add(new Point(s.A.x + s.w, s.A.y + s.h));
+            p.Points.Add(new Point(s.A.x, s.A.y + s.h));
             CreateVirtualShape();
             p.Fill = brush;
-            AddToCanvas(p);
+            AddToCanvas();
             CreatePoints();
-            
         }
 
         override public void SetPrimaryColor(Brush s, bool addHistory = false)
@@ -63,21 +64,6 @@ namespace MyPaint.Shapes
         override public void SetSecondaryColor(Brush s, bool addHistory = false)
         {
 
-        }
-
-        override public void AddToCanvas()
-        {
-            AddToCanvas(p);
-        }
-
-        override public void InsertToCanvas(int pos)
-        {
-            InsertToCanvas(pos, p);
-        }
-
-        override public void RemoveFromCanvas()
-        {
-            RemoveFromCanvas(p);
         }
 
         override public void SetThickness(double s, bool addHistory = false)
@@ -102,7 +88,6 @@ namespace MyPaint.Shapes
 
         override public void CreateVirtualShape()
         {
-            vs = new System.Windows.Shapes.Polygon();
             vs.Points = p.Points;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
@@ -110,7 +95,7 @@ namespace MyPaint.Shapes
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
-                virtualShapeCallback(ee.GetPosition(canvas), this);
+                virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
                 hit = true;
             };
             
@@ -188,6 +173,8 @@ namespace MyPaint.Shapes
             string base64String = Convert.ToBase64String(f);
             Serializer.Image ret = new Serializer.Image();
             ret.b64 = base64String;
+
+            ret.A = new Serializer.Point(eR.GetPoint());
             ret.w = (int)eR.GetWidth();
             ret.h = (int)eR.GetHeight();
             return ret;

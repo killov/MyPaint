@@ -24,7 +24,8 @@ namespace MyPaint.Shapes
         public FileControl drawControl;
         protected OnMouseDownDelegate virtualShapeCallback;
         protected Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
-        protected Canvas canvas, topCanvas;
+        protected Canvas topCanvas;
+        protected UIElement element;
 
         public Shape(FileControl c, Layer la)
         {
@@ -34,7 +35,6 @@ namespace MyPaint.Shapes
             SetPrimaryColor(drawControl.GetShapePrimaryColor());
             SetSecondaryColor(drawControl.GetShapeSecondaryColor());
             SetThickness(drawControl.GetShapeThickness());
-            canvas = layer.canvas;
             topCanvas = drawControl.topCanvas;
             exist = false;
         }
@@ -47,14 +47,13 @@ namespace MyPaint.Shapes
             SetThickness(s.lineWidth);
             SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
             SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
-            canvas = layer.canvas;
             topCanvas = drawControl.topCanvas;
             exist = true;
         }
 
         virtual public void SetPrimaryColor(Brush s, bool addHistory = false)
         {
-            if (addHistory)
+            if (addHistory && s != primaryColor)
             {
                 drawControl.historyControl.Add(new History.HistoryPrimaryColor(this, GetPrimaryColor(), s));
             }
@@ -64,7 +63,7 @@ namespace MyPaint.Shapes
 
         virtual public void SetSecondaryColor(Brush s, bool addHistory = false)
         {
-            if (addHistory)
+            if (addHistory && s != secondaryColor)
             {
                 drawControl.historyControl.Add(new History.HistorySecondaryColor(this, GetSecondaryColor(), s));
             }
@@ -103,11 +102,20 @@ namespace MyPaint.Shapes
             layer.shapes.Insert(pos, this);
         }
 
-        abstract public void AddToCanvas();
+        public void AddToCanvas()
+        {
+            AddToCanvas(element);
+        }
 
-        abstract public void InsertToCanvas(int pos);
+        public void InsertToCanvas(int pos)
+        {
+            InsertToCanvas(pos, element);
+        }
 
-        abstract public void RemoveFromCanvas();
+        public void RemoveFromCanvas()
+        {
+            RemoveFromCanvas(element);
+        }
 
         virtual public void SetThickness(double s, bool addHistory = false)
         {
@@ -222,6 +230,24 @@ namespace MyPaint.Shapes
         protected void AddToCanvas(UIElement s)
         {
             layer.canvas.Children.Add(s);
+        }
+
+        public void SetPosition(int i, bool addHistory = false)
+        {
+            int pos = layer.canvas.Children.IndexOf(element);
+            RemoveFromCanvas();
+            layer.shapes.Remove(this);
+            if (i == -1)
+            {
+                AddToCanvas();
+                layer.shapes.Add(this);
+            }
+            else
+            {
+                InsertToCanvas(i);
+                layer.shapes.Insert(i, this);
+            }
+            if (addHistory && pos != i) drawControl.historyControl.Add(new History.HistoryShapePosition(this, pos, i));
         }
 
         protected void InsertToCanvas(int pos, UIElement s)
