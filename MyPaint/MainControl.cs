@@ -488,17 +488,28 @@ namespace MyPaint
             {
                 Delete();
             }
-            else if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.C))
-            {
-                Copy();
-            }
-            else if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.V))
-            {
-                Paste();
-            }
-            else if ((Keyboard.Modifiers == ModifierKeys.Control) && (e.Key == Key.X))
-            {
-                Cut();
+            else if (Keyboard.Modifiers == ModifierKeys.Control){
+                switch (e.Key)
+                {
+                    case Key.C:
+                        Copy();
+                        break;
+                    case Key.X:
+                        Cut();
+                        break;
+                    case Key.V:
+                        Paste();
+                        break;
+                    case Key.S:
+                        Save();
+                        break;
+                    case Key.O:
+                        Open();
+                        break;
+                    case Key.N:
+                        NewC();
+                        break;
+                }
             }
         }
 

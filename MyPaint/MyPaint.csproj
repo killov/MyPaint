@@ -114,6 +114,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClipboardControl.cs" />
+    <Compile Include="Dialog.xaml.cs">
+      <DependentUpon>Dialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Enums\BrushEnum.cs" />
     <Compile Include="Enums\ToolEnum.cs" />
     <Compile Include="FileControl.cs" />
@@ -188,6 +191,10 @@
     <Compile Include="Shapes\Line.cs" />
     <Compile Include="Shapes\Shape.cs" />
     <Compile Include="Utils.cs" />
+    <Page Include="Dialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

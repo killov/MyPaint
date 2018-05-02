@@ -37,7 +37,7 @@ namespace MyPaint
             InitializeComponent();
             control = new MainControl(this);
             colorsInit();
-            setActiveColor(BrushEnum.PRIMARY);
+            SetActiveColor(BrushEnum.PRIMARY);
             setColor(Brushes.Black);
             control.SetWindowTextFont(new FontFamily("Arial"));
             control.SetWindowTextSize(12);
@@ -179,17 +179,17 @@ namespace MyPaint
 
         private void primaryColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            setActiveColor(BrushEnum.PRIMARY); 
+            SetActiveColor(BrushEnum.PRIMARY); 
         }
 
         private void secondaryColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            setActiveColor(BrushEnum.SECONDARY);
+            SetActiveColor(BrushEnum.SECONDARY);
         }
 
         private void backgroundColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            setActiveColor(BrushEnum.BACKGROUND);
+            SetActiveColor(BrushEnum.BACKGROUND);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -202,7 +202,7 @@ namespace MyPaint
             if(control != null) control.SetThickness(e.NewValue);
         }
 
-        public void setActiveColor(BrushEnum color)
+        public void SetActiveColor(BrushEnum color)
         {
             activeColor = color;
             primaryColor.Stroke = color == BrushEnum.PRIMARY ? Brushes.Orange : null;
@@ -346,11 +346,6 @@ namespace MyPaint
             if (control != null)  control.SetZoom(e.NewValue/100);
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Button_layer_down_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -370,6 +365,19 @@ namespace MyPaint
             Button button = sender as Button;
             Layer l = button.DataContext as Layer;
             l.Remove();
+        }
+
+
+        private void Button_layer_rename(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            Layer l = button.DataContext as Layer;
+            var dialog = new Dialog();
+            dialog.ResponseText = l.Name;
+            if (dialog.ShowDialog() == true)
+            {
+                l.Name = dialog.ResponseText;
+            }
         }
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

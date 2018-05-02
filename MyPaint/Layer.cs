@@ -14,7 +14,19 @@ namespace MyPaint
 {
     public class Layer : INotifyPropertyChanged
     {
-        public string Name { get; set; }
+        public string Name { 
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+                NotifyPropertyChanged("Name");
+            }
+        }
+
+        public string name;
         bool vis;
         public bool visible {
             get

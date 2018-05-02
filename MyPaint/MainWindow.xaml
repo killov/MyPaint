@@ -22,11 +22,11 @@
                 </LinearGradientBrush>
             </Menu.Background>
             <MenuItem Header="Soubor" Height="20">
-                <MenuItem Header="Nový" Click="newClick" Height="20">
+                <MenuItem Header="Nový" Click="newClick" Height="20"  InputGestureText="Ctrl+N">
 
                 </MenuItem>
-                <MenuItem Header="Otevřít" Click="openClick" Height="20" />
-                <MenuItem Header="Uložit" Click="saveClick" HorizontalAlignment="Left" Width="129">
+                <MenuItem Header="Otevřít" Click="openClick" Height="20"  InputGestureText="Ctrl+O"/>
+                <MenuItem Header="Uložit" Click="saveClick" HorizontalAlignment="Left" Width="186" InputGestureText="Ctrl+S">
                     <MenuItem.Icon>
                         <Viewbox Width="20" Height="16" HorizontalAlignment="Left" Margin="1,0,-1,0">
                             <Canvas Width="24" Height="24" HorizontalAlignment="Right">
@@ -136,7 +136,7 @@
                 </Canvas>
                 <ncore:ColorBox x:Name="CB" VerticalAlignment="Stretch" ColorChanged="CB_ColorChanged" Width="170" Grid.Row="1" Grid.Column="0" Margin="8,0" Grid.RowSpan="2"/>
                 <Button Style="{StaticResource MyButton}" x:Name="button_addLayer" Margin="0,0,153,8" RenderTransformOrigin="1.15,5.612" Grid.Row="4" FontSize="11" Click="button_addLayer_Click" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="23">+</Button>
-                <ListBox x:Name="layers"  Grid.Row="3" Margin="0,0,-7,2" HorizontalAlignment="Right" Width="183" SelectionChanged="layers_SelectionChanged">
+                <ListBox x:Name="layers"  Grid.Row="3" Margin="0,0,-17,2" HorizontalAlignment="Right" Width="203" SelectionChanged="layers_SelectionChanged" Background="#0068B6E2">
 
                     <ListBox.ItemContainerStyle>
 
@@ -157,21 +157,29 @@
                         <DataTemplate>
                             <Grid Margin="0,2" Background="{Binding Color,Mode=TwoWay}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="25" />
-                                    <ColumnDefinition Width="85" />
+                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="18" />
                                     <ColumnDefinition Width="18" />
                                     <ColumnDefinition Width="18" />
                                     <ColumnDefinition Width="18" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Name}" Grid.Column="1"/>
                                 <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Width="20" IsChecked="{Binding visible, Mode=TwoWay}"/>
-                                <Button Grid.Column="2" Click="Button_layer_down_Click" Style="{StaticResource MyButton}">
+                                <Button Grid.Column="2" Click="Button_layer_rename" Style="{StaticResource MyButton}">
+                                    <Viewbox Width="16" Height="14">
+                                        <Canvas Width="24" Height="24">
+                                            <Path Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" Fill="Black" />
+                                        </Canvas>
+                                    </Viewbox>
+                                </Button>
+                                <Button Grid.Column="3" Click="Button_layer_down_Click" Style="{StaticResource MyButton}">
                                     <Path Fill="Black" Data="M0,0 L2,0 1,1z" Width="10" Height="5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Button>
-                                <Button Grid.Column="3" Click="Button_layer_up_Click" Style="{StaticResource MyButton}">
+                                <Button Grid.Column="4" Click="Button_layer_up_Click" Style="{StaticResource MyButton}">
                                     <Path Fill="Black" Data="M0,1 L2,1 1,0z" Width="10" Height="5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 </Button>
-                                <Button FontWeight="Bold" Grid.Column="4" Click="Button_layer_delete_Click" Style="{StaticResource MyButton}">
+                                <Button FontWeight="Bold" Grid.Column="5" Click="Button_layer_delete_Click" Style="{StaticResource MyButton}">
                                     X
                                 </Button>
                             </Grid>
