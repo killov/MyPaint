@@ -7,7 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:MyPaint"
         xmlns:ncore="http://schemas.ncore.com/wpf/xaml/colorbox"
-        Icon="./icon.png"
+        Icon="shape.png"
         mc:Ignorable="d"
         Title="MyPaint" Height="691" Width="923.5" Closing="closed" WindowState="Maximized" KeyDown="Window_KeyDown">
 
@@ -89,8 +89,8 @@
                     <Path x:Name="forward" Fill="#FF2343B0" Data="M2,1 L1,0 L1,0.5 L0,0.5 L0,1.5 L1,1.5 1,2z" Width="18" Height="17.5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
                 <Canvas x:Name="font_panel" Height="58" Width="272" Canvas.Left="472">
-                    <ComboBox x:Name="font" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="84" Canvas.Left="28" Canvas.Top="33" SelectionChanged="font_SelectionChanged" Height="15" FontSize="8"/>
-                    <Slider x:Name="font_size" Height="15" Width="62" Style="{StaticResource SpinButton}" Canvas.Left="117" Maximum="100" Minimum="0" Value="12" Background="{x:Null}" Canvas.Top="33" ValueChanged="font_size_ValueChanged"/>
+                    <ComboBox x:Name="font" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Canvas.Left="16" Canvas.Top="28" SelectionChanged="font_SelectionChanged" Height="20" FontSize="12"/>
+                    <Slider x:Name="font_size" Height="20" Width="65" Style="{StaticResource SpinButton}" Canvas.Left="117" Maximum="100" Minimum="0" Value="12" Background="{x:Null}" Canvas.Top="28" ValueChanged="font_size_ValueChanged"/>
                     <Label Content="Tloušťka&#xD;&#xA;" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182" Canvas.Left="117" Canvas.Top="6"/>
                     <Label Content="Písmo" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182" Canvas.Left="28" Canvas.Top="6"/>
                 </Canvas>
@@ -246,8 +246,8 @@
     </DockPanel>
     <Window.Resources>
         <ContextMenu x:Key="cmShape">
-            
-            
+
+
             <MenuItem Header="Přenést dopředu" Click="shape_top">
                 <MenuItem.Icon>
                     <Viewbox Width="16" Height="16">

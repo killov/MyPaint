@@ -1,13 +1,15 @@
-﻿draw(0, -1);
-function draw(i, j) {
+﻿function draw(i, j) {
     if (json.layers.length <= i) return;
     if (j == -1) {
-        ctx.moveTo(0, 0);
-        ctx.rect(0, 0, json.resolution.x, json.resolution.y);
-        ctx.fillStyle = brush(json.layers[i].color, { x: 0, y: 0 }, json.resolution.x, json.resolution.y);
-        ctx.fill();
+
         if (!json.layers[i].visible) {
             i++;
+        } else {
+            ctx.beginPath();
+            ctx.moveTo(0.5, 0.5);
+            ctx.rect(0.5, 0.5, json.resolution.x + 0.5, json.resolution.y + 0.5);
+            ctx.fillStyle = brush(json.layers[i].color, { x: 0, y: 0 }, json.resolution.x, json.resolution.y);
+            ctx.fill();
         }
         draw(i, 0);
     } else {
@@ -26,8 +28,8 @@ function draw(i, j) {
                 var w = Math.abs(shape.A.x - shape.B.x);
                 var h = Math.abs(shape.A.y - shape.B.y);
                 ctx.strokeStyle = brush(shape.stroke, A, w, h);
-                ctx.moveTo(shape.A.x, shape.A.y);
-                ctx.lineTo(shape.B.x, shape.B.y);
+                ctx.moveTo(shape.A.x + 0.5, shape.A.y + 0.5);
+                ctx.lineTo(shape.B.x + 0.5, shape.B.y + 0.5);
                 ctx.closePath();
                 ctx.stroke();
                 ctx.fill();
@@ -41,10 +43,10 @@ function draw(i, j) {
                 var h = Math.abs(shape.A.y - shape.B.y);
                 ctx.strokeStyle = brush(shape.stroke, A, w, h);
                 ctx.fillStyle = brush(shape.fill, A, w, h);
-                ctx.moveTo(shape.A.x, shape.A.y);
-                ctx.lineTo(shape.B.x, shape.A.y);
-                ctx.lineTo(shape.B.x, shape.B.y);
-                ctx.lineTo(shape.A.x, shape.B.y);
+                ctx.moveTo(shape.A.x + 0.5, shape.A.y + 0.5);
+                ctx.lineTo(shape.B.x + 0.5, shape.A.y + 0.5);
+                ctx.lineTo(shape.B.x + 0.5, shape.B.y + 0.5);
+                ctx.lineTo(shape.A.x + 0.5, shape.B.y + 0.5);
                 ctx.closePath();
                 ctx.stroke();
                 ctx.fill();
@@ -64,6 +66,48 @@ function draw(i, j) {
                 ctx.fill();
                 draw(i, j + 1);
                 break;
+            case 'POLYLINE':
+                var A = {};
+                A.x = Infinity;
+                A.y = Infinity;
+                var B = {};
+                B.x = -Infinity;
+                B.y = -Infinity;
+                for (var ii in shape.points) {
+                    A.x = Math.min(A.x, shape.points[ii].x);
+                    A.y = Math.min(A.y, shape.points[ii].y);
+                    B.x = Math.max(B.x, shape.points[ii].x);
+                    B.y = Math.max(B.y, shape.points[ii].y);
+                }
+                var w = B.x - A.x;
+                var h = B.y - A.y;
+                ctx.strokeStyle = brush(shape.stroke, A, w, h);
+                ctx.fillStyle = brush(shape.fill, A, w, h);
+                ctx.moveTo(shape.points[0].x + 0.5, shape.points[0].y + 0.5);
+                for (var ii = 1; ii < shape.points.length; ii++) {
+                    ctx.lineTo(shape.points[ii].x + 0.5, shape.points[ii].y + 0.5);
+                }
+                ctx.stroke();
+                ctx.fill('evenodd');
+                draw(i, j + 1);
+                break;
+            case 'QLINE':
+                ctx.strokeStyle = brush(shape.stroke, A, w, h);
+                ctx.fillStyle = brush(shape.fill, A, w, h);
+                ctx.beginPath();
+                ctx.moveTo(shape.A.x + 0.5, shape.A.y + 0.5);
+                ctx.quadraticCurveTo(shape.B.x + 0.5, shape.B.y + 0.5, shape.C.x + 0.5, shape.C.y + 0.5);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.fill();
+                draw(i, j + 1);
+                break;
+            case 'TEXT':
+                var imgData = ctx.getImageData(shape.A.x, shape.A.y, shape.w, shape.h);
+                imgData = imageText(shape, imgData);
+                ctx.putImageData(imgData, shape.A.x, shape.A.y);
+                draw(i, j + 1);
+                break;
             case 'POLYGON':
                 var A = {};
                 A.x = Infinity;
@@ -71,19 +115,19 @@ function draw(i, j) {
                 var B = {};
                 B.x = -Infinity;
                 B.y = -Infinity;
-                for (var i in shape.points) {
-                    A.x = Math.min(A.x, shape.points[i].x);
-                    A.y = Math.min(A.y, shape.points[i].y);
-                    B.x = Math.max(B.x, shape.points[i].x);
-                    B.y = Math.max(B.y, shape.points[i].y);
+                for (var ii in shape.points) {
+                    A.x = Math.min(A.x, shape.points[ii].x);
+                    A.y = Math.min(A.y, shape.points[ii].y);
+                    B.x = Math.max(B.x, shape.points[ii].x);
+                    B.y = Math.max(B.y, shape.points[ii].y);
                 }
                 var w = B.x - A.x;
                 var h = B.y - A.y;
                 ctx.strokeStyle = brush(shape.stroke, A, w, h);
                 ctx.fillStyle = brush(shape.fill, A, w, h);
-                ctx.moveTo(shape.points[0].x, shape.points[0].y);
-                for (var i = 1; i < shape.points.length; i++) {
-                    ctx.lineTo(shape.points[i].x, shape.points[i].y);
+                ctx.moveTo(shape.points[0].x + 0.5, shape.points[0].y + 0.5);
+                for (var ii = 1; ii < shape.points.length; ii++) {
+                    ctx.lineTo(shape.points[ii].x + 0.5, shape.points[ii].y + 0.5);
                 }
                 ctx.closePath();
                 ctx.stroke();
@@ -93,7 +137,7 @@ function draw(i, j) {
             case 'IMAGE':
                 var image = new Image();
                 image.onload = function () {
-                    ctx.moveTo(0, 0);
+                    ctx.moveTo(0.5, 0.5);
                     ctx.drawImage(image, shape.A.x, shape.A.y);
                     draw(i, j + 1);
                 };
@@ -120,5 +164,29 @@ function brush(b, A, w, h) {
                 grd.addColorStop(b.stops[i].offset, brush(b.stops[i].color));
             }
             return grd;
+        case 'NULL':
+            return 'rgba(0,0,0,0)';
     }
+}
+
+function imageText(shape, image) {
+    var canvas = document.createElement('canvas');
+    canvas.width = shape.w;
+    canvas.height = shape.h;
+    var ctx = canvas.getContext('2d');
+    ctx.putImageData(image, 0, 0);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.rect(0, 0, shape.w, shape.h);
+    ctx.fillStyle = brush(shape.fill, { x: 0, y: 0 }, shape.w, shape.h);
+    ctx.fill();
+    ctx.textBaseline = 'top';
+    ctx.font = shape.lineWidth + "px " + shape.font;
+    ctx.fillStyle = brush(shape.stroke, { x: 0, y: 0 }, shape.w, shape.h);
+    var lines = shape.b64.split('\n');
+    for (var i = 0; i < lines.length; i++) {
+        ctx.fillStyle = brush(shape.stroke, { x: 0, y: shape.lineWidth * 1.15 * i }, ctx.measureText(lines[i]).width, shape.lineWidth * 1.15);
+        ctx.fillText(lines[i], 0, 0 + (i * (shape.lineWidth * 1.15)));
+    }
+    return ctx.getImageData(0, 0, shape.w, shape.h);
 }

@@ -21,9 +21,21 @@ namespace MyPaint.FileSaver
         public void Save(FileControl dc)
         {
             this.dc = dc;
-            Thread t = new Thread(Thread_save);
+            Thread t = new Thread(Save);
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
+        }
+
+        private void Save()
+        {
+            try
+            {
+                Thread_save();
+            }
+            catch
+            {
+
+            }
         }
 
         abstract protected void Thread_save();

@@ -16,7 +16,6 @@ namespace MyPaint
     {
         public string Name { get; set; }
         bool vis;
-        Brush col;
         public bool visible {
             get
             {

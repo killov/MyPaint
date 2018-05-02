@@ -75,7 +75,7 @@ namespace MyPaint
             return file;
         }
 
-        private void SetFileActive(FileControl file)
+        public void SetFileActive(FileControl file)
         {
             if (files.Keys.Contains(file.tabItem))
             {
@@ -91,6 +91,7 @@ namespace MyPaint
                 SetPath(this.file.path);
                 w.setBackgroundBrush(this.file.GetBackgroundColor());
                 w.canvas.Children.Clear();
+                w.topCanvas.Children.Clear();
                 w.canvas.Children.Add(this.file.canvas);
                 w.tabControl.SelectedItem = file.tabItem;
                 w.layers.ItemsSource = this.file.layers;
@@ -147,6 +148,11 @@ namespace MyPaint
                 }
                 w.tabControl.SelectedItem = selectedTab;
             }
+        }
+
+        public void FileClose(FileControl file)
+        {
+            TabControlDelete(file.tabItem);
         }
 
         public void AddLayer()
@@ -333,8 +339,7 @@ namespace MyPaint
                 filee.SetName("Bez názvu");
                 string filename = dialog.FileName;
                 filee.OpenFromFile(filename);
-              
-                SetFileActive(files[tab]);
+               
             }
         }
 

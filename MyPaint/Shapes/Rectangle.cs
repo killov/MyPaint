@@ -27,10 +27,9 @@ namespace MyPaint.Shapes
             element = p;
             CreateVirtualShape();
             p.Points.Add(new Point(s.A.x, s.A.y));
-            p.Points.Add(new Point(s.A.x, s.B.y));
-            p.Points.Add(new Point(s.B.x, s.B.y));
             p.Points.Add(new Point(s.B.x, s.A.y));
-            
+            p.Points.Add(new Point(s.B.x, s.B.y));
+            p.Points.Add(new Point(s.A.x, s.B.y));
             AddToCanvas();
             CreatePoints();
         }

@@ -170,7 +170,6 @@ namespace MyPaint.Shapes
             vs.TextChanged += (sender, ee) =>
             {
                 p.Text = vs.Text;
-                text = vs.Text;
                 vs.ScrollToVerticalOffset(0);
             };
 

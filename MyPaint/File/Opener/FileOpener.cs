@@ -21,7 +21,17 @@ namespace MyPaint.FileOpener
         public void Open(FileControl dc)
         {
             this.dc = dc;
-            Thread_open();
+            try
+            {
+                Thread_open();
+                dc.control.SetFileActive(dc);
+            }
+            catch
+            {
+                MessageBox.Show("Nepodařilo se otevřít soubor");
+                dc.control.FileClose(dc);
+            }
+            
         }
 
 
