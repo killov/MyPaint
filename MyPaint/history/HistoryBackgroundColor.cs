@@ -20,12 +20,12 @@ namespace MyPaint.History
 
         public void Back()
         {
-            layer.SetBackground(o);
+            layer.Background = o;
         }
 
         public void Forward()
         {
-            layer.SetBackground(n);
+            layer.Background = n;
         }
 
         public void Skip(IHistoryNodeSkipped node)

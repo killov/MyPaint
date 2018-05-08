@@ -18,12 +18,12 @@ namespace MyPaint.FileOpener
     {
         override protected void Thread_open()
         {
-            using (FileStream fs = new FileStream(dc.path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (FileStream fs = new FileStream(dc.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 BitmapSource bmi = GetBitmap(fs);
                 ImageBrush brush = new ImageBrush(bmi);
                 dc.SetResolution(new System.Windows.Point(bmi.Width, bmi.Height), false, true);
-                dc.selectLayer.shapes.Add(new Shapes.Image(dc, dc.selectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height));
+                new Shapes.Image(dc, dc.SelectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
             }
         }
 

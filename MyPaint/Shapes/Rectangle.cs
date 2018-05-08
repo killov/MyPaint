@@ -19,18 +19,18 @@ namespace MyPaint.Shapes
         EditRect eR;
         public Rectangle(FileControl c, Layer la) : base(c, la)
         {
-            element = p;
+            Element = p;
         }
 
         public Rectangle(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
-            element = p;
+            Element = p;
             CreateVirtualShape();
             p.Points.Add(new Point(s.A.x, s.A.y));
             p.Points.Add(new Point(s.B.x, s.A.y));
             p.Points.Add(new Point(s.B.x, s.B.y));
             p.Points.Add(new Point(s.A.x, s.B.y));
-            AddToCanvas();
+            AddToLayer();
             CreatePoints();
         }
 
@@ -61,7 +61,7 @@ namespace MyPaint.Shapes
             points.Add(e);
             points.Add(e);
             p.Points = points;
-            AddToCanvas();
+            AddToLayer();
             StartDraw();
         }
 
@@ -80,7 +80,7 @@ namespace MyPaint.Shapes
             SetActive();
         }
 
-        override public void CreateVirtualShape()
+        void CreateVirtualShape()
         {
             vs.Points = p.Points;
             vs.Stroke = nullBrush;
@@ -88,7 +88,7 @@ namespace MyPaint.Shapes
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
-                virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
+                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
                 hit = true;
             };           
         }
@@ -97,20 +97,20 @@ namespace MyPaint.Shapes
         {
             base.ShowVirtualShape(mouseDown);
             HideVirtualShape();
-            drawControl.topCanvas.Children.Add(vs);
+            File.TopCanvas.Children.Add(vs);
         }
 
         override public void HideVirtualShape()
         {
-            drawControl.topCanvas.Children.Remove(vs);
+            File.TopCanvas.Children.Remove(vs);
         }
 
         override public void SetActive()
         {
             base.SetActive();
-            drawControl.SetPrimaryColor(p.Stroke);
-            drawControl.SetSecondaryColor(p.Fill);
-            drawControl.SetThickness(p.StrokeThickness);
+            File.SetPrimaryColor(p.Stroke);
+            File.SetSecondaryColor(p.Fill);
+            File.SetThickness(p.StrokeThickness);
             eR.SetActive();
         }
 
@@ -158,9 +158,9 @@ namespace MyPaint.Shapes
             return p.Points[0];
         }
 
-        override public void CreatePoints()
+        void CreatePoints()
         {
-            eR = new EditRect(drawControl.topCanvas, this, p.Points[0], p.Points[2], drawControl.revScale,
+            eR = new EditRect(File.TopCanvas, this, p.Points[0], p.Points[2], File.RevScale,
             (po) =>
             {
                 p.Points[0] = po;

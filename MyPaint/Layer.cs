@@ -56,19 +56,36 @@ namespace MyPaint
             }
         }
 
+        public Brush Background
+        {
+            get
+            {
+                return background;
+            }
+            set
+            {
+                canvas.Background = value;
+                sBackground = Serializer.Brush.Create(value);
+                background = value;
+            }
+        }
+
+
+
         Canvas cv;
         public Canvas canvas;
-        public Brush color;
-        Serializer.Brush background = Serializer.Brush.Create(null);
+        Brush background;
+        Serializer.Brush sBackground = Serializer.Brush.Create(null);
         private FileControl file;
-        public List<Shapes.Shape> shapes = new List<Shapes.Shape>();
+        private List<Shapes.Shape> Shapes { get; set; }
 
         public Layer(Canvas c, FileControl dc)
         {
             cv = c;
             canvas = new Canvas();
+            Shapes = new List<Shapes.Shape>();
             cv.Children.Add(canvas);
-            SetResolution(dc.resolution);
+            SetResolution(dc.Resolution);
             file = dc;
         }
 
@@ -76,13 +93,14 @@ namespace MyPaint
         {
             cv = c;
             canvas = new Canvas();
+            Shapes = new List<Shapes.Shape>();
             cv.Children.Add(canvas);
             Name = layer.name;
             canvas.Name = layer.name;
-            SetResolution(dc.resolution);
+            SetResolution(dc.Resolution);
             file = dc;
             visible = layer.visible;
-            SetBackground(layer.color == null ? null : layer.color.CreateBrush());
+            Background = layer.color == null ? null : layer.color.CreateBrush();
             foreach (var shape in layer.shapes)
             {
                 shape.Create(file, this);
@@ -95,18 +113,6 @@ namespace MyPaint
             canvas.Height = res.Y;
         }
 
-        public void SetBackground(Brush c)
-        {
-            canvas.Background = c;
-            background = Serializer.Brush.Create(c);
-            color = c;
-        }
-
-        public Brush GetBackground()
-        {
-            return color;
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)
@@ -114,15 +120,16 @@ namespace MyPaint
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
+        
 
         public Serializer.Layer CreateSerializer()
         {
             Serializer.Layer la = new Serializer.Layer();
-            la.color = background;
+            la.color = sBackground;
             la.visible = visible;
             la.name = Name;
             la.shapes = new List<Serializer.Shape>();
-            foreach (var shape in shapes)
+            foreach (var shape in Shapes)
             {
                 la.shapes.Add(shape.CreateSerializer());
             }
@@ -132,12 +139,12 @@ namespace MyPaint
         public Canvas CreateImage()
         {
             Canvas canvas = new Canvas();
-            canvas.Background = background.CreateBrush();
-            canvas.Width = file.resolution.X;
-            canvas.Height = file.resolution.Y;
+            canvas.Background = sBackground.CreateBrush();
+            canvas.Width = file.Resolution.X;
+            canvas.Height = file.Resolution.Y;
             if (visible)
             {
-                foreach (var shape in shapes)
+                foreach (var shape in Shapes)
                 {
                     shape.CreateImage(canvas);
                 }
@@ -151,7 +158,7 @@ namespace MyPaint
             if (i > 0)
             {
                 SetPosition(i - 1);
-                file.historyControl.Add(new History.HistoryLayerPosition(this, i, i - 1));
+                file.HistoryControl.Add(new History.HistoryLayerPosition(this, i, i - 1));
             }
         }
 
@@ -161,7 +168,7 @@ namespace MyPaint
             if (i < file.layers.Count - 1)
             {
                 SetPosition(i + 1);
-                file.historyControl.Add(new History.HistoryLayerPosition(this, i, i + 1));
+                file.HistoryControl.Add(new History.HistoryLayerPosition(this, i, i + 1));
             }
         }
 
@@ -174,13 +181,13 @@ namespace MyPaint
 
         public void Remove(bool history = true)
         {
-            if(history) file.historyControl.Add(new HistoryLayerRemove(this, file.layers.IndexOf(this)));
+            if(history) file.HistoryControl.Add(new HistoryLayerRemove(this, file.layers.IndexOf(this)));
             file.layers.Remove(this);
             cv.Children.Remove(canvas);
-            if(file.selectLayer == this)
+            if(file.SelectLayer == this)
             {
                 file.StopEdit();
-                file.selectLayer = null;
+                file.UnselectLayer();
                 UnsetSelectable();
             }
         }
@@ -203,7 +210,7 @@ namespace MyPaint
 
         public void SetSelectable()
         {
-            foreach(var shape in shapes)
+            foreach(var shape in Shapes)
             {
                 shape.HideVirtualShape();
                 shape.ShowVirtualShape((e, s, m) =>
@@ -215,22 +222,51 @@ namespace MyPaint
 
         private void SetShapeSelect(Point e, Shapes.Shape shape, bool enableMoving)
         {            
-            if (file.shape != null)
+            if (file.Shape != null)
             {
-                file.shape.StopEdit();
+                file.Shape.StopEdit();
             }
             UnsetSelectable();
             SetSelectable();
-            file.shape = shape;
-            shape.SetActive();
+            file.SetShapeActive(shape);
             if(enableMoving) shape.StartMove(e);
         }
 
         public void UnsetSelectable()
         {
-            foreach (var shape in shapes)
+            foreach (var shape in Shapes)
             {
                 shape.HideVirtualShape();
+            }
+        }
+
+        public void AddShape(Shapes.Shape shape)
+        {
+            Shapes.Add(shape);
+            canvas.Children.Add(shape.Element);
+        }
+
+        public void InsertShape(int index, Shapes.Shape shape)
+        {
+            Shapes.Insert(index, shape);
+            canvas.Children.Insert(index, shape.Element);
+        }
+
+        public int RemoveShape(Shapes.Shape shape)
+        {
+            int pos = Shapes.IndexOf(shape);
+            Shapes.Remove(shape);
+            canvas.Children.Remove(shape.Element);
+            return pos;
+        }
+
+        public void ShapeElementChanged(Shapes.Shape shape)
+        {
+            int i = Shapes.IndexOf(shape);
+            if(i != -1)
+            {
+                canvas.Children.RemoveAt(i);
+                canvas.Children.Insert(i, shape.Element);
             }
         }
     }

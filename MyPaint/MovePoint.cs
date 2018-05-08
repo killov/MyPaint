@@ -18,7 +18,7 @@ namespace MyPaint
         Canvas canvas;
         Shapes.Shape shape;
         Point position;
-        public bool drag = false;
+        bool drag = false;
         Point startPosition;
         MoveDelegate posun;
         Canvas element;
@@ -103,7 +103,7 @@ namespace MyPaint
         {
             if (drag && !startPosition.Equals(position))
             {
-                shape.drawControl.historyControl.Add(new History.HistoryMovePoint(this, startPosition, position));
+                shape.File.HistoryControl.Add(new History.HistoryMovePoint(this, startPosition, position));
             }
             drag = false;
         }

@@ -44,36 +44,42 @@
 
 
             <Canvas Grid.Row="0" Height="58" VerticalAlignment="Top">
-
-                <Button Style="{StaticResource MyButton}" x:Name="button_select" Canvas.Left="7" Canvas.Top="10" Width="40" Height="40" Click="button_select_Click" ForceCursor="True" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_select_area" Canvas.Left="9" Canvas.Top="10" Width="40" Height="40" Click="button_select_area_Click" ForceCursor="True" Margin="0">
+                    <Viewbox Width="30" Height="40">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M2,4C2,2.89 2.9,2 4,2H7V4H4V7H2V4M22,4V7H20V4H17V2H20A2,2 0 0,1 22,4M20,20V17H22V20C22,21.11 21.1,22 20,22H17V20H20M2,20V17H4V20H7V22H4A2,2 0 0,1 2,20M10,2H14V4H10V2M10,20H14V22H10V20M20,10H22V14H20V10M2,10H4V14H2V10Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource MyButton}" x:Name="button_select" Canvas.Left="54" Canvas.Top="10" Width="40" Height="40" Click="button_select_Click" ForceCursor="True" Margin="0">
                     <Viewbox Width="30" Height="40">
                         <Canvas Width="24" Height="24">
                             <Path Data="M10.07,14.27C10.57,14.03 11.16,14.25 11.4,14.75L13.7,19.74L15.5,18.89L13.19,13.91C12.95,13.41 13.17,12.81 13.67,12.58L13.95,12.5L16.25,12.05L8,5.12V15.9L9.82,14.43L10.07,14.27M13.64,21.97C13.14,22.21 12.54,22 12.31,21.5L10.13,16.76L7.62,18.78C7.45,18.92 7.24,19 7,19A1,1 0 0,1 6,18V3A1,1 0 0,1 7,2C7.24,2 7.47,2.09 7.64,2.23L7.65,2.22L19.14,11.86C19.57,12.22 19.62,12.85 19.27,13.27C19.12,13.45 18.91,13.57 18.7,13.61L15.54,14.23L17.74,18.96C18,19.46 17.76,20.05 17.26,20.28L13.64,21.97Z" Fill="Black" />
                         </Canvas>
                     </Viewbox>
                 </Button>
-                <Button Style="{StaticResource MyButtonActive}" x:Name="button_line" Canvas.Left="52" Canvas.Top="10" Width="40" Height="40" Click="button_line_Click" ForceCursor="True" Margin="0">
+                <Button Style="{StaticResource MyButtonActive}" x:Name="button_line" Canvas.Left="99" Canvas.Top="10" Width="40" Height="40" Click="button_line_Click" ForceCursor="True" Margin="0">
                     <Line X1="0" Y1="0" X2="25" Y2="25" Stroke="Black" StrokeThickness="3" Height="25" Width="25"/>
                 </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_polyline" Canvas.Left="97" Canvas.Top="10" Width="40" Height="40" Click="button_polyline_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_polyline" Canvas.Left="144" Canvas.Top="10" Width="40" Height="40" Click="button_polyline_Click" Margin="0">
                     <Polyline Points="3,3 3,20 10,10 18,12 16,5" Stroke="Black" StrokeThickness="3" Height="25" Width="21"  />
                 </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_ellipse" Canvas.Left="142" Canvas.Top="10" Width="40" Height="40" Click="button_ellipse_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_ellipse" Canvas.Left="189" Canvas.Top="10" Width="40" Height="40" Click="button_ellipse_Click" Margin="0">
                     <Ellipse StrokeThickness="3" HorizontalAlignment="Left" Height="20" Stroke="Black" VerticalAlignment="Top" Width="14"/>
                 </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_rectangle" Canvas.Left="187" Canvas.Top="10" Width="40" Height="40" Click="button_rectangle_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_rectangle" Canvas.Left="234" Canvas.Top="10" Width="40" Height="40" Click="button_rectangle_Click" Margin="0">
                     <Rectangle Width="23" Height="18" Stroke="Black" StrokeThickness="3" />
                 </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_polygon" Canvas.Left="232" Canvas.Top="10" Width="40" Height="40" Click="button_polygon_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_polygon" Canvas.Left="279" Canvas.Top="10" Width="40" Height="40" Click="button_polygon_Click" Margin="0">
                     <Polygon Points="3,3 3,20 10,10 18,12 16,5" Stroke="Black" StrokeThickness="3" Height="25" Width="21"  />
                 </Button>
 
-                <Button Style="{StaticResource MyButton}" x:Name="button_q_curve" Canvas.Left="277" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_q_cueve_Click">
+                <Button Style="{StaticResource MyButton}" x:Name="button_q_curve" Canvas.Left="324" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_q_cueve_Click">
                     <Path Stroke="Black" StrokeThickness="3" Data="M 1,4 Q 3,30 20,4" />
                 </Button>
 
 
-                <Button Style="{StaticResource MyButton}" x:Name="button_text" Canvas.Left="322" Canvas.Top="10" Width="40" Height="40" Click="button_text_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_text" Canvas.Left="369" Canvas.Top="10" Width="40" Height="40" Click="button_text_Click" Margin="0">
                     <Viewbox Width="30" Height="40">
                         <Canvas Width="24" Height="24">
                             <Path Data="M18.5,4L19.66,8.35L18.7,8.61C18.25,7.74 17.79,6.87 17.26,6.43C16.73,6 16.11,6 15.5,6H13V16.5C13,17 13,17.5 13.33,17.75C13.67,18 14.33,18 15,18V19H9V18C9.67,18 10.33,18 10.67,17.75C11,17.5 11,17 11,16.5V6H8.5C7.89,6 7.27,6 6.74,6.43C6.21,6.87 5.75,7.74 5.3,8.61L4.34,8.35L5.5,4H18.5Z" Fill="Black" />
@@ -81,19 +87,20 @@
                     </Viewbox>
                 </Button>
 
-                <Button Style="{StaticResource MyButton}" x:Name="button_back" Canvas.Left="383" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_back_Click">
+                <Button Style="{StaticResource MyButton}" x:Name="button_back" Canvas.Left="458" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_back_Click">
                     <Path x:Name="back" Fill="#FF2343B0" Data="M0,1 L1,0 L1,0.5 L2,0.5 L2,1.5 L1,1.5 1,2z" Width="18" Height="17.5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
 
-                <Button Style="{StaticResource MyButton}" x:Name="button_forward" Canvas.Left="428" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_forward_Click">
+                <Button Style="{StaticResource MyButton}" x:Name="button_forward" Canvas.Left="503" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_forward_Click">
                     <Path x:Name="forward" Fill="#FF2343B0" Data="M2,1 L1,0 L1,0.5 L0,0.5 L0,1.5 L1,1.5 1,2z" Width="18" Height="17.5" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Button>
-                <Canvas x:Name="font_panel" Height="58" Width="272" Canvas.Left="472">
+                <Canvas x:Name="font_panel" Height="58" Width="272" Canvas.Left="548">
                     <ComboBox x:Name="font" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Canvas.Left="16" Canvas.Top="28" SelectionChanged="font_SelectionChanged" Height="20" FontSize="12"/>
                     <Slider x:Name="font_size" Height="20" Width="65" Style="{StaticResource SpinButton}" Canvas.Left="117" Maximum="100" Minimum="0" Value="12" Background="{x:Null}" Canvas.Top="28" ValueChanged="font_size_ValueChanged"/>
                     <Label Content="Tloušťka&#xD;&#xA;" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182" Canvas.Left="117" Canvas.Top="6"/>
                     <Label Content="Písmo" FontSize="9" Width="52" Height="22" RenderTransformOrigin="0.731,-0.182" Canvas.Left="28" Canvas.Top="6"/>
                 </Canvas>
+
 
             </Canvas>
             <Grid Margin="0,58,0,26" HorizontalAlignment="Left" Width="186">
@@ -187,7 +194,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
-            <ScrollViewer x:Name="canvas_outer" Margin="204,88,0,26" MouseMove="canvas_outer_MouseMove" MouseUp="canvas_outer_MouseUp" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer x:Name="canvas_outer" Margin="204,88,0,26" MouseMove="canvas_outer_MouseMove" MouseUp="canvas_outer_MouseUp" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" ScrollChanged="canvas_outer_ScrollChanged">
                 <ScrollViewer.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                         <GradientStop Color="#FF3BA4BB" Offset="1"/>
@@ -212,8 +219,8 @@
                 <TabControl.Resources>
                     <DataTemplate x:Key="TabHeader" DataType="TabItem">
                         <DockPanel>
-                            <Button Name="btnDelete" DockPanel.Dock="Right" Margin="3,0,0,0" Padding="0" Click="tabClose_Click" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}">
-                                <Path Stroke="Black" StrokeThickness="2">
+                            <Button Name="btnDelete" DockPanel.Dock="Right" Margin="5,0,0,0" Padding="0" Click="tabClose_Click" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}" Background="#00000000" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                                <Path Stroke="Black" StrokeThickness="2" Margin="1,1,1,1">
                                     <Path.Data>
                                         <PathGeometry>
                                             <PathGeometry.Figures>

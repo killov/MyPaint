@@ -186,11 +186,11 @@
     <Compile Include="Shapes\PolyLine.cs" />
     <Compile Include="Shapes\Polygon.cs" />
     <Compile Include="Shapes\Image.cs" />
+    <Compile Include="Shapes\Area.cs" />
     <Compile Include="Shapes\Text.cs" />
     <Compile Include="Shapes\Rectangle.cs" />
     <Compile Include="Shapes\Line.cs" />
     <Compile Include="Shapes\Shape.cs" />
-    <Compile Include="Utils.cs" />
     <Page Include="Dialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

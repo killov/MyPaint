@@ -19,13 +19,13 @@ namespace MyPaint.FileSaver
         override protected void Thread_save()
         {
             ContentControl cc = new ContentControl();
-            Rect rect = new Rect(0, 0, dc.resolution.X, dc.resolution.Y);
+            Rect rect = new Rect(0, 0, dc.Resolution.X, dc.Resolution.Y);
             cc.Content = dc.CreateImage();
             cc.Arrange(rect);
 
-            string filename = dc.path;
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)dc.resolution.X,
-                (int)dc.resolution.Y, 96, 96, PixelFormats.Default);
+            string filename = dc.Path;
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)dc.Resolution.X,
+                (int)dc.Resolution.Y, 96, 96, PixelFormats.Default);
             rtb.Render(cc);
             BitmapEncoder encoder = GetEncoder();
             encoder.Frames.Add(BitmapFrame.Create(rtb));

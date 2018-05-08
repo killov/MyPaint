@@ -25,7 +25,7 @@ namespace MyPaint
         public void Cut()
         {
             Copy();
-            if (control.file.shape != null && control.file.ShapeDrawed())
+            if (control.file.Shape != null && control.file.ShapeDrawed())
             {
                 control.file.ShapeDelete();
             }
@@ -33,13 +33,18 @@ namespace MyPaint
 
         public void Copy()
         {
-            if (control.file.shape != null && control.file.ShapeDrawed())
+            if (control.file.Shape != null && control.file.ShapeDrawed())
             {
-                Shapes.Shape s = control.file.shape;
+                Shapes.Shape s = control.file.Shape;
                 if (s is Shapes.Image)
                 {
                     Shapes.Image im = (Shapes.Image)s;
                     Clipboard.SetImage(im.CreateBitmap());
+                    clipboard = null;
+                }else if (s is Shapes.Area)
+                {
+                    Shapes.Area area = (Shapes.Area)s;
+                    Clipboard.SetImage(area.CreateBitmap());
                     clipboard = null;
                 }
                 else

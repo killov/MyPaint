@@ -14,7 +14,7 @@ namespace MyPaint.FileOpener
     {
         override protected void Thread_open()
         {
-            using (StreamReader sr = new StreamReader(dc.path))
+            using (StreamReader sr = new StreamReader(dc.Path))
             {
                 string code = sr.ReadToEnd();
                 string a = new Regex("width=\"(.+?)\"").Matches(code)[0].Groups[1].ToString();
@@ -29,7 +29,7 @@ namespace MyPaint.FileOpener
                 dc.DeleteLayers();
                 foreach (var l in pic.layers)
                 {
-                    dc.layers.Add(new Layer(dc.canvas, dc, l));
+                    dc.layers.Add(new Layer(dc.Canvas, dc, l));
                 }
                 dc.SetActiveLayer(dc.layers.Count - 1);
             }

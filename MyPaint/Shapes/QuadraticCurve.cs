@@ -22,12 +22,12 @@ namespace MyPaint.Shapes
 
         public QuadraticCurve(FileControl c, Layer la) : base(c, la)
         {
-            element = p;
+            Element = p;
         }
 
         public QuadraticCurve(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
-            element = p;
+            Element = p;
             PathGeometry pg = new PathGeometry();
             p.Data = pg;
             pf = new PathFigure();
@@ -35,7 +35,7 @@ namespace MyPaint.Shapes
             pf.StartPoint = new Point(s.A.x, s.A.y);
             qbs = new QuadraticBezierSegment(new Point(s.B.x, s.B.y), new Point(s.C.x, s.C.y), true);
             pf.Segments.Add(qbs);
-            AddToCanvas();
+            AddToLayer();
             CreatePoints();
             CreateVirtualShape();
         }
@@ -67,7 +67,7 @@ namespace MyPaint.Shapes
             pf.StartPoint = e;
             pg.Figures.Add(pf);
             p.Data = pg;
-            AddToCanvas();
+            AddToLayer();
             qbs = new QuadraticBezierSegment();
             qbs.Point1 = e;
             qbs.Point2 = e;
@@ -89,16 +89,16 @@ namespace MyPaint.Shapes
             SetActive();
         }
 
-        override public void CreateVirtualShape()
+        void CreateVirtualShape()
         {
             vs.Data = p.Data;
             vs.Cursor = Cursors.SizeAll;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
-            vs.StrokeThickness = Math.Max(3 * drawControl.revScale.ScaleX, p.StrokeThickness);
+            vs.StrokeThickness = Math.Max(3 * File.RevScale.ScaleX, p.StrokeThickness);
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
-                virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
+                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
                 hit = true;
             };
             
@@ -126,22 +126,22 @@ namespace MyPaint.Shapes
         {
             base.ShowVirtualShape(mouseDown);
             HideVirtualShape();
-            drawControl.topCanvas.Children.Add(vs);
+            File.TopCanvas.Children.Add(vs);
         }
 
         override public void HideVirtualShape()
         {
-            drawControl.topCanvas.Children.Remove(vs);
+            File.TopCanvas.Children.Remove(vs);
         }
 
         override public void SetActive()
         {
             base.SetActive();
-            drawControl.SetPrimaryColor(primaryColor);
-            drawControl.SetSecondaryColor(secondaryColor);
-            drawControl.SetThickness(thickness);
-            drawControl.topCanvas.Children.Add(eL1);
-            drawControl.topCanvas.Children.Add(eL2);
+            File.SetPrimaryColor(primaryColor);
+            File.SetSecondaryColor(secondaryColor);
+            File.SetThickness(thickness);
+            File.TopCanvas.Children.Add(eL1);
+            File.TopCanvas.Children.Add(eL2);
             p1.Show();
             p2.Show();
             p3.Show();
@@ -170,8 +170,8 @@ namespace MyPaint.Shapes
             p1.Hide();
             p2.Hide();
             p3.Hide();
-            drawControl.topCanvas.Children.Remove(eL1);
-            drawControl.topCanvas.Children.Remove(eL2);
+            File.TopCanvas.Children.Remove(eL1);
+            File.TopCanvas.Children.Remove(eL2);
         }
 
         override public void MoveShape(double x, double y)
@@ -207,9 +207,9 @@ namespace MyPaint.Shapes
             return pf.StartPoint;
         }
 
-        override public void CreatePoints()
+        void CreatePoints()
         {
-            p1 = new MovePoint(drawControl.topCanvas, this, pf.StartPoint, drawControl.revScale, (e) =>
+            p1 = new MovePoint(File.TopCanvas, this, pf.StartPoint, File.RevScale, (e) =>
             {
                 pf.StartPoint = e;
                 eL1.X1 = e.X;
@@ -217,7 +217,7 @@ namespace MyPaint.Shapes
                 return true;
             });
 
-            p2 = new MovePoint(drawControl.topCanvas, this, qbs.Point1, drawControl.revScale, (e) =>
+            p2 = new MovePoint(File.TopCanvas, this, qbs.Point1, File.RevScale, (e) =>
             {
                 qbs.Point1 = e;
                 eL1.X2 = eL2.X1 = e.X;
@@ -225,7 +225,7 @@ namespace MyPaint.Shapes
                 return true;
             });
 
-            p3 = new MovePoint(drawControl.topCanvas, this, qbs.Point2, drawControl.revScale, (e) =>
+            p3 = new MovePoint(File.TopCanvas, this, qbs.Point2, File.RevScale, (e) =>
             {
                 qbs.Point2 = e;
                 eL2.X2 = e.X;
@@ -254,7 +254,7 @@ namespace MyPaint.Shapes
 
         public override void ChangeZoom()
         {
-            vs.StrokeThickness = Math.Max(3 * drawControl.revScale.ScaleX, p.StrokeThickness);
+            vs.StrokeThickness = Math.Max(3 * File.RevScale.ScaleX, p.StrokeThickness);
         }
     }
 }

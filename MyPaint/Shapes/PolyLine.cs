@@ -25,13 +25,13 @@ namespace MyPaint.Shapes
 
         public PolyLine(FileControl c, Layer la) : base(c, la)
         {
-            multiDraw = true;
-            element = path;
+            MultiDraw = true;
+            Element = path;
         }
 
         public PolyLine(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
-            element = path;
+            Element = path;
             PathGeometry p = new PathGeometry();
            
             
@@ -49,7 +49,6 @@ namespace MyPaint.Shapes
                 }
                 pf.Segments.Add(new LineSegment(new Point(point.x, point.y), true));
             }
-            AddToCanvas(path);
             CreatePoints();
             CreateVirtualShape();
         }
@@ -76,15 +75,15 @@ namespace MyPaint.Shapes
         override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             StartDraw();
-            path.Stroke = drawControl.GetShapePrimaryColor();
-            path.StrokeThickness = drawControl.GetShapeThickness();
+            path.Stroke = File.GetShapePrimaryColor();
+            path.StrokeThickness = File.GetShapeThickness();
             path.ToolTip = null;
             PathGeometry p = new PathGeometry();
             pf = new PathFigure();
             pf.StartPoint = e;
             p.Figures.Add(pf);
             path.Data = p;
-            AddToCanvas();
+            AddToLayer();
             ls = new LineSegment();
             ls.Point = e;
             pf.Segments.Add(ls);
@@ -136,7 +135,7 @@ namespace MyPaint.Shapes
             
         }
 
-        override public void CreateVirtualShape()
+        void CreateVirtualShape()
         {
 
             vs.Data = path.Data;
@@ -146,7 +145,7 @@ namespace MyPaint.Shapes
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
-                virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
+                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
                 hit = true;
             };
 
@@ -156,20 +155,20 @@ namespace MyPaint.Shapes
         {
             base.ShowVirtualShape(mouseDown);
             HideVirtualShape();
-            drawControl.topCanvas.Children.Add(vs);
+            File.TopCanvas.Children.Add(vs);
         }
 
         override public void HideVirtualShape()
         {
-            drawControl.topCanvas.Children.Remove(vs);
+            File.TopCanvas.Children.Remove(vs);
         }
 
         override public void SetActive()
         {
             base.SetActive();
-            drawControl.SetPrimaryColor(path.Stroke);
-            drawControl.SetSecondaryColor(path.Fill);
-            drawControl.SetThickness(path.StrokeThickness);
+            File.SetPrimaryColor(path.Stroke);
+            File.SetSecondaryColor(path.Fill);
+            File.SetThickness(path.StrokeThickness);
             foreach (MovePoint p in movepoints)
             {
                 p.Show();
@@ -237,10 +236,10 @@ namespace MyPaint.Shapes
             return pf.StartPoint;
         }
 
-        override public void CreatePoints()
+        void CreatePoints()
         {
             movepoints = new List<MovePoint>();
-            MovePoint mp = new MovePoint(drawControl.topCanvas, this, pf.StartPoint, drawControl.revScale, (Point po) =>
+            MovePoint mp = new MovePoint(File.TopCanvas, this, pf.StartPoint, File.RevScale, (Point po) =>
             {
                 pf.StartPoint = po;
                 return true;
@@ -255,7 +254,7 @@ namespace MyPaint.Shapes
         void cp(int i)
         {
             LineSegment ls = (LineSegment)pf.Segments[i];
-            MovePoint mp = new MovePoint(drawControl.topCanvas, this, ls.Point, drawControl.revScale, (Point po) =>
+            MovePoint mp = new MovePoint(File.TopCanvas, this, ls.Point, File.RevScale, (Point po) =>
             {
                 ls.Point = po;
                 return true;

@@ -37,7 +37,7 @@ namespace MyPaint
             p.MouseDown +=  (o, e) =>
             {
                 s.SetHit(true);
-                s.drawControl.StartMoveShape(s.GetPosition(), e.GetPosition(canvas));
+                s.File.StartMoveShape(s.GetPosition(), e.GetPosition(canvas));
             };
             DoubleCollection dash = new DoubleCollection();
             dash.Add(4);
@@ -166,14 +166,14 @@ namespace MyPaint
 
         public void Move(double x, double y)
         {
-            p1.Move(x, y);
-            p2.Move(p.Points[1].X, p.Points[1].Y);
-            p3.Move(p.Points[2].X, p.Points[2].Y);
-            p4.Move(p.Points[3].X, p.Points[3].Y);
             p.Points[1] = new Point(p.Points[1].X - p.Points[0].X + x, p.Points[1].Y - p.Points[0].Y + y);
             p.Points[2] = new Point(p.Points[2].X - p.Points[0].X + x, p.Points[2].Y - p.Points[0].Y + y);
             p.Points[3] = new Point(p.Points[3].X - p.Points[0].X + x, p.Points[3].Y - p.Points[0].Y + y);
             p.Points[0] = new Point(x, y);
+            p1.Move(x, y);
+            p2.Move(p.Points[1].X, p.Points[1].Y);
+            p3.Move(p.Points[2].X, p.Points[2].Y);
+            p4.Move(p.Points[3].X, p.Points[3].Y);
         }
 
         public void SetActive()

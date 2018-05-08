@@ -13,7 +13,7 @@ namespace MyPaint.FileSaver
     public class HTML : FileSaver
     {
         override protected void Thread_save() { 
-            string filename = dc.path;
+            string filename = dc.Path;
             System.IO.StreamWriter file = new System.IO.StreamWriter(filename);
             file.WriteLine("<!DOCTYPE HTML>");
             file.WriteLine("<html>");
@@ -22,11 +22,11 @@ namespace MyPaint.FileSaver
            // file.WriteLine("<script type=\"text/javascript\" src=\"js.js\"></script>");
             file.WriteLine("</head>");
             file.WriteLine("<body>");
-            file.WriteLine("<canvas width=\"" + dc.resolution.X + "\" height=\"" + dc.resolution.Y + "\" style=\"border: 1px solid black;\" id=\"MyPaint\"></canvas>");
+            file.WriteLine("<canvas width=\"" + dc.Resolution.X + "\" height=\"" + dc.Resolution.Y + "\" style=\"border: 1px solid black;\" id=\"MyPaint\"></canvas>");
             file.WriteLine("<script>");
             file.WriteLine("var ctx = document.getElementById(\"MyPaint\").getContext(\"2d\");");
             var pic = new Serializer.Picture();
-            pic.resolution = new Serializer.Point(dc.resolution.X, dc.resolution.Y);
+            pic.resolution = new Serializer.Point(dc.Resolution.X, dc.Resolution.Y);
             pic.layers = new List<Serializer.Layer>();
             foreach (var layer in dc.layers)
             {

@@ -70,14 +70,14 @@ namespace MyPaint
             FileControl file = new FileControl(this, revScale, tab, w.topCanvas);
             file.SetName("Bez názvu");
             file.SetResolution(new Point(500, 400), false, true);
-            file.historyControl.Enable();
+            file.HistoryControl.Enable();
             files[tab] = file;
             return file;
         }
 
         public void SetFileActive(FileControl file)
         {
-            if (files.Keys.Contains(file.tabItem))
+            if (files.Keys.Contains(file.TabItem))
             {
                 if (this.file != null) this.file.Deactivate();
                 this.file = file;
@@ -85,17 +85,18 @@ namespace MyPaint
                 this.file.SetShapeSecondaryColor(secondaryBrush);
                 this.file.SetShapeThickness(thickness);
                 this.file.SetTool(tool);
-                this.file.historyControl.Redraw();
-                this.file.Activate();
-                SetResolution(this.file.resolution.X, this.file.resolution.Y, false);
-                SetPath(this.file.path);
-                w.setBackgroundBrush(this.file.GetBackgroundColor());
+                this.file.HistoryControl.Redraw();
+                SetWindowZoom(file.Zoom);
+                SetResolution(this.file.Resolution.X, this.file.Resolution.Y, false);
+                SetPath(this.file.Path);
+                w.SetBackgroundBrush(this.file.GetBackgroundColor());
                 w.canvas.Children.Clear();
                 w.topCanvas.Children.Clear();
-                w.canvas.Children.Add(this.file.canvas);
-                w.tabControl.SelectedItem = file.tabItem;
+                w.canvas.Children.Add(this.file.Canvas);
+                w.tabControl.SelectedItem = file.TabItem;
                 w.layers.ItemsSource = this.file.layers;
-                w.layers.SelectedItem = file.selectLayer;
+                w.layers.SelectedItem = file.SelectLayer;
+                this.file.Activate();
             }
         }
 
@@ -134,7 +135,7 @@ namespace MyPaint
                 TabItem selectedTab = w.tabControl.SelectedItem as TabItem;
                 FileControl file = files[tab];
                 file.Deactivate();
-                if (file.historyControl.Change())
+                if (file.HistoryControl.Change())
                 {
                     if (!SaveDialog()) return;
                 }
@@ -152,7 +153,7 @@ namespace MyPaint
 
         public void FileClose(FileControl file)
         {
-            TabControlDelete(file.tabItem);
+            TabControlDelete(file.TabItem);
         }
 
         public void AddLayer()
@@ -170,7 +171,7 @@ namespace MyPaint
             if (file != null)
             {
                 file.StopEdit();
-                file.historyControl.Back();
+                file.HistoryControl.Back();
                 file.Activate();
             }
         }
@@ -179,7 +180,7 @@ namespace MyPaint
         {
             if (file != null)
             {
-                file.historyControl.Forward();
+                file.HistoryControl.Forward();
                 file.Activate();
             }
         }
@@ -189,13 +190,18 @@ namespace MyPaint
             w.SetHistory(b, f);
         }
 
+        public void SetWindowZoom(double zoom)
+        {
+            w.zoom.Value = zoom*100;
+        }
+
         public void SetZoom(double zoom)
         {
             scale.ScaleX = zoom;
             scale.ScaleY = zoom;
             revScale.ScaleX = 1 / zoom;
             revScale.ScaleY = 1 / zoom;
-            if (file != null) file.ChangeZoom();
+            if (file != null) file.Zoom = zoom;
         }
 
         public void SetResolution(double ws, double hs, bool back = true)
@@ -286,19 +292,19 @@ namespace MyPaint
 
         public void SetWindowPrimaryBrush(Brush c)
         {
-            w.setPrimaryBrush(c);
+            w.SetPrimaryBrush(c);
             primaryBrush = c;
         }
 
         public void SetWindowSecondaryBrush(Brush c)
         {
-            w.setSecondaryBrush(c);
+            w.SetSecondaryBrush(c);
             secondaryBrush = c;
         }
 
         public void SetWindowBackgroundBrush(Brush c)
         {
-            w.setBackgroundBrush(c);
+            w.SetBackgroundBrush(c);
             layerColor = c;
         }
 
@@ -338,7 +344,7 @@ namespace MyPaint
                 files[tab] = filee;
                 filee.SetName("Bez názvu");
                 string filename = dialog.FileName;
-                filee.OpenFromFile(filename);
+                FileOpener.FileOpener.OpenFromFile(this, filee, filename);
                
             }
         }
@@ -369,20 +375,20 @@ namespace MyPaint
             file.StopEdit();
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
-            file.SaveAsFile(path);
-            file.historyControl.SetNotChange();
-            
+            file.SetPath(path);
+            FileSaver.FileSaver.SaveAsFile(this, file, path);
+            file.HistoryControl.SetNotChange();
         }
 
         public bool Save()
         {
-            if (file.path == "")
+            if (file.Path == null)
             {
                 return SaveAs();
             }
             else
             {
-                SaveAs(file.path);
+                SaveAs(file.Path);
                 return true;
             }
         }
@@ -410,6 +416,7 @@ namespace MyPaint
         {
             Style def = w.FindResource("MyButton") as Style;
             Style act = w.FindResource("MyButtonActive") as Style;
+            w.button_select_area.Style = def;
             w.button_select.Style = def;
             w.button_line.Style = def;
             w.button_polyline.Style = def;
@@ -420,9 +427,12 @@ namespace MyPaint
             w.button_text.Style = def;
             switch (s)
             {
+                case ToolEnum.SELECTAREA:
+                    w.button_select_area.Style = act;
+                break;
                 case ToolEnum.SELECT:
                     w.button_select.Style = act;
-                    break;
+                break;
                 case ToolEnum.LINE:
                     w.button_line.Style = act;
                     break;
@@ -455,9 +465,10 @@ namespace MyPaint
             if (file != null) file.MouseDown(e); 
         }
 
-        public void MouseMove(MouseEventArgs e)
+        public void MouseMove(MouseEventArgs e = null)
         {
-            if (file != null) file.MouseMove(e.GetPosition(w.canvas));
+            Point pos = Mouse.GetPosition(w.canvas);
+            if (file != null) file.MouseMove(pos);
         }
 
         public void MouseUp(MouseButtonEventArgs e)
@@ -471,7 +482,7 @@ namespace MyPaint
             {
                 FileControl file = f.Value;
                 SetFileActive(f.Value);
-                if (file.historyControl.Change())
+                if (file.HistoryControl.Change())
                 {
                     if (!SaveDialog())
                     {
@@ -546,6 +557,29 @@ namespace MyPaint
         public void SetShapeBottom()
         {
             if (file != null) file.SetShapePosition(0);
+        }
+
+        public void AdjustZoom(double x, double y)
+        {
+            double a = w.canvas_outer.ActualWidth / x;
+            double b = w.canvas_outer.ActualHeight / y;
+            double zoom;
+            if (a < b)
+            {
+                zoom = a;
+            }
+            else
+            {
+                zoom = b;
+            }
+            if(zoom < 1)
+            {
+                zoom = Math.Floor(zoom*10)/10;
+                if(zoom*100 < w.zoom.Value)
+                {
+                    SetWindowZoom(zoom);
+                }
+            }
         }
 
     }

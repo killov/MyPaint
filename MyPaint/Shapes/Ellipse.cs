@@ -20,15 +20,15 @@ namespace MyPaint.Shapes
 
         public Ellipse(FileControl c, Layer la) : base(c, la)
         {
-            element = p;
+            Element = p;
         }
 
         public Ellipse(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
-            element = p;
+            Element = p;
             sx = s.A.x;
             sy = s.A.y;
-            AddToCanvas();
+            AddToLayer();
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.B.x, s.B.y);
@@ -111,7 +111,7 @@ namespace MyPaint.Shapes
         {
             sx = e.X;
             sy = e.Y;
-            AddToCanvas();
+            AddToLayer();
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);           
             StartDraw();
@@ -130,7 +130,7 @@ namespace MyPaint.Shapes
             SetActive();
         }
 
-        override public void CreateVirtualShape()
+        void CreateVirtualShape()
         {
             moveS(vs, sx, sy);
             moveE(vs, ex, ey);
@@ -140,7 +140,7 @@ namespace MyPaint.Shapes
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
-                virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
+                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
                 hit = true;
             };            
         }
@@ -149,20 +149,20 @@ namespace MyPaint.Shapes
         {
             base.ShowVirtualShape(mouseDown);
             HideVirtualShape();
-            drawControl.topCanvas.Children.Add(vs);
+            File.TopCanvas.Children.Add(vs);
         }
 
         override public void HideVirtualShape()
         {
-            drawControl.topCanvas.Children.Remove(vs);
+            File.TopCanvas.Children.Remove(vs);
         }
 
         override public void SetActive()
         {
             base.SetActive();
-            drawControl.SetPrimaryColor(p.Stroke);
-            drawControl.SetSecondaryColor(p.Fill);
-            drawControl.SetThickness(p.StrokeThickness);
+            File.SetPrimaryColor(p.Stroke);
+            File.SetSecondaryColor(p.Fill);
+            File.SetThickness(p.StrokeThickness);
             eR.SetActive();
         }
 
@@ -216,9 +216,9 @@ namespace MyPaint.Shapes
             return new Point(sx, sy);
         }
 
-        override public void CreatePoints()
+        void CreatePoints()
         {
-            eR = new EditRect(drawControl.topCanvas, this, new Point(sx, sy), new Point(ex, ey), drawControl.revScale,
+            eR = new EditRect(File.TopCanvas, this, new Point(sx, sy), new Point(ex, ey), File.RevScale,
             (po) =>
             {
                 moveS(p, po.X, po.Y);

@@ -18,17 +18,17 @@ namespace MyPaint.Shapes
         MovePoint p1, p2;
         public Line(FileControl c, Layer la) : base(c, la)
         {
-            element = p;
+            Element = p;
         }
 
         public Line(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
-            element = p;
+            Element = p;
             p.X1 = s.A.x;
             p.Y1 = s.A.y;
             p.X2 = s.B.x;
             p.Y2 = s.B.y;
-            AddToCanvas();
+            AddToLayer();
             CreatePoints();
             CreateVirtualShape();
         }
@@ -57,7 +57,7 @@ namespace MyPaint.Shapes
             p.Y1 = e.Y;
             p.X2 = e.X;
             p.Y2 = e.Y;
-            AddToCanvas();
+            AddToLayer();
             StartDraw();
         }
 
@@ -75,7 +75,7 @@ namespace MyPaint.Shapes
             SetActive();
         }
 
-        override public void CreateVirtualShape()
+        void CreateVirtualShape()
         {
             vs.X1 = p.X1;
             vs.X2 = p.X2;
@@ -83,10 +83,10 @@ namespace MyPaint.Shapes
             vs.Y2 = p.Y2;
             vs.Cursor = Cursors.SizeAll;
             vs.Stroke = nullBrush;
-            vs.StrokeThickness = Math.Max(3 * drawControl.revScale.ScaleX, p.StrokeThickness);
+            vs.StrokeThickness = Math.Max(3 * File.RevScale.ScaleX, p.StrokeThickness);
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
-                virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
+                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
                 hit = true;
             };
         }
@@ -95,19 +95,19 @@ namespace MyPaint.Shapes
         {
             base.ShowVirtualShape(mouseDown);
             HideVirtualShape();
-            drawControl.topCanvas.Children.Add(vs);
+            File.TopCanvas.Children.Add(vs);
         }
 
         override public void HideVirtualShape()
         {
-            drawControl.topCanvas.Children.Remove(vs);
+            File.TopCanvas.Children.Remove(vs);
         }
 
         override public void SetActive()
         {
             base.SetActive();
-            drawControl.SetPrimaryColor(p.Stroke);
-            drawControl.SetThickness(p.StrokeThickness);
+            File.SetPrimaryColor(p.Stroke);
+            File.SetThickness(p.StrokeThickness);
             p1.Show();
             p2.Show();
         }
@@ -160,16 +160,16 @@ namespace MyPaint.Shapes
             return new Point(p.X1, p.Y1);
         }
 
-        override public void CreatePoints()
+        void CreatePoints()
         {
-            p1 = new MovePoint(drawControl.topCanvas, this, new Point(p.X1, p.Y1), drawControl.revScale, (e) =>
+            p1 = new MovePoint(File.TopCanvas, this, new Point(p.X1, p.Y1), File.RevScale, (e) =>
             {
                 vs.X1 = p.X1 = e.X;
                 vs.Y1 = p.Y1 = e.Y;
                 return true;
             });
 
-            p2 = new MovePoint(drawControl.topCanvas, this, new Point(p.X2, p.Y2), drawControl.revScale, (e) =>
+            p2 = new MovePoint(File.TopCanvas, this, new Point(p.X2, p.Y2), File.RevScale, (e) =>
             {
                 vs.X2 = p.X2 = e.X;
                 vs.Y2 = p.Y2 = e.Y;
@@ -194,7 +194,7 @@ namespace MyPaint.Shapes
 
         public override void ChangeZoom()
         {
-            vs.StrokeThickness = Math.Max(3 * drawControl.revScale.ScaleX, p.StrokeThickness);
+            vs.StrokeThickness = Math.Max(3 * File.RevScale.ScaleX, p.StrokeThickness);
         }
     }
 }

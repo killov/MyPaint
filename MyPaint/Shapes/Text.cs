@@ -22,23 +22,23 @@ namespace MyPaint.Shapes
         string text = "";
         public Text(FileControl c, Layer la) : base(c, la)
         {
-            element = p;
-            SetFont(drawControl.GetTextFont());
-            SetFontSize(drawControl.GetTextFontSize());
+            Element = p;
+            SetFont(File.GetTextFont());
+            SetFontSize(File.GetTextFontSize());
         }
 
         public Text(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             p.AcceptsTab = false;
             vs.AcceptsTab = false;
-            element = p;
+            Element = p;
             sx = s.A.x;
             sy = s.A.y;
             p.BorderThickness = new Thickness(0);
             SetText(s.b64);
             SetFontSize(s.lineWidth);
             SetFont(new FontFamily(s.font));
-            AddToCanvas();
+            AddToLayer();
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.A.x + s.w, s.A.y + s.h);
@@ -122,10 +122,10 @@ namespace MyPaint.Shapes
 
 
             p.BorderThickness = new Thickness(1);
-            p.Foreground = drawControl.GetShapePrimaryColor();
-            p.Background = drawControl.GetShapeSecondaryColor();
+            p.Foreground = File.GetShapePrimaryColor();
+            p.Background = File.GetShapeSecondaryColor();
             
-            AddToCanvas();
+            AddToLayer();
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
 
@@ -145,7 +145,7 @@ namespace MyPaint.Shapes
             SetActive();
         }
 
-        override public void CreateVirtualShape()
+        void CreateVirtualShape()
         {
             vs.Background = nullBrush;
             vs.Foreground = nullBrush;
@@ -183,22 +183,22 @@ namespace MyPaint.Shapes
         {
             base.ShowVirtualShape(mouseDown);
             HideVirtualShape();
-            drawControl.topCanvas.Children.Add(vs);
+            File.TopCanvas.Children.Add(vs);
         }
 
         override public void HideVirtualShape()
         {
-            drawControl.topCanvas.Children.Remove(vs);
+            File.TopCanvas.Children.Remove(vs);
         }
 
         override public void SetActive()
         {
             base.SetActive();
-            drawControl.SetPrimaryColor(GetPrimaryColor());
-            drawControl.SetSecondaryColor(GetSecondaryColor());
-            drawControl.SetFont(GetFont());
-            drawControl.SetFontSize(GetFontSize());
-            drawControl.ShowWindowFontPanel(true);
+            File.SetPrimaryColor(GetPrimaryColor());
+            File.SetSecondaryColor(GetSecondaryColor());
+            File.SetFont(GetFont());
+            File.SetFontSize(GetFontSize());
+            File.ShowWindowFontPanel(true);
             eR.SetActive();
             Keyboard.Focus(vs);
         }
@@ -256,9 +256,9 @@ namespace MyPaint.Shapes
             return new Point(sx, sy);
         }
 
-        override public void CreatePoints()
+        void CreatePoints()
         {
-            eR = new EditRect(drawControl.topCanvas, this, new Point(sx, sy), new Point(ex, ey), drawControl.revScale,
+            eR = new EditRect(File.TopCanvas, this, new Point(sx, sy), new Point(ex, ey), File.RevScale,
             (po) =>
             {
                 moveS(p, po.X, po.Y);
@@ -320,7 +320,7 @@ namespace MyPaint.Shapes
         {
             if (addHistory)
             {
-                drawControl.historyControl.Add(new History.HistoryShapeText(this, GetText(), t));
+                File.HistoryControl.Add(new History.HistoryShapeText(this, GetText(), t));
             }
             text = t;
             p.Text = t;
@@ -338,7 +338,7 @@ namespace MyPaint.Shapes
             {
                 if (addHistory)
                 {
-                    drawControl.historyControl.Add(new History.HistoryShapeTextFont(this, GetFont(), f));
+                    File.HistoryControl.Add(new History.HistoryShapeTextFont(this, GetFont(), f));
                 }
                 font = f;
                 p.FontFamily = f;
@@ -357,7 +357,7 @@ namespace MyPaint.Shapes
             {
                 if (addHistory)
                 {
-                    drawControl.historyControl.Add(new History.HistoryShapeTextFontSize(this, GetFontSize(), s));
+                    File.HistoryControl.Add(new History.HistoryShapeTextFontSize(this, GetFontSize(), s));
                 }
                 size = s;
                 p.FontSize = s;

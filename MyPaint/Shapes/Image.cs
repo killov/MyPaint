@@ -20,7 +20,7 @@ namespace MyPaint.Shapes
         BitmapSource image;
         public Image(FileControl c, Layer la, BitmapSource bmi, Point start, double w, double h) : base(c, la)
         {
-            element = p;
+            Element = p;
             p.Points.Add(new Point(start.X, start.Y)); 
             p.Points.Add(new Point(start.X + w, start.Y));
             p.Points.Add(new Point(start.X + w, start.Y + h));
@@ -29,14 +29,14 @@ namespace MyPaint.Shapes
             image = bmi;
             ImageBrush brush = new ImageBrush(bmi);
             p.Fill = brush;
-            AddToCanvas();
+            AddToLayer();
             CreatePoints();
             exist = true;
         }
 
         public Image(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
-            element = p;
+            Element = p;
             byte[] imageBytes = Convert.FromBase64String(s.b64);
             MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
             BitmapImage bmi = new BitmapImage();
@@ -52,7 +52,7 @@ namespace MyPaint.Shapes
             p.Points.Add(new Point(s.A.x, s.A.y + s.h));
             CreateVirtualShape();
             p.Fill = brush;
-            AddToCanvas();
+            AddToLayer();
             CreatePoints();
         }
 
@@ -86,7 +86,7 @@ namespace MyPaint.Shapes
 
         }
 
-        override public void CreateVirtualShape()
+        void CreateVirtualShape()
         {
             vs.Points = p.Points;
             vs.Stroke = nullBrush;
@@ -95,7 +95,7 @@ namespace MyPaint.Shapes
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
             {
-                virtualShapeCallback(ee.GetPosition(drawControl.canvas), this);
+                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
                 hit = true;
             };
             
@@ -185,9 +185,9 @@ namespace MyPaint.Shapes
             return p.Points[0];
         }
 
-        override public void CreatePoints()
+        void CreatePoints()
         {
-            eR = new EditRect(topCanvas, this, p.Points[0], p.Points[2], drawControl.revScale, (po) =>
+            eR = new EditRect(topCanvas, this, p.Points[0], p.Points[2], File.RevScale, (po) =>
             {
                 p.Points[0] = po;
                 p.Points[1] = new Point(p.Points[1].X, po.Y);

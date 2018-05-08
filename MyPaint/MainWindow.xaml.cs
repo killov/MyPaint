@@ -124,17 +124,22 @@ namespace MyPaint
 
         private void mouseMove(object sender, MouseEventArgs e)
         {
-            control.MouseMove(e);
+            //control.MouseMove(e);
         }
 
         private void mouseUp(object sender, MouseButtonEventArgs e)
         {
-            control.MouseUp(e);
+            //control.MouseUp(e);
         }
 
         private void newClick(object sender, RoutedEventArgs e)
         {
             control.NewC();
+        }
+
+        private void button_select_area_Click(object sender, RoutedEventArgs e)
+        {
+            control.SetTool(ToolEnum.SELECTAREA);
         }
 
         private void button_select_Click(object sender, RoutedEventArgs e)
@@ -303,6 +308,10 @@ namespace MyPaint
             {
                 control.SetResolution(e.GetPosition(canvas_out).X, e.GetPosition(canvas_out).Y);
             }
+            else
+            {
+                control.MouseMove(e);
+            }
         }
 
         private void canvas_outer_MouseUp(object sender, MouseButtonEventArgs e)
@@ -311,6 +320,10 @@ namespace MyPaint
             {
                 resolutionDrag = false;
                 control.SetResolutionEnd();
+            }
+            else
+            {
+                control.MouseUp(e);
             }
         }
 
@@ -343,7 +356,14 @@ namespace MyPaint
 
         private void zoom_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (control != null)  control.SetZoom(e.NewValue/100);
+            if (control != null)
+            {
+                double x = canvas_outer.ContentHorizontalOffset / canvas_outer.ScrollableWidth;
+                double y = canvas_outer.ContentVerticalOffset / canvas_outer.ScrollableHeight;
+                control.SetZoom(e.NewValue / 100);
+                canvas_outer.ScrollToHorizontalOffset(canvas_outer.ScrollableWidth * (double.IsNaN(x) ? 0 : x));
+                canvas_outer.ScrollToVerticalOffset(canvas_outer.ScrollableHeight * (double.IsNaN(y) ? 0 : y));
+            }
         }
 
         private void Button_layer_down_Click(object sender, RoutedEventArgs e)
@@ -397,7 +417,7 @@ namespace MyPaint
             control.TabControlDelete(tab);
         }
 
-        public void setPrimaryBrush(Brush brush)
+        public void SetPrimaryBrush(Brush brush)
         {
             primaryColor.Fill = brush;
             if (activeColor == BrushEnum.PRIMARY)
@@ -406,7 +426,7 @@ namespace MyPaint
             }
         }
 
-        public void setSecondaryBrush(Brush brush)
+        public void SetSecondaryBrush(Brush brush)
         {
             secondaryColor.Fill = brush;
             if(activeColor == BrushEnum.SECONDARY)
@@ -415,7 +435,7 @@ namespace MyPaint
             }
         }
 
-        public void setBackgroundBrush(Brush brush)
+        public void SetBackgroundBrush(Brush brush)
         {
             backgroundColor.Fill = brush;
             if (activeColor == BrushEnum.BACKGROUND)
@@ -501,6 +521,41 @@ namespace MyPaint
         private void shape_bottom(object sender, RoutedEventArgs e)
         {
             control.SetShapeBottom();
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollviewer = sender as ScrollViewer;
+            if (Keyboard.Modifiers == ModifierKeys.Shift)
+            {
+                if (e.Delta > 0)
+                {
+                    scrollviewer.LineLeft();
+                    scrollviewer.LineLeft();
+                }
+                else
+                {
+                    scrollviewer.LineRight();
+                    scrollviewer.LineRight();
+                }
+                e.Handled = true;
+            }else if(Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                if (e.Delta > 0)
+                {
+                    zoom.Value = zoom.Value + 10;
+                }
+                else
+                {
+                    zoom.Value = zoom.Value - 10;
+                }
+                e.Handled = true;
+            }          
+        }
+
+        private void canvas_outer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            control.MouseMove();
         }
     }
 }
