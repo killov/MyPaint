@@ -56,12 +56,12 @@ namespace MyPaint.Shapes
             CreatePoints();
         }
 
-        override public void SetPrimaryColor(Brush s, bool addHistory = false)
+        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
         {
 
         }
 
-        override public void SetSecondaryColor(Brush s, bool addHistory = false)
+        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
         {
 
         }
@@ -219,7 +219,7 @@ namespace MyPaint.Shapes
             p.Points.Add(eR.p3.GetPosition());
             p.Points.Add(eR.p4.GetPosition());
 
-            p.Stroke = primaryColor;
+            p.Stroke = primaryBrush;
             p.Fill = new ImageBrush(image);
             p.StrokeThickness = thickness;
             p.ToolTip = null;

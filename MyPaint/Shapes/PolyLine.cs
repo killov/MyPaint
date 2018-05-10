@@ -53,15 +53,15 @@ namespace MyPaint.Shapes
             CreateVirtualShape();
         }
 
-        override public void SetPrimaryColor(Brush s, bool addHistory = false)
+        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
         {
-            base.SetPrimaryColor(s, addHistory);
+            base.SetPrimaryBrush(s, addHistory);
             path.Stroke = s;
         }
 
-        override public void SetSecondaryColor(Brush s, bool addHistory = false)
+        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
         {
-            base.SetSecondaryColor(s, addHistory);
+            base.SetSecondaryBrush(s, addHistory);
             path.Fill = s;
         }
 
@@ -221,8 +221,8 @@ namespace MyPaint.Shapes
         {
             Serializer.PolyLine ret = new Serializer.PolyLine();
             ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryColor;
-            ret.fill = SecondaryColor;
+            ret.stroke = PrimaryBrush;
+            ret.fill = SecondaryBrush;
             ret.points = new List<Serializer.Point>();
             foreach (var point in movepoints)
             {
@@ -272,8 +272,8 @@ namespace MyPaint.Shapes
             {
                 pf.Segments.Add(new LineSegment(movepoints[i].GetPosition(), true));
             }
-            p.Stroke = PrimaryColor.CreateBrush();
-            p.Fill = SecondaryColor.CreateBrush();
+            p.Stroke = PrimaryBrush.CreateBrush();
+            p.Fill = SecondaryBrush.CreateBrush();
             p.StrokeThickness = thickness;
             p.ToolTip = null;
             canvas.Children.Add(p);

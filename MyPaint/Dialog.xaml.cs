@@ -34,5 +34,19 @@ namespace MyPaint
         {
             DialogResult = true;
         }
+
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            ResponseTextBox.Focus();
+            ResponseTextBox.SelectAll();
+        }
+
+        private void ResponseTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Return)
+            {
+                DialogResult = true;
+            }
+        }
     }
 }

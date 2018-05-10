@@ -40,15 +40,15 @@ namespace MyPaint.Shapes
             CreateVirtualShape();
         }
 
-        override public void SetPrimaryColor(Brush s, bool addHistory = false)
+        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
         {
-            base.SetPrimaryColor(s, addHistory);
+            base.SetPrimaryBrush(s, addHistory);
             p.Stroke = s;
         }
 
-        override public void SetSecondaryColor(Brush s, bool addHistory = false)
+        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
         {
-            base.SetSecondaryColor(s, addHistory);
+            base.SetSecondaryBrush(s, addHistory);
             p.Fill = s;
         }
 
@@ -137,8 +137,8 @@ namespace MyPaint.Shapes
         override public void SetActive()
         {
             base.SetActive();
-            File.SetPrimaryColor(primaryColor);
-            File.SetSecondaryColor(secondaryColor);
+            File.SetPrimaryColor(primaryBrush);
+            File.SetSecondaryColor(secondaryBrush);
             File.SetThickness(thickness);
             File.TopCanvas.Children.Add(eL1);
             File.TopCanvas.Children.Add(eL2);
@@ -195,7 +195,7 @@ namespace MyPaint.Shapes
         {
             Serializer.QuadraticCurve ret = new Serializer.QuadraticCurve();
             ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryColor;
+            ret.stroke = PrimaryBrush;
             ret.A = new Serializer.Point(p1.GetPosition());
             ret.B = new Serializer.Point(p2.GetPosition());
             ret.C = new Serializer.Point(p3.GetPosition());
@@ -242,8 +242,8 @@ namespace MyPaint.Shapes
 
             pf.Segments.Add(new QuadraticBezierSegment(p2.GetPosition(), p3.GetPosition(), true));
 
-            p.Stroke = PrimaryColor.CreateBrush();
-            p.Fill = SecondaryColor.CreateBrush();
+            p.Stroke = PrimaryBrush.CreateBrush();
+            p.Fill = SecondaryBrush.CreateBrush();
             p.StrokeThickness = thickness;
             p.ToolTip = null;
             canvas.Children.Add(p);

@@ -26,12 +26,12 @@ namespace MyPaint.Shapes
 
         }
 
-        override public void SetPrimaryColor(Brush s, bool addHistory = false)
+        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
         {
 
         }
 
-        override public void SetSecondaryColor(Brush s, bool addHistory = false)
+        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
         {
 
         }

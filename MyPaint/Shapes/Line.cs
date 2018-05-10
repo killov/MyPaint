@@ -33,13 +33,13 @@ namespace MyPaint.Shapes
             CreateVirtualShape();
         }
 
-        override public void SetPrimaryColor(Brush s, bool addHistory = false)
+        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
         {
-            base.SetPrimaryColor(s, addHistory);
+            base.SetPrimaryBrush(s, addHistory);
             p.Stroke = s;
         }
 
-        override public void SetSecondaryColor(Brush s, bool addHistory = false)
+        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
         {
 
         }
@@ -149,7 +149,7 @@ namespace MyPaint.Shapes
         {
             Serializer.Line ret = new Serializer.Line();
             ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryColor;
+            ret.stroke = PrimaryBrush;
             ret.A = new Serializer.Point(p1.GetPosition());
             ret.B = new Serializer.Point(p2.GetPosition());
             return ret;
@@ -184,7 +184,7 @@ namespace MyPaint.Shapes
             p.Y1 = a.Y;
             p.X2 = b.X;
             p.Y2 = b.Y;
-            p.Stroke = primaryColor;
+            p.Stroke = primaryBrush;
             p.StrokeThickness = thickness;
             p.ToolTip = null;
             canvas.Children.Add(p);

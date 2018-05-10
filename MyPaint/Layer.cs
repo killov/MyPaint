@@ -70,8 +70,6 @@ namespace MyPaint
             }
         }
 
-
-
         Canvas cv;
         public Canvas canvas;
         Brush background;
@@ -267,6 +265,15 @@ namespace MyPaint
                 canvas.Children.RemoveAt(i);
                 canvas.Children.Insert(i, shape.Element);
             }
+        }
+
+        public void SetName(string name, bool addHistory = false)
+        {
+            if (addHistory)
+            {
+                file.HistoryControl.Add(new HistoryLayerName(this, Name, name));
+            }
+            Name = name;
         }
     }
 }

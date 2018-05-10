@@ -16,8 +16,8 @@ namespace MyPaint.Shapes
     {
         public bool MultiDraw { get; protected set; }
         protected bool hit = false;
-        protected Brush primaryColor, secondaryColor;
-        protected Serializer.Brush PrimaryColor, SecondaryColor;
+        protected Brush primaryBrush, secondaryBrush;
+        protected Serializer.Brush PrimaryBrush, SecondaryBrush;
         protected double thickness;
         protected bool exist;
         Layer layer;
@@ -50,8 +50,8 @@ namespace MyPaint.Shapes
         {
             File = c;
             layer = la;
-            SetPrimaryColor(File.GetShapePrimaryColor());
-            SetSecondaryColor(File.GetShapeSecondaryColor());
+            SetPrimaryBrush(File.GetShapePrimaryColor());
+            SetSecondaryBrush(File.GetShapeSecondaryColor());
             SetThickness(File.GetShapeThickness());
             topCanvas = File.TopCanvas;
             exist = false;
@@ -62,40 +62,40 @@ namespace MyPaint.Shapes
             File = c;
             layer = la;
             SetThickness(s.lineWidth);
-            SetPrimaryColor(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetSecondaryColor(s.fill == null ? null : s.fill.CreateBrush());
+            SetPrimaryBrush(s.stroke == null ? null : s.stroke.CreateBrush());
+            SetSecondaryBrush(s.fill == null ? null : s.fill.CreateBrush());
             topCanvas = File.TopCanvas;
             exist = true;
         }
 
-        virtual public void SetPrimaryColor(Brush s, bool addHistory = false)
+        virtual public void SetPrimaryBrush(Brush s, bool addHistory = false)
         {
-            if (addHistory && s != primaryColor)
+            if (addHistory && s != primaryBrush)
             {
-                File.HistoryControl.Add(new History.HistoryPrimaryColor(this, GetPrimaryColor(), s));
+                File.HistoryControl.Add(new History.HistoryPrimaryColor(this, GetPrimaryBrush(), s));
             }
-            primaryColor = s;
-            PrimaryColor = Serializer.Brush.Create(s);
+            primaryBrush = s;
+            PrimaryBrush = Serializer.Brush.Create(s);
         }
 
-        virtual public void SetSecondaryColor(Brush s, bool addHistory = false)
+        virtual public void SetSecondaryBrush(Brush s, bool addHistory = false)
         {
-            if (addHistory && s != secondaryColor)
+            if (addHistory && s != secondaryBrush)
             {
-                File.HistoryControl.Add(new History.HistorySecondaryColor(this, GetSecondaryColor(), s));
+                File.HistoryControl.Add(new History.HistorySecondaryBrush(this, GetSecondaryBrush(), s));
             }
-            secondaryColor = s;
-            SecondaryColor = Serializer.Brush.Create(s);
+            secondaryBrush = s;
+            SecondaryBrush = Serializer.Brush.Create(s);
         }
 
-        public Brush GetPrimaryColor()
+        public Brush GetPrimaryBrush()
         {
-            return primaryColor;
+            return primaryBrush;
         }
 
-        public Brush GetSecondaryColor()
+        public Brush GetSecondaryBrush()
         {
-            return secondaryColor;
+            return secondaryBrush;
         }
 
         public void ChangeLayer(Layer newLayer, bool addHistory = false)

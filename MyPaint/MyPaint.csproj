@@ -134,6 +134,7 @@
     <Compile Include="file\Saver\PNG.cs" />
     <Compile Include="file\Saver\Raster.cs" />
     <Compile Include="history\HistoryControl.cs" />
+    <Compile Include="history\HistoryLayerName.cs" />
     <Compile Include="history\HistoryLayerRemove.cs" />
     <Compile Include="history\HistoryMovePoint.cs" />
     <Compile Include="history\HistoryBackgroundColor.cs" />
@@ -143,7 +144,7 @@
     <Compile Include="history\HistoryShapeTextFont .cs" />
     <Compile Include="history\HistoryShapeText.cs" />
     <Compile Include="history\HistoryShapeThickness.cs" />
-    <Compile Include="history\HistorySecondaryColor.cs" />
+    <Compile Include="history\HistorySecondaryBrush.cs" />
     <Compile Include="history\HistoryResolution.cs" />
     <Compile Include="history\HistoryLayerPosition.cs" />
     <Compile Include="history\HistoryLayerAdd.cs" />

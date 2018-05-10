@@ -36,15 +36,15 @@ namespace MyPaint.Shapes
             CreatePoints();
         }
 
-        override public void SetPrimaryColor(Brush s, bool addHistory = false)
+        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
         {
-            base.SetPrimaryColor(s, addHistory);
+            base.SetPrimaryBrush(s, addHistory);
             p.Stroke = s;
         }
 
-        override public void SetSecondaryColor(Brush s, bool addHistory = false)
+        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
         {
-            base.SetSecondaryColor(s, addHistory);
+            base.SetSecondaryBrush(s, addHistory);
             p.Fill = s;
         }
 
@@ -204,8 +204,8 @@ namespace MyPaint.Shapes
         {
             Serializer.Ellipse ret = new Serializer.Ellipse();
             ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryColor;
-            ret.fill = SecondaryColor;
+            ret.stroke = PrimaryBrush;
+            ret.fill = SecondaryBrush;
             ret.A = new Serializer.Point(sx, sy);
             ret.B = new Serializer.Point(ex, ey);
             return ret;
@@ -248,8 +248,8 @@ namespace MyPaint.Shapes
         override public void CreateImage(Canvas canvas)
         {
             System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse();
-            p.Stroke = PrimaryColor.CreateBrush();
-            p.Fill =  SecondaryColor.CreateBrush();
+            p.Stroke = PrimaryBrush.CreateBrush();
+            p.Fill =  SecondaryBrush.CreateBrush();
             p.StrokeThickness = GetThickness();
             p.ToolTip = null;
             p.Width = Math.Abs(sx - ex);

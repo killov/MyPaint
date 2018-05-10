@@ -20,12 +20,12 @@ namespace MyPaint.History
 
         public void Back()
         {
-            shape.SetPrimaryColor(o);
+            shape.SetPrimaryBrush(o);
         }
 
         public void Forward()
         {
-            shape.SetPrimaryColor(n);
+            shape.SetPrimaryBrush(n);
         }
 
         public void Skip(IHistoryNodeSkipped node)

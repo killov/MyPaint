@@ -73,6 +73,7 @@ namespace MyPaint
             layerCounter = 1;
             DeleteLayers();
             AddLayer();
+            SelectLayer.Background = Brushes.White;
         }
 
         public void DeleteLayers()
@@ -155,12 +156,12 @@ namespace MyPaint
 
         public void SetShapePrimaryColor(Brush c)
         {
-            if (Shape != null) Shape.SetPrimaryColor(c, true);
+            if (Shape != null) Shape.SetPrimaryBrush(c, true);
         }
 
         public void SetShapeSecondaryColor(Brush c)
         {
-            if (Shape != null) Shape.SetSecondaryColor(c, true);
+            if (Shape != null) Shape.SetSecondaryBrush(c, true);
         }
 
         public void SetShapeThickness(double t)

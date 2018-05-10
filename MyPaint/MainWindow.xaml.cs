@@ -234,7 +234,7 @@ namespace MyPaint
                 return;
             }
             Brush brush = CB.Brush;
-            if (!brush.IsFrozen)
+            if (brush != null && !brush.IsFrozen)
             {
                 brush.Changed += Brush_Changed;
             }
@@ -394,9 +394,13 @@ namespace MyPaint
             Layer l = button.DataContext as Layer;
             var dialog = new Dialog();
             dialog.ResponseText = l.Name;
+            Point pos = Application.Current.MainWindow.PointToScreen(Mouse.GetPosition(null));
+            dialog.Left = pos.X;
+            dialog.Top = pos.Y;
+
             if (dialog.ShowDialog() == true)
             {
-                l.Name = dialog.ResponseText;
+                l.SetName(dialog.ResponseText, true);
             }
         }
 

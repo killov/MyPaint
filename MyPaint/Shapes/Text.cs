@@ -46,17 +46,17 @@ namespace MyPaint.Shapes
             CreateVirtualShape();
         }
 
-        override public void SetPrimaryColor(Brush s, bool addHistory = false)
+        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
         {
             ChangeText();
-            base.SetPrimaryColor(s, addHistory);
+            base.SetPrimaryBrush(s, addHistory);
             p.Foreground = s;
         }
 
-        override public void SetSecondaryColor(Brush s, bool addHistory = false)
+        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
         {
             ChangeText();
-            base.SetSecondaryColor(s, addHistory);
+            base.SetSecondaryBrush(s, addHistory);
             p.Background = s;
         }
 
@@ -196,8 +196,8 @@ namespace MyPaint.Shapes
         override public void SetActive()
         {
             base.SetActive();
-            File.SetPrimaryColor(GetPrimaryColor());
-            File.SetSecondaryColor(GetSecondaryColor());
+            File.SetPrimaryColor(GetPrimaryBrush());
+            File.SetSecondaryColor(GetSecondaryBrush());
             File.SetFont(GetFont());
             File.SetFontSize(GetFontSize());
             File.ShowWindowFontPanel(true);
@@ -250,8 +250,8 @@ namespace MyPaint.Shapes
             ret.A = new Serializer.Point(Math.Min(sx, ex), Math.Min(sy, ey));
             ret.w = (int)Math.Abs(sx - ex);
             ret.h = (int)Math.Abs(sy - ey);
-            ret.stroke = PrimaryColor;
-            ret.fill = SecondaryColor;
+            ret.stroke = PrimaryBrush;
+            ret.fill = SecondaryBrush;
             ret.b64 = GetText();
             ret.font = font.Source;
             ret.lineWidth = size;
@@ -296,8 +296,8 @@ namespace MyPaint.Shapes
         override public void CreateImage(Canvas canvas)
         {
             TextBox p = new TextBox();
-            p.Foreground = PrimaryColor.CreateBrush();
-            p.Background = SecondaryColor.CreateBrush();
+            p.Foreground = PrimaryBrush.CreateBrush();
+            p.Background = SecondaryBrush.CreateBrush();
             p.BorderThickness = new Thickness(0);
             p.Width = Math.Abs(sx - ex);
             p.Height = Math.Abs(sy - ey);

@@ -23,10 +23,5 @@ namespace MyPaint.History
         {
             shape.Refresh();
         }
-
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj) && (((HistoryShape)obj).shape).Equals(shape);
-        }
     }
 }

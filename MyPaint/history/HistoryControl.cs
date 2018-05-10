@@ -83,13 +83,13 @@ namespace MyPaint.History
             }
             else
             {
-                changeBack = backStack.Last();
+                changeBack = backStack.First();
             }
         }
 
         public bool Change()
         {
-            return !((backStack.Count == 0 && changeBack == null) || backStack.Last().Equals(changeBack));
+            return !((backStack.Count == 0 && changeBack == null) || backStack.First().Equals(changeBack));
         }
 
         public void Redraw()

@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyPaint"
         mc:Ignorable="d"
-        Title="" Height="98.305" Width="233.898">
+        Title="" Height="98.305" Width="233.898" ResizeMode="NoResize" ContentRendered="Window_ContentRendered">
     <StackPanel Margin="0,0,2,0">
-        <TextBox x:Name="ResponseTextBox" Height="21" Margin="5,5,5,5"/>
+        <TextBox x:Name="ResponseTextBox" Height="21" Margin="5,5,5,5" KeyUp="ResponseTextBox_KeyUp"/>
         <Button Content="OK" Click="OKButton_Click" Height="27" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="181" />
     </StackPanel>
 </Window>

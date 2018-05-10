@@ -34,15 +34,15 @@ namespace MyPaint.Shapes
             CreatePoints();
         }
 
-        override public void SetPrimaryColor(Brush s, bool addHistory = false)
+        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
         {
-            base.SetPrimaryColor(s, addHistory);
+            base.SetPrimaryBrush(s, addHistory);
             p.Stroke = s;
         }
 
-        override public void SetSecondaryColor(Brush s, bool addHistory = false)
+        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
         {
-            base.SetSecondaryColor(s, addHistory);
+            base.SetSecondaryBrush(s, addHistory);
             p.Fill = s;
         }
 
@@ -146,8 +146,8 @@ namespace MyPaint.Shapes
         {
             Serializer.Rectangle ret = new Serializer.Rectangle();
             ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryColor;
-            ret.fill = SecondaryColor;
+            ret.stroke = PrimaryBrush;
+            ret.fill = SecondaryBrush;
             ret.A = new Serializer.Point(eR.p1.GetPosition());
             ret.B = new Serializer.Point(eR.p3.GetPosition());
             return ret;
@@ -198,8 +198,8 @@ namespace MyPaint.Shapes
             p.Points.Add(eR.p2.GetPosition());
             p.Points.Add(eR.p3.GetPosition());
             p.Points.Add(eR.p4.GetPosition());
-            p.Stroke = PrimaryColor == null ? null : PrimaryColor.CreateBrush();
-            p.Fill = SecondaryColor == null ? null : SecondaryColor.CreateBrush();
+            p.Stroke = PrimaryBrush == null ? null : PrimaryBrush.CreateBrush();
+            p.Fill = SecondaryBrush == null ? null : SecondaryBrush.CreateBrush();
             p.StrokeThickness = GetThickness();
             canvas.Children.Add(p);
         }
