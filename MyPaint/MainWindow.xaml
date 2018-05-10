@@ -212,8 +212,6 @@
 
                     <Rectangle x:Name="resolution" Height="10" Width="10" Canvas.Left="486" Canvas.Top="438" RenderTransformOrigin="-0.261,0.95" Fill="White" Stroke="Black" MouseDown="resolution_MouseDown" />
                 </Canvas>
-
-
             </ScrollViewer>
             <TabControl x:Name="tabControl" Margin="204,63,0,0" Height="28" VerticalAlignment="Top" SelectionChanged="tabControl_SelectionChanged" ItemsSource="{Binding}">
                 <TabControl.Resources>
@@ -261,8 +259,6 @@
     </DockPanel>
     <Window.Resources>
         <ContextMenu x:Key="cmShape">
-
-
             <MenuItem Header="Přenést dopředu" Click="shape_top">
                 <MenuItem.Icon>
                     <Viewbox Width="16" Height="16">

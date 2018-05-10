@@ -114,19 +114,19 @@ namespace MyPaint.Shapes
             InsertToLayer(pos);
         }
 
-        public void AddToLayer()
+        protected void AddToLayer()
         {
             layer.AddShape(this);
             inLayer = true;
         }
 
-        public void InsertToLayer(int pos)
+        protected void InsertToLayer(int pos)
         {
             layer.InsertShape(pos, this);
             inLayer = true;
         }
 
-        public int RemoveFromLayer()
+        protected int RemoveFromLayer()
         {
             return layer.RemoveShape(this);
         }

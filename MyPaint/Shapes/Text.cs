@@ -48,12 +48,14 @@ namespace MyPaint.Shapes
 
         override public void SetPrimaryColor(Brush s, bool addHistory = false)
         {
+            ChangeText();
             base.SetPrimaryColor(s, addHistory);
             p.Foreground = s;
         }
 
         override public void SetSecondaryColor(Brush s, bool addHistory = false)
         {
+            ChangeText();
             base.SetSecondaryColor(s, addHistory);
             p.Background = s;
         }
@@ -218,11 +220,16 @@ namespace MyPaint.Shapes
         override public void StopEdit()
         {
             base.StopEdit();
-            if(text != vs.Text){
-                SetText(vs.Text, true);
-            }
+            ChangeText();
             Keyboard.Focus(null);
             eR.StopEdit();
+        }
+
+        void ChangeText() {
+            if (text != vs.Text)
+            {
+                SetText(vs.Text, true);
+            }
         }
 
         override public void MoveShape(double x, double y)
@@ -263,7 +270,6 @@ namespace MyPaint.Shapes
             {
                 moveS(p, po.X, po.Y);
                 moveS(vs, po.X, po.Y);
-                return true;
             },
             (po) =>
             {
@@ -271,13 +277,11 @@ namespace MyPaint.Shapes
                 moveE(vs, po.X, ey);
                 moveS(p, sx, po.Y);
                 moveS(vs, sx, po.Y);
-                return true;
             },
             (po) =>
             {
                 moveE(p, po.X, po.Y);
                 moveE(vs, po.X, po.Y);
-                return true;
             },
             (po) =>
             {
@@ -285,7 +289,6 @@ namespace MyPaint.Shapes
                 moveE(vs, ex, po.Y);
                 moveS(p, po.X, sy);
                 moveS(vs, po.X, sy);
-                return true;
             });
             eR.SetFill(false);
         }
@@ -334,7 +337,8 @@ namespace MyPaint.Shapes
 
         public void SetFont(FontFamily f, bool addHistory = false)
         {
-            if(f != null)
+            ChangeText();
+            if (f != null)
             {
                 if (addHistory)
                 {
@@ -353,6 +357,7 @@ namespace MyPaint.Shapes
 
         public void SetFontSize(double s, bool addHistory = false)
         {
+            ChangeText();
             if (s > 0)
             {
                 if (addHistory)

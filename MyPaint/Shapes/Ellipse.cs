@@ -223,7 +223,6 @@ namespace MyPaint.Shapes
             {
                 moveS(p, po.X, po.Y);
                 moveS(vs, po.X, po.Y);
-                return true;
             },
             (po) =>
             {
@@ -231,13 +230,11 @@ namespace MyPaint.Shapes
                 moveE(vs, po.X, ey);
                 moveS(p, sx, po.Y);
                 moveS(vs, sx, po.Y);
-                return true;
             },
             (po) =>
             {
                 moveE(p, po.X, po.Y);
                 moveE(vs, po.X, po.Y);
-                return true;
             },
             (po) =>
             {
@@ -245,7 +242,6 @@ namespace MyPaint.Shapes
                 moveE(vs, ex, po.Y);
                 moveS(p, po.X, sy);
                 moveS(vs, po.X, sy);
-                return true;
             });
         }
 

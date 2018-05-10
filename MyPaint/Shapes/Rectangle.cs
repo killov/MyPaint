@@ -166,7 +166,6 @@ namespace MyPaint.Shapes
                 p.Points[0] = po;
                 p.Points[3] = new Point(po.X, p.Points[3].Y);
                 p.Points[1] = new Point(p.Points[1].X, po.Y);
-                return true;
             },
 
             (po) =>
@@ -174,7 +173,6 @@ namespace MyPaint.Shapes
                 p.Points[1] = po;
                 p.Points[2] = new Point(po.X, p.Points[2].Y);
                 p.Points[0] = new Point(p.Points[0].X, po.Y);
-                return true;
             },
 
             (po) =>
@@ -182,7 +180,6 @@ namespace MyPaint.Shapes
                 p.Points[2] = po;
                 p.Points[3] = new Point(p.Points[3].X, po.Y);
                 p.Points[1] = new Point(po.X, p.Points[1].Y);
-                return true;
             },
 
             (po) =>
@@ -190,7 +187,6 @@ namespace MyPaint.Shapes
                 p.Points[3] = po;
                 p.Points[2] = new Point(p.Points[2].X, po.Y);
                 p.Points[0] = new Point(po.X, p.Points[0].Y);
-                return true;
             });
         }
 

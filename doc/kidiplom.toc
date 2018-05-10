@@ -1,0 +1,48 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {czech}{}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1}\IeC {\'U}vod}{7}{section.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2}Styly pro psan\IeC {\'\i } bakal\IeC {\'a}\IeC {\v r}sk\IeC {\'y}ch a diplomov\IeC {\'y}ch prac\IeC {\'\i }}{7}{section.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.1}Po\IeC {\v z}adavky a podprovan\IeC {\'a} prost\IeC {\v r}ed\IeC {\'\i }}{7}{subsection.2.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2}P\IeC {\v r}ep\IeC {\'\i }na\IeC {\v c}e}{7}{subsection.2.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.3}Geometrie str\IeC {\'a}nky}{7}{subsection.2.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3}Sazba \IeC {\v c}\IeC {\'a}st\IeC {\'\i } dokumentu}{9}{section.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.1}Sazba \IeC {\'u}vodn\IeC {\'\i } strany \IeC {\v c}i obsahu}{9}{subsection.3.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.2}Z\IeC {\'a}v\IeC {\v e}ry}{9}{subsection.3.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3}Matematika}{9}{subsection.3.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4}Sazba literatury}{10}{subsection.3.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.4.1}Sazba bibliografie p\IeC {\v r}es \textsc {Bib}\LaTeX {}}{10}{subsubsection.3.4.1}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.4.2}Manu\IeC {\'a}ln\IeC {\'\i } sazba bibliografie}{11}{subsubsection.3.4.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.5}Drobn\IeC {\'a} makra}{11}{subsection.3.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.6}Sazba rejst\IeC {\v r}\IeC {\'\i }ku}{11}{subsection.3.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.7}Sazba zdrojov\IeC {\'y}ch k\IeC {\'o}d\IeC {\r u}}{11}{subsection.3.7}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Z\'av\v er}{16}{section*.6}
+\babel@toc {czech}{}
+\babel@toc {czech}{}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Conclusions}{17}{section*.8}
+\babel@toc {english}{}
+\babel@toc {czech}{}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {A}Prvn\IeC {\'\i } p\IeC {\v r}\IeC {\'\i }loha}{18}{appendix.A}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {B}Druh\IeC {\'a} p\IeC {\v r}\IeC {\'\i }loha}{18}{appendix.B}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {C}Obsah p\IeC {\v r}ilo\IeC {\v z}en\IeC {\'e}ho CD/DVD}{18}{appendix.C}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Seznam zkratek}{20}{section*.10}

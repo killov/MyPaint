@@ -232,7 +232,6 @@ namespace MyPaint.Shapes
             MovePoint mp = new MovePoint(File.TopCanvas, this, p.Points[i], File.RevScale, (Point po) =>
             {
                 p.Points[i] = po;
-                return true;
             });
             movepoints.Add(mp);
         }

@@ -62,7 +62,6 @@ namespace MyPaint
                 {
                     UpdateScale();
                 }
-                return true;
             });
 
             p2 = new MovePoint(c, s, p.Points[1], revScale, (po) =>
@@ -79,7 +78,6 @@ namespace MyPaint
                 {
                     UpdateScale();
                 }
-                return true;
             });
 
             p3 = new MovePoint(c, s, p.Points[2], revScale, (po) =>
@@ -96,7 +94,6 @@ namespace MyPaint
                 {
                     UpdateScale();
                 }
-                return true;
             });
 
             p4 = new MovePoint(c, s, p.Points[3], revScale, (po) =>
@@ -113,7 +110,6 @@ namespace MyPaint
                 {
                     UpdateScale();
                 }
-                return true;
             });
             UpdateScale();
         }

@@ -8,5 +8,5 @@ using System.Windows;
 
 namespace MyPaint
 {
-    public delegate bool MoveDelegate(Point b);
+    public delegate void MoveDelegate(Point b);
 }

@@ -35,7 +35,6 @@
 %%  'biblatex' pro zapnutí podpory pro sazbu bibliografie pomocí
 %%  BibLaTeXu, jinak je výchozí sazba v prostředí thebibliography
 
-%%  'language=jazyk' pro jazyk práce, jazyky english pro anglický,
 %%  slovak pro slovenský, jinak je výchozí czech pro český
 
 %%  'font=sans' pro bezpatkový font (Iwona Light), jinak výchozí
@@ -43,7 +42,7 @@
 
 \documentclass[
 %  master,
-%  field=inf,
+  field=inf,
 %  printversion,
   biblatex,
 %  language=english,
@@ -60,21 +59,21 @@
 %% použitím makra s uvedením jazyka jako nepovinného parametru.
 
 %% Název práce, česky a anglicky. Měl by se vysázet na jeden řádek.
-\title{Styl pro text závěrečné práce}
-\title[english]{A style for thesis}
+\title{Grafický editor s výstupem do HTML}
+\title[english]{Graphic editor with export to HTML}
 
 %% Volitelný podnázev práce, česky a anglicky. Měl by se vysázet na
 %% jeden řádek. Výchozí je prázdný.
-\subtitle{Ukázkový text a dokumentace stylu v \LaTeX{}u}
-\subtitle[english]{Sample text and documentation of the \LaTeX{} style}
+\subtitle{}
+\subtitle[english]{}
 
 %% Jméno autora práce. Makro nemá nepovinný parametr pro uvedení
 %% jazyka.
-\author{Martin Rotter}
+\author{Zdeněk Mazurák}
 
 %% Jméno vedoucího práce (včetně titulů). Makro nemá nepovinný
 %% parametr pro uvedení jazyka.
-\supervisor{Mgr. Jan Outrata, Ph.D.}
+\supervisor{RNDr. Arnošt Večerka}
 
 %% Volitelný rok odevzdání práce. Výchozí je aktuální (kalendářní)
 %% rok. Makro nemá nepovinný parametr pro uvedení jazyka.
@@ -82,21 +81,14 @@
 
 %% Anotace práce, včetně anglické (obvykle překlad z jazyka
 %% práce). Jeden odstavec!
-\annotation{Ukázkový text závěrečné práce na Katedře informatiky
-  Přírodovědecké fakulty Univerzity Palackého v Olomouci, který je
-  zároveň dokumentací stylu pro text práce v \LaTeX{}u. Zdrojový text
-  v \LaTeX{}u je doporučeno použít jako šablonu pro text skutečné
-  závěrečné práce studenta.}
+\annotation{Cílem této bakalářské práce je vytvoření grafického editoru pro Windows.
+Aplikace umožní uživateli kreslit a editovat grafické tvary a text. Všem objektům bude možno nastavit výplň či okraj barvou či gradientem. Editor bude umožňovat export do formátu HTML.}
 
-\annotation[english]{Sample text of thesis at the \kitextdepten,
-  \kitextfacultyen, \kitextuniven{} and, at the same time,
-  documentation of the \LaTeX{} style for the text. The source text in
-  \LaTeX{} is recommended to be used as a template for real student's
-  thesis text.}
+\annotation[english]{}
 
 %% Klíčová slova práce, včetně anglických. Oddělená (obvykle) středníkem.
-\keywords{styl textu; závěrečná práce; dokumentace; ukázkový text}
-\keywords[english]{text style; thesis; documentation; sample text}
+\keywords{grafický editor; grafické tvary; HTML CANVAS}
+\keywords[english]{graphic editor; graphic shapes; HTML CANVAS}
 
 %% Volitelná specifikace příloh textu práce, i anglicky. Výchozí je '1
 %% CD/DVD'.
@@ -105,7 +97,7 @@
 
 %% Volitelné poděkování. Stručné! Výchozí je prázdné. Makro nemá
 %% nepovinný parametr pro uvedení jazyka.
-\thanks{Děkuji, děkuji, děkuji.}
+%%\thanks{Děkuji, děkuji, děkuji.}
 
 %% Cesta k souboru s bibliografií pro její sazbu pomocí BibLaTeXu
 %% (zvolenou nepovinným parametrem biblatex makra
@@ -132,6 +124,10 @@
 
 \newcommand{\BibLaTeX}{\textsc{Bib}\LaTeX}
 
+\section{Úvod}
+sadasd
+
+d
 \noindent\textcolor{red}{\LARGE Upozornění: Následující text
   dokumentace stylu, vyjma přílohy~\ref{sec:ObsahCD}, je rozpracovaná
   a (značně) neúplná verze!!!}

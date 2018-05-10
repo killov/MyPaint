@@ -226,7 +226,6 @@ namespace MyPaint
             {
                 file.Shape.StopEdit();
             }
-            UnsetSelectable();
             SetSelectable();
             file.SetShapeActive(shape);
             if(enableMoving) shape.StartMove(e);

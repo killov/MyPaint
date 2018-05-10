@@ -214,7 +214,6 @@ namespace MyPaint.Shapes
                 pf.StartPoint = e;
                 eL1.X1 = e.X;
                 eL1.Y1 = e.Y;
-                return true;
             });
 
             p2 = new MovePoint(File.TopCanvas, this, qbs.Point1, File.RevScale, (e) =>
@@ -222,7 +221,6 @@ namespace MyPaint.Shapes
                 qbs.Point1 = e;
                 eL1.X2 = eL2.X1 = e.X;
                 eL1.Y2 = eL2.Y1 = e.Y;
-                return true;
             });
 
             p3 = new MovePoint(File.TopCanvas, this, qbs.Point2, File.RevScale, (e) =>
@@ -230,7 +228,6 @@ namespace MyPaint.Shapes
                 qbs.Point2 = e;
                 eL2.X2 = e.X;
                 eL2.Y2 = e.Y;
-                return true;
             });
         }
 

@@ -166,14 +166,12 @@ namespace MyPaint.Shapes
             {
                 vs.X1 = p.X1 = e.X;
                 vs.Y1 = p.Y1 = e.Y;
-                return true;
             });
 
             p2 = new MovePoint(File.TopCanvas, this, new Point(p.X2, p.Y2), File.RevScale, (e) =>
             {
                 vs.X2 = p.X2 = e.X;
                 vs.Y2 = p.Y2 = e.Y;
-                return true;
             });
         }
 
