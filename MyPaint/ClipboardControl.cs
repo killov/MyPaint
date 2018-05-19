@@ -73,10 +73,16 @@ namespace MyPaint
 
         void PasteImage()
         {
-            BitmapSource s = Clipboard.GetImage();
-            Clipboard.SetImage(s);
-            s = Clipboard.GetImage();
-            control.file.PasteImage(s);
+            try { 
+                BitmapSource s = Clipboard.GetImage();
+                Clipboard.SetImage(s);
+                s = Clipboard.GetImage();
+                control.file.PasteImage(s);
+            }
+            catch
+            {
+
+            }
         }
 
         void PasteShape(Serializer.Shape s)

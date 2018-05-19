@@ -125,24 +125,57 @@ Aplikace umožní uživateli kreslit a editovat grafické tvary a text. Všem ob
 \newcommand{\BibLaTeX}{\textsc{Bib}\LaTeX}
 
 \section{Úvod}
-Při tvorbě aplikace byl kladen důraz na jednoduché a uživatelsky přívětivé rozhraní. Hlavní inspirace pochází ze známého programu Malování z MS Windows, který je jednoduchý, ale má řadu nevýhod, například nepodporuje průhlednost a hlavně všechno co je jednou nakresleno, už později nelze změnit. Oproti malování náš grafický editor tyto výhody nemá. Obsahuje navíc správu vrstev, u grafických objektů kromě barev lze použít i přechody barev (gradienty) a máme zde lineární a radiální.
 
-Program není určený pro profesionály, ale pro lidi, kteří si v normálním případě vystačí pouze s Malováním z MS Windows, ale občas se jim hodí nějaké ty pokročilé funkce. Pro většinu práce s obrázky si vystačíme pouze se základními funkcemi, proto není důležité mít přeplácaný program plný zbytečných funkcí, které nám budou brát na přehlednosti.
+Při tvorbě aplikace byl kladen důraz na jednoduché a uživatelsky přívětivé rozhraní. Hlavní inspirace pochází ze známého programu Malování z MS Windows, který je jednoduchý, ale má řadu nevýhod, například nepodporuje průhlednost a hlavně všechno co je jednou nakresleno, už později nelze změnit. Oproti malování náš grafický editor tyto nevýhody nemá. Obsahuje navíc správu vrstev a u grafických objektů kromě barev lze použít i přechody barev (gradienty). Aplikace podporuje dva druhy přechodů: lineární a radiální.
+
+Program není určený pro profesionály, ale pro lidi, kteří si za běžných okolností vystačí pouze s Malováním z MS Windows, ale občas se jim hodí nějaké ty pokročilé funkce. Pro většinu práce s obrázky si vystačíme pouze se základními funkcemi, proto není důležité mít přeplácaný program plný zbytečných funkcí, které nám budou brát na přehlednosti.
 
 Pro obyčejné smrtelníky ve světě grafiky je důležité, aby uživatelské rozhraní bylo jednoduché a přehledné. Toho docílíme, že budeme vycházet z jednoduchých principů kreslení.
 
+\newpage
+
 \section{Uživatelské rozhraní}
+
 Následující kapitola popisuje rozložení prvků v uživatelském rozhraní a jejich funkce.
 
 \subsection{Horní panel}
-Horní panel aplikace slouží pro výběr nástroje pro práci. Funguje jako přepínačm současne lze zvolit pouze jeden nástroj. Následně uvedu jednotlivé nástroje.
+Horní panel aplikace slouží pro výběr nástroje pro práci. Funguje jako přepínač, současně lze zvolit pouze jeden nástroj. Následně uvedu jednotlivé nástroje.
 
 \begin{itemize}
 \item Nástroj pro výběr - slouží pro výběr části obrázku, který lze následně klávesovou zkratkou Ctrl+C zkopírovat do schránky a vložit výřez do jiného programu, nebo jej naklonovat.
 \item Nástroj pro výběr grafických objektů - slouží pro označení objektu, který chceme editovat.
 \item Úsečka - pro kreslení obyčejné úsečky mezi dvěma body.
-\item 
+\item Polyline - Křivka vytvořená spojením n bodů.
+\item Elipsa
+\item Obdelník
+\item Polygon
+\item Kvadratická křivka
+\item Text
+\item Zpět
+\item Vpřed
+\item Nástroje pro změnu vlastnosti písma (zobrazí se pouze při editaci textu)
 \end{itemize}
+\newpage
+\begin{figure}
+\includegraphics[width=16cm]{img/toppanel}
+\caption{Horní panel}
+\end{figure}
+
+
+\subsection{Levý panel}
+
+Horní část levého panelu slouží pro nastavení vlastností grafický objektů. Mezi hlavní vlastnosti patří barvy. V aplikaci můžeme každému objektu nastavit 2 různé barvy: primární a sekundární. Primární slouží u objektů jako barva okraje a sekundární jako barva výplně. Každý objekt však nemá výplň. Například taková úsečka nebo kvadratická křivka výplň nemá a tak na nastavení této vlastnosti nebude reagovat. 
+
+Dále tu máme třetí barvu, která slouží pro nastavení pozadí aktuální vrstvy.
+
+Nastavování těchto těch barev se provádí s pomocí přepínače. Zvolíme jednu z nich a následně jim nastavíme požadovanou barvu. Výběr je možno provést pomocí základních nadefinovaných barev umístěných níže. Pro pokročilejší výběr máme k dispozici paletu barev. Kromě jedné barvy lze nastavit i průhledná nebo přechod více barev.
+
+Na spodní části levého panelu nalezneme správu vrstev. Zde můžeme vrstvy přidávat a nebo mezi nimi přepínat a tak měnit aktivní vrstvu do které aktuálně chceme kreslit. Dále můžeme jednotlivé vrstvy mazat nebo měnit jejich jména či pořadí.
+
+\begin{figure}
+\includegraphics[width=5cm]{img/leftpanel}
+\caption{Levý panel}
+\end{figure}
 
 \section{Styly pro psaní bakalářských a diplomových prací}
 Toto jsou styly pro psaní bakalářských a diplomových prací přes typografický systém \LaTeX{}, tedy \textbf{kistyles}.

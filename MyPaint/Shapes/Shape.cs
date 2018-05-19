@@ -100,11 +100,14 @@ namespace MyPaint.Shapes
 
         public void ChangeLayer(Layer newLayer, bool addHistory = false)
         {
-            RemoveFromLayer();
-            int pos = RemoveFromLayer();   
-            if (addHistory) File.HistoryControl.Add(new History.HistoryShapeChangeLayer(this, layer, newLayer, pos));
-            layer = newLayer;
-            AddToLayer();
+            if (inLayer)
+            {
+                RemoveFromLayer();
+                int pos = RemoveFromLayer();
+                if (addHistory) File.HistoryControl.Add(new History.HistoryShapeChangeLayer(this, layer, newLayer, pos));
+                layer = newLayer;
+                AddToLayer();
+            }
         }
 
         public void ChangeLayer(Layer newLayer, int pos)

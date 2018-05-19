@@ -19,6 +19,7 @@ namespace MyPaint
         public MovePoint p1, p2, p3, p4;
         Canvas canvas;
         double scale;
+        bool reversePosition = false;
         ScaleTransform revScale;
         Brush fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
         public EditRect(Canvas c, Shapes.Shape s, Point A, Point B, ScaleTransform revScale, MoveDelegate Af, MoveDelegate Bf, MoveDelegate Cf, MoveDelegate Df)
@@ -50,7 +51,7 @@ namespace MyPaint
             canvas = c;
             p1 = new MovePoint(c, s, p.Points[0], revScale, (po) =>
             {
-                Point pop = Scaling(po, p.Points[0], p.Points[2], 0);
+                Point pop = Scaling(po, p.Points[0], p.Points[2], reversePosition?1:0);
                 p.Points[0] = pop;
                 p.Points[1] = new Point(p.Points[1].X, pop.Y);
                 p.Points[3] = new Point(pop.X, p.Points[3].Y);
@@ -66,7 +67,7 @@ namespace MyPaint
 
             p2 = new MovePoint(c, s, p.Points[1], revScale, (po) =>
             {
-                Point pop = Scaling(po, p.Points[1], p.Points[3], 1);
+                Point pop = Scaling(po, p.Points[1], p.Points[3], reversePosition?0:1);
                 p.Points[1] = pop;
                 p.Points[0] = new Point(p.Points[0].X, pop.Y);
                 p.Points[2] = new Point(pop.X, p.Points[2].Y);
@@ -82,7 +83,7 @@ namespace MyPaint
 
             p3 = new MovePoint(c, s, p.Points[2], revScale, (po) =>
             {
-                Point pop = Scaling(po, p.Points[2], p.Points[0], 0);
+                Point pop = Scaling(po, p.Points[2], p.Points[0], reversePosition?1:0);
                 p.Points[2] = pop;
                 p.Points[1] = new Point(pop.X, p.Points[1].Y);
                 p.Points[3] = new Point(p.Points[3].X, pop.Y);
@@ -98,7 +99,7 @@ namespace MyPaint
 
             p4 = new MovePoint(c, s, p.Points[3], revScale, (po) =>
             {
-                Point pop = Scaling(po, p.Points[3], p.Points[1], 1);
+                Point pop = Scaling(po, p.Points[3], p.Points[1], reversePosition?0:1);
                 p.Points[3] = pop;
                 p.Points[0] = new Point(pop.X, p.Points[0].Y);
                 p.Points[2] = new Point(p.Points[2].X, pop.Y);
@@ -120,6 +121,10 @@ namespace MyPaint
             if(scale == double.NaN)
             {
                 scale = 1;
+            }
+            if(!(p.Points[0].X == p.Points[2].X && p.Points[0].Y == p.Points[2].Y))
+            {
+                reversePosition = !((p.Points[0].X < p.Points[2].X && p.Points[0].Y < p.Points[2].Y) || (p.Points[0].X > p.Points[2].X && p.Points[0].Y > p.Points[2].Y));
             }
         }
 

@@ -467,8 +467,7 @@ namespace MyPaint
         public void SetPath(string p)
         {
             Path = p;
-            string name = new Regex("[a-zA-Z0-9]+.[a-zA-Z0-9]+$").Matches(Path)[0].ToString();
-            SetName(name);
+            SetName(System.IO.Path.GetFileNameWithoutExtension(Path));
         }
 
         public void SetName(string name)
@@ -518,7 +517,7 @@ namespace MyPaint
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)width, (int)height, 96, 96, PixelFormats.Default);
             rtb.Render(cc);
 
-            BitmapEncoder encoder = new PngBitmapEncoder();
+            BitmapEncoder encoder = new BmpBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(rtb));
             byte[] f = null;
             using (var stream = new MemoryStream())

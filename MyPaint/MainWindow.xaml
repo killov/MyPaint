@@ -9,7 +9,7 @@
         xmlns:ncore="http://schemas.ncore.com/wpf/xaml/colorbox"
         Icon="shape.png"
         mc:Ignorable="d"
-        Title="MyPaint" Height="691" Width="923.5" Closing="closed" WindowState="Maximized" KeyDown="Window_KeyDown">
+        Title="MyPaint" Height="691" Width="923.5" Closing="closed" WindowState="Maximized" KeyDown="Window_KeyDown" MinWidth="750" MinHeight="750">
 
     <DockPanel Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
         <Menu DockPanel.Dock="Top" Height="20">
