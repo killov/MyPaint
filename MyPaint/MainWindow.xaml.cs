@@ -306,7 +306,9 @@ namespace MyPaint
         {
             if (resolutionDrag)
             {
-                control.SetResolution(e.GetPosition(canvas_out).X, e.GetPosition(canvas_out).Y);
+                double x = e.GetPosition(canvas_out).X;
+                double y = e.GetPosition(canvas_out).Y;
+                control.SetResolution(x > 0 ? x : 1, y > 0 ? y : 1);
             }
             else
             {

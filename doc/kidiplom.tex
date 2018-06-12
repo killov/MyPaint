@@ -173,12 +173,32 @@ Nastavování těchto těch barev se provádí s pomocí přepínače. Zvolíme 
 Na spodní části levého panelu nalezneme správu vrstev. Zde můžeme vrstvy přidávat a nebo mezi nimi přepínat a tak měnit aktivní vrstvu do které aktuálně chceme kreslit. Dále můžeme jednotlivé vrstvy mazat nebo měnit jejich jména či pořadí.
 
 \begin{figure}
-\includegraphics[width=5cm]{img/leftpanel}
-\caption{Levý panel}
-\end{figure}
+\includegraphics[width=15cm]{img/program}
+\caption{Aplikace}
+\end{figure}  
 
-\subsection{Vrstvy}
-Na levé straně u spodní části grafického editoru nalezneme panel vrstev. Obsahuje seznam vrstev, které si uživatel pomocí tlačítka \uv{přidat} může přidat \uv{libovolné} množství.   
+\subsection{Kreslící plátno}
+
+Ve středu aplikace se nachází kreslící plátno. Zde můžeme vytvářet a následně upravovat grafické objekty. V pravém dolním rohu kreslícího plátna je umístěn bod pro změnu velkosti plátna. Nad plátnem jsou záložky pro otevřené soubory, program totiž umožňuje upravovat více obrázků najednou.
+
+
+\section{Funkce}
+
+\subsection{Podporované soubory}
+
+Aplikace podporuje otevírání a ukládání souborů jako rastrovou grafiku ve formátech JPG, PNG a BMP. Při otevření těchto formátů je do plátna načten pouze jeden objekt a tím je celý obrázek. Nelze tak po opětovném otevření upravovat grafické tvary. 
+
+Speciální funkcí této aplikace je ukládání obrázků do formátu HTML. Oproti rastrovým formátům má výhodu v tom, že po otevření jsou načteny do plátna všechny objekty, které je možno dále upravovat. Tento formát reprezentuje obrázek jako vektorovou grafiku. Je možno ho otevřít v jakémkoliv prohlížeči, který podporuje HTML5 Canvas a má zapnutý JavaScript.
+
+\subsection{Uložení do souboru ve formátu HTML}
+
+Formát HTML není určený pro obrázky, ale pro pro webové stránky. Od páté verze HTML podporuje značku <canvas>, která reprezentuje plátno pro kreslení grafiky. Element se umístí do stránky s pevně danou šířkou a výškou. Do plátna pak lze kreslit přes 
+API v JavaScriptu.
+
+Tahle technologie nám nabízí pomocnou ruku, otázkou je, co uložit do HTML souboru, pokud požadujeme, aby po otevření souboru ve webovém prohlížeči se zobrazil obrázek.
+
+Nabízí se vygenerovat program, který dokáže obrázek do plátna nakreslit. Tohle řešení by fungovalo, ale mylo by řadu nevýhod. V HTML souboru by bylo spoustu nadbytečného kódu a implementace otevírání HTML souboru, by byla příliš složitá. Nebylo by jednoduché dekódovat program v souboru na grafické objekty. V budoucnu by taky byl problém s kompatibilitou a omezovalo by mě to v případné optimalizaci.
+
 
 \section{Styly pro psaní bakalářských a diplomových prací}
 Toto jsou styly pro psaní bakalářských a diplomových prací přes typografický systém \LaTeX{}, tedy \textbf{kistyles}.
