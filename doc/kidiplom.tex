@@ -147,7 +147,7 @@ Horní panel aplikace slouží pro výběr nástroje pro práci. Funguje jako p�
 \item Úsečka - pro kreslení obyčejné úsečky mezi dvěma body.
 \item Polyline - Křivka vytvořená spojením n bodů.
 \item Elipsa
-\item Obdelník
+\item Obdélník
 \item Polygon
 \item Kvadratická křivka
 \item Text
@@ -192,12 +192,43 @@ Speciální funkcí této aplikace je ukládání obrázků do formátu HTML. Op
 
 \subsection{Uložení do souboru ve formátu HTML}
 
-Formát HTML není určený pro obrázky, ale pro pro webové stránky. Od páté verze HTML podporuje značku <canvas>, která reprezentuje plátno pro kreslení grafiky. Element se umístí do stránky s pevně danou šířkou a výškou. Do plátna pak lze kreslit přes 
-API v JavaScriptu.
+\subsubsection{HTML soubor}
 
-Tahle technologie nám nabízí pomocnou ruku, otázkou je, co uložit do HTML souboru, pokud požadujeme, aby po otevření souboru ve webovém prohlížeči se zobrazil obrázek.
+Soubor s příponou .html nebo .htm je textový soubor, který obsahuje značkovací jazyk HTML. Jazyk se skládá z tagů (značek), které máme párové a nepárové. Do párových tagů můžeme vkládat další HTML tagy nebo text. Vzniká tak v HTML dokumentu stromová struktura. HTML tagy dále obsahují atributy, které mění vlastnosti tagů.
 
-Nabízí se vygenerovat program, který dokáže obrázek do plátna nakreslit. Tohle řešení by fungovalo, ale mylo by řadu nevýhod. V HTML souboru by bylo spoustu nadbytečného kódu a implementace otevírání HTML souboru, by byla příliš složitá. Nebylo by jednoduché dekódovat program v souboru na grafické objekty. V budoucnu by taky byl problém s kompatibilitou a omezovalo by mě to v případné optimalizaci.
+\begin{kicode}{HTML}{kod:HTML}{Ukázka kódu HTML}
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title>Titulek</title>
+  </head>
+  <body>
+    <h1>Nadpis</h1>
+    <p>Text</p>
+  </body>
+</html>
+\end{kicode}
+
+\subsubsection{Značka <canvas>}
+
+Formát HTML není určený pro obrázky, ale pro pro webové stránky. Od páté verze HTML podporuje značku <canvas>, která reprezentuje plátno pro kreslení grafiky. Element se umístí do stránky s pevně danou šířkou a výškou. Do plátna pak lze kreslit přes API v JavaScriptu. Pokud změníme jeho rozměry, plátno se vymaže a musíme kreslit znovu.
+
+\begin{kicode}{JavaScript}{kod:JavaScript}{Kreslení obdélníku do canvasu v JavaScriptu}
+var c=document.getElementById("myCanvas");
+var ctx=c.getContext("2d");
+ctx.rect(20,20,150,100);
+ctx.stroke();
+\end{kicode}
+
+Tahle technologie nám nabízí pomocnou ruku, otázkou je, co uložit do HTML souboru, pokud požadujeme, aby se po otevření souboru ve webovém prohlížeči zobrazil obrázek.
+
+Nabízí se vygenerovat HTML soubor a vložit do něj vygenerovaný program v JavaScriptu, který dokáže obrázek do plátna nakreslit. Tohle řešení by fungovalo, ale mělo by řadu nevýhod. V HTML souboru by bylo spoustu nadbytečného kódu a implementace otevírání HTML souboru, by byla příliš složitá. Nebylo by jednoduché dekódovat program v souboru na grafické objekty. V budoucnu by taky byl problém s kompatibilitou a omezovalo by mě to v případné optimalizaci.
+
+Grafické objekty v aplikaci jsou jen nějaké data uložené v objektech a tak bude jednodušší je tak nechat a zbytečně nepřidávat další balast navíc a to by se přesně stalo, pokud bych se vydal cestou zmíněnou výše. Takže požadujeme tyto objekty uložit do HTML souboru. 
+
+
+
 
 
 \section{Styly pro psaní bakalářských a diplomových prací}

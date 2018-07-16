@@ -19,11 +19,14 @@ namespace MyPaint.FileSaver
             file.WriteLine("<html>");
             file.WriteLine("<head>");
             file.WriteLine("<meta http-equiv=\"content-type\" content=\"text/html; charset = utf-8\">");
-           // file.WriteLine("<script type=\"text/javascript\" src=\"js.js\"></script>");
+            
             file.WriteLine("</head>");
             file.WriteLine("<body>");
             file.WriteLine("<canvas width=\"" + dc.Resolution.X + "\" height=\"" + dc.Resolution.Y + "\" style=\"border: 1px solid black;\" id=\"MyPaint\"></canvas>");
             file.WriteLine("<script>");
+            StreamReader sr = new StreamReader("..\\..\\js.js");
+            var minifier = new Microsoft.Ajax.Utilities.Minifier();
+            file.WriteLine(minifier.MinifyJavaScript(sr.ReadToEnd()));
             file.WriteLine("var ctx = document.getElementById(\"MyPaint\").getContext(\"2d\");");
             var pic = new Serializer.Picture();
             pic.resolution = new Serializer.Point(dc.Resolution.X, dc.Resolution.Y);

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.5.9)  9 MAY 2018 17:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6630 64-bit) (preloaded format=pdflatex 2018.5.9)  16 JUL 2018 16:29
 entering extended mode
 **./kidiplom.tex
 (kidiplom.tex
@@ -1708,20 +1708,59 @@ showing example
 
  [6
 
-]
-Overfull \hbox (11.97319pt too wide) in paragraph at lines 130--134
-[]\T1/lmr/m/n/12 d []\T1/lmr/m/n/20.74 Upo-zor-n¥ní: Ná-sle-du-jící text do-ku-
-men-tace stylu,
- []
+] [7
 
-LaTeX Font Info:    Try loading font information for OMS+lmr on input line 141.
+]
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 145.
+
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\lm\omslmr.fd"
 File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 141.
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 145.
 
+[8]
+<img/toppanel.png, id=163, 567.62062pt x 42.91031pt>
+File: img/toppanel.png Graphic file (type png)
+<use img/toppanel.png>
+Package pdftex.def Info: img/toppanel.png  used on input line 160.
+(pdftex.def)             Requested size: 455.24408pt x 34.41602pt.
+
+Overfull \hbox (45.74289pt too wide) in paragraph at lines 160--161
+[][] 
+ []
+
+<img/program.png, id=165, 685.05937pt x 559.33969pt>
+File: img/program.png Graphic file (type png)
+<use img/program.png>
+Package pdftex.def Info: img/program.png  used on input line 176.
+(pdftex.def)             Requested size: 426.79134pt x 348.47691pt.
+
+Overfull \hbox (17.29015pt too wide) in paragraph at lines 176--177
+[][] 
+ []
+
+[9 <./img/toppanel.png>] [10 <./img/program.png>]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
+nput line 199.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 199.
+
+("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\t1pcr.fd"
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+Package csquotes Info: Input encoding change on input line 199.
+("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+)
+LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 200.
+Package csquotes Info: Input encoding change on input line 217.
+
+("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+)
+[11]
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\listings\lstlang1
 .sty"
 File: lstlang1.sty 2015/06/04 1.6 listings language file
@@ -1750,283 +1789,273 @@ File: lstlang3.sty 2015/06/04 1.6 listings language file
 sty"
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 162.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 162.
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\psnfss\t1pcr.fd"
-File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-)
-Package csquotes Info: Input encoding change on input line 162.
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
-File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
-)
-
-LaTeX Warning: Float too large for page by 67.39981pt on input line 242.
-
-Package csquotes Info: Input encoding change on input line 249.
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
-File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
-)
-Package csquotes Info: Input encoding change on input line 249.
+Package csquotes Info: Input encoding change on input line 261.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 249.
+
+LaTeX Warning: Float too large for page by 67.39981pt on input line 341.
+
+Package csquotes Info: Input encoding change on input line 348.
+("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+)
+Package csquotes Info: Input encoding change on input line 348.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-[7
-
-] [8]
-Package csquotes Info: Input encoding change on input line 254.
+Package csquotes Info: Input encoding change on input line 348.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-[9]
-Overfull \hbox (12.74097pt too wide) in paragraph at lines 292--293
+[12] [13]
+Package csquotes Info: Input encoding change on input line 353.
+
+("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+)
+[14]
+Overfull \hbox (12.74097pt too wide) in paragraph at lines 391--392
 \T1/lmr/m/n/12 Pro sazbu li-te-ra-tury má uºi-va-tel dv¥ moº-nosti. M·ºe po-u-º
 ít slu-ºeb ba-lík· \T1/lmr/m/sc/12 Bib\T1/lmr/m/n/12 L[]T[]X,
  []
 
 
 LaTeX Font Warning: Font shape `T1/lmr/bx/sc' undefined
-(Font)              using `T1/lmr/bx/n' instead on input line 293.
+(Font)              using `T1/lmr/bx/n' instead on input line 392.
 
-Package csquotes Info: Input encoding change on input line 294.
+Package csquotes Info: Input encoding change on input line 393.
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 296.
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
-File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
-)
-Package csquotes Info: Input encoding change on input line 296.
+Package csquotes Info: Input encoding change on input line 395.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 298.
+Package csquotes Info: Input encoding change on input line 395.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 298.
+Package csquotes Info: Input encoding change on input line 397.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 303.
+Package csquotes Info: Input encoding change on input line 397.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-[10]
-Package csquotes Info: Input encoding change on input line 305.
+Package csquotes Info: Input encoding change on input line 402.
+
+("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
+File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
+)
+[15]
+Package csquotes Info: Input encoding change on input line 404.
  ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 305.
+Package csquotes Info: Input encoding change on input line 404.
  ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 305.
+Package csquotes Info: Input encoding change on input line 404.
  ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 305.
+Package csquotes Info: Input encoding change on input line 404.
  ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 308.
+Package csquotes Info: Input encoding change on input line 407.
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 308.
+Package csquotes Info: Input encoding change on input line 407.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 310.
+Package csquotes Info: Input encoding change on input line 409.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 310.
+Package csquotes Info: Input encoding change on input line 409.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 310.
+Package csquotes Info: Input encoding change on input line 409.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 312.
+Package csquotes Info: Input encoding change on input line 411.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 325.
+Package csquotes Info: Input encoding change on input line 424.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 325.
+Package csquotes Info: Input encoding change on input line 424.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 337.
+Package csquotes Info: Input encoding change on input line 436.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 338.
+Package csquotes Info: Input encoding change on input line 437.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 339.
+Package csquotes Info: Input encoding change on input line 438.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 339.
+Package csquotes Info: Input encoding change on input line 438.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 342.
+Package csquotes Info: Input encoding change on input line 441.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 344.
-Package csquotes Info: Input encoding change on input line 344.
+Package csquotes Info: Input encoding change on input line 443.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 344.
+Package csquotes Info: Input encoding change on input line 443.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 344.
+Package csquotes Info: Input encoding change on input line 443.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 344.
+Package csquotes Info: Input encoding change on input line 443.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 346.
+Package csquotes Info: Input encoding change on input line 445.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 352.
+Package csquotes Info: Input encoding change on input line 451.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 352.
+Package csquotes Info: Input encoding change on input line 451.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-[11] [12]
+[16] [17]
 \@gls@deffile=\write14
 \openout14 = `kidiplom.glsdefs'.
 
 Package hyperref Info: bookmark level for unknown definition defaults to 0 on i
-nput line 359.
+nput line 458.
 Package hyperref Info: bookmark level for unknown proof defaults to 0 on input 
-line 363.
+line 462.
 Package hyperref Info: bookmark level for unknown remark defaults to 0 on input
- line 367.
+ line 466.
 Package hyperref Info: bookmark level for unknown example defaults to 0 on inpu
-t line 371.
+t line 470.
 Package hyperref Info: bookmark level for unknown lemma defaults to 0 on input 
-line 375.
+line 474.
 Package hyperref Info: bookmark level for unknown consequence defaults to 0 on 
-input line 379.
+input line 478.
 Package hyperref Info: bookmark level for unknown theorem defaults to 0 on inpu
-t line 383.
- [13]
-Package csquotes Info: Input encoding change on input line 388.
+t line 482.
+ [18]
+Package csquotes Info: Input encoding change on input line 487.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 396.
+Package csquotes Info: Input encoding change on input line 495.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 400.
+Package csquotes Info: Input encoding change on input line 499.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 404.
+Package csquotes Info: Input encoding change on input line 503.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-Package csquotes Info: Input encoding change on input line 408.
+Package csquotes Info: Input encoding change on input line 507.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex\latex\base\utf8.def"
 File: utf8.def 2017/01/28 v1.1t UTF-8 support for inputenc
 )
-[14] [15] [16
+[19] [20] [21
 
-] [17
+] [22
 
 ]
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <12> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 443.
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 542.
 
-Overfull \hbox (28.62613pt too wide) in paragraph at lines 443--451
+Overfull \hbox (28.62613pt too wide) in paragraph at lines 542--550
 \T1/lmr/m/n/12 p°ímo z CD/DVD. / Kom-pletní ad-re-sá-°ová struk-tura webové apl
 i-kace \T1/lmr/m/sc/12 Webovka
  []
 
 
-Overfull \hbox (7.71727pt too wide) in paragraph at lines 443--451
+Overfull \hbox (7.71727pt too wide) in paragraph at lines 542--550
 \T1/lmr/m/n/12 (v ZIP ar-chivu) pro zko-pí-ro-vání na webový ser-ver. Ad-re-sá°
  ob-sa-huje i v²echny
  []
 
 
-Overfull \hbox (8.70828pt too wide) in paragraph at lines 459--465
+Overfull \hbox (8.70828pt too wide) in paragraph at lines 558--564
 \T1/lmr/m/n/12 Kompletní zdro-jové texty pro-gramu \T1/lmr/m/sc/12 Pro-gram \T1
 /lmr/m/n/12 / webové apli-kace \T1/lmr/m/sc/12 Webovka
  []
 
 
-Overfull \hbox (2.8623pt too wide) in paragraph at lines 459--465
+Overfull \hbox (2.8623pt too wide) in paragraph at lines 558--564
 \T1/lmr/m/n/12 se v²emi po-t°eb-nými (p°íp. p°e-vza-tými) zdro-jo-vými texty, k
 nihov-nami a dal-
  []
 
-[18
+[23
 
-] [19]
+] [24]
 No file kidiplom.acr.
-[20
+[25
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 516.
+LaTeX Warning: Empty bibliography on input line 615.
 
 No file kidiplom.ind.
 
@@ -2034,17 +2063,20 @@ AED: lastpage setting LastPage
 \tf@loe=\write15
 \openout15 = `kidiplom.loe'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 530.
-Package atveryend Info: Executing hook `AfterLastShipout' on input line 530.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 629.
+Package atveryend Info: Executing hook `AfterLastShipout' on input line 629.
 (kidiplom.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 530.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 530.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 629.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 629.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 
 LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
 
 Package biblatex Warning: Please (re)run Biber on the file:
@@ -2054,13 +2086,13 @@ Package biblatex Warning: Please (re)run Biber on the file:
 Package logreq Info: Writing requests to 'kidiplom.run.xml'.
 \openout1 = `kidiplom.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 530.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 629.
  ) 
 Here is how much of TeX's memory you used:
- 27713 strings out of 493305
- 457698 string characters out of 3129368
- 1119749 words of memory out of 3000000
- 30561 multiletter control sequences out of 15000+200000
+ 27778 strings out of 493305
+ 458700 string characters out of 3129368
+ 1121170 words of memory out of 3000000
+ 30585 multiletter control sequences out of 15000+200000
  73114 words of font info for 63 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  61i,15n,125p,2609b,1945s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -2073,13 +2105,13 @@ eplaced by a fixed one
 pdfTeX warning (dest): name{1ind.ind} has been referenced but does not exist, r
 eplaced by a fixed one
 
-{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}
 {C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mathsy
 .enc}{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-e
 c.enc}{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-
 mathit.enc}{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/l
 m/lm-rm.enc}{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/
-lm/lm-mathex.enc}<C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
+lm/lm-mathex.enc}{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/d
+vips/base/8r.enc}<C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
 /public/lm/lmbx10.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/
 type1/public/lm/lmbx12.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/f
 onts/type1/public/lm/lmbx8.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2
@@ -2098,9 +2130,9 @@ s/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:
 /symbols/msam10.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/ty
 pe1/urw/courier/ucrb8a.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/f
 onts/type1/urw/courier/ucrr8a.pfb>
-Output written on kidiplom.pdf (20 pages, 389646 bytes).
+Output written on kidiplom.pdf (25 pages, 481166 bytes).
 PDF statistics:
- 426 PDF objects out of 1000 (max. 8388607)
- 121 named destinations out of 1000 (max. 500000)
- 219 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 525 PDF objects out of 1000 (max. 8388607)
+ 154 named destinations out of 1000 (max. 500000)
+ 301 words of extra memory for PDF output out of 10000 (max. 10000000)
 
