@@ -225,9 +225,43 @@ Tahle technologie nám nabízí pomocnou ruku, otázkou je, co uložit do HTML s
 
 Nabízí se vygenerovat HTML soubor a vložit do něj vygenerovaný program v JavaScriptu, který dokáže obrázek do plátna nakreslit. Tohle řešení by fungovalo, ale mělo by řadu nevýhod. V HTML souboru by bylo spoustu nadbytečného kódu a implementace otevírání HTML souboru, by byla příliš složitá. Nebylo by jednoduché dekódovat program v souboru na grafické objekty. V budoucnu by taky byl problém s kompatibilitou a omezovalo by mě to v případné optimalizaci.
 
-Grafické objekty v aplikaci jsou jen nějaké data uložené v objektech a tak bude jednodušší je tak nechat a zbytečně nepřidávat další balast navíc a to by se přesně stalo, pokud bych se vydal cestou zmíněnou výše. Takže požadujeme tyto objekty uložit do HTML souboru. 
+Grafické objekty v aplikaci jsou jen nějaké data uložené v objektech a tak bude jednodušší je tak nechat a zbytečně nepřidávat další balast navíc a to by se přesně stalo, pokud bych se vydal cestou zmíněnou výše. Takže požadujeme tyto objekty uložit do HTML souboru. Protože je HTML soubor textový, musíme tyto objekty reprezentovat pomocí textu. Chceme objekty převést na text a k tomu slouží serializace.
+
+Serializace objektů je proces, který umožňuje objekty programu převést na posloupnost bytů nebo text. Jednoduše umožňuje objekty uložit pro pozdější obnovení.
 
 
+
+\subsubsection{JSON}
+Aplikace používá serializaci do formátu JSON. JSON je datový formát, který dokáže pojmout datové struktury složených z čísel a řetězců. Často se používá k přenosů dat na internetu, hlavně ve ve webových aplikacích, které využívají technologii AJAX. Další obrovskou výhodou je, že pochází z JavaScriptu. Zkratka JSON totiž znamená \uv{JavaScript Object Notation} což je zápis objektů v JavaScriptu a tak nemusíme programovat žádnou deserializaci, ale postačí nám pouze data v tomto formátu do souboru HTML přiložit.
+
+
+\subsubsection{Vykreslení obrázku v prohlížeči}
+Posledním krokem k zobrazení obrázku v prohlížeči zbývá vykreslit obrázek z přiložených dat v JSONu. Jak už jsem psal výše použijeme k tomu HTML element <canvas>. Do canvasu se kreslí přes API v JavaScriptu, takže získáme přiložená data musíme dostat do programu v JavaScriptu, který bude z dal obrázek vykreslovat do canvasu. 
+
+Data program získá deserializací JSON řetězce. Jelikož je JSON řetězec ekvivalentní se zápisem objektů v JavaScriptu, postačí nám pouze JSON řetězec šikovně uložit k programu.
+
+Program v JS už jen přečte data a vykreslí všechny grafické objekty ve správném pořadí. Pro menší datovou velikost výsledného HTML souboru je kód programu zminifikován. Minifikace nám z kódu odstraní znaky, které nemají vliv na vykonávání kódu. Což jsou pro příklad bílé znaky (mezery, tabulátory, řádky). Dále nahradí názvy promněnných na co nejkratší názvy. Po minifikaci program dělá to stejné jako před ní, jen je o hodně menší. Minifikace je hojně využívaná na internetu a není se čemu divit, všichni přece chceme, aby se internetové stránky načítaly rychle.
+
+\subsubsection{Datová struktura}
+Aby byl program v JavaScriptu schopný nakreslit obrázek z přiložených dat, musí mít data určitou datovou strukturu, je velmi podobná struktuře ve kterém aplikace uchovává data při práci s obrázkem.
+
+Všechno začíná třídou Picture, která uchovává rozlišení obrázku a obsahuje vlastnost layers, ve které je uložen seznam vrstev. Jednotlivé vrstvy jsou reprezentovány třídou Layer, která v sobě uchovává barvu pozadí, jméno vrstvy a jestli je vrstva viditelná, jestli se má vykreslit. Mohli by jsme říct, že je zbytečné přikládat vrstvu, která se stejně nenakreslí, ale jelikož jde HTML soubor v aplikaci znovu otevřít a plnohodnotně editovat je dobré ji tam nechat, kdyby s ní ještě chtěl v budoucnu někdo pracovat. To nejdůležitější co třída Layer obsahuje je seznam grafických objektů  umístěný ve vlastnosti shapes.
+
+Grafické objekty jsou reprezentovány třídou Shape. Různé druhy grafických objektů mají hodně odlišné vlastnosti a proto by nebylo moudré všechno ukládat, použijeme tedy dědičnost. Potomky třídy Shape jsou třídy reprezentující jednotlivé druhy grafických objektů, které v sobě uchovávají barvy výplně a okraje, body ze kterých jsou složeny nebo jiné.
+
+Protože serializací objektů do formátu JSON, přijdeme o informaci o informaci z jaké třídy pochází, jelikož JSON formát tyto informace neuchovává. Řešení je jednoduché, stačí přidat všem třídám reprezentují grafické objekty vlastnost type, kde každý druh bude mít unikátní hodnotu. V našem případě je vlastnost type typu řetězec a obsahuje vždy název své třídy. Díky tomu dokáže program jednoduchým způsobem rozpoznat o jaký druh grafického objektu se jedná a podle toho může očekávat vlastnosti.
+
+Zvláštním případem grafického objektu je obrázek, který reprezentuje třída Image a je to obrázek v rastrové grafice. Umožní nám tak ukládat do HTML i rastrovou grafiku. Obrázek je uložen pomocí kódování base64. Base64 je způsob kódování, který kóduje binární data do znaků ASCII.
+
+
+\begin{figure}
+\includegraphics[width=15cm]{img/json_diag}
+\caption{Diagram datové struktury pro uložení obrázku do JSONu}
+\end{figure} 
+
+
+\subsection{Uložení do formátů rastrové grafiky}
+Aplikace umožňuje uložit obrázky do rastrové (bitmapové) grafiky. Rastrová grafika je způsob ukládání obrázků. Obrázek tímto způsobem je uložen jako barevné body (pixelů, kde každý bod má svojí barvu. Barva pixelů je vyjádřena ve vybraném barevném modelu, v modelu kde můžeme z posloupnosti čísel získat barvu, například model RGB, kde ze třech čísel reprezentující 3 barvy (konkrétně červená, zelená a modrá) dostaneme výslednou barvou jejich smícháním. Existuje i rozšíření modelu RGB, což je model RGBa, kde je navíc ještě čtvrtá složka (alfa kanál), která určuje průhlednost barvy.
 
 
 
