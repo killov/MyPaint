@@ -242,7 +242,7 @@ Data program získá deserializací JSON řetězce. Jelikož je JSON řetězec e
 
 Program v JS už jen přečte data a vykreslí všechny grafické objekty ve správném pořadí. Pro menší datovou velikost výsledného HTML souboru je kód programu zminifikován. Minifikace nám z kódu odstraní znaky, které nemají vliv na vykonávání kódu. Což jsou pro příklad bílé znaky (mezery, tabulátory, řádky). Dále nahradí názvy promněnných na co nejkratší názvy. Po minifikaci program dělá to stejné jako před ní, jen je o hodně menší. Minifikace je hojně využívaná na internetu a není se čemu divit, všichni přece chceme, aby se internetové stránky načítaly rychle.
 
-\subsubsection{Datová struktura}
+\subsubsection{Datová struktura JSONu}
 Aby byl program v JavaScriptu schopný nakreslit obrázek z přiložených dat, musí mít data určitou datovou strukturu, je velmi podobná struktuře ve kterém aplikace uchovává data při práci s obrázkem.
 
 Všechno začíná třídou Picture, která uchovává rozlišení obrázku a obsahuje vlastnost layers, ve které je uložen seznam vrstev. Jednotlivé vrstvy jsou reprezentovány třídou Layer, která v sobě uchovává barvu pozadí, jméno vrstvy a jestli je vrstva viditelná, jestli se má vykreslit. Mohli by jsme říct, že je zbytečné přikládat vrstvu, která se stejně nenakreslí, ale jelikož jde HTML soubor v aplikaci znovu otevřít a plnohodnotně editovat je dobré ji tam nechat, kdyby s ní ještě chtěl v budoucnu někdo pracovat. To nejdůležitější co třída Layer obsahuje je seznam grafických objektů  umístěný ve vlastnosti shapes.
@@ -251,17 +251,46 @@ Grafické objekty jsou reprezentovány třídou Shape. Různé druhy grafických
 
 Protože serializací objektů do formátu JSON, přijdeme o informaci o informaci z jaké třídy pochází, jelikož JSON formát tyto informace neuchovává. Řešení je jednoduché, stačí přidat všem třídám reprezentují grafické objekty vlastnost type, kde každý druh bude mít unikátní hodnotu. V našem případě je vlastnost type typu řetězec a obsahuje vždy název své třídy. Díky tomu dokáže program jednoduchým způsobem rozpoznat o jaký druh grafického objektu se jedná a podle toho může očekávat vlastnosti.
 
-Zvláštním případem grafického objektu je obrázek, který reprezentuje třída Image a je to obrázek v rastrové grafice. Umožní nám tak ukládat do HTML i rastrovou grafiku. Obrázek je uložen pomocí kódování base64. Base64 je způsob kódování, který kóduje binární data do znaků ASCII.
+Zvláštním případem grafického objektu je obrázek, který reprezentuje třída Image a je to obrázek v rastrové grafice. Umožní nám tak ukládat do HTML i rastrovou grafiku. Obrázek je uložen pomocí kódování base64. Base64 je způsob kódování, který kóduje binární data do znaků ASCII a tak lze tímto způsobem uložit obrázek pomocí řetězce. Celou strukturu zobrazuje diagram na obrázku \ref{fig:json_diag}.
+
+\subsubsection{Struktura uloženého souboru}
+Máme všechny součásti pro uložení dat do souboru. Aplikace soubory HTML ukládá s následující strukturou (zdrojový kód \ref{kod:HTMLst}).
+
+\begin{kicode}{HTML}{kod:HTMLst}{Struktura HTML souboru}
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset = utf-8">
+  </head>
+  <body>
+  <canvas width="500" height="400" style="border: 1px solid black;" id="MyPaint"></canvas>
+  <script>
+    var ctx = document.getElementById("MyPaint").getContext("2d");
+    var json = *JSON_RETEZEC*;
+    *PROGRAM*
+    draw(0, -1);
+  </script>
+  </body>
+</html>
+\end{kicode}
 
 
 \begin{figure}
 \includegraphics[width=15cm]{img/json_diag}
 \caption{Diagram datové struktury pro uložení obrázku do JSONu}
+\label{fig:json_diag}
 \end{figure} 
 
 
+\subsection{Otevření souboru ve formátu HTML}
+Aplikace umožňuje otevřený HTML soubory plnohodnotně editovat. V souboru jsou zachovány všechny vrstvy a grafické objekty, tak jak byly uloženy. To je díky tomu, že v JSONu jsou uloženy všechny informace a i informace, který nemají vliv na grafickou podobu obrázku, což jsou například jména vrstev. Stejný přístup využívá aplikace Adobe Photoshop, kde můžeme obrázky ukládat do formátu PSD, který též zachová všechny elementy.
+
+Aplikace najde v HTML JSON řetězec a následně deserializuje řetězec. Z dat získaných z deserializovaného řetězce sestaví data pro soubor reprezentovaný v aplikaci otevře ho v nové záložce.
+
 \subsection{Uložení do formátů rastrové grafiky}
 Aplikace umožňuje uložit obrázky do rastrové (bitmapové) grafiky. Rastrová grafika je způsob ukládání obrázků. Obrázek tímto způsobem je uložen jako barevné body (pixelů, kde každý bod má svojí barvu. Barva pixelů je vyjádřena ve vybraném barevném modelu, v modelu kde můžeme z posloupnosti čísel získat barvu, například model RGB, kde ze třech čísel reprezentující 3 barvy (konkrétně červená, zelená a modrá) dostaneme výslednou barvou jejich smícháním. Existuje i rozšíření modelu RGB, což je model RGBa, kde je navíc ještě čtvrtá složka (alfa kanál), která určuje průhlednost barvy.
+
+Implementace uložení do rastrové grafiky v Aplikaci je poměrně jednoduchá. Knihovna WPF umožňuje zachytit obrázek jakéhokoliv elementu, který se v GUI aplikace nachází. Aplikace ale nezachycuje přímo plátno ve kterém probíhá práce na obrázku, ale pro urychlení vytvoří nové vlákno. V novém vlákně aplikace vytvoří nový element plátna a do něj přidá všechny objekty, které mají být v obrázku vidět. Následně vyfotí plátno a výsledný obrázek už se pouze zakóduje do příslušného formátu a soubor s obrázkem uloží na disk.
 
 
 
