@@ -134,53 +134,153 @@ Pro obyčejné smrtelníky ve světě grafiky je důležité, aby uživatelské 
 
 \newpage
 
-\section{Uživatelské rozhraní}
+\section{Použité technologie}
 
-Následující kapitola popisuje rozložení prvků v uživatelském rozhraní a jejich funkce.
+Následující kapitula popisuje jednotlivé technologie, které jsou v aplikaci použity.
 
-\subsection{Horní panel}
-Horní panel aplikace slouží pro výběr nástroje pro práci. Funguje jako přepínač, současně lze zvolit pouze jeden nástroj. Následně uvedu jednotlivé nástroje.
+\subsection{Programovací jazyk C\#}
+C\# je programovací jazyk od společnosti Microsoft, který je hodně podobný jazyku Java a hodně čerpá syntax z jazyka C. Je objektově orientovaný a typovaný. Neexistují zde žádné globální proměnné ani funkce, všechno musí ležet v nějaké třídě. Pokud je i přesto potřebujeme, lze využít statických tříd. Třídy kromě atributů a metod mají navíc vlastnosti. S využitím vlastností nemusíme neustále programovat gettery a settery, ale jsou jsou automatiky vygenerovány za nás.
+
+\subsection{WPF}
+Windows Presentation Foundation je knihovna pro tvorbu grafického rozhraní pro Windows od společnosti Microsoft. Je následníkem Windows Forms. Podporuje 2d, 3d grafiku a animace. K vykreslování dat může využít data binding. 
+
+Data binding je technika, která má na starosti synchronizaci dat zobrazených s nějakým zdrojem dat. Existuje jednosměrný a obousměrný. Jednosměrný aktualizuje zobrazovaná data v době, když nastane změna ve zdrojových datech. Obousměrný jej rozšiřuje tím, že aktualizuje zdroj dat z dat, které se zobrazují.
+
+\subsection{XAML}
+Extensible Application Markup Language je značkovací jazyk od Microsoftu. Pochází ze značkovacího jazyka XML. Původně byl vyvíjen pouze pro knihovnu WPF, později lze použít i v platformně Silverlight.
+
+XAML nám umožňuje popsat uživatelské rozhraní jednodušším způsobem, než vytvářením objektů a nastavování různých vlastností v programovacím jazyce.
+
+
+
+
+\section{Struktura aplikace}
+
+Následující kapitola popisuje implementaci jednotlivých části aplikace.
+
+\subsection{Grafické rozhraní}
+
+Grafické rozhraní aplikace (GUI)je vytvořené za pomocí knihovny WPF a z velké části popsané jazykem XAML. Jedna z mála věcí, která není popsána pomocí XAMLu je plátno do kterého se kreslí a upravují se zde grafické objekty.
+
+Hlavní okno je popsané v souboru MainWindow.xaml a obsluha pro toto okno tvoří třída MainWindow. Z této třídy startuje celá aplikace a vyváří se zde instance třídy MainControl. Všechny události jako jsou kliky myší na tlačítka nebo pohyby myší nad kreslícím plátnem jsou přeposílány třídě MainControl, která zase přeposílá zprávy nazpět třídě MainWindow, pokud je v okně potřeba něco změnit.
+
+\subsection{Třída MainControl}
+
+Třída MainControl má na starosti celý chod aplikace, udržuje v sobě právě zvolený nástroj, barvu a seznam otevřených souborů. Z okna aplikace si bere WPF element Canvas. Canvas je element do kterého lze přidávat další elementy. Každý soubor má svůj  Canvas, který je při práci na souboru vložen do hlavního Canvasu, pokud se přepneme na jiný soubor, Canvas je vyměněn za Canvas jiného souboru. Je tu ještě další Canvas, který je úplně nad vším. Slouží pro odchytávání událostí a je taky předán aktuálnímu souboru.
+
+\subsection{Třída FileControl}
+
+Třída FileControl reprezentuje jeden soubor a dále se stará o práci s ním. Pokud je soubor aktivní dostává všechny informace o vybraném nástroji a barvě. Dále je informována o všech událostech, které se dějí v hlavním plátně, těmi jsou pohyby a kliky myší a z těchto pohybů je možno provádět kreslení a editaci.
+
+Může se nacházet v několika důležitých stavech. První z nich je stav, když chceme teprve něco nakreslit. Pokud v tomto stavu máme vybraný nástroj pro kreslení nějakého tvaru, tak vytvoří jeho instanci a uloží si ji s bodem, kde se nacházela myš při začátku kreslení, kterou pak využívá pro případné rozpoznání, že uživatel nepohnul myší. 
+
+Další stavem je samotné kreslení, do kterého se přepne ihned po začátku kreslení. V tomto stavu přeposílá instanci grafického tvaru zprávy při každém pohybu myší a informuje ho o její pozici, také dostává informaci, jestli je provedeno kliknutí nebo odkliknutí myší. Jakmile kreslený objekt rozhodne, že je konec kreslení přepne se FileControl do stavu editace. O ukončení kreslení rozhoduje samotný grafický objekt kvůli tom, že existují objekty jako polygon, který se kreslí na více kliknutí myší a tak nelze z kliknutí myší určit, kdy má kreslení skončit na rozdíl třeba od čáry, kde nám stačí jeden tah myší. Pokud se jedná objekt na jeden tah, tak pse při odkliknutí ještě porovnávají souřadnice myší při odkliknutí se souřadnicemi uložených na začátku kreslení a pokud se rovnají, zruší se kreslení, odstraní se instance grafického objektu a přepneme se do stavu začátku kreslení.
+
+Stav editace je stav, kdy je grafický objekt označený a určen k editování. V tomto stavu je grafický objekt připraven na to, že na něj můžeme kliknout. 
+
+Pokud na něj klikneme přepne se do mezistavu, který se nazývá přesouvání. Při přesouvání získáme od grafického objektu bod, je jedno jaký, jen je potřeba, aby grafický objekt věděl o jaký bod jde a pamatoval si ho, bude ho totiž potřebovat při výpočtu, kam se má posunout. Při pohybu myší třída FileControl informuje grafický objekt o přesunu a s ním mu předá bod, který vznikne tak, že k tomu původnímu bodu přičte vektor posunu.
+
+Při odkliknutí myší je přesouvání ukončeno a FileControl se přepne nazpět do stavu editace. Označený objekt lze kromě přesouvání jinak upravovat. Můžeme měnit jeho rozměry díky bodům, který grafický objekt zobrazuje.
+
+Pokud klikneme mimo editovaný objekt, tak se přepne do nazpět do stavu začátku kreslení a kreslí nový objekt.
+
+Dále FileControl uchovává seznam vrstev. Tento seznam je díky obousměrnému data-bindingu automaticky synchronizován s panelem vrstev, který se nachází vlevo dole v grafickém rozhraní. Ví i která vrstva je aktivní. Aktivní vrstva je důležitá pro kreslení. Při začátku kreslení je grafickým objektům předána, aby věděly do jaké vrstvy se mají kreslit. Pokud se nacházíme v režimu editace, tak pak při aktivní vrstvě je taky tato informace předána grafickému objektu, který vrstvu následně změní.
+
+Pár věcí se změní pokud máme vybraný nástroj pro výběr grafického objektu. Aktuální vrstvě se předá zpráva o tom, že je aktivní a že má aktivovat všechny grafické objekty, které v ní leží, pak všechny objekty ve vrstvě čekají na klik, při kliknutí na objekt se opět nacházíme v režimu editace, kdy se nám zvolený objekt opět označí.
+
+Každý soubor obsahuje svojí historii o kterou se stará třída HistoryControl.
+
+\subsection{Třída Layer}
+
+Třída Layer reprezentuje vrstvu a uchovává v sobě její název, barvu pozadí, seznam grafických objektů, informaci o tom jestli je vrstva viditelná a také WPF element Canvas, do kterého přidává elementy z grafických objektů. 
+
+Třída implementuje rozhraní INotifyPropertyChanged, aby byl možný obousměrný data-binding. Informuje tak o změnách, že ve vrstvě nastala změna a je potřeba překreslit GUI.
+
+\subsection{Třída Shape}
+
+Třída reprezentuje grafický objekty a implementuje základní rutiny, které mají všechny grafické objekty totožné. Například barvy, změnu vrstvy mazání nebo opětovné obnovení.
+
+Pro vytvoření vlastního grafického tvaru je potřeba naprogramovat třídu. Třída musi dědit z třídy Shape a implementovat následující metody:
 
 \begin{itemize}
-\item Nástroj pro výběr - slouží pro výběr části obrázku, který lze následně klávesovou zkratkou Ctrl+C zkopírovat do schránky a vložit výřez do jiného programu, nebo jej naklonovat.
-\item Nástroj pro výběr grafických objektů - slouží pro označení objektu, který chceme editovat.
-\item Úsečka - pro kreslení obyčejné úsečky mezi dvěma body.
-\item Polyline - Křivka vytvořená spojením n bodů.
-\item Elipsa
-\item Obdélník
-\item Polygon
-\item Kvadratická křivka
-\item Text
-\item Zpět
-\item Vpřed
-\item Nástroje pro změnu vlastnosti písma (zobrazí se pouze při editaci textu)
+\item Kostruktor \kiinlinecode{csharp}{!}{Line(FileControl c, Layer la)}
+\item Kostruktor \kiinlinecode{csharp}{!}{Line(FileControl c, Layer la, Deserializer.Shape s)}
 \end{itemize}
-\newpage
+Je nutné zavolat původní konstruktor vložit WPF element, který se má promítat do plátna. První konstruktor se volá v momentě, když objekt začínáme kreslit. Druhý konstruktor se volá pokud se objekt vytváří otevíráním HTML souboru, kde získáme navíc Shape z jmenného prostoru Deserializer, který obsahuje všechny data pro sestavení tvaru (body, barvy atp.).
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void SetPrimaryBrush(Brush s, bool addHistory = false)}
+\item \kiinlinecode{csharp}{!}{void SetSecondaryBrush(Brush s, bool addHistory = false)}
+\item \kiinlinecode{csharp}{!}{void SetThickness(double s, bool addHistory = false)}
+\end{itemize}
+Tyto metody jsou volány při nastavování barev a tloušťky, pokud je chcem použít, zavoláme původní konstruktor \kiinlinecode{csharp}{!}{base.SetThickness(s, addHistory)} a bude se nám díky tomu ukládat akce do historie. Pokud náš nový grafický objekt vlastnost nemá, necháme metodu prázdnou.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void DrawMouseDown(Point e, MouseButtonEventArgs ee)}
+\item \kiinlinecode{csharp}{!}{void DrawMouseMove(Point e)}
+\item \kiinlinecode{csharp}{!}{void DrawMouseUp(Point e, MouseButtonEventArgs ee)}
+\end{itemize}
+Předchozí metody se volají při kreslení. První při kliknutí dolů, druhá při pohybu myší a poslední při puštění tlačítka. Z \kiinlinecode{csharp}{!}{MouseButtonEventArgs} je možno získat informaci o myši (stisknuté tlačítka, souřadnice atp.) Až je grafický objekt nakreslen zavoláme metodu \kiinlinecode{csharp}{!}{StopDraw()}, která ukončí proces kreslení a \kiinlinecode{csharp}{!}{SetActive()}, která aktivuje objekt pro editační mód.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void ShowVirtualShape(OnMouseDownDelegate mouseDown)}
+\end{itemize}
+Slouží k zobrazení k průhledného WPF elementu na na vrchním canvasu. Je nutné zavolat metodu rodiče. Průhledný element musí mít nastavenou událost na kliknutí myší a v ní zavolat delegát \kiinlinecode{csharp}{!}{virtualShapeCallback(Point e, Shape s)} s aktuálním bodem. Element zobrazíme pokud ho přidáme do vrchního canvasu \kiinlinecode{csharp}{!}{File.TopCanvas.Children.Add(vs)}.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void HideVirtualShape(OnMouseDownDelegate mouseDown)}
+\end{itemize}
+Slouží k zobrazení k průhledného WPF elementu na na vrchním canvasu. Element skryjeme pokud ho odebereme z vrchního canvasu \kiinlinecode{csharp}{!}{File.TopCanvas.Children.Remove(vs))}.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void SetActive()}
+\end{itemize}
+Metoda je volána při aktivaci grafického elementu. Je nutné zavolat metodu rodiče a nastavit aktuálně použité barvy a tloušťku zavoláním \kiinlinecode{csharp}{!}{File.SetPrimaryColor(Brush c)}, \kiinlinecode{csharp}{!}{File.SetSecondaryColor(Brush c)} a \kiinlinecode{csharp}{!}{File.SetThickness(double t)}. Nemusíme použit všechny, záleží na tom, jestli náš grafický objekt, který programujeme tyto vlastnosti používá.
+Dále je tu prostor pro zobrazení editačních prvků do horního canvasu.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void MoveDrag(Point e)}
+\end{itemize}
+Je nutné zde volat metodu rodiče, je možno využít k pohybu editačních prvků. Editačním režimu se volá při každém pohybu myší po plátně.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void StopDrag()}
+\end{itemize}
+Je nutné volat metodu rodiče. Je zavolána při odkliknutí myší v editačním módu.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void StopEdit()}
+\end{itemize}
+Volá se při ukončení editačního módu.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{Point GetPosition()}
+\end{itemize}
+Návratovou hodnotou metody musí být nějaký bod. Při přesouvání objektu je tento bod využit a dá se s pomocí jeho spočítat, kam se má objekt přesunout.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void MoveShape(double x, double y)}
+\end{itemize}
+Volá se při přesouvání objektů a musí být volána metoda předka. Jako argumenty dostává souřadnice bodu, kterým je bod, který vrací metoda \kiinlinecode{csharp}{!}{GetPosition()} s přičtením vektoru posunu.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{Serializer.Shape CreateSerializer()}
+\end{itemize}
+Metoda musí vracet potomka třídy \kiinlinecode{csharp}{!}{Serializer.Shape}. Slouží k serializaci objektu při ukládání do HTML souboru.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{CreateImage(Canvas canvas)}
+\end{itemize}
+Musí se zde vytvořit nový WPF element a nelze použít element z vlastnosti Element. Je to důvodu toho, že metoda slouží ke skládání k obrázku, který je volán v jiném vlákně než to, ve kterém běží hlavní okno aplikace. WPF elementy vytvořené v jednom vlákně nelze používat v jiném.
+
+Vytvořený element pak přidáme do canvasu, který získáme z argumentu.
+
+
+
 \begin{figure}
-\includegraphics[width=16cm]{img/toppanel}
-\caption{Horní panel}
-\end{figure}
-
-
-\subsection{Levý panel}
-
-Horní část levého panelu slouží pro nastavení vlastností grafický objektů. Mezi hlavní vlastnosti patří barvy. V aplikaci můžeme každému objektu nastavit 2 různé barvy: primární a sekundární. Primární slouží u objektů jako barva okraje a sekundární jako barva výplně. Každý objekt však nemá výplň. Například taková úsečka nebo kvadratická křivka výplň nemá a tak na nastavení této vlastnosti nebude reagovat. 
-
-Dále tu máme třetí barvu, která slouží pro nastavení pozadí aktuální vrstvy.
-
-Nastavování těchto těch barev se provádí s pomocí přepínače. Zvolíme jednu z nich a následně jim nastavíme požadovanou barvu. Výběr je možno provést pomocí základních nadefinovaných barev umístěných níže. Pro pokročilejší výběr máme k dispozici paletu barev. Kromě jedné barvy lze nastavit i průhledná nebo přechod více barev.
-
-Na spodní části levého panelu nalezneme správu vrstev. Zde můžeme vrstvy přidávat a nebo mezi nimi přepínat a tak měnit aktivní vrstvu do které aktuálně chceme kreslit. Dále můžeme jednotlivé vrstvy mazat nebo měnit jejich jména či pořadí.
-
-\begin{figure}
-\includegraphics[width=15cm]{img/program}
-\caption{Aplikace}
+\includegraphics[width=15cm]{img/shape_diag}
+\caption{Diagram třídy Shape a jejích potomků}
 \end{figure}  
-
-\subsection{Kreslící plátno}
-
-Ve středu aplikace se nachází kreslící plátno. Zde můžeme vytvářet a následně upravovat grafické objekty. V pravém dolním rohu kreslícího plátna je umístěn bod pro změnu velkosti plátna. Nad plátnem jsou záložky pro otevřené soubory, program totiž umožňuje upravovat více obrázků najednou.
-
 
 \section{Funkce}
 
@@ -240,7 +340,7 @@ Posledním krokem k zobrazení obrázku v prohlížeči zbývá vykreslit obráz
 
 Data program získá deserializací JSON řetězce. Jelikož je JSON řetězec ekvivalentní se zápisem objektů v JavaScriptu, postačí nám pouze JSON řetězec šikovně uložit k programu.
 
-Program v JS už jen přečte data a vykreslí všechny grafické objekty ve správném pořadí. Pro menší datovou velikost výsledného HTML souboru je kód programu zminifikován. Minifikace nám z kódu odstraní znaky, které nemají vliv na vykonávání kódu. Což jsou pro příklad bílé znaky (mezery, tabulátory, řádky). Dále nahradí názvy promněnných na co nejkratší názvy. Po minifikaci program dělá to stejné jako před ní, jen je o hodně menší. Minifikace je hojně využívaná na internetu a není se čemu divit, všichni přece chceme, aby se internetové stránky načítaly rychle.
+Program v JS už jen přečte data a vykreslí všechny grafické objekty ve správném pořadí. Pro menší datovou velikost výsledného HTML souboru je kód programu zminifikován. Minifikace nám z kódu odstraní znaky, které nemají vliv na vykonávání kódu. Což jsou pro příklad bílé znaky (mezery, tabulátory, řádky). Dále nahradí názvy proměnných na co nejkratší názvy. Po minifikaci program dělá to stejné jako před ní, jen je o hodně menší. Minifikace je hojně využívaná na internetu a není se čemu divit, všichni přece chceme, aby se internetové stránky načítaly rychle.
 
 \subsubsection{Datová struktura JSONu}
 Aby byl program v JavaScriptu schopný nakreslit obrázek z přiložených dat, musí mít data určitou datovou strukturu, je velmi podobná struktuře ve kterém aplikace uchovává data při práci s obrázkem.
@@ -293,283 +393,55 @@ Aplikace umožňuje uložit obrázky do rastrové (bitmapové) grafiky. Rastrov�
 Implementace uložení do rastrové grafiky v Aplikaci je poměrně jednoduchá. Knihovna WPF umožňuje zachytit obrázek jakéhokoliv elementu, který se v GUI aplikace nachází. Aplikace ale nezachycuje přímo plátno ve kterém probíhá práce na obrázku, ale pro urychlení vytvoří nové vlákno. V novém vlákně aplikace vytvoří nový element plátna a do něj přidá všechny objekty, které mají být v obrázku vidět. Následně vyfotí plátno a výsledný obrázek už se pouze zakóduje do příslušného formátu a soubor s obrázkem uloží na disk.
 
 
+\section{Uživatelské rozhraní}
 
-\section{Styly pro psaní bakalářských a diplomových prací}
-Toto jsou styly pro psaní bakalářských a diplomových prací přes typografický systém \LaTeX{}, tedy \textbf{kistyles}.
+Následující kapitola popisuje rozložení prvků v uživatelském rozhraní a jejich funkce.
 
-\subsection{Požadavky a podprovaná prostředí}
-Sada balíku \textbf{kistyles} podporuje následující distribuce systému \LaTeX{}:
+\subsection{Horní panel}
+Horní panel aplikace slouží pro výběr nástroje pro práci. Funguje jako přepínač, současně lze zvolit pouze jeden nástroj. Následně uvedu jednotlivé nástroje.
+
 \begin{itemize}
-\item \TeX{} Live.
+\item Nástroj pro výběr - slouží pro výběr části obrázku, který lze následně klávesovou zkratkou Ctrl+C zkopírovat do schránky a vložit výřez do jiného programu, nebo jej naklonovat.
+\item Nástroj pro výběr grafických objektů - slouží pro označení objektu, který chceme editovat.
+\item Úsečka - pro kreslení obyčejné úsečky mezi dvěma body.
+\item Polyline - Křivka vytvořená spojením n bodů.
+\item Elipsa
+\item Obdélník
+\item Polygon
+\item Kvadratická křivka
+\item Text
+\item Zpět
+\item Vpřed
+\item Nástroje pro změnu vlastnosti písma (zobrazí se pouze při editaci textu)
 \end{itemize}
+\newpage
+\begin{figure}
+\includegraphics[width=16cm]{img/toppanel}
+\caption{Horní panel}
+\end{figure}
 
-Jsou podporovány všechny výstupní ovladače, tedy jak \textbf{dvi}, tak \textbf{pdf} i \textbf{ps}. Funkčnost zmiňovaných distribucí byla ověřena na několika operačních systémech, mezi které patří:
-\begin{enumerate}
-\item Windows $8.1$,
-\item Archlinux,
-\item Debian.
-\end{enumerate}
 
-Důrazně se doporučuje používat aktuální verzi dané distribuce systému \LaTeX{}.
+\subsection{Levý panel}
 
-%%%  Po přeložení programem CSLaTeX (třikrát) je potřeba použít
-%%%  program DVIPS a takto získaný PostScriptový soubor vytisknout
-%%%  na PostScriptové tiskárně nebo pomocí programu GhostScript.
-%%%
-%%%  Rovněž je možné použít program DVIPDFM a vytvořit z dokumentu
-%%%  soubor ve formátu PDF včetně hypertextových odkazů.
+Horní část levého panelu slouží pro nastavení vlastností grafický objektů. Mezi hlavní vlastnosti patří barvy. V aplikaci můžeme každému objektu nastavit 2 různé barvy: primární a sekundární. Primární slouží u objektů jako barva okraje a sekundární jako barva výplně. Každý objekt však nemá výplň. Například taková úsečka nebo kvadratická křivka výplň nemá a tak na nastavení této vlastnosti nebude reagovat. 
 
-\subsection{Přepínače}
-Styl kidiplom je z hlediska uživatele zastoupen ekvivalentně nazvanou třídou, kterou je třeba volat na záčátku dokumentu:
-\begin{kicode}{TeX}{}{Volání třídy \textbf{kidiplom}}
-\documentclass[
-  master=true,
-  font=sans,
-  printversion=false,
-  joinlists=true,
-  glossaries=true,
-  figures=true,
-  tables=true,
-  sourcecodes=true,
-  theorems=true,
-  bibencoding=utf8,
-  language=czech,
-  encoding=utf8,
-  field=inf,
-  index=true,
-  biblatex=true
-]{kidiplom}
-\end{kicode}
+Dále tu máme třetí barvu, která slouží pro nastavení pozadí aktuální vrstvy.
 
-Následuje přehled přepínačů, je vždy uvedeno jméno přepínač, včetně výchozí hodnoty. Přepínače uvádí tabulka \ref{tab:prepinace}.
+Nastavování těchto těch barev se provádí s pomocí přepínače. Zvolíme jednu z nich a následně jim nastavíme požadovanou barvu. Výběr je možno provést pomocí základních nadefinovaných barev umístěných níže. Pro pokročilejší výběr máme k dispozici paletu barev. Kromě jedné barvy lze nastavit i průhledná nebo přechod více barev.
 
-\begin{table}
-\begin{center}
-\caption{Seznam přepínačů}\label{tab:prepinace}
-\scalebox{0.95}{\begin{tabular}{>{\bfseries}l >{\ttfamily}c L{8cm}}
-{\normalfont Přepínač} & {\normalfont Výchozí hodnota} & {\normalfont Popis} \\
-\hline
-master & false & Povolí nebo zakáže režim diplomové práce. Výchozí režim je tedy bakalářská práce. \\
+Na spodní části levého panelu nalezneme správu vrstev. Zde můžeme vrstvy přidávat a nebo mezi nimi přepínat a tak měnit aktivní vrstvu do které aktuálně chceme kreslit. Dále můžeme jednotlivé vrstvy mazat nebo měnit jejich jména či pořadí.
 
-field & ainfp & Specifikuje studijní obor:\newline
-\begin{description}
-\item[ainf] Aplikovaná informatika\,--\,prezenční,
-\item[ainfk] Aplikovaná informatika\,--\,kombinovaná,
-\item[inf] Informatika\,--\,prezenční,
-\item[infv] Informatika ve vzdělávání\,--\,kombinovaná,
-\item[binf] Bioinformatika\,--\,prezenční.
-\end{description} \\
+\begin{figure}
+\includegraphics[width=15cm]{img/program}
+\caption{Aplikace}
+\end{figure}  
 
-font & serif & Zapne či vypne podporu pěkného bezpatkového fontu. Možné hodnoty jsou:\newline
-\begin{description}
-\item[sans] Bezpatkové písmo (písmo Iwona).
-\item[serif] Patkové písmo (písmo Computer Modern).
-\end{description} \\
+\subsection{Kreslící plátno}
 
-%%  'encoding=kódování' pro kódování tohoto a vložených zdrojových
-%%  textů v kódování jiném než výchozím utf8
-encoding & utf8 & Kódování souboru dokumentu, doporučuje se ponechat výchozí hodnotu. \\
+Ve středu aplikace se nachází kreslící plátno. Zde můžeme vytvářet a následně upravovat grafické objekty. V pravém dolním rohu kreslícího plátna je umístěn bod pro změnu velkosti plátna. Nad plátnem jsou záložky pro otevřené soubory, program totiž umožňuje upravovat více obrázků najednou.
 
-bibencoding & utf8 & Kódování souboru bibliografie. Tato volba má smysl pouze, pokud je použita bibliografie skrze balíček \BibLaTeX{}. \\
 
-language & czech & Jazyk práce. \\
 
-printversion & false & Je-li zapnuto, pak budou odkazy vysázeny optimalizovaně pro knižní sazbu. Tuto volbu je nutno použít pro tisk práce. \\
-
-%%% Nepovinné argumenty `tables' a `figures' použijte pouze v případě,
-%%% že váš dokument obsahuje tabulky a obrázky a chcete vytvořit
-%%% jejich seznamy za obsahem.
-%%%
-%%% Argument `joinlists' způsobí zřetězení obsahu a seznamů tabulek a obrázků.
-%%% Není-li použít, všechny seznamy jsou uvedeny na samostatných stránkách.
-
-joinlists & true & Je-li zapnuto, pak seznamy obrázků, tabulek, vět a
-zdrojových kódů sázené za obsahem nebudou rozděleny na samostatné stránky. \\
-
-figures & true & Je-li zapnuto, pak v seznamech položek bude zahrnut seznam obrázků. \\
-
-tables & true & Je-li zapnuto, pak v seznamech položek bude zahrnut seznam tabulek. \\
-
-theorems & false & Je-li zapnuto, pak v seznamech bude zahrnut seznam teorémů. \\
-
-sourcecodes & false & Je-li zapnuto, pak v seznamech bude zahrnut seznam zdrojových kódů. \\
-
-glossaries & false & Je-li zapnuto, pak na konci dokumentu bude vysázen seznam zkratek. \\
-
-index & false & Zapíná podporu sazby rejstříku. \\
-
-biblatex & true & Zapne sazbu bibliografie přes balík \BibLaTeX{}.
-\end{tabular}}
-\end{center}
-\end{table}
-
-\subsection{Geometrie stránky}
-Tento styl používá list velikosti $A4$. Pro sazbu prací je třeba použít jednostrannou sazbu. Levý okraj je rozšířen s ohledem na vazbu výsledné knižní podoby práce.
-
-\section{Sazba částí dokumentu}
-\subsection{Sazba úvodní strany či obsahu}
-Vysázení všech podstatných částí úvodu práce obstará makro \kiinlinecode{TeX}{!}{\\maketitle}. Pro správné vysázení všech částí a meta-informací je potřeba použí makra \kiinlinecode{TeX}{!}{\\title}, \kiinlinecode{TeX}{!}{\\author} a další. Jejich přehled lze najít ve zdrojovém souboru tohoto dokumentu. V případě použítí \textbf{pdf} výstupu se generuje i dodatečná hlavička souboru s meta-informacemi jako je autor dokumentu, název práce či dalšími.
-
-\subsection{Závěry}
-Závěr práce by se měl poskytnout jak v původním jazyce práce, tak v jazyce anglickém. Pro sazbu závěru jsou k dispozici příslušná makra. Berte na vědomí, že v anglickém závěru se aktivuje plně anglická sazba se všemi konvencemi. Tedy je třeba používat anglické uvozovky a další správné typografické prvky.
-
-\begin{kicode}{TeX}{}{Sazba závěrů}
-% Tiskne český závěr práce.
-\begin{kiconclusions}
-Závěr práce v \uv{českém} jazyce.
-\end{kiconclusions}
-
-% Tiskne anglický závěr práce.
-\begin{kiconclusions}[english]
-Thesis conclusions written in \uv{English}.
-\end{kiconclusions}
-\end{kicode}
-
-\subsection{Matematika}
-Pro sazbu matematiky je k dispozici sada standardních maker.
-$$\langle f \rangle, \lfloor g \rfloor,
-\lceil h \rceil, \ulcorner i \urcorner$$
-
-$$\left\{\frac{x^2}{y^3}\right\}$$
-
-$$
-A_{m,n} =
- \begin{pmatrix}
-  a_{1,1} & a_{1,2} & \cdots & a_{1,n} \\
-  a_{2,1} & a_{2,2} & \cdots & a_{2,n} \\
-  \vdots  & \vdots  & \ddots & \vdots  \\
-  a_{m,1} & a_{m,2} & \cdots & a_{m,n}
- \end{pmatrix}
-$$
-
-$$
-M = \begin{bmatrix}
-       \frac{5}{6} & \frac{1}{6} & 0           \\[0.3em]
-       \frac{5}{6} & 0           & \frac{1}{6} \\[0.3em]
-       0           & \frac{5}{6} & \frac{1}{6}
-     \end{bmatrix}
-$$
-
-\subsection{Sazba literatury}
-Pro sazbu literatury má uživatel dvě možnosti. Může použít služeb balíků \BibLaTeX{}, který je pro \textbf{kistyles} zapnutý, či lze použít manuální sazbu bibliografie.
-\subsubsection{Sazba bibliografie přes \BibLaTeX{}}
-Při použití tohoto balíku se data o použité literatuře ukládají do dedikovaného textového souboru, ukázku najdete i v tomto stylu pod jménem \kiinlinecode{text}{!}{bibliografie.bib}.
-
-Formát daného souboru je nad rámec této dokumentace a je na každém uživateli, aby si jej nastudoval. Bibliografie se tiskne makrem \kiinlinecode{TeX}{!}{\\printbibliography}. Taktéž v preambuli dokumentu je třeba definovat, který soubor data bibliografie obsahuje, tedy například \kiinlinecode{TeX}{!}{\\bibliography\{bibliografie.bib\}}.
-
-Dokument, který využívá \BibLaTeX{} je následně nutné přeložit jak pomocí překladače zvoleného ovladače, tak pomocí aplikace \kiinlinecode{text}{!}{biber}. Více informací poskytne soubor \kiinlinecode{text}{!}{Makefile} z distribuce tohoto stylu.
-
-Výhodou tohoto přístupu je, že bibliografie se vysází automaticky a (obvykle) není třeba manuální úprava formátování.
-
-\subsubsection{Manuální sazba bibliografie}
-Manuální sazba obnáší vysázení prostředí \kiinlinecode{text}{!}{thebibliography} ručně. To je nad rámec tohoto dokumentu. Ukázku tohoto přístupu lze samozřejmě nalézt ve zdrojovém souboru tohoto dokumentu nebo také \href{http://www.math.uiuc.edu/~hildebr/tex/bibliographies.html}{zde}.
-
-Pro aktivaci manuální sazby bibliografie je třeba volat třídu \kiinlinecode{text}{!}{kidiplom} s parametrem \kiinlinecode{text}{!}{biblatex=false}. Mějte, prosím, na paměti, že v tomto módu jsou makra \kiinlinecode{text}{!}{\\bibliography} a \kiinlinecode{text}{!}{\\printbibliography} nedostupná.
-
-\subsection{Drobná makra}
-Základní styl definuje hned několik maker pro usnadnění práce. Například makro \kiinlinecode{TeX}{!}{\\buno} vysází řetezec \uv{bez újmy na obecnosti}. Je k dispozici i verze s prvním velkým písmenem, \kiinlinecode{TeX}{!}{\\Buno}.
-
-Je rovněž možno přidávat položky do seznamu zkratek. K tomu slouží makro \kiinlinecode{TeX}{!}{\\newacronym}, které lze použít například jednoduše jako \kiinlinecode{TeX}{!}{\\newacronym\{UPOL\}\{UPOL\}\{\\kitextunivcz\}}. Na danou zkratku se pak lze odkazovat jednoduše, \kiinlinecode{TeX}{!}{\\gls\{UPOL\}}.
-
-Sazba uvozovek respektuje nastavení částí dokumentu, a proto se doporučuje používat makro \kiinlinecode{TeX}{!}{\\uv}. V anglické závěru práce toto platí taky, viz tato PDF ukázka.
-
-Styl podporuje sazbu odstavců v tabulkách, více obsahuje tabulka \ref{tab:odstavce}.
-
-\begin{table}
-\begin{center}
-\caption{Seznam přepínačů}\label{tab:odstavce}
-\begin{tabular}{L{4cm}|R{4cm}|L{4cm}}
-\lipsum[23] & \lipsum[22] & \lipsum[21]
-\end{tabular}
-\end{center}
-\end{table}
-
-K dispozici jsou také makra pro sazbu \csharp{} (\kiinlinecode{TeX}{!}{\\csharp}) či \cpp{} (\kiinlinecode{TeX}{!}{\\cpp}).
-
-%% v případě tvorby rejstříku přeložit vygenerovaný soubor .idx
-%% programem Makeindex a v případě tvorby seznamu zkratek spustit
-%% program Makeglossaries s parametrem jméno souboru zdrojového textu
-%% bez přípony a následně opět (dvakrát) přeložit zdrojový text
-%% programem pdfLaTeX.
-
-\subsection{Sazba rejstříku}
-Sazba rejstříku sestává z několika kroků:
-
-\begin{enumerate}
-\item Je třeba přes volbu \kiinlinecode{TeX}{!}{index=true} rejstříkování povolit.
-\item Použítím makra \kiinlinecode{TeX}{!}{\\index} rejstříkovat vybrané pojmy.
-\item Kompilovat s použitím utility \kiinlinecode{TeX}{!}{makeindex}. Pro specifika tohoto kroku si stačí prohlédnout soubor \kiinlinecode{text}{!}{Makefile}.
-\end{enumerate}
-
-Makro \kiinlinecode{TeX}{!}{\\index} je redefinováno tak, že sází klikací odkaz na výraz v rejstříku. Je doporučeno jej použít ihned za výrazem\index{výraz}.
-
-\textbf{Omezení redefinovaného makra \kiinlinecode{TeX}{!}{\\index}}: klikací odkaz nefunguje, pokud použijete konstrukci \kiinlinecode{TeX}{!}{\\index\{výraz|makro\}} (resp. \kiinlinecode{TeX}{!}{\\index\{výraz|(makro\}}), např. \kiinlinecode{TeX}{!}{\\index\{výraz|textit\}}.
-
-Rejstřík lze vysázet pomocí makra \kiinlinecode{TeX}{!}{\\printindex}.
-
-\subsection{Sazba zdrojových kódů}
-Styl nabízí dva způsoby sazby zdrojových kódů:
-
-\begin{enumerate}
-\item Sazbu řádkových kódů, například \kiinlinecode{CSS}{!}{background-color: white;}. K tomu slouží makro formátu \kiinlinecode{TeX}{!}{\\kiinlinecode\{jazyk\}\{separátor\}\{kód\}}. Za separátor je vhodné volit jakýkoliv znak, který se nevyskytuje v samotném sázeném zdrojovém kódu. Za jazyk je nutno dosadit jeden z těchto: C, TeX, PHP, HTML, Lisp, SQL, TeX, Python, Java, TutorialD, text, csharp, cpp, JavaScript, CSS.
-
-\item Sazbu zdrojových kódu do separátních prostředí. Takto vytištěný kód se objeví v seznamu zdrojových kódů. Ukázka například zdrojový kód \ref{kod:cpp}. Ukázku sazby naleznete ve zdrojovém kódu tohoto dokumentu.
-\end{enumerate}
-
-\newacronym{UPOL}{UPOL}{\kitextunivcz}
-
-\begin{definition}[Název definice]
-Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. \gls{UPOL}
-\end{definition}
-
-\begin{proof}[Název důkazu]
-Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. 
-\end{proof}
-
-\begin{remark}[Pumpovací věta]
-Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. 
-\end{remark}
-
-\begin{example}[Pumpovací věta]
-Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. 
-\end{example}
-
-\begin{lemma}[Název definice]
-Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. 
-\end{lemma}
-
-\begin{consequence}[Název důkazu]
-Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. 
-\end{consequence}
-
-\begin{theorem}[Pumpovací věta]
-Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. Abcd. 
-\end{theorem}
-
-
-\begin{kicode}{cpp}{kod:cpp}{\cpp}
-int main("cs acsa") // komentar
-int main("cs acsa") // komentar
-int main("cs acsa") // komentar
-int main("cs acsa") // komentar
-int main("cs acsa") // komentar
-\end{kicode}
-
-\begin{kicode}{JavaScript}{}{JS}
-new object() // komentar
-\end{kicode}
-
-\begin{kicode}{csharp}{}{\csharp}
-public static int main("cs acsa") // komentar
-\end{kicode}
-
-\begin{kicode}{SQL}{}{SQL}
-SELECT * FROM table_1; /* komentar */
-\end{kicode}
-
-\begin{kicode}{TutorialD}{}{TutorialD}
-table_1 AND table_2;
-\end{kicode}
 
 %% Závěry práce. V jazyce práce a anglicky. Text pro jiný než
 %% nastavený jazyk práce (nepovinným parametrem language makra
