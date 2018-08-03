@@ -160,7 +160,7 @@ Následující kapitola popisuje implementaci jednotlivých části aplikace.
 
 \subsection{Grafické rozhraní}
 
-Grafické rozhraní aplikace (GUI)je vytvořené za pomocí knihovny WPF a z velké části popsané jazykem XAML. Jedna z mála věcí, která není popsána pomocí XAMLu je plátno do kterého se kreslí a upravují se zde grafické objekty.
+Grafické rozhraní aplikace (GUI) je vytvořené za pomocí knihovny WPF a z velké části popsané jazykem XAML. Jedna z mála věcí, která není popsána pomocí XAMLu je plátno do kterého se kreslí a upravují se zde grafické objekty.
 
 Hlavní okno je popsané v souboru MainWindow.xaml a obsluha pro toto okno tvoří třída MainWindow. Z této třídy startuje celá aplikace a vyváří se zde instance třídy MainControl. Všechny události jako jsou kliky myší na tlačítka nebo pohyby myší nad kreslícím plátnem jsou přeposílány třídě MainControl, která zase přeposílá zprávy nazpět třídě MainWindow, pokud je v okně potřeba něco změnit.
 
@@ -184,7 +184,7 @@ Při odkliknutí myší je přesouvání ukončeno a FileControl se přepne nazp
 
 Pokud klikneme mimo editovaný objekt, tak se přepne do nazpět do stavu začátku kreslení a kreslí nový objekt.
 
-Dále FileControl uchovává seznam vrstev. Tento seznam je díky obousměrnému data-bindingu automaticky synchronizován s panelem vrstev, který se nachází vlevo dole v grafickém rozhraní. Ví i která vrstva je aktivní. Aktivní vrstva je důležitá pro kreslení. Při začátku kreslení je grafickým objektům předána, aby věděly do jaké vrstvy se mají kreslit. Pokud se nacházíme v režimu editace, tak pak při aktivní vrstvě je taky tato informace předána grafickému objektu, který vrstvu následně změní.
+Dále FileControl uchovává seznam vrstev. Tento seznam je díky obousměrnému data-bindingu automaticky synchronizován s panelem vrstev, který se nachází vlevo dole v grafickém rozhraní. Ví i která vrstva je aktivní. Aktivní vrstva je důležitá pro kreslení. Při začátku kreslení je grafickým objektům předána, aby věděly do jaké vrstvy se mají kreslit. Pokud se nacházíme v režimu editace, tak při změně aktivní vrstvy je tato informace předána grafickému objektu, který se následně přesune do nově vybrané vrstvy.
 
 Pár věcí se změní pokud máme vybraný nástroj pro výběr grafického objektu. Aktuální vrstvě se předá zpráva o tom, že je aktivní a že má aktivovat všechny grafické objekty, které v ní leží, pak všechny objekty ve vrstvě čekají na klik, při kliknutí na objekt se opět nacházíme v režimu editace, kdy se nám zvolený objekt opět označí.
 
@@ -273,13 +273,120 @@ Metoda musí vracet potomka třídy \kiinlinecode{csharp}{!}{Serializer.Shape}. 
 \end{itemize}
 Musí se zde vytvořit nový WPF element a nelze použít element z vlastnosti Element. Je to důvodu toho, že metoda slouží ke skládání k obrázku, který je volán v jiném vlákně než to, ve kterém běží hlavní okno aplikace. WPF elementy vytvořené v jednom vlákně nelze používat v jiném.
 
-Vytvořený element pak přidáme do canvasu, který získáme z argumentu.
+Vytvořený element následně přidáme do canvasu, který získáme z argumentu.
 
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void ChangeZoom()}
+\end{itemize}
+
+Volá se v momentě, kdy je změněno měřítko zobrazení plátna. Z \kiinlinecode{csharp}{!}{File.RevScale} je možno získat poměr zvětšení tak, aby byl obejkt při změně přiblížený pořád stejně velký, hodí se pro zachování velikosti. Hodí se třeba pro zachování velikostí ovládacích bodů objektu. Samotný \kiinlinecode{csharp}{!}{File.RevScale} jde přímo vložit do vlastnosti WPF elemetu tak, aby měnil velikost sám. Příklad zdrojový kód \ref{kod:revscale}).
+
+\begin{kicode}{csharp}{kod:revscale}{Nastavení automatické transformace revScale}
+TransformGroup g = new TransformGroup();
+g.Children.Add(revScale);
+element.LayoutTransform = g;
+\end{kicode}
 
 
 \begin{figure}
 \includegraphics[width=15cm]{img/shape_diag}
 \caption{Diagram třídy Shape a jejích potomků}
+\end{figure}  
+
+\subsubsection{Editační prvky}
+Každý grafický objekt by měl mít k dispozici editační prvky, které zobrazí v momentě, kdy je objekt editován. Edičaní prvky jsou WPF elementy s naprogramovanými událostmi, které vkládáme při editace do vrchního canvasu, aby je uživatel viděl před objekty a mohl nimi například posouvat.
+
+Například grafický objekt reprezentující čáru, při editace přidává dva maličké kruhy (elipsy). Jelikož tyhle elipsy jsou potřeba při editaci různých grafických objektů, vznikla proto speciálně určená třída.
+
+\paragraph{Třída MovePoint}
+Jak jsem již zmínil pro ovládací prvky typu malých elips se kterým jde posouvat, vnikla speciální třída a ta se nazývá \kiinlinecode{csharp}{!}{MovePoint}.
+
+K založení instance je potřeba počáteční bod, instanci grafického objektu, horní canvas a delegát \kiinlinecode{csharp}{!}{void MoveDelegate(Point b)}. Delegát je funkce kterou můžeme ukládat do proměnných  a předávat je jako argumenty funkcí. Náš delegát se zavolá při každé změně pozice a vargumentu dostane bod, kam se přesunu.
+
+Pokud chceme editační prvek zobrazit zavoláme metodu \kiinlinecode{csharp}{!}{Show()}. V opačném případě metodu \kiinlinecode{csharp}{!}{Hide()}
+
+\kiinlinecode{csharp}{!}{MovePoint} automaticky ukládá všechny přesuny do historie.
+
+\paragraph{Třída EditRect}
+
+
+\subsection{Třída HistoryControl}
+
+Každý soubor má svojí historii všech změn, které při práci v souboru provedeme. O tuto historii se stará třída \kiinlinecode{csharp}{!}{HistoryControl}. Každá třída \kiinlinecode{csharp}{!}{FileControl} si při vytvoření instance, vytvoří svou vlastní instanci třídy \kiinlinecode{csharp}{!}{HistoryControl}.
+
+\kiinlinecode{csharp}{!}{HistoryControl} v sobě uchovává dva zásobníky. První slouží k historii a jsou v něm uloženy akce, které byly provedeny. Do druhého zásobníku se přesouvají akce z prvního, pokud se v historii vracíme zpět. Když půjdeme vpřed, akce z druhého zásobníků se naopak přesune do prvního. Pokud provedeme nějakou změnu, zásobník určený pro kroky vpřed je vyprázdněn.
+
+Jednotlivé akce jsou reprezentovány objekty, které jsou reprezentovány instancí tříd, které implementují rozhraní \kiinlinecode{csharp}{!}{IHistoryNode}.
+
+\subsubsection{Metody třídy}
+
+Třída \kiinlinecode{csharp}{!}{HistoryControl} má následující veřejné metody:
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void Enable()}
+\end{itemize}
+Při vytvoření instance třídy \kiinlinecode{csharp}{!}{HistoryControl} je historie deaktivována. Zavoláním této metody, spustíme celou funkcionalitu třídy.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void Add(IHistoryNode node)}
+\end{itemize}
+Tato metoda slouží k přidáváním akce do historie.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void Clear()}
+\end{itemize}
+Smaže celou historii.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void Back()}
+\item \kiinlinecode{csharp}{!}{void Forward()}
+\end{itemize}
+Pohyb v historii vpřed a vzad, pokud tento přesun není možný, nic se neprovede.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void SetNotChange()}
+\end{itemize}
+Nastaví stav, tak že neproběhla žádná změna. Volá si při uložení souboru.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{bool Change()}
+\end{itemize}
+Testuje, jestli od posledního zavolání \kiinlinecode{csharp}{!}{SetNotChange()} nebo od vytvoření zapnutí historie, se nějak změnila historie. Používá se k testu jestli je potřeba soubor uložit. Aplikace tento test používá k tomu, aby jsme omylem nezavřeli aplikaci bez uložení.
+
+\subsubsection{IHistoryNode}
+\kiinlinecode{csharp}{!}{IHistoryNode} je rozhraní, které musí implementovat všechny třídy, které mají implementovat jednotlivé akce v historii.
+
+Každá třída implementující tohle rozhraní, musí implementovat následující dvě metody:
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void Back()}
+\end{itemize}
+Zde je potřeba naprogramovat co se má stát, pokud chceme tuto akci vrátit zpět.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{void Back()}
+\end{itemize}
+Opačný přístup, a provede se pokud je akce již minimálně jednou v historii vrácena a má se zase vrátit do původního stavu.
+
+\paragraph{Rozšíření IHistoryNodeSkipped}
+Rozhraní \kiinlinecode{csharp}{!}{IHistoryNodeSkipped} je rozšíření rozhraní \kiinlinecode{csharp}{!}{IHistoryNode}. \kiinlinecode{csharp}{!}{HistoryControl} se však k němu chová odlišně.
+
+Pokud metoda \kiinlinecode{csharp}{!}{Add(IHistoryNode node)} třídy \kiinlinecode{csharp}{!}{HistoryControl} dostane instanci třídy implementující rozhraní \kiinlinecode{csharp}{!}{IHistoryNodeSkipped}, tak provede následující kroky:
+
+\begin{itemize}
+\item Otestuje, jestli je zásobník určený pro akce zpět prázdný, pokud je prázdný, postupuje klasickým způsobem.
+\item Pokud zásobník prázdný není, otestuje jestli akce ležící na vrcholu zásobníku neimplementuje rozhraní \kiinlinecode{csharp}{!}{IHistoryNodeSkipped}. Pokud ho neimplementuje, postupuje klasicky.
+\item Vkládaná akce s akci ležící na vrcholu zásobníku jsou otestovány, jestli jsou kompatibilní, pokud ano, akce se spojí a vloží na vrchol zásobníku. V opačném případě se vloží vkládaná akce na vrchol zásobníku.
+\end{itemize}
+
+Test jestli jsou dvě akce \kiinlinecode{csharp}{!}{IHistoryNodeSkipped} kompatibilní se provádí metodou \kiinlinecode{csharp}{!}{bool Optimal(IHistoryNodeSkipped node)}, která vrací pravdivostní hodnotu, zda jsou kompatibilní.
+
+Spojení dvou akcí se provádí metoda \kiinlinecode{csharp}{!}{void Skip(IHistoryNodeSkipped node)}, kdy spojení probíhá do akce na které je tato metoda volána.
+
+
+\begin{figure}
+\includegraphics[width=15cm]{img/history_diag}
+\caption{Diagram tříd implementující rozhraní IHistoryNode}
 \end{figure}  
 
 \section{Funkce}
@@ -290,9 +397,9 @@ Aplikace podporuje otevírání a ukládání souborů jako rastrovou grafiku ve
 
 Speciální funkcí této aplikace je ukládání obrázků do formátu HTML. Oproti rastrovým formátům má výhodu v tom, že po otevření jsou načteny do plátna všechny objekty, které je možno dále upravovat. Tento formát reprezentuje obrázek jako vektorovou grafiku. Je možno ho otevřít v jakémkoliv prohlížeči, který podporuje HTML5 Canvas a má zapnutý JavaScript.
 
-\subsection{Uložení do souboru ve formátu HTML}
+\subsubsection{Uložení do souboru ve formátu HTML}
 
-\subsubsection{HTML soubor}
+\paragraph{HTML soubor}
 
 Soubor s příponou .html nebo .htm je textový soubor, který obsahuje značkovací jazyk HTML. Jazyk se skládá z tagů (značek), které máme párové a nepárové. Do párových tagů můžeme vkládat další HTML tagy nebo text. Vzniká tak v HTML dokumentu stromová struktura. HTML tagy dále obsahují atributy, které mění vlastnosti tagů.
 
@@ -310,7 +417,7 @@ Soubor s příponou .html nebo .htm je textový soubor, který obsahuje značkov
 </html>
 \end{kicode}
 
-\subsubsection{Značka <canvas>}
+\paragraph{Značka <canvas>}
 
 Formát HTML není určený pro obrázky, ale pro pro webové stránky. Od páté verze HTML podporuje značku <canvas>, která reprezentuje plátno pro kreslení grafiky. Element se umístí do stránky s pevně danou šířkou a výškou. Do plátna pak lze kreslit přes API v JavaScriptu. Pokud změníme jeho rozměry, plátno se vymaže a musíme kreslit znovu.
 
@@ -331,18 +438,18 @@ Serializace objektů je proces, který umožňuje objekty programu převést na 
 
 
 
-\subsubsection{JSON}
+\paragraph{JSON}
 Aplikace používá serializaci do formátu JSON. JSON je datový formát, který dokáže pojmout datové struktury složených z čísel a řetězců. Často se používá k přenosů dat na internetu, hlavně ve ve webových aplikacích, které využívají technologii AJAX. Další obrovskou výhodou je, že pochází z JavaScriptu. Zkratka JSON totiž znamená \uv{JavaScript Object Notation} což je zápis objektů v JavaScriptu a tak nemusíme programovat žádnou deserializaci, ale postačí nám pouze data v tomto formátu do souboru HTML přiložit.
 
 
-\subsubsection{Vykreslení obrázku v prohlížeči}
+\paragraph{Vykreslení obrázku v prohlížeči}
 Posledním krokem k zobrazení obrázku v prohlížeči zbývá vykreslit obrázek z přiložených dat v JSONu. Jak už jsem psal výše použijeme k tomu HTML element <canvas>. Do canvasu se kreslí přes API v JavaScriptu, takže získáme přiložená data musíme dostat do programu v JavaScriptu, který bude z dal obrázek vykreslovat do canvasu. 
 
 Data program získá deserializací JSON řetězce. Jelikož je JSON řetězec ekvivalentní se zápisem objektů v JavaScriptu, postačí nám pouze JSON řetězec šikovně uložit k programu.
 
 Program v JS už jen přečte data a vykreslí všechny grafické objekty ve správném pořadí. Pro menší datovou velikost výsledného HTML souboru je kód programu zminifikován. Minifikace nám z kódu odstraní znaky, které nemají vliv na vykonávání kódu. Což jsou pro příklad bílé znaky (mezery, tabulátory, řádky). Dále nahradí názvy proměnných na co nejkratší názvy. Po minifikaci program dělá to stejné jako před ní, jen je o hodně menší. Minifikace je hojně využívaná na internetu a není se čemu divit, všichni přece chceme, aby se internetové stránky načítaly rychle.
 
-\subsubsection{Datová struktura JSONu}
+\paragraph{Datová struktura JSONu}
 Aby byl program v JavaScriptu schopný nakreslit obrázek z přiložených dat, musí mít data určitou datovou strukturu, je velmi podobná struktuře ve kterém aplikace uchovává data při práci s obrázkem.
 
 Všechno začíná třídou Picture, která uchovává rozlišení obrázku a obsahuje vlastnost layers, ve které je uložen seznam vrstev. Jednotlivé vrstvy jsou reprezentovány třídou Layer, která v sobě uchovává barvu pozadí, jméno vrstvy a jestli je vrstva viditelná, jestli se má vykreslit. Mohli by jsme říct, že je zbytečné přikládat vrstvu, která se stejně nenakreslí, ale jelikož jde HTML soubor v aplikaci znovu otevřít a plnohodnotně editovat je dobré ji tam nechat, kdyby s ní ještě chtěl v budoucnu někdo pracovat. To nejdůležitější co třída Layer obsahuje je seznam grafických objektů  umístěný ve vlastnosti shapes.
@@ -353,7 +460,7 @@ Protože serializací objektů do formátu JSON, přijdeme o informaci o informa
 
 Zvláštním případem grafického objektu je obrázek, který reprezentuje třída Image a je to obrázek v rastrové grafice. Umožní nám tak ukládat do HTML i rastrovou grafiku. Obrázek je uložen pomocí kódování base64. Base64 je způsob kódování, který kóduje binární data do znaků ASCII a tak lze tímto způsobem uložit obrázek pomocí řetězce. Celou strukturu zobrazuje diagram na obrázku \ref{fig:json_diag}.
 
-\subsubsection{Struktura uloženého souboru}
+\paragraph{Struktura uloženého souboru}
 Máme všechny součásti pro uložení dat do souboru. Aplikace soubory HTML ukládá s následující strukturou (zdrojový kód \ref{kod:HTMLst}).
 
 \begin{kicode}{HTML}{kod:HTMLst}{Struktura HTML souboru}
@@ -382,12 +489,12 @@ Máme všechny součásti pro uložení dat do souboru. Aplikace soubory HTML uk
 \end{figure} 
 
 
-\subsection{Otevření souboru ve formátu HTML}
+\subsubsection{Otevření souboru ve formátu HTML}
 Aplikace umožňuje otevřený HTML soubory plnohodnotně editovat. V souboru jsou zachovány všechny vrstvy a grafické objekty, tak jak byly uloženy. To je díky tomu, že v JSONu jsou uloženy všechny informace a i informace, který nemají vliv na grafickou podobu obrázku, což jsou například jména vrstev. Stejný přístup využívá aplikace Adobe Photoshop, kde můžeme obrázky ukládat do formátu PSD, který též zachová všechny elementy.
 
-Aplikace najde v HTML JSON řetězec a následně deserializuje řetězec. Z dat získaných z deserializovaného řetězce sestaví data pro soubor reprezentovaný v aplikaci otevře ho v nové záložce.
+Aplikace najde v HTML JSON řetězec a následně deserializuje řetězec. Z dat získaných z deserializovaného řetězce sestaví data pro soubor reprezentovaný v aplikaci a otevře ho v nové záložce.
 
-\subsection{Uložení do formátů rastrové grafiky}
+\subsubsection{Uložení do formátů rastrové grafiky}
 Aplikace umožňuje uložit obrázky do rastrové (bitmapové) grafiky. Rastrová grafika je způsob ukládání obrázků. Obrázek tímto způsobem je uložen jako barevné body (pixelů, kde každý bod má svojí barvu. Barva pixelů je vyjádřena ve vybraném barevném modelu, v modelu kde můžeme z posloupnosti čísel získat barvu, například model RGB, kde ze třech čísel reprezentující 3 barvy (konkrétně červená, zelená a modrá) dostaneme výslednou barvou jejich smícháním. Existuje i rozšíření modelu RGB, což je model RGBa, kde je navíc ještě čtvrtá složka (alfa kanál), která určuje průhlednost barvy.
 
 Implementace uložení do rastrové grafiky v Aplikaci je poměrně jednoduchá. Knihovna WPF umožňuje zachytit obrázek jakéhokoliv elementu, který se v GUI aplikace nachází. Aplikace ale nezachycuje přímo plátno ve kterém probíhá práce na obrázku, ale pro urychlení vytvoří nové vlákno. V novém vlákně aplikace vytvoří nový element plátna a do něj přidá všechny objekty, které mají být v obrázku vidět. Následně vyfotí plátno a výsledný obrázek už se pouze zakóduje do příslušného formátu a soubor s obrázkem uloží na disk.
