@@ -20,12 +20,13 @@ namespace MyPaint.History
 
         public void Back()
         {
-            dc.SetResolution(oldR, true);
+            dc.SetResolutionByHistoryControl(oldR);
+            
         }
 
         public void Forward()
         {
-            dc.SetResolution(newR, true);
+            dc.SetResolutionByHistoryControl(newR);
         }
     }
 }

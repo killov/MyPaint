@@ -154,6 +154,18 @@ namespace MyPaint
             Canvas.Height = TopCanvas.Height = res.Y;
         }
 
+        public void SetResolutionByHistoryControl(Point res)
+        {
+            Control.SetResolution(res.X, res.Y, false);
+            Resolution = res;
+            foreach (var l in layers)
+            {
+                l.SetResolution(res);
+            }
+            Canvas.Width = TopCanvas.Width = res.X;
+            Canvas.Height = TopCanvas.Height = res.Y;
+        }
+
         public void SetShapePrimaryColor(Brush c)
         {
             if (Shape != null) Shape.SetPrimaryBrush(c, true);
