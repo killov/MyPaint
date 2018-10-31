@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPaint", "MyPaint.csproj", "{97958F38-0180-45DC-BCC6-2BBDFA2E2A0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorBox", "..\ColorBox\ColorBox\ColorBox.csproj", "{40085232-ACED-4CBE-945B-90BA8153C151}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,8 +29,23 @@ Global
 		{97958F38-0180-45DC-BCC6-2BBDFA2E2A0F}.Release|x64.Build.0 = Release|Any CPU
 		{97958F38-0180-45DC-BCC6-2BBDFA2E2A0F}.Release|x86.ActiveCfg = Release|Any CPU
 		{97958F38-0180-45DC-BCC6-2BBDFA2E2A0F}.Release|x86.Build.0 = Release|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Debug|x64.Build.0 = Debug|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Debug|x86.Build.0 = Debug|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Release|x64.ActiveCfg = Release|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Release|x64.Build.0 = Release|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Release|x86.ActiveCfg = Release|Any CPU
+		{40085232-ACED-4CBE-945B-90BA8153C151}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F9D89E2A-B07D-4841-AB41-0363519F0176}
 	EndGlobalSection
 EndGlobal
