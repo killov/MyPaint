@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Markup;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 
 namespace MyPaint.FileSaver
@@ -19,7 +8,7 @@ namespace MyPaint.FileSaver
     {
         protected FileControl dc;
 
-        public static void SaveAsFile(MainControl c, FileControl dc,string path)
+        public static void SaveAsFile(MainControl c, FileControl dc, string path)
         {
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();

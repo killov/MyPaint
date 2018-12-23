@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Script.Serialization;
+﻿using System.Web.Script.Serialization;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 
@@ -25,23 +18,24 @@ namespace MyPaint
         public void Cut()
         {
             Copy();
-            if (control.file.Shape != null && control.file.ShapeDrawed())
+            if (control.file.DrawControl.Shape != null && control.file.DrawControl.ShapeDrawed())
             {
-                control.file.ShapeDelete();
+                control.file.DrawControl.ShapeDelete();
             }
         }
 
         public void Copy()
         {
-            if (control.file.Shape != null && control.file.ShapeDrawed())
+            if (control.file.DrawControl.Shape != null && control.file.DrawControl.ShapeDrawed())
             {
-                Shapes.Shape s = control.file.Shape;
+                Shapes.Shape s = control.file.DrawControl.Shape;
                 if (s is Shapes.Image)
                 {
                     Shapes.Image im = (Shapes.Image)s;
                     Clipboard.SetImage(im.CreateBitmap());
                     clipboard = null;
-                }else if (s is Shapes.Area)
+                }
+                else if (s is Shapes.Area)
                 {
                     Shapes.Area area = (Shapes.Area)s;
                     Clipboard.SetImage(area.CreateBitmap());
@@ -64,7 +58,7 @@ namespace MyPaint
             }
             else
             {
-                if(clipboard != null)
+                if (clipboard != null)
                 {
                     PasteShape(clipboard);
                 }
@@ -73,11 +67,12 @@ namespace MyPaint
 
         void PasteImage()
         {
-            try { 
+            try
+            {
                 BitmapSource s = Clipboard.GetImage();
                 Clipboard.SetImage(s);
                 s = Clipboard.GetImage();
-                control.file.PasteImage(s);
+                control.file.DrawControl.PasteImage(s);
             }
             catch
             {
@@ -93,7 +88,7 @@ namespace MyPaint
             JavaScriptSerializer dd = new JavaScriptSerializer();
             dd.MaxJsonLength = int.MaxValue;
             Deserializer.Shape shape = (Deserializer.Shape)dd.Deserialize(json, typeof(Deserializer.Shape));
-            control.file.PasteShape(shape);
+            control.file.DrawControl.PasteShape(shape);
         }
     }
 }

@@ -1,21 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Input;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using System.Text.RegularExpressions;
-using System.Timers;
-using System.Web.Script.Serialization;
-using System.Collections.ObjectModel;
-using MyPaint.History;
-using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MyPaint
 {
@@ -61,7 +51,7 @@ namespace MyPaint
 
             w.tabControl.DataContext = tabItems;
             w.tabControl.SelectedIndex = 0;
-            SetFileActive(NewFile());          
+            SetFileActive(NewFile());
         }
 
         private FileControl NewFile()
@@ -81,21 +71,18 @@ namespace MyPaint
             {
                 if (this.file != null) this.file.Deactivate();
                 this.file = file;
-                this.file.SetShapePrimaryColor(primaryBrush);
-                this.file.SetShapeSecondaryColor(secondaryBrush);
-                this.file.SetShapeThickness(thickness);
-                this.file.SetTool(tool);
+                this.file.DrawControl.SetTool(tool);
                 this.file.HistoryControl.Redraw();
                 SetWindowZoom(file.Zoom);
                 SetResolution(this.file.Resolution.X, this.file.Resolution.Y, false);
                 SetPath(this.file.Path);
-                w.SetBackgroundBrush(this.file.GetBackgroundColor());
+                w.SetBackgroundBrush(this.file.DrawControl.GetBackgroundColor());
                 w.canvas.Children.Clear();
                 w.topCanvas.Children.Clear();
                 w.canvas.Children.Add(this.file.Canvas);
                 w.tabControl.SelectedItem = file.TabItem;
                 w.layers.ItemsSource = this.file.layers;
-                w.layers.SelectedItem = file.SelectLayer;
+                w.layers.SelectedItem = file.DrawControl.SelectLayer;
                 this.file.Activate();
             }
         }
@@ -114,9 +101,9 @@ namespace MyPaint
         }
 
         public void TabControlChange(TabItem tab)
-        {           
+        {
             if (tab != null && tab.Header != null)
-            { 
+            {
                 if (tab.Equals(tabAdd))
                 {
                     SetFileActive(NewFile());
@@ -158,19 +145,19 @@ namespace MyPaint
 
         public void AddLayer()
         {
-            if(file != null) file.AddLayer();
+            if (file != null) file.AddLayer();
         }
 
         public void LayerChanged(int index)
         {
-            if (file != null) file.SetActiveLayer(index);
+            if (file != null) file.DrawControl.SetActiveLayer(index);
         }
 
         public void Back()
         {
             if (file != null)
             {
-                file.StopEdit();
+                file.DrawControl.StopEdit();
                 file.HistoryControl.Back();
                 file.Activate();
             }
@@ -192,7 +179,7 @@ namespace MyPaint
 
         public void SetWindowZoom(double zoom)
         {
-            w.zoom.Value = zoom*100;
+            w.zoom.Value = zoom * 100;
         }
 
         public void SetZoom(double zoom)
@@ -236,7 +223,7 @@ namespace MyPaint
 
         public void SetPrimaryBrush(Brush c)
         {
-            file.SetShapePrimaryColor(c);
+            file.DrawControl.SetShapeBrush(BrushEnum.PRIMARY, c);
             primaryBrush = c;
         }
 
@@ -247,13 +234,13 @@ namespace MyPaint
 
         public void SetSecondaryBrush(Brush c)
         {
-            file.SetShapeSecondaryColor(c);
+            file.DrawControl.SetShapeBrush(BrushEnum.SECONDARY, c);
             secondaryBrush = c;
         }
 
         public void SetBackgroundBrush(Brush c)
         {
-            file.SetBackgroundColor(c);
+            file.DrawControl.SetBackgroundColor(c);
             layerColor = c;
         }
 
@@ -264,7 +251,7 @@ namespace MyPaint
 
         public void SetThickness(double t)
         {
-            file.SetShapeThickness(t);
+            file.DrawControl.SetShapeThickness(t);
             thickness = t;
         }
 
@@ -275,7 +262,7 @@ namespace MyPaint
 
         public void SetTextFont(FontFamily f)
         {
-            file.SetTextFont(f);
+            file.DrawControl.SetTextFont(f);
             font = f;
         }
 
@@ -286,7 +273,7 @@ namespace MyPaint
 
         public void SetTextFontSize(double s)
         {
-            file.SetTextFontSize(s);
+            file.DrawControl.SetTextFontSize(s);
             fontSize = s;
         }
 
@@ -332,7 +319,7 @@ namespace MyPaint
         }
 
         public void Open()
-        {      
+        {
             Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.DefaultExt = ".html";
             dialog.Filter = "Všechny podporované |*.html;*.png;*.jpg;*.bmp|Soubory HTML (*.html)|*.html|Soubory PNG (*.png)|*.png|Soubory JPEG (*.jpg)|*.jpg|Soubory BMP (*.bmp)|*.bmp";
@@ -345,7 +332,7 @@ namespace MyPaint
                 filee.SetName("Bez názvu");
                 string filename = dialog.FileName;
                 FileOpener.FileOpener.OpenFromFile(this, filee, filename);
-               
+
             }
         }
 
@@ -355,7 +342,7 @@ namespace MyPaint
         }
 
         public bool SaveAs()
-        { 
+        {
             Microsoft.Win32.SaveFileDialog dialog = new Microsoft.Win32.SaveFileDialog();
             dialog.DefaultExt = ".html";
             dialog.Filter = "Soubory HTML (*.html)|*.html|Soubory PNG (*.png)|*.png|Soubory JPEG (*.jpg)|*.jpg|Soubory BMP (*.bmp)|*.bmp";
@@ -372,7 +359,7 @@ namespace MyPaint
 
         void SaveAs(string path)
         {
-            file.StopEdit();
+            file.DrawControl.StopEdit();
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
             file.SetPath(path);
@@ -400,7 +387,7 @@ namespace MyPaint
             {
                 return Save();
             }
-            else if(result == MessageBoxResult.Cancel)
+            else if (result == MessageBoxResult.Cancel)
             {
                 return false;
             }
@@ -409,7 +396,7 @@ namespace MyPaint
 
         public void Exit()
         {
-             w.Close();  
+            w.Close();
         }
 
         public void SetTool(ToolEnum s)
@@ -429,10 +416,10 @@ namespace MyPaint
             {
                 case ToolEnum.SELECTAREA:
                     w.button_select_area.Style = act;
-                break;
+                    break;
                 case ToolEnum.SELECT:
                     w.button_select.Style = act;
-                break;
+                    break;
                 case ToolEnum.LINE:
                     w.button_line.Style = act;
                     break;
@@ -455,30 +442,30 @@ namespace MyPaint
                     w.button_text.Style = act;
                     break;
             }
-            if (file != null) file.StopEdit();
-            if (file != null) file.SetTool(s);
+            if (file != null) file.DrawControl.StopEdit();
+            if (file != null) file.DrawControl.SetTool(s);
             tool = s;
         }
 
         public void MouseDown(MouseButtonEventArgs e)
         {
-            if (file != null) file.MouseDown(e); 
+            if (file != null) file.DrawControl.MouseDown(e.GetPosition(w.topCanvas), e);
         }
 
         public void MouseMove(MouseEventArgs e = null)
         {
-            Point pos = Mouse.GetPosition(w.canvas);
-            if (file != null) file.MouseMove(pos);
+            Point pos = Mouse.GetPosition(w.topCanvas);
+            if (file != null) file.DrawControl.MouseMove(pos);
         }
 
         public void MouseUp(MouseButtonEventArgs e)
         {
-            if (file != null) file.MouseUp(e);
+            if (file != null) file.DrawControl.MouseUp(e.GetPosition(w.topCanvas), e);
         }
 
         public void Closed(System.ComponentModel.CancelEventArgs e)
         {
-            foreach(var f in files)
+            foreach (var f in files)
             {
                 FileControl file = f.Value;
                 SetFileActive(f.Value);
@@ -499,7 +486,8 @@ namespace MyPaint
             {
                 Delete();
             }
-            else if (Keyboard.Modifiers == ModifierKeys.Control){
+            else if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
                 switch (e.Key)
                 {
                     case Key.C:
@@ -526,7 +514,7 @@ namespace MyPaint
 
         public bool ContextMenuShape()
         {
-            return file != null && file.ContextMenuShape();    
+            return file != null && file.DrawControl.ContextMenuShape();
         }
 
         public void Cut()
@@ -546,17 +534,17 @@ namespace MyPaint
 
         public void Delete()
         {
-            if (file != null) file.ShapeDelete();
+            if (file != null) file.DrawControl.ShapeDelete();
         }
 
         public void SetShapeTop()
         {
-            if (file != null) file.SetShapePosition(-1);
+            if (file != null) file.DrawControl.SetShapePosition(-1);
         }
 
         public void SetShapeBottom()
         {
-            if (file != null) file.SetShapePosition(0);
+            if (file != null) file.DrawControl.SetShapePosition(0);
         }
 
         public void AdjustZoom(double x, double y)
@@ -572,10 +560,10 @@ namespace MyPaint
             {
                 zoom = b;
             }
-            if(zoom < 1)
+            if (zoom < 1)
             {
-                zoom = Math.Floor(zoom*10)/10;
-                if(zoom*100 < w.zoom.Value)
+                zoom = Math.Floor(zoom * 10) / 10;
+                if (zoom * 100 < w.zoom.Value)
                 {
                     SetWindowZoom(zoom);
                 }

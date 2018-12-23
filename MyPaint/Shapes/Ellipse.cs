@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MyPaint.Shapes
 {
@@ -18,12 +12,12 @@ namespace MyPaint.Shapes
         double sx, sy, ex, ey;
         EditRect eR;
 
-        public Ellipse(FileControl c, Layer la) : base(c, la)
+        public Ellipse(DrawControl c, Layer la) : base(c, la)
         {
             Element = p;
         }
 
-        public Ellipse(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Ellipse(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             Element = p;
             sx = s.A.x;
@@ -36,23 +30,29 @@ namespace MyPaint.Shapes
             CreatePoints();
         }
 
-        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeBrush(BrushEnum brushEnum, Brush brush)
         {
-            base.SetPrimaryBrush(s, addHistory);
-            p.Stroke = s;
+            if (brushEnum == BrushEnum.PRIMARY)
+            {
+                p.Stroke = brush;
+                return true;
+            }
+            if (brushEnum == BrushEnum.SECONDARY)
+            {
+                p.Fill = brush;
+                return true;
+            }
+            return false;
         }
 
-        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeThickness(double thickness)
         {
-            base.SetSecondaryBrush(s, addHistory);
-            p.Fill = s;
-        }
-
-        override public void SetThickness(double s, bool addHistory = false)
-        {
-            base.SetThickness(s, addHistory);
-            p.StrokeThickness = s;
-            if(vs != null) vs.StrokeThickness = s;
+            p.StrokeThickness = thickness;
+            if (vs != null)
+            {
+                vs.StrokeThickness = thickness;
+            }
+            return true;
         }
 
         void moveS(System.Windows.Shapes.Ellipse p, double x, double y)
@@ -113,7 +113,7 @@ namespace MyPaint.Shapes
             sy = e.Y;
             AddToLayer();
             Canvas.SetLeft(p, sx);
-            Canvas.SetTop(p, sy);           
+            Canvas.SetTop(p, sy);
             StartDraw();
         }
 
@@ -138,23 +138,8 @@ namespace MyPaint.Shapes
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
             vs.Cursor = Cursors.SizeAll;
-            vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
-            {
-                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
-                hit = true;
-            };            
-        }
-
-        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
-        {
-            base.ShowVirtualShape(mouseDown);
-            HideVirtualShape();
-            File.TopCanvas.Children.Add(vs);
-        }
-
-        override public void HideVirtualShape()
-        {
-            File.TopCanvas.Children.Remove(vs);
+            vs.MouseDown += CallBack;
+            VirtualElement = vs;
         }
 
         override public void SetActive()
@@ -192,7 +177,7 @@ namespace MyPaint.Shapes
             double zx = x - sx + ex;
             double zy = y - sy + ey;
 
-            
+
             moveE(p, zx, zy);
             moveE(vs, zx, zy);
             moveS(p, x, y);
@@ -249,14 +234,14 @@ namespace MyPaint.Shapes
         {
             System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse();
             p.Stroke = PrimaryBrush.CreateBrush();
-            p.Fill =  SecondaryBrush.CreateBrush();
+            p.Fill = SecondaryBrush.CreateBrush();
             p.StrokeThickness = GetThickness();
             p.ToolTip = null;
             p.Width = Math.Abs(sx - ex);
             p.Height = Math.Abs(sy - ey);
             canvas.Children.Add(p);
-            Canvas.SetLeft(p, Math.Min(sx,ex));
-            Canvas.SetTop(p, Math.Min(sy,ey));      
+            Canvas.SetLeft(p, Math.Min(sx, ex));
+            Canvas.SetTop(p, Math.Min(sy, ey));
         }
 
         override public void ChangeZoom()

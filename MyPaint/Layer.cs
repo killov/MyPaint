@@ -1,20 +1,17 @@
 ﻿using MyPaint.History;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace MyPaint
 {
     public class Layer : INotifyPropertyChanged
     {
-        public string Name { 
+        public string Name
+        {
             get
             {
                 return name;
@@ -28,7 +25,8 @@ namespace MyPaint
 
         public string name;
         bool vis;
-        public bool visible {
+        public bool visible
+        {
             get
             {
                 return vis;
@@ -44,7 +42,7 @@ namespace MyPaint
         {
             get
             {
-                return file.layers.First() != this;
+                return f.layers.First() != this;
             }
         }
 
@@ -52,7 +50,7 @@ namespace MyPaint
         {
             get
             {
-                return file.layers.Last() != this;
+                return f.layers.Last() != this;
             }
         }
 
@@ -74,20 +72,22 @@ namespace MyPaint
         public Canvas canvas;
         Brush background;
         Serializer.Brush sBackground = Serializer.Brush.Create(null);
-        private FileControl file;
+        private DrawControl file;
+        private FileControl f;
         private List<Shapes.Shape> Shapes { get; set; }
 
-        public Layer(Canvas c, FileControl dc)
+        public Layer(Canvas c, FileControl fil, DrawControl dc)
         {
             cv = c;
             canvas = new Canvas();
             Shapes = new List<Shapes.Shape>();
             cv.Children.Add(canvas);
-            SetResolution(dc.Resolution);
+            SetResolution(fil.Resolution);
             file = dc;
+            f = fil;
         }
 
-        public Layer(Canvas c, FileControl dc, Deserializer.Layer layer)
+        public Layer(Canvas c, FileControl fil, DrawControl dc, Deserializer.Layer layer)
         {
             cv = c;
             canvas = new Canvas();
@@ -95,7 +95,7 @@ namespace MyPaint
             cv.Children.Add(canvas);
             Name = layer.name;
             canvas.Name = layer.name;
-            SetResolution(dc.Resolution);
+            SetResolution(fil.Resolution);
             file = dc;
             visible = layer.visible;
             Background = layer.color == null ? null : layer.color.CreateBrush();
@@ -113,12 +113,11 @@ namespace MyPaint
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void NotifyPropertyChanged(string propName)
+        void NotifyPropertyChanged(string propName)
         {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
-        
 
         public Serializer.Layer CreateSerializer()
         {
@@ -138,8 +137,8 @@ namespace MyPaint
         {
             Canvas canvas = new Canvas();
             canvas.Background = sBackground.CreateBrush();
-            canvas.Width = file.Resolution.X;
-            canvas.Height = file.Resolution.Y;
+            canvas.Width = f.Resolution.X;
+            canvas.Height = f.Resolution.Y;
             if (visible)
             {
                 foreach (var shape in Shapes)
@@ -152,7 +151,7 @@ namespace MyPaint
 
         public void Up()
         {
-            int i = file.layers.IndexOf(this);
+            int i = f.layers.IndexOf(this);
             if (i > 0)
             {
                 SetPosition(i - 1);
@@ -162,8 +161,8 @@ namespace MyPaint
 
         public void Down()
         {
-            int i = file.layers.IndexOf(this);
-            if (i < file.layers.Count - 1)
+            int i = f.layers.IndexOf(this);
+            if (i < f.layers.Count - 1)
             {
                 SetPosition(i + 1);
                 file.HistoryControl.Add(new History.HistoryLayerPosition(this, i, i + 1));
@@ -172,17 +171,17 @@ namespace MyPaint
 
         public void SetPosition(int i)
         {
-            file.layers.Move(file.layers.IndexOf(this), i);
+            f.layers.Move(f.layers.IndexOf(this), i);
             cv.Children.Remove(canvas);
             cv.Children.Insert(i, canvas);
         }
 
         public void Remove(bool history = true)
         {
-            if(history) file.HistoryControl.Add(new HistoryLayerRemove(this, file.layers.IndexOf(this)));
-            file.layers.Remove(this);
+            if (history) file.HistoryControl.Add(new HistoryLayerRemove(this, f.layers.IndexOf(this)));
+            f.layers.Remove(this);
             cv.Children.Remove(canvas);
-            if(file.SelectLayer == this)
+            if (file.SelectLayer == this)
             {
                 file.StopEdit();
                 file.UnselectLayer();
@@ -192,15 +191,15 @@ namespace MyPaint
 
         public void Add(int i = -1)
         {
-            if(i == -1)
+            if (i == -1)
             {
-                file.layers.Add(this);
+                f.layers.Add(this);
                 cv.Children.Add(canvas);
             }
             else
             {
-                file.layers.Remove(this);
-                file.layers.Insert(i, this);
+                f.layers.Remove(this);
+                f.layers.Insert(i, this);
                 cv.Children.Remove(canvas);
                 cv.Children.Insert(i, canvas);
             }
@@ -208,7 +207,7 @@ namespace MyPaint
 
         public void SetSelectable()
         {
-            foreach(var shape in Shapes)
+            foreach (var shape in Shapes)
             {
                 shape.HideVirtualShape();
                 shape.ShowVirtualShape((e, s, m) =>
@@ -219,14 +218,14 @@ namespace MyPaint
         }
 
         private void SetShapeSelect(Point e, Shapes.Shape shape, bool enableMoving)
-        {            
+        {
             if (file.Shape != null)
             {
                 file.Shape.StopEdit();
             }
             SetSelectable();
             file.SetShapeActive(shape);
-            if(enableMoving) shape.StartMove(e);
+            if (enableMoving) shape.StartMove(e);
         }
 
         public void UnsetSelectable()
@@ -260,7 +259,7 @@ namespace MyPaint
         public void ShapeElementChanged(Shapes.Shape shape)
         {
             int i = Shapes.IndexOf(shape);
-            if(i != -1)
+            if (i != -1)
             {
                 canvas.Children.RemoveAt(i);
                 canvas.Children.Insert(i, shape.Element);

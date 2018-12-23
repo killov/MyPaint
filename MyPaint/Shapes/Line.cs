@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MyPaint.Shapes
 {
@@ -16,12 +10,12 @@ namespace MyPaint.Shapes
     {
         System.Windows.Shapes.Line p = new System.Windows.Shapes.Line(), vs = new System.Windows.Shapes.Line();
         MovePoint p1, p2;
-        public Line(FileControl c, Layer la) : base(c, la)
+        public Line(DrawControl c, Layer la) : base(c, la)
         {
             Element = p;
         }
 
-        public Line(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Line(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             Element = p;
             p.X1 = s.A.x;
@@ -33,22 +27,24 @@ namespace MyPaint.Shapes
             CreateVirtualShape();
         }
 
-        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeBrush(BrushEnum brushEnum, Brush brush)
         {
-            base.SetPrimaryBrush(s, addHistory);
-            p.Stroke = s;
+            if (brushEnum == BrushEnum.PRIMARY)
+            {
+                p.Stroke = brush;
+                return true;
+            }
+            return false;
         }
 
-        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeThickness(double thickness)
         {
-
-        }
-
-        override public void SetThickness(double s, bool addHistory = false)
-        {
-            base.SetThickness(s, addHistory);
-            p.StrokeThickness = s;
-            if (vs != null) vs.StrokeThickness = Math.Max(3, s);
+            p.StrokeThickness = thickness;
+            if (vs != null)
+            {
+                vs.StrokeThickness = Math.Max(3, thickness);
+            }
+            return true;
         }
 
         override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
@@ -84,23 +80,8 @@ namespace MyPaint.Shapes
             vs.Cursor = Cursors.SizeAll;
             vs.Stroke = nullBrush;
             vs.StrokeThickness = Math.Max(3 * File.RevScale.ScaleX, p.StrokeThickness);
-            vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
-            {
-                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
-                hit = true;
-            };
-        }
-
-        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
-        {
-            base.ShowVirtualShape(mouseDown);
-            HideVirtualShape();
-            File.TopCanvas.Children.Add(vs);
-        }
-
-        override public void HideVirtualShape()
-        {
-            File.TopCanvas.Children.Remove(vs);
+            vs.MouseDown += CallBack;
+            VirtualElement = vs;
         }
 
         override public void SetActive()

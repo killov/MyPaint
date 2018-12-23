@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
 
 namespace MyPaint.Shapes
 {
@@ -20,12 +15,12 @@ namespace MyPaint.Shapes
         QuadraticBezierSegment qbs;
         System.Windows.Shapes.Line eL1 = new System.Windows.Shapes.Line(), eL2 = new System.Windows.Shapes.Line();
 
-        public QuadraticCurve(FileControl c, Layer la) : base(c, la)
+        public QuadraticCurve(DrawControl c, Layer la) : base(c, la)
         {
             Element = p;
         }
 
-        public QuadraticCurve(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public QuadraticCurve(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             Element = p;
             PathGeometry pg = new PathGeometry();
@@ -40,23 +35,29 @@ namespace MyPaint.Shapes
             CreateVirtualShape();
         }
 
-        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeBrush(BrushEnum brushEnum, Brush brush)
         {
-            base.SetPrimaryBrush(s, addHistory);
-            p.Stroke = s;
+            if (brushEnum == BrushEnum.PRIMARY)
+            {
+                p.Stroke = brush;
+                return true;
+            }
+            if (brushEnum == BrushEnum.SECONDARY)
+            {
+                p.Fill = brush;
+                return true;
+            }
+            return false;
         }
 
-        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeThickness(double thickness)
         {
-            base.SetSecondaryBrush(s, addHistory);
-            p.Fill = s;
-        }
-
-        override public void SetThickness(double s, bool addHistory = false)
-        {
-            base.SetThickness(s, addHistory);
-            p.StrokeThickness = s;
-            if (vs != null) vs.StrokeThickness = Math.Max(3, s);
+            p.StrokeThickness = thickness;
+            if (vs != null)
+            {
+                vs.StrokeThickness = Math.Max(3, thickness);
+            }
+            return true;
         }
 
         override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
@@ -96,12 +97,8 @@ namespace MyPaint.Shapes
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
             vs.StrokeThickness = Math.Max(3 * File.RevScale.ScaleX, p.StrokeThickness);
-            vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
-            {
-                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
-                hit = true;
-            };
-            
+            vs.MouseDown += CallBack;
+
             DoubleCollection dash = new DoubleCollection();
             dash.Add(4);
             dash.Add(6);
@@ -119,19 +116,7 @@ namespace MyPaint.Shapes
             eL2.Y1 = qbs.Point1.Y;
             eL2.X2 = qbs.Point2.X;
             eL2.Y2 = qbs.Point2.Y;
-
-        }
-
-        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
-        {
-            base.ShowVirtualShape(mouseDown);
-            HideVirtualShape();
-            File.TopCanvas.Children.Add(vs);
-        }
-
-        override public void HideVirtualShape()
-        {
-            File.TopCanvas.Children.Remove(vs);
+            VirtualElement = vs;
         }
 
         override public void SetActive()
@@ -145,7 +130,7 @@ namespace MyPaint.Shapes
             p1.Show();
             p2.Show();
             p3.Show();
-            
+
         }
 
         override public void MoveDrag(Point e)

@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace MyPaint.Shapes
 {
@@ -16,29 +11,24 @@ namespace MyPaint.Shapes
     {
         System.Windows.Shapes.Polygon vs = new System.Windows.Shapes.Polygon();
 
-        public Area(FileControl c, Layer la) : base(c, la)
-        {
- 
-        }
-
-        public Area(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Area(DrawControl c, Layer la) : base(c, la)
         {
 
         }
 
-        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
+        public Area(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
 
         }
 
-        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeBrush(BrushEnum brushEnum, Brush brush)
         {
-
+            return false;
         }
 
-        override public void SetThickness(double s, bool addHistory = false)
+        protected override bool OnChangeThickness(double thickness)
         {
-
+            return false;
         }
 
         override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
@@ -52,13 +42,13 @@ namespace MyPaint.Shapes
             DoubleCollection dash = new DoubleCollection();
             dash.Add(4);
             dash.Add(6);
-            vs.StrokeThickness = File.RevScale.ScaleX*2;
+            vs.StrokeThickness = File.RevScale.ScaleX * 2;
             vs.StrokeDashArray = dash;
             vs.Points = points;
             vs.Stroke = Brushes.Blue;
-            vs.Fill = nullBrush;       
+            vs.Fill = nullBrush;
             File.TopCanvas.Children.Add(vs);
-            
+            VirtualElement = vs;
         }
 
         override public void DrawMouseMove(Point e)
@@ -72,22 +62,8 @@ namespace MyPaint.Shapes
         {
             StopDraw(false);
             vs.Cursor = Cursors.SizeAll;
-            vs.MouseDown += delegate (object sender, MouseButtonEventArgs eee)
-            {
-                virtualShapeCallback(eee.GetPosition(File.Canvas), this);
-                hit = true;
-            };
+            vs.MouseDown += CallBack;
             SetActive();
-        }
-
-        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
-        {
-            base.ShowVirtualShape(mouseDown);
-        }
-
-        override public void HideVirtualShape()
-        {
-            File.TopCanvas.Children.Remove(vs);
         }
 
         override public void SetActive()
@@ -136,7 +112,7 @@ namespace MyPaint.Shapes
 
         override public void ChangeZoom()
         {
-            vs.StrokeThickness = File.RevScale.ScaleX*2;
+            vs.StrokeThickness = File.RevScale.ScaleX * 2;
         }
 
         public BitmapSource CreateBitmap()

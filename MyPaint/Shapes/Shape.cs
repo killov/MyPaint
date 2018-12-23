@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MyPaint.Shapes
 {
@@ -21,88 +15,103 @@ namespace MyPaint.Shapes
         protected double thickness;
         protected bool exist;
         Layer layer;
-        public FileControl File { get; private set; }
+        public DrawControl File { get; private set; }
         protected OnMouseDownDelegate virtualShapeCallback;
         protected Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
         protected Canvas topCanvas;
         bool inLayer = false;
-        
-        UIElement element = null;
 
-        public UIElement Element {
-            get {
-                return element;
+        UIElement _element = null;
+
+        public UIElement Element
+        {
+            get
+            {
+                return _element;
             }
-            protected set {
-                if(element != null)
+            protected set
+            {
+                if (_element != null)
                 {
-                    element = value;
+                    _element = value;
                     ChangeElement();
                 }
                 else
                 {
-                    element = value;
+                    _element = value;
                 }
             }
         }
 
-        public Shape(FileControl c, Layer la)
+        public UIElement VirtualElement
+        {
+            get;
+            protected set;
+        }
+
+        public Shape(DrawControl c, Layer la)
         {
             File = c;
             layer = la;
-            SetPrimaryBrush(File.GetShapePrimaryColor());
-            SetSecondaryBrush(File.GetShapeSecondaryColor());
+            SetBrush(BrushEnum.PRIMARY, File.GetShapePrimaryColor());
+            SetBrush(BrushEnum.SECONDARY, File.GetShapeSecondaryColor());
             SetThickness(File.GetShapeThickness());
             topCanvas = File.TopCanvas;
             exist = false;
         }
 
-        public Shape(FileControl c, Layer la, Deserializer.Shape s)
+        public Shape(DrawControl c, Layer la, Deserializer.Shape s)
         {
             File = c;
             layer = la;
+            SetBrush(BrushEnum.PRIMARY, s.stroke == null ? null : s.stroke.CreateBrush());
+            SetBrush(BrushEnum.SECONDARY, s.fill == null ? null : s.fill.CreateBrush());
             SetThickness(s.lineWidth);
-            SetPrimaryBrush(s.stroke == null ? null : s.stroke.CreateBrush());
-            SetSecondaryBrush(s.fill == null ? null : s.fill.CreateBrush());
             topCanvas = File.TopCanvas;
             exist = true;
         }
 
-        virtual public void SetPrimaryBrush(Brush s, bool addHistory = false)
+        public bool SetBrush(BrushEnum brushEnum, Brush brush)
         {
-            if (addHistory && s != primaryBrush)
+            if (!OnChangeBrush(brushEnum, brush))
             {
-                File.HistoryControl.Add(new History.HistoryPrimaryColor(this, GetPrimaryBrush(), s));
+                return false;
             }
-            primaryBrush = s;
-            PrimaryBrush = Serializer.Brush.Create(s);
-        }
-
-        virtual public void SetSecondaryBrush(Brush s, bool addHistory = false)
-        {
-            if (addHistory && s != secondaryBrush)
+            switch (brushEnum)
             {
-                File.HistoryControl.Add(new History.HistorySecondaryBrush(this, GetSecondaryBrush(), s));
+                case BrushEnum.PRIMARY:
+                    primaryBrush = brush;
+                    PrimaryBrush = Serializer.Brush.Create(brush);
+                    break;
+                case BrushEnum.SECONDARY:
+                    secondaryBrush = brush;
+                    SecondaryBrush = Serializer.Brush.Create(brush);
+                    break;
+                default:
+                    throw new Exception();
             }
-            secondaryBrush = s;
-            SecondaryBrush = Serializer.Brush.Create(s);
+            return true;
         }
 
-        public Brush GetPrimaryBrush()
-        {
-            return primaryBrush;
-        }
+        abstract protected bool OnChangeBrush(BrushEnum brushEnum, Brush brush);
 
-        public Brush GetSecondaryBrush()
+        public Brush GetBrush(BrushEnum brushEnum)
         {
-            return secondaryBrush;
+            switch (brushEnum)
+            {
+                case BrushEnum.PRIMARY:
+                    return primaryBrush;
+                case BrushEnum.SECONDARY:
+                    return secondaryBrush;
+                default:
+                    throw new Exception();
+            }
         }
 
         public void ChangeLayer(Layer newLayer, bool addHistory = false)
         {
             if (inLayer)
             {
-                RemoveFromLayer();
                 int pos = RemoveFromLayer();
                 if (addHistory) File.HistoryControl.Add(new History.HistoryShapeChangeLayer(this, layer, newLayer, pos));
                 layer = newLayer;
@@ -142,14 +151,20 @@ namespace MyPaint.Shapes
             }
         }
 
-        virtual public void SetThickness(double s, bool addHistory = false)
+        public void SetThickness(double s, bool addHistory = false)
         {
+            if (!OnChangeThickness(s))
+            {
+                return;
+            }
             thickness = s;
             if (addHistory)
             {
                 File.HistoryControl.Add(new History.HistoryShapeThickness(this, GetThickness(), s));
             }
         }
+
+        abstract protected bool OnChangeThickness(double thickness);
 
         public double GetThickness()
         {
@@ -172,12 +187,17 @@ namespace MyPaint.Shapes
 
         }
 
-        virtual public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
+        public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
         {
             virtualShapeCallback = mouseDown;
+            HideVirtualShape();
+            File.TopCanvas.Children.Add(VirtualElement);
         }
 
-        abstract public void HideVirtualShape();
+        public void HideVirtualShape()
+        {
+            File.TopCanvas.Children.Remove(VirtualElement);
+        }
 
         public void StartMove(Point e)
         {
@@ -185,22 +205,22 @@ namespace MyPaint.Shapes
         }
 
         virtual public void SetActive()
-        { 
+        {
             ShowVirtualShape((e, s, m) =>
             {
-                if(m) File.StartMoveShape(GetPosition(), e);
+                if (m) File.StartMoveShape(GetPosition(), e);
             });
             File.StartEdit();
         }
 
         virtual public void MoveDrag(Point e)
         {
-            hit = false;
+            SetHit(false);
         }
 
         virtual public void StopDrag()
         {
-            hit = false;
+            SetHit(false);
         }
 
         virtual public void StopEdit()
@@ -210,7 +230,7 @@ namespace MyPaint.Shapes
 
         virtual public void MoveShape(double x, double y)
         {
-            hit = true;
+            SetHit(true);
         }
 
         abstract public Serializer.Shape CreateSerializer();
@@ -232,13 +252,13 @@ namespace MyPaint.Shapes
             return RemoveFromLayer();
         }
 
-        public void Refresh()
+        public void Refresh(int pos = -1)
         {
-            AddToLayer();
-        }
-
-        public void Refresh(int pos)
-        {
+            if (pos == -1)
+            {
+                AddToLayer();
+                return;
+            }
             InsertToLayer(pos);
         }
 
@@ -274,6 +294,12 @@ namespace MyPaint.Shapes
         virtual public void ChangeZoom()
         {
 
+        }
+
+        protected void CallBack(object sender, MouseButtonEventArgs ee)
+        {
+            virtualShapeCallback(ee.GetPosition(File.TopCanvas), this);
+            hit = true;
         }
     }
 }

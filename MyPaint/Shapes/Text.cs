@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MyPaint.Shapes
 {
@@ -20,14 +14,14 @@ namespace MyPaint.Shapes
         FontFamily font;
         double size;
         string text = "";
-        public Text(FileControl c, Layer la) : base(c, la)
+        public Text(DrawControl c, Layer la) : base(c, la)
         {
             Element = p;
             SetFont(File.GetTextFont());
             SetFontSize(File.GetTextFontSize());
         }
 
-        public Text(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Text(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             p.AcceptsTab = false;
             vs.AcceptsTab = false;
@@ -46,23 +40,24 @@ namespace MyPaint.Shapes
             CreateVirtualShape();
         }
 
-        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeBrush(BrushEnum brushEnum, Brush brush)
         {
-            ChangeText();
-            base.SetPrimaryBrush(s, addHistory);
-            p.Foreground = s;
+            if (brushEnum == BrushEnum.PRIMARY)
+            {
+                p.Foreground = brush;
+                return true;
+            }
+            if (brushEnum == BrushEnum.SECONDARY)
+            {
+                p.Background = brush;
+                return true;
+            }
+            return false;
         }
 
-        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeThickness(double thickness)
         {
-            ChangeText();
-            base.SetSecondaryBrush(s, addHistory);
-            p.Background = s;
-        }
-
-        override public void SetThickness(double s, bool addHistory = false)
-        {
-
+            return false;
         }
 
         void moveS(TextBox p, double x, double y)
@@ -126,7 +121,7 @@ namespace MyPaint.Shapes
             p.BorderThickness = new Thickness(1);
             p.Foreground = File.GetShapePrimaryColor();
             p.Background = File.GetShapeSecondaryColor();
-            
+
             AddToLayer();
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
@@ -156,7 +151,7 @@ namespace MyPaint.Shapes
             vs.AcceptsTab = true;
 
             vs.BorderThickness = new Thickness(0);
-            
+
             p.BorderThickness = new Thickness(0);
             moveS(vs, sx, sy);
             moveE(vs, ex, ey);
@@ -168,7 +163,7 @@ namespace MyPaint.Shapes
                     hit = true;
                 }
             };
-           
+
             vs.TextChanged += (sender, ee) =>
             {
                 p.Text = vs.Text;
@@ -179,25 +174,14 @@ namespace MyPaint.Shapes
             {
                 vs.ScrollToVerticalOffset(0);
             };
-        }
-
-        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
-        {
-            base.ShowVirtualShape(mouseDown);
-            HideVirtualShape();
-            File.TopCanvas.Children.Add(vs);
-        }
-
-        override public void HideVirtualShape()
-        {
-            File.TopCanvas.Children.Remove(vs);
+            VirtualElement = vs;
         }
 
         override public void SetActive()
         {
             base.SetActive();
-            File.SetPrimaryColor(GetPrimaryBrush());
-            File.SetSecondaryColor(GetSecondaryBrush());
+            File.SetPrimaryColor(GetBrush(BrushEnum.PRIMARY));
+            File.SetSecondaryColor(GetBrush(BrushEnum.SECONDARY));
             File.SetFont(GetFont());
             File.SetFontSize(GetFontSize());
             File.ShowWindowFontPanel(true);
@@ -225,7 +209,8 @@ namespace MyPaint.Shapes
             eR.StopEdit();
         }
 
-        void ChangeText() {
+        void ChangeText()
+        {
             if (text != vs.Text)
             {
                 SetText(vs.Text, true);
@@ -305,8 +290,8 @@ namespace MyPaint.Shapes
             p.FontFamily = font;
             p.FontSize = size;
             canvas.Children.Add(p);
-            Canvas.SetLeft(p, Math.Min(sx,ex));
-            Canvas.SetTop(p, Math.Min(sy,ey));
+            Canvas.SetLeft(p, Math.Min(sx, ex));
+            Canvas.SetTop(p, Math.Min(sy, ey));
         }
 
         override public void ChangeZoom()
@@ -347,7 +332,7 @@ namespace MyPaint.Shapes
                 font = f;
                 p.FontFamily = f;
                 vs.FontFamily = f;
-            }  
+            }
         }
 
         public double GetFontSize()

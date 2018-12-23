@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Markup;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Text.RegularExpressions;
 
 
 namespace MyPaint.FileOpener
@@ -29,17 +17,17 @@ namespace MyPaint.FileOpener
             switch (suffix)
             {
                 case ".html":
-                new HTML().Open(c, f);
-                break;
+                    new HTML().Open(c, f);
+                    break;
                 case ".jpg":
-                new JPEG().Open(c, f);
-                break;
+                    new JPEG().Open(c, f);
+                    break;
                 case ".bmp":
-                new BMP().Open(c, f);
-                break;
+                    new BMP().Open(c, f);
+                    break;
                 case ".png":
-                new PNG().Open(c, f);
-                break;
+                    new PNG().Open(c, f);
+                    break;
             }
             f.HistoryControl.Enable();
         }
@@ -48,18 +36,13 @@ namespace MyPaint.FileOpener
         {
             control = c;
             this.dc = dc;
-            try
-            {
-                Thread_open();
-                dc.Control.SetFileActive(dc);
-                c.AdjustZoom(dc.Resolution.X, dc.Resolution.Y);
-            }
-            catch
-            {
-                MessageBox.Show("Nepodařilo se otevřít soubor");
-                control.FileClose(dc);
-            }
-            
+
+            Thread_open();
+            dc.Control.SetFileActive(dc);
+            c.AdjustZoom(dc.Resolution.X, dc.Resolution.Y);
+
+
+
         }
 
 

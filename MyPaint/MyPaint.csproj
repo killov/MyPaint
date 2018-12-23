@@ -119,6 +119,7 @@
     <Compile Include="Dialog.xaml.cs">
       <DependentUpon>Dialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DrawControl.cs" />
     <Compile Include="Enums\BrushEnum.cs" />
     <Compile Include="Enums\ToolEnum.cs" />
     <Compile Include="FileControl.cs" />
@@ -146,11 +147,10 @@
     <Compile Include="history\HistoryShapeTextFont .cs" />
     <Compile Include="history\HistoryShapeText.cs" />
     <Compile Include="history\HistoryShapeThickness.cs" />
-    <Compile Include="history\HistorySecondaryBrush.cs" />
     <Compile Include="history\HistoryResolution.cs" />
     <Compile Include="history\HistoryLayerPosition.cs" />
     <Compile Include="history\HistoryLayerAdd.cs" />
-    <Compile Include="history\HistoryPrimaryColor.cs" />
+    <Compile Include="history\HistoryShapeBrush.cs" />
     <Compile Include="history\HistoryShapeDelete.cs" />
     <Compile Include="history\HistoryShapeMove.cs" />
     <Compile Include="history\HistoryShape.cs" />

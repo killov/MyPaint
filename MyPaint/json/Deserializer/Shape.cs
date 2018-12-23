@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyPaint.Deserializer
+﻿namespace MyPaint.Deserializer
 {
     public class Shape
     {
@@ -17,7 +11,7 @@ namespace MyPaint.Deserializer
         public int w, h;
         public string font;
 
-        public Shapes.Shape Create(FileControl c, MyPaint.Layer la)
+        public Shapes.Shape Create(DrawControl c, MyPaint.Layer la)
         {
             switch (type)
             {

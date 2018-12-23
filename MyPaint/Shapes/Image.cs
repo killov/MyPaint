@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MyPaint.Shapes
 {
@@ -18,10 +13,10 @@ namespace MyPaint.Shapes
         System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs = new System.Windows.Shapes.Polygon();
         EditRect eR;
         BitmapSource image;
-        public Image(FileControl c, Layer la, BitmapSource bmi, Point start, double w, double h) : base(c, la)
+        public Image(DrawControl c, Layer la, BitmapSource bmi, Point start, double w, double h) : base(c, la)
         {
             Element = p;
-            p.Points.Add(new Point(start.X, start.Y)); 
+            p.Points.Add(new Point(start.X, start.Y));
             p.Points.Add(new Point(start.X + w, start.Y));
             p.Points.Add(new Point(start.X + w, start.Y + h));
             p.Points.Add(new Point(start.X, start.Y + h));
@@ -34,7 +29,7 @@ namespace MyPaint.Shapes
             exist = true;
         }
 
-        public Image(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Image(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             Element = p;
             byte[] imageBytes = Convert.FromBase64String(s.b64);
@@ -45,7 +40,7 @@ namespace MyPaint.Shapes
             bmi.EndInit();
             ImageBrush brush = new ImageBrush(bmi);
             image = bmi;
-           
+
             p.Points.Add(new Point(s.A.x, s.A.y));
             p.Points.Add(new Point(s.A.x + s.w, s.A.y));
             p.Points.Add(new Point(s.A.x + s.w, s.A.y + s.h));
@@ -56,19 +51,14 @@ namespace MyPaint.Shapes
             CreatePoints();
         }
 
-        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeBrush(BrushEnum brushEnum, Brush brush)
         {
-
+            return false;
         }
 
-        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeThickness(double thickness)
         {
-
-        }
-
-        override public void SetThickness(double s, bool addHistory = false)
-        {
-
+            return false;
         }
 
         override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
@@ -93,24 +83,8 @@ namespace MyPaint.Shapes
             vs.Fill = nullBrush;
             vs.StrokeThickness = p.StrokeThickness;
             vs.Cursor = Cursors.SizeAll;
-            vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
-            {
-                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
-                hit = true;
-            };
-            
-        }
-
-        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
-        {
-            base.ShowVirtualShape(mouseDown);
-            HideVirtualShape();
-            topCanvas.Children.Add(vs);
-        }
-
-        override public void HideVirtualShape()
-        {
-            topCanvas.Children.Remove(vs);
+            vs.MouseDown += CallBack;
+            VirtualElement = vs;
         }
 
         override public void SetActive()
@@ -194,7 +168,7 @@ namespace MyPaint.Shapes
                 p.Points[3] = new Point(po.X, p.Points[3].Y);
             }, (po) =>
             {
-                p.Points[1] = po;    
+                p.Points[1] = po;
                 p.Points[0] = new Point(p.Points[0].X, po.Y);
                 p.Points[2] = new Point(po.X, p.Points[2].Y);
             }, (po) =>

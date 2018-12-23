@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
 
 namespace MyPaint.Shapes
 {
@@ -22,13 +17,13 @@ namespace MyPaint.Shapes
         Path path = new Path();
         PathFigure pf;
         LineSegment ls;
-        public Polygon(FileControl c, Layer la) : base(c, la)
+        public Polygon(DrawControl c, Layer la) : base(c, la)
         {
             MultiDraw = true;
             Element = p;
         }
 
-        public Polygon(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Polygon(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             Element = p;
             SetThickness(s.lineWidth);
@@ -45,25 +40,37 @@ namespace MyPaint.Shapes
             CreateVirtualShape();
         }
 
-        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeBrush(BrushEnum brushEnum, Brush brush)
         {
-            base.SetPrimaryBrush(s, addHistory);
-            p.Stroke = s;
-            if (path != null) path.Stroke = s;
+            if (brushEnum == BrushEnum.PRIMARY)
+            {
+                p.Stroke = brush;
+                if (path != null)
+                {
+                    path.Stroke = brush;
+                }
+                return true;
+            }
+            if (brushEnum == BrushEnum.SECONDARY)
+            {
+                p.Fill = brush;
+                if (path != null)
+                {
+                    path.Fill = brush;
+                }
+                return true;
+            }
+            return false;
         }
 
-        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeThickness(double thickness)
         {
-            base.SetSecondaryBrush(s, addHistory);
-            p.Fill = s;
-            if (path != null) path.Fill = s;
-        }
-
-        override public void SetThickness(double s, bool addHistory = false)
-        {
-            base.SetThickness(s, addHistory);
-            p.StrokeThickness = s;
-            if(vs != null) vs.StrokeThickness = s;
+            p.StrokeThickness = thickness;
+            if (vs != null)
+            {
+                vs.StrokeThickness = thickness;
+            }
+            return true;
         }
 
         override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
@@ -98,7 +105,7 @@ namespace MyPaint.Shapes
             pf.Segments.Add(ls);
 
             points.Add(e);
-            
+
             if (ee.ChangedButton == MouseButton.Right)
             {
                 if (start)
@@ -109,7 +116,7 @@ namespace MyPaint.Shapes
                         ppoints.Add(p);
                     }
                     Element = p;
- 
+
 
                     p.Points = ppoints;
 
@@ -128,23 +135,8 @@ namespace MyPaint.Shapes
             vs.Fill = nullBrush;
             vs.StrokeThickness = p.StrokeThickness;
             vs.Cursor = Cursors.SizeAll;
-            vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
-            {
-                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
-                hit = true;
-            };
-        }
-
-        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
-        {
-            base.ShowVirtualShape(mouseDown);
-            HideVirtualShape();
-            File.TopCanvas.Children.Add(vs);
-        }
-
-        override public void HideVirtualShape()
-        {
-            File.TopCanvas.Children.Remove(vs);
+            vs.MouseDown += CallBack;
+            VirtualElement = vs;
         }
 
         override public void SetActive()
@@ -193,7 +185,7 @@ namespace MyPaint.Shapes
             {
                 Point po = new Point(p.Points[i].X - p.Points[0].X + x, p.Points[i].Y - p.Points[0].Y + y);
                 p.Points[i] = po;
-                movepoints[i].Move(po.X,po.Y);
+                movepoints[i].Move(po.X, po.Y);
             }
             p.Points[0] = new Point(x, y);
             movepoints[0].Move(x, y);

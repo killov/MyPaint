@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
 namespace MyPaint.FileOpener
@@ -29,9 +24,9 @@ namespace MyPaint.FileOpener
                 dc.DeleteLayers();
                 foreach (var l in pic.layers)
                 {
-                    dc.layers.Add(new Layer(dc.Canvas, dc, l));
+                    dc.layers.Add(new Layer(dc.Canvas, dc, dc.DrawControl, l));
                 }
-                dc.SetActiveLayer(dc.layers.Count - 1);
+                dc.DrawControl.SetActiveLayer(dc.layers.Count - 1);
             }
         }
 

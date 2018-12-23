@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
 
 namespace MyPaint.Shapes
 {
     public class PolyLine : Shape
     {
-        
+
         List<MovePoint> movepoints = new List<MovePoint>();
         bool start = false;
 
@@ -23,18 +19,18 @@ namespace MyPaint.Shapes
         LineSegment ls;
         bool fclick;
 
-        public PolyLine(FileControl c, Layer la) : base(c, la)
+        public PolyLine(DrawControl c, Layer la) : base(c, la)
         {
             MultiDraw = true;
             Element = path;
         }
 
-        public PolyLine(FileControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public PolyLine(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
         {
             Element = path;
             PathGeometry p = new PathGeometry();
-           
-            
+
+
             bool f = true;
             foreach (var point in s.points)
             {
@@ -53,23 +49,29 @@ namespace MyPaint.Shapes
             CreateVirtualShape();
         }
 
-        override public void SetPrimaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeBrush(BrushEnum brushEnum, Brush brush)
         {
-            base.SetPrimaryBrush(s, addHistory);
-            path.Stroke = s;
+            if (brushEnum == BrushEnum.PRIMARY)
+            {
+                path.Stroke = brush;
+                return true;
+            }
+            if (brushEnum == BrushEnum.SECONDARY)
+            {
+                path.Fill = brush;
+                return true;
+            }
+            return false;
         }
 
-        override public void SetSecondaryBrush(Brush s, bool addHistory = false)
+        protected override bool OnChangeThickness(double thickness)
         {
-            base.SetSecondaryBrush(s, addHistory);
-            path.Fill = s;
-        }
-
-        override public void SetThickness(double s, bool addHistory = false)
-        {
-            base.SetThickness(s, addHistory);
-            path.StrokeThickness = s;
-            if(vs != null) vs.StrokeThickness = s;
+            path.StrokeThickness = thickness;
+            if (vs != null)
+            {
+                vs.StrokeThickness = Math.Max(3, thickness);
+            }
+            return true;
         }
 
         override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
@@ -106,9 +108,9 @@ namespace MyPaint.Shapes
                 start = true;
                 return;
             }
-            
-            
-            
+
+
+
             if (ee.ChangedButton == MouseButton.Right)
             {
                 if (start)
@@ -132,7 +134,7 @@ namespace MyPaint.Shapes
                 pf.Segments.Add(ls);
             }
 
-            
+
         }
 
         void CreateVirtualShape()
@@ -143,24 +145,8 @@ namespace MyPaint.Shapes
             vs.Fill = nullBrush;
             vs.StrokeThickness = path.StrokeThickness;
             vs.Cursor = Cursors.SizeAll;
-            vs.MouseDown += delegate (object sender, MouseButtonEventArgs ee)
-            {
-                virtualShapeCallback(ee.GetPosition(File.Canvas), this);
-                hit = true;
-            };
-
-        }
-
-        override public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
-        {
-            base.ShowVirtualShape(mouseDown);
-            HideVirtualShape();
-            File.TopCanvas.Children.Add(vs);
-        }
-
-        override public void HideVirtualShape()
-        {
-            File.TopCanvas.Children.Remove(vs);
+            vs.MouseDown += CallBack;
+            VirtualElement = vs;
         }
 
         override public void SetActive()
@@ -209,9 +195,9 @@ namespace MyPaint.Shapes
             {
                 LineSegment ls = ((LineSegment)pf.Segments[i]);
                 Point po = new Point(ls.Point.X - pf.StartPoint.X + x, ls.Point.Y - pf.StartPoint.Y + y);
-                
+
                 ls.Point = po;
-                movepoints[i+1].Move(po.X,po.Y);
+                movepoints[i + 1].Move(po.X, po.Y);
             }
             pf.StartPoint = new Point(x, y);
             movepoints[0].Move(x, y);
@@ -268,7 +254,7 @@ namespace MyPaint.Shapes
             PathFigure pf = new PathFigure();
             pg.Figures.Add(pf);
             pf.StartPoint = movepoints[0].GetPosition();
-            for(int i = 1; i < movepoints.Count; i++)
+            for (int i = 1; i < movepoints.Count; i++)
             {
                 pf.Segments.Add(new LineSegment(movepoints[i].GetPosition(), true));
             }
