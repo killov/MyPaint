@@ -21,11 +21,21 @@ namespace MyPaint.Shapes
 
         public PolyLine(DrawControl c, Layer la) : base(c, la)
         {
+
+        }
+
+        public PolyLine(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        {
+
+        }
+
+        protected override void OnDrawInit()
+        {
             MultiDraw = true;
             Element = path;
         }
 
-        public PolyLine(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        protected override void OnCreateInit(Deserializer.Shape s)
         {
             Element = path;
             PathGeometry p = new PathGeometry();
@@ -77,8 +87,8 @@ namespace MyPaint.Shapes
         override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             StartDraw();
-            path.Stroke = File.GetShapePrimaryColor();
-            path.StrokeThickness = File.GetShapeThickness();
+            path.Stroke = DrawControl.GetShapePrimaryColor();
+            path.StrokeThickness = DrawControl.GetShapeThickness();
             path.ToolTip = null;
             PathGeometry p = new PathGeometry();
             pf = new PathFigure();
@@ -152,9 +162,9 @@ namespace MyPaint.Shapes
         override public void SetActive()
         {
             base.SetActive();
-            File.SetPrimaryColor(path.Stroke);
-            File.SetSecondaryColor(path.Fill);
-            File.SetThickness(path.StrokeThickness);
+            DrawControl.SetPrimaryColor(path.Stroke);
+            DrawControl.SetSecondaryColor(path.Fill);
+            DrawControl.SetThickness(path.StrokeThickness);
             foreach (MovePoint p in movepoints)
             {
                 p.Show();
@@ -225,7 +235,7 @@ namespace MyPaint.Shapes
         void CreatePoints()
         {
             movepoints = new List<MovePoint>();
-            MovePoint mp = new MovePoint(File.TopCanvas, this, pf.StartPoint, File.RevScale, (Point po) =>
+            MovePoint mp = new MovePoint(DrawControl.TopCanvas, this, pf.StartPoint, DrawControl.RevScale, (Point po) =>
             {
                 pf.StartPoint = po;
             });
@@ -239,7 +249,7 @@ namespace MyPaint.Shapes
         void cp(int i)
         {
             LineSegment ls = (LineSegment)pf.Segments[i];
-            MovePoint mp = new MovePoint(File.TopCanvas, this, ls.Point, File.RevScale, (Point po) =>
+            MovePoint mp = new MovePoint(DrawControl.TopCanvas, this, ls.Point, DrawControl.RevScale, (Point po) =>
             {
                 ls.Point = po;
             });

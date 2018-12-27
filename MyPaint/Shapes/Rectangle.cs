@@ -12,10 +12,20 @@ namespace MyPaint.Shapes
         EditRect eR;
         public Rectangle(DrawControl c, Layer la) : base(c, la)
         {
-            Element = p;
+
         }
 
         public Rectangle(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        {
+
+        }
+
+        protected override void OnDrawInit()
+        {
+            Element = p;
+        }
+
+        protected override void OnCreateInit(Deserializer.Shape s)
         {
             Element = p;
             CreateVirtualShape();
@@ -92,9 +102,9 @@ namespace MyPaint.Shapes
         override public void SetActive()
         {
             base.SetActive();
-            File.SetPrimaryColor(p.Stroke);
-            File.SetSecondaryColor(p.Fill);
-            File.SetThickness(p.StrokeThickness);
+            DrawControl.SetPrimaryColor(p.Stroke);
+            DrawControl.SetSecondaryColor(p.Fill);
+            DrawControl.SetThickness(p.StrokeThickness);
             eR.SetActive();
         }
 
@@ -144,7 +154,7 @@ namespace MyPaint.Shapes
 
         void CreatePoints()
         {
-            eR = new EditRect(File.TopCanvas, this, p.Points[0], p.Points[2], File.RevScale,
+            eR = new EditRect(DrawControl.TopCanvas, this, p.Points[0], p.Points[2], DrawControl.RevScale,
             (po) =>
             {
                 p.Points[0] = po;

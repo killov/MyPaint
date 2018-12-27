@@ -172,7 +172,7 @@
                                     <ColumnDefinition Width="18" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Name}" Grid.Column="1"/>
-                                <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Width="20" IsChecked="{Binding visible, Mode=TwoWay}"/>
+                                <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Width="20" IsChecked="{Binding Visible, Mode=TwoWay}"/>
                                 <Button Grid.Column="2" Click="Button_layer_rename" Style="{StaticResource MyButton}">
                                     <Viewbox Width="16" Height="14">
                                         <Canvas Width="24" Height="24">

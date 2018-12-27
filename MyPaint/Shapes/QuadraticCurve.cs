@@ -17,10 +17,20 @@ namespace MyPaint.Shapes
 
         public QuadraticCurve(DrawControl c, Layer la) : base(c, la)
         {
-            Element = p;
+
         }
 
         public QuadraticCurve(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        {
+
+        }
+
+        protected override void OnDrawInit()
+        {
+            Element = p;
+        }
+
+        protected override void OnCreateInit(Deserializer.Shape s)
         {
             Element = p;
             PathGeometry pg = new PathGeometry();
@@ -96,7 +106,7 @@ namespace MyPaint.Shapes
             vs.Cursor = Cursors.SizeAll;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
-            vs.StrokeThickness = Math.Max(3 * File.RevScale.ScaleX, p.StrokeThickness);
+            vs.StrokeThickness = Math.Max(3 * DrawControl.RevScale.ScaleX, p.StrokeThickness);
             vs.MouseDown += CallBack;
 
             DoubleCollection dash = new DoubleCollection();
@@ -122,11 +132,11 @@ namespace MyPaint.Shapes
         override public void SetActive()
         {
             base.SetActive();
-            File.SetPrimaryColor(primaryBrush);
-            File.SetSecondaryColor(secondaryBrush);
-            File.SetThickness(thickness);
-            File.TopCanvas.Children.Add(eL1);
-            File.TopCanvas.Children.Add(eL2);
+            DrawControl.SetPrimaryColor(primaryBrush);
+            DrawControl.SetSecondaryColor(secondaryBrush);
+            DrawControl.SetThickness(thickness);
+            DrawControl.TopCanvas.Children.Add(eL1);
+            DrawControl.TopCanvas.Children.Add(eL2);
             p1.Show();
             p2.Show();
             p3.Show();
@@ -155,8 +165,8 @@ namespace MyPaint.Shapes
             p1.Hide();
             p2.Hide();
             p3.Hide();
-            File.TopCanvas.Children.Remove(eL1);
-            File.TopCanvas.Children.Remove(eL2);
+            DrawControl.TopCanvas.Children.Remove(eL1);
+            DrawControl.TopCanvas.Children.Remove(eL2);
         }
 
         override public void MoveShape(double x, double y)
@@ -194,21 +204,21 @@ namespace MyPaint.Shapes
 
         void CreatePoints()
         {
-            p1 = new MovePoint(File.TopCanvas, this, pf.StartPoint, File.RevScale, (e) =>
+            p1 = new MovePoint(DrawControl.TopCanvas, this, pf.StartPoint, DrawControl.RevScale, (e) =>
             {
                 pf.StartPoint = e;
                 eL1.X1 = e.X;
                 eL1.Y1 = e.Y;
             });
 
-            p2 = new MovePoint(File.TopCanvas, this, qbs.Point1, File.RevScale, (e) =>
+            p2 = new MovePoint(DrawControl.TopCanvas, this, qbs.Point1, DrawControl.RevScale, (e) =>
             {
                 qbs.Point1 = e;
                 eL1.X2 = eL2.X1 = e.X;
                 eL1.Y2 = eL2.Y1 = e.Y;
             });
 
-            p3 = new MovePoint(File.TopCanvas, this, qbs.Point2, File.RevScale, (e) =>
+            p3 = new MovePoint(DrawControl.TopCanvas, this, qbs.Point2, DrawControl.RevScale, (e) =>
             {
                 qbs.Point2 = e;
                 eL2.X2 = e.X;
@@ -236,7 +246,7 @@ namespace MyPaint.Shapes
 
         public override void ChangeZoom()
         {
-            vs.StrokeThickness = Math.Max(3 * File.RevScale.ScaleX, p.StrokeThickness);
+            vs.StrokeThickness = Math.Max(3 * DrawControl.RevScale.ScaleX, p.StrokeThickness);
         }
     }
 }

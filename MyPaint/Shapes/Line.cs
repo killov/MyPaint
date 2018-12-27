@@ -12,10 +12,20 @@ namespace MyPaint.Shapes
         MovePoint p1, p2;
         public Line(DrawControl c, Layer la) : base(c, la)
         {
-            Element = p;
+
         }
 
         public Line(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        {
+
+        }
+
+        protected override void OnDrawInit()
+        {
+            Element = p;
+        }
+
+        protected override void OnCreateInit(Deserializer.Shape s)
         {
             Element = p;
             p.X1 = s.A.x;
@@ -79,7 +89,7 @@ namespace MyPaint.Shapes
             vs.Y2 = p.Y2;
             vs.Cursor = Cursors.SizeAll;
             vs.Stroke = nullBrush;
-            vs.StrokeThickness = Math.Max(3 * File.RevScale.ScaleX, p.StrokeThickness);
+            vs.StrokeThickness = Math.Max(3 * DrawControl.RevScale.ScaleX, p.StrokeThickness);
             vs.MouseDown += CallBack;
             VirtualElement = vs;
         }
@@ -87,8 +97,8 @@ namespace MyPaint.Shapes
         override public void SetActive()
         {
             base.SetActive();
-            File.SetPrimaryColor(p.Stroke);
-            File.SetThickness(p.StrokeThickness);
+            DrawControl.SetPrimaryColor(p.Stroke);
+            DrawControl.SetThickness(p.StrokeThickness);
             p1.Show();
             p2.Show();
         }
@@ -143,13 +153,13 @@ namespace MyPaint.Shapes
 
         void CreatePoints()
         {
-            p1 = new MovePoint(File.TopCanvas, this, new Point(p.X1, p.Y1), File.RevScale, (e) =>
+            p1 = new MovePoint(DrawControl.TopCanvas, this, new Point(p.X1, p.Y1), DrawControl.RevScale, (e) =>
             {
                 vs.X1 = p.X1 = e.X;
                 vs.Y1 = p.Y1 = e.Y;
             });
 
-            p2 = new MovePoint(File.TopCanvas, this, new Point(p.X2, p.Y2), File.RevScale, (e) =>
+            p2 = new MovePoint(DrawControl.TopCanvas, this, new Point(p.X2, p.Y2), DrawControl.RevScale, (e) =>
             {
                 vs.X2 = p.X2 = e.X;
                 vs.Y2 = p.Y2 = e.Y;
@@ -173,7 +183,7 @@ namespace MyPaint.Shapes
 
         public override void ChangeZoom()
         {
-            vs.StrokeThickness = Math.Max(3 * File.RevScale.ScaleX, p.StrokeThickness);
+            vs.StrokeThickness = Math.Max(3 * DrawControl.RevScale.ScaleX, p.StrokeThickness);
         }
     }
 }

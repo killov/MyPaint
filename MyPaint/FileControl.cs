@@ -18,14 +18,9 @@ namespace MyPaint
         public Canvas Canvas { get; private set; }
         public Canvas TopCanvas { get; private set; }
         public DrawControl DrawControl { get; private set; }
-        Point posunStart = new Point();
-        Point posunStartMys = new Point();
         public Point Resolution { get; private set; }
-        Point startDraw;
-        ToolEnum activeTool;
         public ObservableCollection<Layer> layers = new ObservableCollection<Layer>();
-        public ScaleTransform RevScale { get; private set; }
-        private DrawEnum state = DrawEnum.DRAW;
+
         public double Zoom
         {
             set
@@ -42,23 +37,22 @@ namespace MyPaint
 
         private int layerCounter = 1;
 
-        public FileControl(MainControl c, ScaleTransform revScale, TabItem ti, Canvas tC)
+        public FileControl(MainControl c, ScaleTransform revScale, TabItem ti, Canvas topCanvas)
         {
             Control = c;
             Canvas = new Canvas();
-            TopCanvas = tC;
+            TopCanvas = topCanvas;
             HistoryControl = new HistoryControl(c);
 
-            RevScale = revScale;
             TabItem = ti;
-            DrawControl = new DrawControl(c, revScale, tC, this, HistoryControl);
+            DrawControl = new DrawControl(c, revScale, topCanvas, this, HistoryControl);
             ResetLayers();
             HistoryControl.Clear();
         }
 
         public void AddLayer()
         {
-            Layer layer = new Layer(Canvas, this, DrawControl) { Name = "layer_" + layerCounter, visible = true };
+            Layer layer = new Layer(this) { Name = "layer_" + layerCounter, Visible = true };
             layers.Add(layer);
             layerCounter++;
             HistoryControl.Add(new HistoryLayerAdd(layer));
@@ -117,78 +111,6 @@ namespace MyPaint
             }
             Canvas.Width = TopCanvas.Width = res.X;
             Canvas.Height = TopCanvas.Height = res.Y;
-        }
-
-        public Brush GetShapePrimaryColor()
-        {
-            return Control.GetPrimaryBrush();
-        }
-
-        public Brush GetShapeSecondaryColor()
-        {
-            return Control.GetSecondaryBrush();
-        }
-
-        public double GetShapeThickness()
-        {
-            return Control.GetThickness();
-        }
-
-        public FontFamily GetTextFont()
-        {
-            return Control.GetTextFont();
-        }
-
-        public double GetTextFontSize()
-        {
-            return Control.GetTextFontSize();
-        }
-
-        public void ShowWindowFontPanel(bool t)
-        {
-            Control.ShowWindowFontPanel(t);
-        }
-
-        public void StartMoveShape(Point start, Point mys)
-        {
-            posunStart = start;
-            posunStartMys = mys;
-            state = DrawEnum.MOVING;
-        }
-
-        public void StartDraw()
-        {
-            state = DrawEnum.DRAWING;
-        }
-
-        public void StartEdit()
-        {
-            state = DrawEnum.EDIT;
-        }
-
-        public void SetPrimaryColor(Brush c)
-        {
-            Control.SetWindowPrimaryBrush(c);
-        }
-
-        public void SetSecondaryColor(Brush c)
-        {
-            Control.SetWindowSecondaryBrush(c);
-        }
-
-        public void SetThickness(double t)
-        {
-            Control.SetWindowThickness(t);
-        }
-
-        public void SetFont(FontFamily f)
-        {
-            Control.SetWindowTextFont(f);
-        }
-
-        public void SetFontSize(double s)
-        {
-            Control.SetWindowTextSize(s);
         }
 
         public void SetPath(string p)

@@ -19,11 +19,21 @@ namespace MyPaint.Shapes
         LineSegment ls;
         public Polygon(DrawControl c, Layer la) : base(c, la)
         {
+
+        }
+
+        public Polygon(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        {
+
+        }
+
+        protected override void OnDrawInit()
+        {
             MultiDraw = true;
             Element = p;
         }
 
-        public Polygon(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        protected override void OnCreateInit(Deserializer.Shape s)
         {
             Element = p;
             SetThickness(s.lineWidth);
@@ -142,9 +152,9 @@ namespace MyPaint.Shapes
         override public void SetActive()
         {
             base.SetActive();
-            File.SetPrimaryColor(p.Stroke);
-            File.SetSecondaryColor(p.Fill);
-            File.SetThickness(p.StrokeThickness);
+            DrawControl.SetPrimaryColor(p.Stroke);
+            DrawControl.SetSecondaryColor(p.Fill);
+            DrawControl.SetThickness(p.StrokeThickness);
             foreach (MovePoint p in movepoints)
             {
                 p.Show();
@@ -221,7 +231,7 @@ namespace MyPaint.Shapes
 
         void cp(int i)
         {
-            MovePoint mp = new MovePoint(File.TopCanvas, this, p.Points[i], File.RevScale, (Point po) =>
+            MovePoint mp = new MovePoint(DrawControl.TopCanvas, this, p.Points[i], DrawControl.RevScale, (Point po) =>
             {
                 p.Points[i] = po;
             });

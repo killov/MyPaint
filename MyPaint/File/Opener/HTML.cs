@@ -24,7 +24,7 @@ namespace MyPaint.FileOpener
                 dc.DeleteLayers();
                 foreach (var l in pic.layers)
                 {
-                    dc.layers.Add(new Layer(dc.Canvas, dc, dc.DrawControl, l));
+                    dc.layers.Add(new Layer(dc, l));
                 }
                 dc.DrawControl.SetActiveLayer(dc.layers.Count - 1);
             }

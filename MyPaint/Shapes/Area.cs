@@ -21,6 +21,16 @@ namespace MyPaint.Shapes
 
         }
 
+        protected override void OnDrawInit()
+        {
+
+        }
+
+        protected override void OnCreateInit(Deserializer.Shape s)
+        {
+
+        }
+
         protected override bool OnChangeBrush(BrushEnum brushEnum, Brush brush)
         {
             return false;
@@ -42,12 +52,12 @@ namespace MyPaint.Shapes
             DoubleCollection dash = new DoubleCollection();
             dash.Add(4);
             dash.Add(6);
-            vs.StrokeThickness = File.RevScale.ScaleX * 2;
+            vs.StrokeThickness = DrawControl.RevScale.ScaleX * 2;
             vs.StrokeDashArray = dash;
             vs.Points = points;
             vs.Stroke = Brushes.Blue;
             vs.Fill = nullBrush;
-            File.TopCanvas.Children.Add(vs);
+            DrawControl.TopCanvas.Children.Add(vs);
             VirtualElement = vs;
         }
 
@@ -112,12 +122,12 @@ namespace MyPaint.Shapes
 
         override public void ChangeZoom()
         {
-            vs.StrokeThickness = File.RevScale.ScaleX * 2;
+            vs.StrokeThickness = DrawControl.RevScale.ScaleX * 2;
         }
 
         public BitmapSource CreateBitmap()
         {
-            return File.CreateBitmap(Math.Min(vs.Points[0].X, vs.Points[2].X), Math.Min(vs.Points[0].Y, vs.Points[2].Y), Math.Abs(vs.Points[0].X - vs.Points[2].X), Math.Abs(vs.Points[0].Y - vs.Points[2].Y));
+            return DrawControl.CreateBitmap(Math.Min(vs.Points[0].X, vs.Points[2].X), Math.Min(vs.Points[0].Y, vs.Points[2].Y), Math.Abs(vs.Points[0].X - vs.Points[2].X), Math.Abs(vs.Points[0].Y - vs.Points[2].Y));
         }
     }
 }

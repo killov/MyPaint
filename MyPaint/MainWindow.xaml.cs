@@ -1,21 +1,10 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Reflection;
-using ColorBox;
-using System.Diagnostics;
 
 
 namespace MyPaint
@@ -80,8 +69,8 @@ namespace MyPaint
                 setColor(br);
             };
             colors.Children.Add(rect);
-            Canvas.SetLeft(rect, x * 19+2);
-            Canvas.SetTop(rect, y * 19+2);
+            Canvas.SetLeft(rect, x * 19 + 2);
+            Canvas.SetTop(rect, y * 19 + 2);
             rect.MouseMove += delegate (object sender, MouseEventArgs e)
             {
                 rect.Stroke = Brushes.Orange;
@@ -116,7 +105,7 @@ namespace MyPaint
         {
             control.Closed(e);
         }
-        
+
         private void mouseDown(object sender, MouseButtonEventArgs e)
         {
             control.MouseDown(e);
@@ -184,7 +173,7 @@ namespace MyPaint
 
         private void primaryColor_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            SetActiveColor(BrushEnum.PRIMARY); 
+            SetActiveColor(BrushEnum.PRIMARY);
         }
 
         private void secondaryColor_MouseDown(object sender, MouseButtonEventArgs e)
@@ -199,12 +188,12 @@ namespace MyPaint
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            control.KeyDown(sender, e);    
+            control.KeyDown(sender, e);
         }
 
         private void thickness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if(control != null) control.SetThickness(e.NewValue);
+            if (control != null) control.SetThickness(e.NewValue);
         }
 
         public void SetActiveColor(BrushEnum color)
@@ -229,7 +218,7 @@ namespace MyPaint
 
         private void CB_ColorChanged(object sender, ColorBox.ColorChangedEventArgs e)
         {
-            if(CBLock != null && CBLock.Equals(CB.Brush))
+            if (CBLock != null && CBLock.Equals(CB.Brush))
             {
                 return;
             }
@@ -239,14 +228,14 @@ namespace MyPaint
                 brush.Changed += Brush_Changed;
             }
             brush = Serializer.Brush.Create(brush).CreateBrush();
-            
+
             updateColor(brush);
             CBLock = CB.Brush;
         }
 
         public void Brush_Changed(object sender, EventArgs e)
         {
-            if(sender is Brush && !(sender as Brush).IsFrozen)
+            if (sender is Brush && !(sender as Brush).IsFrozen)
             {
                 updateColor(Serializer.Brush.Create(sender as Brush).CreateBrush());
             }
@@ -255,7 +244,7 @@ namespace MyPaint
         private void setColor(Brush color)
         {
             updateColor(color);
-            CBSetBrush(color);          
+            CBSetBrush(color);
         }
 
         void CBSetBrush(Brush brush)
@@ -435,7 +424,7 @@ namespace MyPaint
         public void SetSecondaryBrush(Brush brush)
         {
             secondaryColor.Fill = brush;
-            if(activeColor == BrushEnum.SECONDARY)
+            if (activeColor == BrushEnum.SECONDARY)
             {
                 CBSetBrush(brush);
             }
@@ -457,11 +446,11 @@ namespace MyPaint
 
         public void SetFont(FontFamily f)
         {
-            if(font.SelectedValue != f)
+            if (font.SelectedValue != f)
             {
                 fontLock = true;
                 font.SelectedValue = f;
-            }       
+            }
         }
 
         public void SetFontSize(double s)
@@ -471,18 +460,18 @@ namespace MyPaint
 
         private void font_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
- 
+
             if (!fontLock)
             {
                 FontFamily f = (FontFamily)font.SelectedValue;
                 control.SetTextFont(f);
-               
+
             }
             else
             {
                 fontLock = false;
             }
-            
+
         }
 
         private void font_size_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -545,7 +534,8 @@ namespace MyPaint
                     scrollviewer.LineRight();
                 }
                 e.Handled = true;
-            }else if(Keyboard.Modifiers == ModifierKeys.Control)
+            }
+            else if (Keyboard.Modifiers == ModifierKeys.Control)
             {
                 if (e.Delta > 0)
                 {
@@ -556,7 +546,7 @@ namespace MyPaint
                     zoom.Value = zoom.Value - 10;
                 }
                 e.Handled = true;
-            }          
+            }
         }
 
         private void canvas_outer_ScrollChanged(object sender, ScrollChangedEventArgs e)

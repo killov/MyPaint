@@ -24,17 +24,17 @@ namespace MyPaint
         }
 
         public string name;
-        bool vis;
-        public bool visible
+        bool _visible;
+        public bool Visible
         {
             get
             {
-                return vis;
+                return _visible;
             }
             set
             {
-                canvas.Visibility = value ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
-                vis = value;
+                canvas.Visibility = value ? Visibility.Visible : Visibility.Hidden;
+                _visible = value;
             }
         }
 
@@ -68,40 +68,34 @@ namespace MyPaint
             }
         }
 
-        Canvas cv;
-        public Canvas canvas;
-        Brush background;
+        Canvas canvas;
+        Brush background = null;
         Serializer.Brush sBackground = Serializer.Brush.Create(null);
-        private DrawControl file;
         private FileControl f;
         private List<Shapes.Shape> Shapes { get; set; }
 
-        public Layer(Canvas c, FileControl fil, DrawControl dc)
+        public Layer(FileControl file)
         {
-            cv = c;
             canvas = new Canvas();
             Shapes = new List<Shapes.Shape>();
-            cv.Children.Add(canvas);
-            SetResolution(fil.Resolution);
-            file = dc;
-            f = fil;
+            file.Canvas.Children.Add(canvas);
+            SetResolution(file.Resolution);
+            f = file;
         }
 
-        public Layer(Canvas c, FileControl fil, DrawControl dc, Deserializer.Layer layer)
+        public Layer(FileControl file, Deserializer.Layer layer)
         {
-            cv = c;
             canvas = new Canvas();
             Shapes = new List<Shapes.Shape>();
-            cv.Children.Add(canvas);
+            file.Canvas.Children.Add(canvas);
             Name = layer.name;
             canvas.Name = layer.name;
-            SetResolution(fil.Resolution);
-            file = dc;
-            visible = layer.visible;
+            SetResolution(file.Resolution);
+            Visible = layer.visible;
             Background = layer.color == null ? null : layer.color.CreateBrush();
             foreach (var shape in layer.shapes)
             {
-                shape.Create(file, this);
+                shape.Create(file.DrawControl, this);
             }
         }
 
@@ -123,7 +117,7 @@ namespace MyPaint
         {
             Serializer.Layer la = new Serializer.Layer();
             la.color = sBackground;
-            la.visible = visible;
+            la.visible = Visible;
             la.name = Name;
             la.shapes = new List<Serializer.Shape>();
             foreach (var shape in Shapes)
@@ -139,7 +133,7 @@ namespace MyPaint
             canvas.Background = sBackground.CreateBrush();
             canvas.Width = f.Resolution.X;
             canvas.Height = f.Resolution.Y;
-            if (visible)
+            if (Visible)
             {
                 foreach (var shape in Shapes)
                 {
@@ -155,7 +149,7 @@ namespace MyPaint
             if (i > 0)
             {
                 SetPosition(i - 1);
-                file.HistoryControl.Add(new History.HistoryLayerPosition(this, i, i - 1));
+                f.HistoryControl.Add(new History.HistoryLayerPosition(this, i, i - 1));
             }
         }
 
@@ -165,26 +159,26 @@ namespace MyPaint
             if (i < f.layers.Count - 1)
             {
                 SetPosition(i + 1);
-                file.HistoryControl.Add(new History.HistoryLayerPosition(this, i, i + 1));
+                f.HistoryControl.Add(new History.HistoryLayerPosition(this, i, i + 1));
             }
         }
 
         public void SetPosition(int i)
         {
             f.layers.Move(f.layers.IndexOf(this), i);
-            cv.Children.Remove(canvas);
-            cv.Children.Insert(i, canvas);
+            f.Canvas.Children.Remove(canvas);
+            f.Canvas.Children.Insert(i, canvas);
         }
 
         public void Remove(bool history = true)
         {
-            if (history) file.HistoryControl.Add(new HistoryLayerRemove(this, f.layers.IndexOf(this)));
+            if (history) f.HistoryControl.Add(new HistoryLayerRemove(this, f.layers.IndexOf(this)));
             f.layers.Remove(this);
-            cv.Children.Remove(canvas);
-            if (file.SelectLayer == this)
+            f.Canvas.Children.Remove(canvas);
+            if (f.DrawControl.SelectLayer == this)
             {
-                file.StopEdit();
-                file.UnselectLayer();
+                f.DrawControl.StopEdit();
+                f.DrawControl.UnselectLayer();
                 UnsetSelectable();
             }
         }
@@ -194,14 +188,14 @@ namespace MyPaint
             if (i == -1)
             {
                 f.layers.Add(this);
-                cv.Children.Add(canvas);
+                f.Canvas.Children.Add(canvas);
             }
             else
             {
                 f.layers.Remove(this);
                 f.layers.Insert(i, this);
-                cv.Children.Remove(canvas);
-                cv.Children.Insert(i, canvas);
+                f.Canvas.Children.Remove(canvas);
+                f.Canvas.Children.Insert(i, canvas);
             }
         }
 
@@ -209,23 +203,8 @@ namespace MyPaint
         {
             foreach (var shape in Shapes)
             {
-                shape.HideVirtualShape();
-                shape.ShowVirtualShape((e, s, m) =>
-                {
-                    SetShapeSelect(e, s, m);
-                });
+                shape.SetSelectable();
             }
-        }
-
-        private void SetShapeSelect(Point e, Shapes.Shape shape, bool enableMoving)
-        {
-            if (file.Shape != null)
-            {
-                file.Shape.StopEdit();
-            }
-            SetSelectable();
-            file.SetShapeActive(shape);
-            if (enableMoving) shape.StartMove(e);
         }
 
         public void UnsetSelectable()
@@ -270,7 +249,7 @@ namespace MyPaint
         {
             if (addHistory)
             {
-                file.HistoryControl.Add(new HistoryLayerName(this, Name, name));
+                f.HistoryControl.Add(new HistoryLayerName(this, Name, name));
             }
             Name = name;
         }

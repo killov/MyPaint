@@ -14,10 +14,20 @@ namespace MyPaint.Shapes
 
         public Ellipse(DrawControl c, Layer la) : base(c, la)
         {
-            Element = p;
+
         }
 
         public Ellipse(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        {
+
+        }
+
+        protected override void OnDrawInit()
+        {
+            Element = p;
+        }
+
+        protected override void OnCreateInit(Deserializer.Shape s)
         {
             Element = p;
             sx = s.A.x;
@@ -145,9 +155,9 @@ namespace MyPaint.Shapes
         override public void SetActive()
         {
             base.SetActive();
-            File.SetPrimaryColor(p.Stroke);
-            File.SetSecondaryColor(p.Fill);
-            File.SetThickness(p.StrokeThickness);
+            DrawControl.SetPrimaryColor(p.Stroke);
+            DrawControl.SetSecondaryColor(p.Fill);
+            DrawControl.SetThickness(p.StrokeThickness);
             eR.SetActive();
         }
 
@@ -203,7 +213,7 @@ namespace MyPaint.Shapes
 
         void CreatePoints()
         {
-            eR = new EditRect(File.TopCanvas, this, new Point(sx, sy), new Point(ex, ey), File.RevScale,
+            eR = new EditRect(DrawControl.TopCanvas, this, new Point(sx, sy), new Point(ex, ey), DrawControl.RevScale,
             (po) =>
             {
                 moveS(p, po.X, po.Y);

@@ -13,7 +13,22 @@ namespace MyPaint.Shapes
         System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs = new System.Windows.Shapes.Polygon();
         EditRect eR;
         BitmapSource image;
+        Point start;
+        double w, h;
         public Image(DrawControl c, Layer la, BitmapSource bmi, Point start, double w, double h) : base(c, la)
+        {
+            image = bmi;
+            this.start = start;
+            this.w = w;
+            this.h = h;
+        }
+
+        public Image(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        {
+
+        }
+
+        protected override void OnDrawInit()
         {
             Element = p;
             p.Points.Add(new Point(start.X, start.Y));
@@ -21,15 +36,15 @@ namespace MyPaint.Shapes
             p.Points.Add(new Point(start.X + w, start.Y + h));
             p.Points.Add(new Point(start.X, start.Y + h));
             CreateVirtualShape();
-            image = bmi;
-            ImageBrush brush = new ImageBrush(bmi);
+
+            ImageBrush brush = new ImageBrush(image);
             p.Fill = brush;
             AddToLayer();
             CreatePoints();
             exist = true;
         }
 
-        public Image(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        protected override void OnCreateInit(Deserializer.Shape s)
         {
             Element = p;
             byte[] imageBytes = Convert.FromBase64String(s.b64);
@@ -161,7 +176,7 @@ namespace MyPaint.Shapes
 
         void CreatePoints()
         {
-            eR = new EditRect(topCanvas, this, p.Points[0], p.Points[2], File.RevScale, (po) =>
+            eR = new EditRect(DrawControl.TopCanvas, this, p.Points[0], p.Points[2], DrawControl.RevScale, (po) =>
             {
                 p.Points[0] = po;
                 p.Points[1] = new Point(p.Points[1].X, po.Y);

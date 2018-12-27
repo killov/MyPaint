@@ -15,10 +15,9 @@ namespace MyPaint.Shapes
         protected double thickness;
         protected bool exist;
         Layer layer;
-        public DrawControl File { get; private set; }
-        protected OnMouseDownDelegate virtualShapeCallback;
+        public DrawControl DrawControl { get; private set; }
+        protected OnMouseDownDelegate virtualElementCallback;
         protected Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
-        protected Canvas topCanvas;
         bool inLayer = false;
 
         UIElement _element = null;
@@ -51,25 +50,29 @@ namespace MyPaint.Shapes
 
         public Shape(DrawControl c, Layer la)
         {
-            File = c;
+            DrawControl = c;
             layer = la;
-            SetBrush(BrushEnum.PRIMARY, File.GetShapePrimaryColor());
-            SetBrush(BrushEnum.SECONDARY, File.GetShapeSecondaryColor());
-            SetThickness(File.GetShapeThickness());
-            topCanvas = File.TopCanvas;
+            SetBrush(BrushEnum.PRIMARY, DrawControl.GetShapePrimaryColor());
+            SetBrush(BrushEnum.SECONDARY, DrawControl.GetShapeSecondaryColor());
+            SetThickness(DrawControl.GetShapeThickness());
             exist = false;
+            OnDrawInit();
         }
 
         public Shape(DrawControl c, Layer la, Deserializer.Shape s)
         {
-            File = c;
+            DrawControl = c;
             layer = la;
             SetBrush(BrushEnum.PRIMARY, s.stroke == null ? null : s.stroke.CreateBrush());
             SetBrush(BrushEnum.SECONDARY, s.fill == null ? null : s.fill.CreateBrush());
             SetThickness(s.lineWidth);
-            topCanvas = File.TopCanvas;
             exist = true;
+            OnCreateInit(s);
         }
+
+        abstract protected void OnDrawInit();
+
+        abstract protected void OnCreateInit(Deserializer.Shape s);
 
         public bool SetBrush(BrushEnum brushEnum, Brush brush)
         {
@@ -113,7 +116,7 @@ namespace MyPaint.Shapes
             if (inLayer)
             {
                 int pos = RemoveFromLayer();
-                if (addHistory) File.HistoryControl.Add(new History.HistoryShapeChangeLayer(this, layer, newLayer, pos));
+                if (addHistory) DrawControl.HistoryControl.Add(new History.HistoryShapeChangeLayer(this, layer, newLayer, pos));
                 layer = newLayer;
                 AddToLayer();
             }
@@ -160,7 +163,7 @@ namespace MyPaint.Shapes
             thickness = s;
             if (addHistory)
             {
-                File.HistoryControl.Add(new History.HistoryShapeThickness(this, GetThickness(), s));
+                DrawControl.HistoryControl.Add(new History.HistoryShapeThickness(this, GetThickness(), s));
             }
         }
 
@@ -189,28 +192,47 @@ namespace MyPaint.Shapes
 
         public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
         {
-            virtualShapeCallback = mouseDown;
+            virtualElementCallback = mouseDown;
             HideVirtualShape();
-            File.TopCanvas.Children.Add(VirtualElement);
+            DrawControl.TopCanvas.Children.Add(VirtualElement);
         }
 
         public void HideVirtualShape()
         {
-            File.TopCanvas.Children.Remove(VirtualElement);
+            DrawControl.TopCanvas.Children.Remove(VirtualElement);
+        }
+
+        public void SetSelectable()
+        {
+            ShowVirtualShape((e, s, m) =>
+            {
+                SetShapeSelect(e, s, m);
+            });
+        }
+
+        private void SetShapeSelect(Point e, Shapes.Shape shape, bool enableMoving)
+        {
+            DrawControl.StopEdit();
+            SetSelectable();
+            DrawControl.SetShapeActive(shape);
+            if (enableMoving)
+            {
+                shape.StartMove(e);
+            }
         }
 
         public void StartMove(Point e)
         {
-            File.StartMoveShape(GetPosition(), e);
+            DrawControl.StartMoveShape(GetPosition(), e);
         }
 
         virtual public void SetActive()
         {
             ShowVirtualShape((e, s, m) =>
             {
-                if (m) File.StartMoveShape(GetPosition(), e);
+                if (m) DrawControl.StartMoveShape(GetPosition(), e);
             });
-            File.StartEdit();
+            DrawControl.StartEdit();
         }
 
         virtual public void MoveDrag(Point e)
@@ -275,18 +297,18 @@ namespace MyPaint.Shapes
             {
                 InsertToLayer(i);
             }
-            if (addHistory && pos != i) File.HistoryControl.Add(new History.HistoryShapePosition(this, pos, i));
+            if (addHistory && pos != i) DrawControl.HistoryControl.Add(new History.HistoryShapePosition(this, pos, i));
         }
 
         protected void StartDraw()
         {
-            File.StartDraw();
+            DrawControl.StartDraw();
         }
 
         protected void StopDraw(bool addHistory = true)
         {
             exist = true;
-            File.StopDraw(addHistory);
+            DrawControl.StopDraw(addHistory);
         }
 
         abstract public void CreateImage(Canvas canvas);
@@ -298,7 +320,7 @@ namespace MyPaint.Shapes
 
         protected void CallBack(object sender, MouseButtonEventArgs ee)
         {
-            virtualShapeCallback(ee.GetPosition(File.TopCanvas), this);
+            virtualElementCallback(ee.GetPosition(DrawControl.TopCanvas), this);
             hit = true;
         }
     }

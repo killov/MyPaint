@@ -103,7 +103,7 @@ namespace MyPaint
         {
             if (drag && !startPosition.Equals(position))
             {
-                shape.File.HistoryControl.Add(new History.HistoryMovePoint(this, startPosition, position));
+                shape.DrawControl.HistoryControl.Add(new History.HistoryMovePoint(this, startPosition, position));
             }
             drag = false;
         }

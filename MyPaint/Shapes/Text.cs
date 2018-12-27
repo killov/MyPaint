@@ -16,12 +16,22 @@ namespace MyPaint.Shapes
         string text = "";
         public Text(DrawControl c, Layer la) : base(c, la)
         {
-            Element = p;
-            SetFont(File.GetTextFont());
-            SetFontSize(File.GetTextFontSize());
+
         }
 
         public Text(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        {
+
+        }
+
+        protected override void OnDrawInit()
+        {
+            Element = p;
+            SetFont(DrawControl.GetTextFont());
+            SetFontSize(DrawControl.GetTextFontSize());
+        }
+
+        protected override void OnCreateInit(Deserializer.Shape s)
         {
             p.AcceptsTab = false;
             vs.AcceptsTab = false;
@@ -119,8 +129,8 @@ namespace MyPaint.Shapes
 
 
             p.BorderThickness = new Thickness(1);
-            p.Foreground = File.GetShapePrimaryColor();
-            p.Background = File.GetShapeSecondaryColor();
+            p.Foreground = DrawControl.GetShapePrimaryColor();
+            p.Background = DrawControl.GetShapeSecondaryColor();
 
             AddToLayer();
             Canvas.SetLeft(p, sx);
@@ -157,9 +167,9 @@ namespace MyPaint.Shapes
             moveE(vs, ex, ey);
             vs.GotFocus += (sender, ee) =>
             {
-                if (virtualShapeCallback != null)
+                if (virtualElementCallback != null)
                 {
-                    virtualShapeCallback(new Point(sx, sy), this, false);
+                    virtualElementCallback(new Point(sx, sy), this, false);
                     hit = true;
                 }
             };
@@ -180,11 +190,11 @@ namespace MyPaint.Shapes
         override public void SetActive()
         {
             base.SetActive();
-            File.SetPrimaryColor(GetBrush(BrushEnum.PRIMARY));
-            File.SetSecondaryColor(GetBrush(BrushEnum.SECONDARY));
-            File.SetFont(GetFont());
-            File.SetFontSize(GetFontSize());
-            File.ShowWindowFontPanel(true);
+            DrawControl.SetPrimaryColor(GetBrush(BrushEnum.PRIMARY));
+            DrawControl.SetSecondaryColor(GetBrush(BrushEnum.SECONDARY));
+            DrawControl.SetFont(GetFont());
+            DrawControl.SetFontSize(GetFontSize());
+            DrawControl.ShowWindowFontPanel(true);
             eR.SetActive();
             Keyboard.Focus(vs);
         }
@@ -250,7 +260,7 @@ namespace MyPaint.Shapes
 
         void CreatePoints()
         {
-            eR = new EditRect(File.TopCanvas, this, new Point(sx, sy), new Point(ex, ey), File.RevScale,
+            eR = new EditRect(DrawControl.TopCanvas, this, new Point(sx, sy), new Point(ex, ey), DrawControl.RevScale,
             (po) =>
             {
                 moveS(p, po.X, po.Y);
@@ -308,7 +318,7 @@ namespace MyPaint.Shapes
         {
             if (addHistory)
             {
-                File.HistoryControl.Add(new History.HistoryShapeText(this, GetText(), t));
+                DrawControl.HistoryControl.Add(new History.HistoryShapeText(this, GetText(), t));
             }
             text = t;
             p.Text = t;
@@ -327,7 +337,7 @@ namespace MyPaint.Shapes
             {
                 if (addHistory)
                 {
-                    File.HistoryControl.Add(new History.HistoryShapeTextFont(this, GetFont(), f));
+                    DrawControl.HistoryControl.Add(new History.HistoryShapeTextFont(this, GetFont(), f));
                 }
                 font = f;
                 p.FontFamily = f;
@@ -347,7 +357,7 @@ namespace MyPaint.Shapes
             {
                 if (addHistory)
                 {
-                    File.HistoryControl.Add(new History.HistoryShapeTextFontSize(this, GetFontSize(), s));
+                    DrawControl.HistoryControl.Add(new History.HistoryShapeTextFontSize(this, GetFontSize(), s));
                 }
                 size = s;
                 p.FontSize = s;

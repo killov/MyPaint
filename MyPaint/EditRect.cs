@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace MyPaint
 {
@@ -32,14 +26,14 @@ namespace MyPaint
             pv.Points = p.Points;
             p.Stroke = fill;
             p.Fill = fill;
-            p.StrokeThickness = revScale.ScaleX*3;
+            p.StrokeThickness = revScale.ScaleX * 3;
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
-            p.MouseDown +=  (o, e) =>
-            {
-                s.SetHit(true);
-                s.File.StartMoveShape(s.GetPosition(), e.GetPosition(canvas));
-            };
+            p.MouseDown += (o, e) =>
+           {
+               s.SetHit(true);
+               s.DrawControl.StartMoveShape(s.GetPosition(), e.GetPosition(canvas));
+           };
             DoubleCollection dash = new DoubleCollection();
             dash.Add(4);
             dash.Add(6);
@@ -51,7 +45,7 @@ namespace MyPaint
             canvas = c;
             p1 = new MovePoint(c, s, p.Points[0], revScale, (po) =>
             {
-                Point pop = Scaling(po, p.Points[0], p.Points[2], reversePosition?1:0);
+                Point pop = Scaling(po, p.Points[0], p.Points[2], reversePosition ? 1 : 0);
                 p.Points[0] = pop;
                 p.Points[1] = new Point(p.Points[1].X, pop.Y);
                 p.Points[3] = new Point(pop.X, p.Points[3].Y);
@@ -59,7 +53,7 @@ namespace MyPaint
                 p2.Move(p.Points[1].X, pop.Y);
                 p4.Move(pop.X, p.Points[3].Y);
                 Af(pop);
-                if(pop == po)
+                if (pop == po)
                 {
                     UpdateScale();
                 }
@@ -67,7 +61,7 @@ namespace MyPaint
 
             p2 = new MovePoint(c, s, p.Points[1], revScale, (po) =>
             {
-                Point pop = Scaling(po, p.Points[1], p.Points[3], reversePosition?0:1);
+                Point pop = Scaling(po, p.Points[1], p.Points[3], reversePosition ? 0 : 1);
                 p.Points[1] = pop;
                 p.Points[0] = new Point(p.Points[0].X, pop.Y);
                 p.Points[2] = new Point(pop.X, p.Points[2].Y);
@@ -83,7 +77,7 @@ namespace MyPaint
 
             p3 = new MovePoint(c, s, p.Points[2], revScale, (po) =>
             {
-                Point pop = Scaling(po, p.Points[2], p.Points[0], reversePosition?1:0);
+                Point pop = Scaling(po, p.Points[2], p.Points[0], reversePosition ? 1 : 0);
                 p.Points[2] = pop;
                 p.Points[1] = new Point(pop.X, p.Points[1].Y);
                 p.Points[3] = new Point(p.Points[3].X, pop.Y);
@@ -99,7 +93,7 @@ namespace MyPaint
 
             p4 = new MovePoint(c, s, p.Points[3], revScale, (po) =>
             {
-                Point pop = Scaling(po, p.Points[3], p.Points[1], reversePosition?0:1);
+                Point pop = Scaling(po, p.Points[3], p.Points[1], reversePosition ? 0 : 1);
                 p.Points[3] = pop;
                 p.Points[0] = new Point(pop.X, p.Points[0].Y);
                 p.Points[2] = new Point(p.Points[2].X, pop.Y);
@@ -118,11 +112,11 @@ namespace MyPaint
         private void UpdateScale()
         {
             scale = Math.Abs((p.Points[1].Y - p.Points[2].Y) / (p.Points[0].X - p.Points[1].X));
-            if(scale == double.NaN)
+            if (scale == double.NaN)
             {
                 scale = 1;
             }
-            if(!(p.Points[0].X == p.Points[2].X && p.Points[0].Y == p.Points[2].Y))
+            if (!(p.Points[0].X == p.Points[2].X && p.Points[0].Y == p.Points[2].Y))
             {
                 reversePosition = !((p.Points[0].X < p.Points[2].X && p.Points[0].Y < p.Points[2].Y) || (p.Points[0].X > p.Points[2].X && p.Points[0].Y > p.Points[2].Y));
             }
