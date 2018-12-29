@@ -52,7 +52,7 @@ namespace MyPaint
 
             w.tabControl.DataContext = tabItems;
             w.tabControl.SelectedIndex = 0;
-            SetFileActive(NewFile());
+            NewC();
         }
 
         private FileControl NewFile()
@@ -107,7 +107,7 @@ namespace MyPaint
             {
                 if (tab.Equals(tabAdd))
                 {
-                    SetFileActive(NewFile());
+                    NewC();
                 }
                 else
                 {
@@ -214,7 +214,10 @@ namespace MyPaint
 
         public void NewC()
         {
-            SetFileActive(NewFile());
+            FileControl f = NewFile();
+            f.ResetLayers();
+            f.HistoryControl.Clear();
+            SetFileActive(f);
         }
 
         public Brush GetPrimaryBrush()

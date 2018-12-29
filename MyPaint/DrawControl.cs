@@ -397,6 +397,7 @@ namespace MyPaint
 
                 file.SetResolution(new Point(Math.Max(bmi.Width, file.Resolution.X), Math.Max(bmi.Height, file.Resolution.Y)), true, true);
                 Shape = new Shapes.Image(this, SelectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
+                Shape.InitDraw();
                 Shape.SetActive();
                 HistoryControl.Add(new HistoryShape(Shape));
                 Control.AdjustZoom(bmi.Width, bmi.Height);

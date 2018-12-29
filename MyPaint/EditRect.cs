@@ -30,13 +30,15 @@ namespace MyPaint
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
             p.MouseDown += (o, e) =>
-           {
-               s.SetHit(true);
-               s.DrawControl.StartMoveShape(s.GetPosition(), e.GetPosition(canvas));
-           };
-            DoubleCollection dash = new DoubleCollection();
-            dash.Add(4);
-            dash.Add(6);
+            {
+                s.SetHit(true);
+                s.DrawControl.StartMoveShape(s.GetPosition(), e.GetPosition(canvas));
+            };
+            DoubleCollection dash = new DoubleCollection
+            {
+                4,
+                6
+            };
             pv.StrokeDashArray = dash;
             pv.StrokeThickness = revScale.ScaleX;
             pv.ToolTip = null;
