@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace MyPaint.FileOpener
 {
@@ -7,9 +8,9 @@ namespace MyPaint.FileOpener
     {
         protected FileControl dc;
         protected MainControl control;
+        bool fail = false;
 
-
-        public static void OpenFromFile(MainControl c, FileControl f, string path)
+        public static async Task OpenFromFile(MainControl c, FileControl f, string path)
         {
             f.SetPath(path);
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
@@ -17,32 +18,46 @@ namespace MyPaint.FileOpener
             switch (suffix)
             {
                 case ".html":
-                    new HTML().Open(c, f);
+                    await new HTML().Open(c, f);
                     break;
                 case ".jpg":
-                    new JPEG().Open(c, f);
+                    await new JPEG().Open(c, f);
                     break;
                 case ".bmp":
-                    new BMP().Open(c, f);
+                    await new BMP().Open(c, f);
                     break;
                 case ".png":
-                    new PNG().Open(c, f);
+                    await new PNG().Open(c, f);
                     break;
             }
             f.HistoryControl.Enable();
         }
 
-        public void Open(MainControl c, FileControl dc)
+        public async Task Open(MainControl c, FileControl dc)
         {
             control = c;
             this.dc = dc;
 
-            Thread_open();
+            await Task.Run(() =>
+            {
+                try
+                {
+                    Thread_open();
+                    fail = false;
+                }
+                catch
+                {
+                    fail = true;
+                }
+            });
+            if (fail)
+            {
+                MessageBox.Show("Nepodařilo se otevřít soubor");
+                control.FileClose(dc);
+                return;
+            }
             dc.Control.SetFileActive(dc);
             c.AdjustZoom(dc.Resolution.X, dc.Resolution.Y);
-
-
-
         }
 
 

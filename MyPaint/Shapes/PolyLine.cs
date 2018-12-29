@@ -14,7 +14,7 @@ namespace MyPaint.Shapes
         List<MovePoint> movepoints = new List<MovePoint>();
         bool start = false;
 
-        Path path = new Path(), vs = new Path();
+        Path path, vs;
         PathFigure pf;
         LineSegment ls;
         bool fclick;
@@ -31,12 +31,14 @@ namespace MyPaint.Shapes
 
         protected override void OnDrawInit()
         {
+            path = new Path();
             MultiDraw = true;
             Element = path;
         }
 
         protected override void OnCreateInit(Deserializer.Shape s)
         {
+            path = new Path();
             Element = path;
             PathGeometry p = new PathGeometry();
 
@@ -118,9 +120,6 @@ namespace MyPaint.Shapes
                 start = true;
                 return;
             }
-
-
-
             if (ee.ChangedButton == MouseButton.Right)
             {
                 if (start)
@@ -143,13 +142,11 @@ namespace MyPaint.Shapes
                 ls.Point = e;
                 pf.Segments.Add(ls);
             }
-
-
         }
 
-        void CreateVirtualShape()
+        override protected void CreateVirtualShape()
         {
-
+            vs = new Path();
             vs.Data = path.Data;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
@@ -232,7 +229,7 @@ namespace MyPaint.Shapes
             return pf.StartPoint;
         }
 
-        void CreatePoints()
+        override protected void CreatePoints()
         {
             movepoints = new List<MovePoint>();
             MovePoint mp = new MovePoint(DrawControl.TopCanvas, this, pf.StartPoint, DrawControl.RevScale, (Point po) =>

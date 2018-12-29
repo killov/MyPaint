@@ -8,7 +8,7 @@ namespace MyPaint.Shapes
 {
     public class Line : Shape
     {
-        System.Windows.Shapes.Line p = new System.Windows.Shapes.Line(), vs = new System.Windows.Shapes.Line();
+        System.Windows.Shapes.Line p, vs;
         MovePoint p1, p2;
         public Line(DrawControl c, Layer la) : base(c, la)
         {
@@ -22,17 +22,18 @@ namespace MyPaint.Shapes
 
         protected override void OnDrawInit()
         {
+            p = new System.Windows.Shapes.Line();
             Element = p;
         }
 
         protected override void OnCreateInit(Deserializer.Shape s)
         {
+            p = new System.Windows.Shapes.Line();
             Element = p;
             p.X1 = s.A.x;
             p.Y1 = s.A.y;
             p.X2 = s.B.x;
             p.Y2 = s.B.y;
-            AddToLayer();
             CreatePoints();
             CreateVirtualShape();
         }
@@ -81,8 +82,9 @@ namespace MyPaint.Shapes
             SetActive();
         }
 
-        void CreateVirtualShape()
+        override protected void CreateVirtualShape()
         {
+            vs = new System.Windows.Shapes.Line();
             vs.X1 = p.X1;
             vs.X2 = p.X2;
             vs.Y1 = p.Y1;
@@ -151,7 +153,7 @@ namespace MyPaint.Shapes
             return new Point(p.X1, p.Y1);
         }
 
-        void CreatePoints()
+        override protected void CreatePoints()
         {
             p1 = new MovePoint(DrawControl.TopCanvas, this, new Point(p.X1, p.Y1), DrawControl.RevScale, (e) =>
             {

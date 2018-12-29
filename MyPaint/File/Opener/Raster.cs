@@ -13,8 +13,18 @@ namespace MyPaint.FileOpener
             {
                 BitmapSource bmi = GetBitmap(fs);
                 ImageBrush brush = new ImageBrush(bmi);
-                dc.SetResolution(new System.Windows.Point(bmi.Width, bmi.Height), false, true);
-                new Shapes.Image(dc.DrawControl, dc.DrawControl.SelectLayer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
+                dc.Resolution = new System.Windows.Point(bmi.Width, bmi.Height);
+
+                var l = new Deserializer.Layer();
+                l.visible = true;
+                l.name = "IMAGE";
+                l.shapes = new Deserializer.Shape[0];
+                var layer = new Layer(dc, l);
+                var image = new Shapes.Image(dc.DrawControl, layer, bmi, new System.Windows.Point(0, 0), bmi.Width, bmi.Height);
+                layer._shapes.Add(image);
+
+                dc.layers.Add(layer);
+                //while (true) ;
             }
         }
 

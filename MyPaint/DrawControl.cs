@@ -409,6 +409,7 @@ namespace MyPaint
             if (SelectLayer != null)
             {
                 Shape = s.Create(this, SelectLayer);
+                Shape.InitDraw();
                 Shape.SetActive();
                 HistoryControl.Add(new HistoryShape(Shape));
             }

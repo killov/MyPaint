@@ -129,5 +129,15 @@ namespace MyPaint.Shapes
         {
             return DrawControl.CreateBitmap(Math.Min(vs.Points[0].X, vs.Points[2].X), Math.Min(vs.Points[0].Y, vs.Points[2].Y), Math.Abs(vs.Points[0].X - vs.Points[2].X), Math.Abs(vs.Points[0].Y - vs.Points[2].Y));
         }
+
+        protected override void CreatePoints()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void CreateVirtualShape()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

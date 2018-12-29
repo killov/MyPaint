@@ -18,7 +18,7 @@ namespace MyPaint
         public Canvas Canvas { get; private set; }
         public Canvas TopCanvas { get; private set; }
         public DrawControl DrawControl { get; private set; }
-        public Point Resolution { get; private set; }
+        public Point Resolution { get; set; }
         public ObservableCollection<Layer> layers = new ObservableCollection<Layer>();
 
         public double Zoom
@@ -46,8 +46,18 @@ namespace MyPaint
 
             TabItem = ti;
             DrawControl = new DrawControl(c, revScale, topCanvas, this, HistoryControl);
-            ResetLayers();
+
             HistoryControl.Clear();
+        }
+
+        public void InitDraw()
+        {
+            foreach (var layer in layers)
+            {
+                layer.InitDraw();
+            }
+            SetResolution(Resolution, false);
+            DrawControl.SetActiveLayer(layers.Count - 1);
         }
 
         public void AddLayer()
@@ -69,6 +79,7 @@ namespace MyPaint
 
         public void DeleteLayers()
         {
+            Canvas.Children.Clear();
             layers.Clear();
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -81,14 +82,17 @@ namespace MyPaint
             };
         }
 
-        private void openClick(object sender, RoutedEventArgs e)
+        private async void openClick(object sender, RoutedEventArgs e)
         {
-            control.Open();
-        }
+            t = control.Open();
 
+            await t;
+        }
+        Task t;
         private void saveClick(object sender, RoutedEventArgs e)
         {
-            control.Save();
+
+            //control.Save();
         }
 
         private void saveAsClick(object sender, RoutedEventArgs e)

@@ -8,7 +8,7 @@ namespace MyPaint.Shapes
 {
     public class Text : Shape
     {
-        TextBox p = new TextBox(), vs = new TextBox();
+        TextBox p, vs;
         double sx, sy, ex, ey;
         EditRect eR;
         FontFamily font;
@@ -26,6 +26,7 @@ namespace MyPaint.Shapes
 
         protected override void OnDrawInit()
         {
+            p = new TextBox();
             Element = p;
             SetFont(DrawControl.GetTextFont());
             SetFontSize(DrawControl.GetTextFontSize());
@@ -33,8 +34,8 @@ namespace MyPaint.Shapes
 
         protected override void OnCreateInit(Deserializer.Shape s)
         {
+            p = new TextBox();
             p.AcceptsTab = false;
-            vs.AcceptsTab = false;
             Element = p;
             sx = s.A.x;
             sy = s.A.y;
@@ -42,7 +43,7 @@ namespace MyPaint.Shapes
             SetText(s.b64);
             SetFontSize(s.lineWidth);
             SetFont(new FontFamily(s.font));
-            AddToLayer();
+
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.A.x + s.w, s.A.y + s.h);
@@ -152,17 +153,20 @@ namespace MyPaint.Shapes
             SetActive();
         }
 
-        void CreateVirtualShape()
+        override protected void CreateVirtualShape()
         {
+            vs = new TextBox();
+            vs.AcceptsTab = false;
             vs.Background = nullBrush;
             vs.Foreground = nullBrush;
             vs.CaretBrush = Brushes.Black;
             vs.AcceptsReturn = true;
             vs.AcceptsTab = true;
-
+            vs.FontFamily = font;
+            vs.FontSize = size;
             vs.BorderThickness = new Thickness(0);
 
-            p.BorderThickness = new Thickness(0);
+
             moveS(vs, sx, sy);
             moveE(vs, ex, ey);
             vs.GotFocus += (sender, ee) =>
@@ -221,7 +225,7 @@ namespace MyPaint.Shapes
 
         void ChangeText()
         {
-            if (text != vs.Text)
+            if (vs != null && text != vs.Text)
             {
                 SetText(vs.Text, true);
             }
@@ -258,7 +262,7 @@ namespace MyPaint.Shapes
             return new Point(sx, sy);
         }
 
-        void CreatePoints()
+        override protected void CreatePoints()
         {
             eR = new EditRect(DrawControl.TopCanvas, this, new Point(sx, sy), new Point(ex, ey), DrawControl.RevScale,
             (po) =>
@@ -341,7 +345,10 @@ namespace MyPaint.Shapes
                 }
                 font = f;
                 p.FontFamily = f;
-                vs.FontFamily = f;
+                if (vs != null)
+                {
+                    vs.FontFamily = f;
+                }
             }
         }
 
@@ -361,7 +368,10 @@ namespace MyPaint.Shapes
                 }
                 size = s;
                 p.FontSize = s;
-                vs.FontSize = s;
+                if (vs != null)
+                {
+                    vs.FontSize = s;
+                }
             }
         }
     }

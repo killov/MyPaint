@@ -9,11 +9,11 @@ namespace MyPaint.Shapes
 {
     public class QuadraticCurve : Shape
     {
-        Path p = new Path(), vs = new Path();
+        Path p, vs;
         MovePoint p1, p2, p3;
         PathFigure pf;
         QuadraticBezierSegment qbs;
-        System.Windows.Shapes.Line eL1 = new System.Windows.Shapes.Line(), eL2 = new System.Windows.Shapes.Line();
+        System.Windows.Shapes.Line eL1, eL2;
 
         public QuadraticCurve(DrawControl c, Layer la) : base(c, la)
         {
@@ -27,11 +27,13 @@ namespace MyPaint.Shapes
 
         protected override void OnDrawInit()
         {
+            p = new Path();
             Element = p;
         }
 
         protected override void OnCreateInit(Deserializer.Shape s)
         {
+            p = new Path();
             Element = p;
             PathGeometry pg = new PathGeometry();
             p.Data = pg;
@@ -40,7 +42,7 @@ namespace MyPaint.Shapes
             pf.StartPoint = new Point(s.A.x, s.A.y);
             qbs = new QuadraticBezierSegment(new Point(s.B.x, s.B.y), new Point(s.C.x, s.C.y), true);
             pf.Segments.Add(qbs);
-            AddToLayer();
+
             CreatePoints();
             CreateVirtualShape();
         }
@@ -100,8 +102,11 @@ namespace MyPaint.Shapes
             SetActive();
         }
 
-        void CreateVirtualShape()
+        override protected void CreateVirtualShape()
         {
+            eL1 = new System.Windows.Shapes.Line();
+            eL2 = new System.Windows.Shapes.Line();
+            vs = new Path();
             vs.Data = p.Data;
             vs.Cursor = Cursors.SizeAll;
             vs.Stroke = nullBrush;
@@ -202,7 +207,7 @@ namespace MyPaint.Shapes
             return pf.StartPoint;
         }
 
-        void CreatePoints()
+        override protected void CreatePoints()
         {
             p1 = new MovePoint(DrawControl.TopCanvas, this, pf.StartPoint, DrawControl.RevScale, (e) =>
             {

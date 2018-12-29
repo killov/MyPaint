@@ -9,7 +9,7 @@ namespace MyPaint.Shapes
 {
     public class Polygon : Shape
     {
-        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs = new System.Windows.Shapes.Polygon();
+        System.Windows.Shapes.Polygon p, vs;
         List<MovePoint> movepoints = new List<MovePoint>();
         bool start = false;
         List<Point> points = new List<Point>();
@@ -29,12 +29,14 @@ namespace MyPaint.Shapes
 
         protected override void OnDrawInit()
         {
+            p = new System.Windows.Shapes.Polygon();
             MultiDraw = true;
             Element = p;
         }
 
         protected override void OnCreateInit(Deserializer.Shape s)
         {
+            p = new System.Windows.Shapes.Polygon();
             Element = p;
             SetThickness(s.lineWidth);
 
@@ -45,7 +47,7 @@ namespace MyPaint.Shapes
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
 
-            AddToLayer();
+
             CreatePoints();
             CreateVirtualShape();
         }
@@ -126,10 +128,7 @@ namespace MyPaint.Shapes
                         ppoints.Add(p);
                     }
                     Element = p;
-
-
                     p.Points = ppoints;
-
                     StopDraw();
                     CreatePoints();
                     CreateVirtualShape();
@@ -138,8 +137,9 @@ namespace MyPaint.Shapes
             }
         }
 
-        void CreateVirtualShape()
+        override protected void CreateVirtualShape()
         {
+            vs = new System.Windows.Shapes.Polygon();
             vs.Points = p.Points;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
@@ -220,7 +220,7 @@ namespace MyPaint.Shapes
             return p.Points[0];
         }
 
-        void CreatePoints()
+        override protected void CreatePoints()
         {
             movepoints = new List<MovePoint>();
             for (int i = 0; i < p.Points.Count; i++)

@@ -7,7 +7,7 @@ namespace MyPaint.Shapes
 {
     public class Rectangle : Shape
     {
-        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs = new System.Windows.Shapes.Polygon();
+        System.Windows.Shapes.Polygon p, vs;
 
         EditRect eR;
         public Rectangle(DrawControl c, Layer la) : base(c, la)
@@ -22,18 +22,20 @@ namespace MyPaint.Shapes
 
         protected override void OnDrawInit()
         {
+            p = new System.Windows.Shapes.Polygon();
             Element = p;
         }
 
         protected override void OnCreateInit(Deserializer.Shape s)
         {
+            p = new System.Windows.Shapes.Polygon();
             Element = p;
             CreateVirtualShape();
             p.Points.Add(new Point(s.A.x, s.A.y));
             p.Points.Add(new Point(s.B.x, s.A.y));
             p.Points.Add(new Point(s.B.x, s.B.y));
             p.Points.Add(new Point(s.A.x, s.B.y));
-            AddToLayer();
+
             CreatePoints();
         }
 
@@ -89,8 +91,9 @@ namespace MyPaint.Shapes
             SetActive();
         }
 
-        void CreateVirtualShape()
+        override protected void CreateVirtualShape()
         {
+            vs = new System.Windows.Shapes.Polygon();
             vs.Points = p.Points;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
@@ -152,7 +155,7 @@ namespace MyPaint.Shapes
             return p.Points[0];
         }
 
-        void CreatePoints()
+        override protected void CreatePoints()
         {
             eR = new EditRect(DrawControl.TopCanvas, this, p.Points[0], p.Points[2], DrawControl.RevScale,
             (po) =>

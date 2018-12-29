@@ -19,7 +19,7 @@ namespace MyPaint.Shapes
         protected OnMouseDownDelegate virtualElementCallback;
         protected Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
         bool inLayer = false;
-
+        protected Deserializer.Shape _dShape;
         UIElement _element = null;
 
         public UIElement Element
@@ -50,24 +50,35 @@ namespace MyPaint.Shapes
 
         public Shape(DrawControl c, Layer la)
         {
+            nullBrush.Freeze();
             DrawControl = c;
             layer = la;
+            OnDrawInit();
             SetBrush(BrushEnum.PRIMARY, DrawControl.GetShapePrimaryColor());
             SetBrush(BrushEnum.SECONDARY, DrawControl.GetShapeSecondaryColor());
             SetThickness(DrawControl.GetShapeThickness());
             exist = false;
-            OnDrawInit();
         }
 
         public Shape(DrawControl c, Layer la, Deserializer.Shape s)
         {
+            nullBrush.Freeze();
+            _dShape = s;
             DrawControl = c;
             layer = la;
-            SetBrush(BrushEnum.PRIMARY, s.stroke == null ? null : s.stroke.CreateBrush());
-            SetBrush(BrushEnum.SECONDARY, s.fill == null ? null : s.fill.CreateBrush());
-            SetThickness(s.lineWidth);
             exist = true;
-            OnCreateInit(s);
+        }
+
+        public void InitDraw()
+        {
+            OnCreateInit(_dShape);
+            if (_dShape != null)
+            {
+                SetBrush(BrushEnum.PRIMARY, _dShape.stroke == null ? null : _dShape.stroke.CreateBrush());
+                SetBrush(BrushEnum.SECONDARY, _dShape.fill == null ? null : _dShape.fill.CreateBrush());
+                SetThickness(_dShape.lineWidth);
+            }
+            AddToLayer();
         }
 
         abstract protected void OnDrawInit();
@@ -76,7 +87,7 @@ namespace MyPaint.Shapes
 
         public bool SetBrush(BrushEnum brushEnum, Brush brush)
         {
-            if (!OnChangeBrush(brushEnum, brush))
+            if (Element != null && !OnChangeBrush(brushEnum, brush))
             {
                 return false;
             }
@@ -156,7 +167,7 @@ namespace MyPaint.Shapes
 
         public void SetThickness(double s, bool addHistory = false)
         {
-            if (!OnChangeThickness(s))
+            if (Element != null && !OnChangeThickness(s))
             {
                 return;
             }
@@ -174,7 +185,6 @@ namespace MyPaint.Shapes
             return thickness;
         }
 
-
         virtual public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
 
@@ -189,6 +199,10 @@ namespace MyPaint.Shapes
         {
 
         }
+
+        abstract protected void CreatePoints();
+
+        abstract protected void CreateVirtualShape();
 
         public void ShowVirtualShape(OnMouseDownDelegate mouseDown)
         {

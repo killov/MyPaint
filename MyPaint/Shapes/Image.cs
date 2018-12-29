@@ -10,17 +10,13 @@ namespace MyPaint.Shapes
 {
     public class Image : Shape
     {
-        System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon(), vs = new System.Windows.Shapes.Polygon();
+        System.Windows.Shapes.Polygon p, vs;
         EditRect eR;
         BitmapSource image;
-        Point start;
-        double w, h;
-        public Image(DrawControl c, Layer la, BitmapSource bmi, Point start, double w, double h) : base(c, la)
+
+        public Image(DrawControl c, Layer la, BitmapSource bmi, Point start, double w, double h) : base(c, la, null)
         {
             image = bmi;
-            this.start = start;
-            this.w = w;
-            this.h = h;
         }
 
         public Image(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
@@ -30,39 +26,39 @@ namespace MyPaint.Shapes
 
         protected override void OnDrawInit()
         {
-            Element = p;
-            p.Points.Add(new Point(start.X, start.Y));
-            p.Points.Add(new Point(start.X + w, start.Y));
-            p.Points.Add(new Point(start.X + w, start.Y + h));
-            p.Points.Add(new Point(start.X, start.Y + h));
-            CreateVirtualShape();
 
-            ImageBrush brush = new ImageBrush(image);
-            p.Fill = brush;
-            AddToLayer();
-            CreatePoints();
-            exist = true;
         }
 
         protected override void OnCreateInit(Deserializer.Shape s)
         {
+            p = new System.Windows.Shapes.Polygon();
             Element = p;
-            byte[] imageBytes = Convert.FromBase64String(s.b64);
-            MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
-            BitmapImage bmi = new BitmapImage();
-            bmi.BeginInit();
-            bmi.StreamSource = ms;
-            bmi.EndInit();
-            ImageBrush brush = new ImageBrush(bmi);
-            image = bmi;
 
-            p.Points.Add(new Point(s.A.x, s.A.y));
-            p.Points.Add(new Point(s.A.x + s.w, s.A.y));
-            p.Points.Add(new Point(s.A.x + s.w, s.A.y + s.h));
-            p.Points.Add(new Point(s.A.x, s.A.y + s.h));
+            if (s != null)
+            {
+                byte[] imageBytes = Convert.FromBase64String(s.b64);
+                MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
+                BitmapImage bmi = new BitmapImage();
+                bmi.BeginInit();
+                bmi.StreamSource = ms;
+                bmi.EndInit();
+                image = bmi;
+
+                p.Points.Add(new Point(s.A.x, s.A.y));
+                p.Points.Add(new Point(s.A.x + s.w, s.A.y));
+                p.Points.Add(new Point(s.A.x + s.w, s.A.y + s.h));
+                p.Points.Add(new Point(s.A.x, s.A.y + s.h));
+            }
+            else
+            {
+                p.Points.Add(new Point(0, 0));
+                p.Points.Add(new Point(image.Width, 0));
+                p.Points.Add(new Point(image.Width, image.Height));
+                p.Points.Add(new Point(0, image.Height));
+            }
             CreateVirtualShape();
-            p.Fill = brush;
-            AddToLayer();
+            p.Fill = new ImageBrush(image);
+
             CreatePoints();
         }
 
@@ -91,8 +87,9 @@ namespace MyPaint.Shapes
 
         }
 
-        void CreateVirtualShape()
+        override protected void CreateVirtualShape()
         {
+            vs = new System.Windows.Shapes.Polygon();
             vs.Points = p.Points;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
@@ -174,7 +171,7 @@ namespace MyPaint.Shapes
             return p.Points[0];
         }
 
-        void CreatePoints()
+        override protected void CreatePoints()
         {
             eR = new EditRect(DrawControl.TopCanvas, this, p.Points[0], p.Points[2], DrawControl.RevScale, (po) =>
             {

@@ -15,18 +15,16 @@ namespace MyPaint.FileOpener
                 string a = new Regex("width=\"(.+?)\"").Matches(code)[0].Groups[1].ToString();
                 double width = Double.Parse(new Regex("width=\"(.+?)\"").Matches(code)[0].Groups[1].ToString());
                 double height = Double.Parse(new Regex("height=\"(.+?)\"").Matches(code)[0].Groups[1].ToString());
-                dc.SetResolution(new System.Windows.Point(width, height), false, true);
+                dc.Resolution = new System.Windows.Point(width, height);
                 Regex r = new Regex("var json = (.+);");
                 string json = r.Matches(code)[0].Groups[1].ToString();
                 JavaScriptSerializer dd = new JavaScriptSerializer();
                 dd.MaxJsonLength = int.MaxValue;
                 Deserializer.Picture pic = (Deserializer.Picture)dd.Deserialize(json, typeof(Deserializer.Picture));
-                dc.DeleteLayers();
                 foreach (var l in pic.layers)
                 {
                     dc.layers.Add(new Layer(dc, l));
                 }
-                dc.DrawControl.SetActiveLayer(dc.layers.Count - 1);
             }
         }
 

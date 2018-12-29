@@ -8,7 +8,7 @@ namespace MyPaint.Shapes
 {
     public class Ellipse : Shape
     {
-        System.Windows.Shapes.Ellipse p = new System.Windows.Shapes.Ellipse(), vs = new System.Windows.Shapes.Ellipse();
+        System.Windows.Shapes.Ellipse p, vs;
         double sx, sy, ex, ey;
         EditRect eR;
 
@@ -24,15 +24,16 @@ namespace MyPaint.Shapes
 
         protected override void OnDrawInit()
         {
+            p = new System.Windows.Shapes.Ellipse();
             Element = p;
         }
 
         protected override void OnCreateInit(Deserializer.Shape s)
         {
+            p = new System.Windows.Shapes.Ellipse();
             Element = p;
             sx = s.A.x;
             sy = s.A.y;
-            AddToLayer();
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
             moveE(p, s.B.x, s.B.y);
@@ -140,8 +141,9 @@ namespace MyPaint.Shapes
             SetActive();
         }
 
-        void CreateVirtualShape()
+        override protected void CreateVirtualShape()
         {
+            vs = new System.Windows.Shapes.Ellipse();
             moveS(vs, sx, sy);
             moveE(vs, ex, ey);
             vs.Cursor = Cursors.SizeAll;
@@ -211,7 +213,7 @@ namespace MyPaint.Shapes
             return new Point(sx, sy);
         }
 
-        void CreatePoints()
+        override protected void CreatePoints()
         {
             eR = new EditRect(DrawControl.TopCanvas, this, new Point(sx, sy), new Point(ex, ey), DrawControl.RevScale,
             (po) =>

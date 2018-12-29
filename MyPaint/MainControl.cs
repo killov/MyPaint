@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -318,7 +319,7 @@ namespace MyPaint
             w.ShowFontPanel(t);
         }
 
-        public void Open()
+        public async Task Open()
         {
             Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.DefaultExt = ".html";
@@ -331,8 +332,9 @@ namespace MyPaint
                 files[tab] = filee;
                 filee.SetName("Bez názvu");
                 string filename = dialog.FileName;
-                FileOpener.FileOpener.OpenFromFile(this, filee, filename);
-
+                await FileOpener.FileOpener.OpenFromFile(this, filee, filename);
+                filee.InitDraw();
+                SetFileActive(filee);
             }
         }
 

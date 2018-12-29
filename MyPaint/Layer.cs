@@ -25,6 +25,8 @@ namespace MyPaint
 
         public string name;
         bool _visible;
+        Deserializer.Layer _layer;
+        public List<Shapes.Shape> _shapes;
         public bool Visible
         {
             get
@@ -35,6 +37,7 @@ namespace MyPaint
             {
                 canvas.Visibility = value ? Visibility.Visible : Visibility.Hidden;
                 _visible = value;
+                NotifyPropertyChanged("Visible");
             }
         }
 
@@ -85,17 +88,31 @@ namespace MyPaint
 
         public Layer(FileControl file, Deserializer.Layer layer)
         {
-            canvas = new Canvas();
+            f = file;
+            _layer = layer;
             Shapes = new List<Shapes.Shape>();
-            file.Canvas.Children.Add(canvas);
-            Name = layer.name;
-            canvas.Name = layer.name;
-            SetResolution(file.Resolution);
-            Visible = layer.visible;
-            Background = layer.color == null ? null : layer.color.CreateBrush();
+            _shapes = new List<Shapes.Shape>();
             foreach (var shape in layer.shapes)
             {
-                shape.Create(file.DrawControl, this);
+                _shapes.Add(shape.Create(file.DrawControl, this));
+            }
+        }
+
+        public void InitDraw()
+        {
+            canvas = new Canvas();
+            if (_layer != null)
+            {
+                f.Canvas.Children.Add(canvas);
+                Name = _layer.name;
+                canvas.Name = _layer.name;
+                Visible = _layer.visible;
+                Background = _layer.color == null ? null : _layer.color.CreateBrush();
+                SetResolution(f.Resolution);
+            }
+            foreach (var shape in _shapes)
+            {
+                shape.InitDraw();
             }
         }
 
