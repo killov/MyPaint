@@ -1,5 +1,4 @@
-﻿using System.Web.Script.Serialization;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media.Imaging;
 
 
@@ -82,13 +81,9 @@ namespace MyPaint
 
         void PasteShape(Serializer.Shape s)
         {
-            JavaScriptSerializer ser = new JavaScriptSerializer();
-            ser.MaxJsonLength = int.MaxValue;
-            var json = ser.Serialize(s);
-            JavaScriptSerializer dd = new JavaScriptSerializer();
-            dd.MaxJsonLength = int.MaxValue;
-            Deserializer.Shape shape = (Deserializer.Shape)dd.Deserialize(json, typeof(Deserializer.Shape));
-            control.file.DrawControl.PasteShape(shape);
+
+
+            control.file.DrawControl.PasteShape(s);
         }
     }
 }

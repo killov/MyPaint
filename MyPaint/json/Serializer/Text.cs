@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyPaint.Serializer
+﻿namespace MyPaint.Serializer
 {
     class Text : Shape
     {
         public string type = "TEXT";
-        public Brush stroke, fill;
-        public string b64;
+        public string B64;
         public Point A;
-        public int w, h;
-        public string font;
-        public double lineWidth;
+        public int W, H;
+        public string Font;
+
+        public override Shapes.Shape Create(DrawControl c, MyPaint.Layer la)
+        {
+            return new Shapes.Text(c, la, this);
+        }
     }
 }

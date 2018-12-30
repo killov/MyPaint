@@ -4,8 +4,8 @@
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
   </PropertyGroup>
   <PropertyGroup>
-    <PublishUrlHistory>publish\</PublishUrlHistory>
-    <InstallUrlHistory />
+    <PublishUrlHistory>ftp://mazurak.cz/web/publish/|ftp://mazurak.cz/publish/|publish\</PublishUrlHistory>
+    <InstallUrlHistory>https://mypaint.mazurak.cz/publish/</InstallUrlHistory>
     <SupportUrlHistory />
     <UpdateUrlHistory />
     <BootstrapperUrlHistory />

@@ -22,7 +22,7 @@ namespace MyPaint.Shapes
 
         }
 
-        public Polygon(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Polygon(DrawControl c, Layer la, Serializer.Shape s) : base(c, la, s)
         {
 
         }
@@ -34,15 +34,16 @@ namespace MyPaint.Shapes
             Element = p;
         }
 
-        protected override void OnCreateInit(Deserializer.Shape s)
+        protected override void OnCreateInit(Serializer.Shape shape)
         {
+            Serializer.Polygon s = (Serializer.Polygon)shape;
             p = new System.Windows.Shapes.Polygon();
             Element = p;
-            SetThickness(s.lineWidth);
+            SetThickness(s.LineWidth);
 
-            foreach (var point in s.points)
+            foreach (var point in s.Points)
             {
-                p.Points.Add(new Point(point.x, point.y));
+                p.Points.Add(new Point(point.X, point.Y));
             }
             p.ToolTip = null;
             p.Cursor = Cursors.SizeAll;
@@ -204,13 +205,13 @@ namespace MyPaint.Shapes
         override public Serializer.Shape CreateSerializer()
         {
             Serializer.Polygon ret = new Serializer.Polygon();
-            ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryBrush;
-            ret.fill = SecondaryBrush;
-            ret.points = new List<Serializer.Point>();
+            ret.LineWidth = GetThickness();
+            ret.Stroke = PrimaryBrush;
+            ret.Fill = SecondaryBrush;
+            ret.Points = new List<Serializer.Point>();
             foreach (var point in movepoints)
             {
-                ret.points.Add(new Serializer.Point(point.GetPosition()));
+                ret.Points.Add(new Serializer.Point(point.GetPosition()));
             }
             return ret;
         }

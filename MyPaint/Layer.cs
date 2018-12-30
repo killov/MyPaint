@@ -25,7 +25,7 @@ namespace MyPaint
 
         public string name;
         bool _visible;
-        Deserializer.Layer _layer;
+        Serializer.Layer _layer;
         public List<Shapes.Shape> _shapes;
         public bool Visible
         {
@@ -86,13 +86,13 @@ namespace MyPaint
             f = file;
         }
 
-        public Layer(FileControl file, Deserializer.Layer layer)
+        public Layer(FileControl file, Serializer.Layer layer)
         {
             f = file;
             _layer = layer;
             Shapes = new List<Shapes.Shape>();
             _shapes = new List<Shapes.Shape>();
-            foreach (var shape in layer.shapes)
+            foreach (var shape in layer.Shapes)
             {
                 _shapes.Add(shape.Create(file.DrawControl, this));
             }
@@ -104,10 +104,10 @@ namespace MyPaint
             if (_layer != null)
             {
                 f.Canvas.Children.Add(canvas);
-                Name = _layer.name;
-                canvas.Name = _layer.name;
-                Visible = _layer.visible;
-                Background = _layer.color == null ? null : _layer.color.CreateBrush();
+                Name = _layer.Name;
+                canvas.Name = _layer.Name;
+                Visible = _layer.Visible;
+                Background = _layer.Color == null ? null : _layer.Color.CreateBrush();
                 SetResolution(f.Resolution);
             }
             foreach (var shape in _shapes)
@@ -133,13 +133,13 @@ namespace MyPaint
         public Serializer.Layer CreateSerializer()
         {
             Serializer.Layer la = new Serializer.Layer();
-            la.color = sBackground;
-            la.visible = Visible;
-            la.name = Name;
-            la.shapes = new List<Serializer.Shape>();
+            la.Color = sBackground;
+            la.Visible = Visible;
+            la.Name = Name;
+            la.Shapes = new List<Serializer.Shape>();
             foreach (var shape in Shapes)
             {
-                la.shapes.Add(shape.CreateSerializer());
+                la.Shapes.Add(shape.CreateSerializer());
             }
             return la;
         }

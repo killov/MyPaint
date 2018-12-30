@@ -24,7 +24,7 @@ namespace MyPaint.Shapes
 
         }
 
-        public PolyLine(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public PolyLine(DrawControl c, Layer la, Serializer.Shape s) : base(c, la, s)
         {
 
         }
@@ -36,26 +36,27 @@ namespace MyPaint.Shapes
             Element = path;
         }
 
-        protected override void OnCreateInit(Deserializer.Shape s)
+        protected override void OnCreateInit(Serializer.Shape shape)
         {
+            Serializer.PolyLine s = (Serializer.PolyLine)shape;
             path = new Path();
             Element = path;
             PathGeometry p = new PathGeometry();
 
 
             bool f = true;
-            foreach (var point in s.points)
+            foreach (var point in s.Points)
             {
                 if (f)
                 {
                     pf = new PathFigure();
-                    pf.StartPoint = new Point(point.x, point.y);
+                    pf.StartPoint = new Point(point.X, point.Y);
                     p.Figures.Add(pf);
                     path.Data = p;
                     f = false;
                     continue;
                 }
-                pf.Segments.Add(new LineSegment(new Point(point.x, point.y), true));
+                pf.Segments.Add(new LineSegment(new Point(point.X, point.Y), true));
             }
             CreatePoints();
             CreateVirtualShape();
@@ -213,13 +214,13 @@ namespace MyPaint.Shapes
         override public Serializer.Shape CreateSerializer()
         {
             Serializer.PolyLine ret = new Serializer.PolyLine();
-            ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryBrush;
-            ret.fill = SecondaryBrush;
-            ret.points = new List<Serializer.Point>();
+            ret.LineWidth = GetThickness();
+            ret.Stroke = PrimaryBrush;
+            ret.Fill = SecondaryBrush;
+            ret.Points = new List<Serializer.Point>();
             foreach (var point in movepoints)
             {
-                ret.points.Add(new Serializer.Point(point.GetPosition()));
+                ret.Points.Add(new Serializer.Point(point.GetPosition()));
             }
             return ret;
         }

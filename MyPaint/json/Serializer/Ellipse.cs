@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyPaint.Serializer
+﻿namespace MyPaint.Serializer
 {
     public class Ellipse : Shape
     {
         public string type = "ELLIPSE";
-        public Brush stroke, fill;
-        public double lineWidth;
         public Point A, B;
+
+        public override Shapes.Shape Create(DrawControl c, MyPaint.Layer la)
+        {
+            return new Shapes.Ellipse(c, la, this);
+        }
     }
 }

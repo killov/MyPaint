@@ -91,8 +91,7 @@ namespace MyPaint
         Task t;
         private void saveClick(object sender, RoutedEventArgs e)
         {
-
-            //control.Save();
+            control.Save();
         }
 
         private void saveAsClick(object sender, RoutedEventArgs e)

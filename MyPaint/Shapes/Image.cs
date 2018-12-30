@@ -19,7 +19,7 @@ namespace MyPaint.Shapes
             image = bmi;
         }
 
-        public Image(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Image(DrawControl c, Layer la, Serializer.Shape s) : base(c, la, s)
         {
 
         }
@@ -29,14 +29,15 @@ namespace MyPaint.Shapes
 
         }
 
-        protected override void OnCreateInit(Deserializer.Shape s)
+        protected override void OnCreateInit(Serializer.Shape shape)
         {
+            Serializer.Image s = (Serializer.Image)shape;
             p = new System.Windows.Shapes.Polygon();
             Element = p;
 
             if (s != null)
             {
-                byte[] imageBytes = Convert.FromBase64String(s.b64);
+                byte[] imageBytes = Convert.FromBase64String(s.B64);
                 MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
                 BitmapImage bmi = new BitmapImage();
                 bmi.BeginInit();
@@ -44,10 +45,10 @@ namespace MyPaint.Shapes
                 bmi.EndInit();
                 image = bmi;
 
-                p.Points.Add(new Point(s.A.x, s.A.y));
-                p.Points.Add(new Point(s.A.x + s.w, s.A.y));
-                p.Points.Add(new Point(s.A.x + s.w, s.A.y + s.h));
-                p.Points.Add(new Point(s.A.x, s.A.y + s.h));
+                p.Points.Add(new Point(s.A.X, s.A.Y));
+                p.Points.Add(new Point(s.A.X + s.W, s.A.Y));
+                p.Points.Add(new Point(s.A.X + s.W, s.A.Y + s.H));
+                p.Points.Add(new Point(s.A.X, s.A.Y + s.H));
             }
             else
             {
@@ -158,11 +159,11 @@ namespace MyPaint.Shapes
 
             string base64String = Convert.ToBase64String(f);
             Serializer.Image ret = new Serializer.Image();
-            ret.b64 = base64String;
+            ret.B64 = base64String;
 
             ret.A = new Serializer.Point(eR.GetPoint());
-            ret.w = (int)eR.GetWidth();
-            ret.h = (int)eR.GetHeight();
+            ret.W = (int)eR.GetWidth();
+            ret.H = (int)eR.GetHeight();
             return ret;
         }
 

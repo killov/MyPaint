@@ -15,7 +15,7 @@ namespace MyPaint.Shapes
 
         }
 
-        public Line(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Line(DrawControl c, Layer la, Serializer.Shape s) : base(c, la, s)
         {
 
         }
@@ -26,14 +26,15 @@ namespace MyPaint.Shapes
             Element = p;
         }
 
-        protected override void OnCreateInit(Deserializer.Shape s)
+        protected override void OnCreateInit(Serializer.Shape shape)
         {
+            Serializer.Line s = (Serializer.Line)shape;
             p = new System.Windows.Shapes.Line();
             Element = p;
-            p.X1 = s.A.x;
-            p.Y1 = s.A.y;
-            p.X2 = s.B.x;
-            p.Y2 = s.B.y;
+            p.X1 = s.A.X;
+            p.Y1 = s.A.Y;
+            p.X2 = s.B.X;
+            p.Y2 = s.B.Y;
             CreatePoints();
             CreateVirtualShape();
         }
@@ -141,8 +142,8 @@ namespace MyPaint.Shapes
         override public Serializer.Shape CreateSerializer()
         {
             Serializer.Line ret = new Serializer.Line();
-            ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryBrush;
+            ret.LineWidth = GetThickness();
+            ret.Stroke = PrimaryBrush;
             ret.A = new Serializer.Point(p1.GetPosition());
             ret.B = new Serializer.Point(p2.GetPosition());
             return ret;

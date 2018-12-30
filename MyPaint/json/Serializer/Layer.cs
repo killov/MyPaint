@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MyPaint.Serializer
 {
     public class Layer
     {
-        public Brush color;
-        public bool visible;
-        public string name;
-        public List<Shape> shapes;
+        public Brush Color;
+        public bool Visible;
+        public string Name;
+        public List<Shape> Shapes;
     }
 }

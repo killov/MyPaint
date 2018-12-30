@@ -15,7 +15,7 @@ namespace MyPaint.Shapes
 
         }
 
-        public Rectangle(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Rectangle(DrawControl c, Layer la, Serializer.Shape s) : base(c, la, s)
         {
 
         }
@@ -26,15 +26,16 @@ namespace MyPaint.Shapes
             Element = p;
         }
 
-        protected override void OnCreateInit(Deserializer.Shape s)
+        protected override void OnCreateInit(Serializer.Shape shape)
         {
+            Serializer.Rectangle s = (Serializer.Rectangle)shape;
             p = new System.Windows.Shapes.Polygon();
             Element = p;
             CreateVirtualShape();
-            p.Points.Add(new Point(s.A.x, s.A.y));
-            p.Points.Add(new Point(s.B.x, s.A.y));
-            p.Points.Add(new Point(s.B.x, s.B.y));
-            p.Points.Add(new Point(s.A.x, s.B.y));
+            p.Points.Add(new Point(s.A.X, s.A.Y));
+            p.Points.Add(new Point(s.B.X, s.A.Y));
+            p.Points.Add(new Point(s.B.X, s.B.Y));
+            p.Points.Add(new Point(s.A.X, s.B.Y));
 
             CreatePoints();
         }
@@ -142,9 +143,9 @@ namespace MyPaint.Shapes
         override public Serializer.Shape CreateSerializer()
         {
             Serializer.Rectangle ret = new Serializer.Rectangle();
-            ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryBrush;
-            ret.fill = SecondaryBrush;
+            ret.LineWidth = GetThickness();
+            ret.Stroke = PrimaryBrush;
+            ret.Fill = SecondaryBrush;
             ret.A = new Serializer.Point(eR.p1.GetPosition());
             ret.B = new Serializer.Point(eR.p3.GetPosition());
             return ret;

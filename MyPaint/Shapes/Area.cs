@@ -16,7 +16,7 @@ namespace MyPaint.Shapes
 
         }
 
-        public Area(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Area(DrawControl c, Layer la, Serializer.Shape s) : base(c, la, s)
         {
 
         }
@@ -26,7 +26,7 @@ namespace MyPaint.Shapes
 
         }
 
-        protected override void OnCreateInit(Deserializer.Shape s)
+        protected override void OnCreateInit(Serializer.Shape s)
         {
 
         }

@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyPaint.Serializer
+﻿namespace MyPaint.Serializer
 {
     public class Point
     {
-        public double x, y;
+        public double X, Y;
 
         public Point(double xx, double yy)
         {
-            x = xx;
-            y = yy;
+            X = xx;
+            Y = yy;
+        }
+
+        public Point()
+        {
+
         }
 
         public Point(System.Windows.Point p)
         {
-            x = p.X;
-            y = p.Y;
+            X = p.X;
+            Y = p.Y;
         }
     }
 }

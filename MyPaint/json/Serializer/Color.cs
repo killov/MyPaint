@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace MyPaint.Serializer
@@ -11,6 +7,11 @@ namespace MyPaint.Serializer
     {
         public string type = "COLOR";
         public Byte R, G, B, A;
+
+        public Color()
+        {
+
+        }
 
         public Color(Byte RR, Byte GG, Byte BB, Byte AA)
         {

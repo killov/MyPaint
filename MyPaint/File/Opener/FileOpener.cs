@@ -60,7 +60,6 @@ namespace MyPaint.FileOpener
             c.AdjustZoom(dc.Resolution.X, dc.Resolution.Y);
         }
 
-
         abstract protected void Thread_open();
     }
 }

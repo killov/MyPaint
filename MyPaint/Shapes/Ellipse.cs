@@ -17,7 +17,7 @@ namespace MyPaint.Shapes
 
         }
 
-        public Ellipse(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Ellipse(DrawControl c, Layer la, Serializer.Shape s) : base(c, la, s)
         {
 
         }
@@ -28,15 +28,16 @@ namespace MyPaint.Shapes
             Element = p;
         }
 
-        protected override void OnCreateInit(Deserializer.Shape s)
+        protected override void OnCreateInit(Serializer.Shape shape)
         {
+            Serializer.Ellipse s = (Serializer.Ellipse)shape;
             p = new System.Windows.Shapes.Ellipse();
             Element = p;
-            sx = s.A.x;
-            sy = s.A.y;
+            sx = s.A.X;
+            sy = s.A.Y;
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
-            moveE(p, s.B.x, s.B.y);
+            moveE(p, s.B.X, s.B.Y);
             CreateVirtualShape();
             CreatePoints();
         }
@@ -200,9 +201,9 @@ namespace MyPaint.Shapes
         override public Serializer.Shape CreateSerializer()
         {
             Serializer.Ellipse ret = new Serializer.Ellipse();
-            ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryBrush;
-            ret.fill = SecondaryBrush;
+            ret.LineWidth = GetThickness();
+            ret.Stroke = PrimaryBrush;
+            ret.Fill = SecondaryBrush;
             ret.A = new Serializer.Point(sx, sy);
             ret.B = new Serializer.Point(ex, ey);
             return ret;

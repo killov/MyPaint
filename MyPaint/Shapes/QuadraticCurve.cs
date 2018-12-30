@@ -20,7 +20,7 @@ namespace MyPaint.Shapes
 
         }
 
-        public QuadraticCurve(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public QuadraticCurve(DrawControl c, Layer la, Serializer.Shape s) : base(c, la, s)
         {
 
         }
@@ -31,16 +31,17 @@ namespace MyPaint.Shapes
             Element = p;
         }
 
-        protected override void OnCreateInit(Deserializer.Shape s)
+        protected override void OnCreateInit(Serializer.Shape shape)
         {
+            Serializer.QuadraticCurve s = (Serializer.QuadraticCurve)shape;
             p = new Path();
             Element = p;
             PathGeometry pg = new PathGeometry();
             p.Data = pg;
             pf = new PathFigure();
             pg.Figures.Add(pf);
-            pf.StartPoint = new Point(s.A.x, s.A.y);
-            qbs = new QuadraticBezierSegment(new Point(s.B.x, s.B.y), new Point(s.C.x, s.C.y), true);
+            pf.StartPoint = new Point(s.A.X, s.A.Y);
+            qbs = new QuadraticBezierSegment(new Point(s.B.X, s.B.Y), new Point(s.C.X, s.C.Y), true);
             pf.Segments.Add(qbs);
 
             CreatePoints();
@@ -194,8 +195,9 @@ namespace MyPaint.Shapes
         override public Serializer.Shape CreateSerializer()
         {
             Serializer.QuadraticCurve ret = new Serializer.QuadraticCurve();
-            ret.lineWidth = GetThickness();
-            ret.stroke = PrimaryBrush;
+            ret.LineWidth = GetThickness();
+            ret.Stroke = PrimaryBrush;
+            ret.Fill = SecondaryBrush;
             ret.A = new Serializer.Point(p1.GetPosition());
             ret.B = new Serializer.Point(p2.GetPosition());
             ret.C = new Serializer.Point(p3.GetPosition());

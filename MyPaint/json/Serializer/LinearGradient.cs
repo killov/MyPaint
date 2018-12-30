@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Media;
 
 namespace MyPaint.Serializer
@@ -13,6 +9,10 @@ namespace MyPaint.Serializer
         public Point S, E;
         public List<GradientStop> stops;
 
+        public LinearGradient()
+        {
+        }
+
         public LinearGradient(LinearGradientBrush brush)
         {
             S = new Serializer.Point(brush.StartPoint.X, brush.StartPoint.Y);
@@ -21,8 +21,8 @@ namespace MyPaint.Serializer
             foreach (var stop in brush.GradientStops)
             {
                 GradientStop s = new GradientStop();
-                s.color = new Serializer.Color(stop.Color.R, stop.Color.G, stop.Color.B, stop.Color.A);
-                s.offset = stop.Offset;
+                s.Color = new Serializer.Color(stop.Color.R, stop.Color.G, stop.Color.B, stop.Color.A);
+                s.Offset = stop.Offset;
                 stops.Add(s);
             }
         }
@@ -30,11 +30,11 @@ namespace MyPaint.Serializer
         public override System.Windows.Media.Brush CreateBrush()
         {
             LinearGradientBrush lg = new LinearGradientBrush();
-            lg.StartPoint = new System.Windows.Point(S.x, S.y);
-            lg.EndPoint = new System.Windows.Point(E.x, E.y);
+            lg.StartPoint = new System.Windows.Point(S.X, S.Y);
+            lg.EndPoint = new System.Windows.Point(E.X, E.Y);
             foreach (var stop in stops)
             {
-                lg.GradientStops.Add(new System.Windows.Media.GradientStop(stop.color.createColor(), stop.offset));
+                lg.GradientStops.Add(new System.Windows.Media.GradientStop(stop.Color.createColor(), stop.Offset));
             }
             return lg;
         }

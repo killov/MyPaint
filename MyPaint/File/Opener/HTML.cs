@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Web.Script.Serialization;
 
 namespace MyPaint.FileOpener
 {
@@ -18,10 +19,17 @@ namespace MyPaint.FileOpener
                 dc.Resolution = new System.Windows.Point(width, height);
                 Regex r = new Regex("var json = (.+);");
                 string json = r.Matches(code)[0].Groups[1].ToString();
-                JavaScriptSerializer dd = new JavaScriptSerializer();
-                dd.MaxJsonLength = int.MaxValue;
-                Deserializer.Picture pic = (Deserializer.Picture)dd.Deserialize(json, typeof(Deserializer.Picture));
-                foreach (var l in pic.layers)
+
+                Serializer.Picture pic = JsonConvert.DeserializeObject<Serializer.Picture>(json, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto,
+                    ContractResolver = new DefaultContractResolver
+                    {
+                        NamingStrategy = new CamelCaseNamingStrategy()
+                    }
+                });
+
+                foreach (var l in pic.Layers)
                 {
                     dc.layers.Add(new Layer(dc, l));
                 }

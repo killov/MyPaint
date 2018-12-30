@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MyPaint.Serializer
 {
     class Polygon : Shape
     {
         public string type = "POLYGON";
+        public List<Point> Points;
 
-        public Brush stroke, fill;
-        public double lineWidth;
-        public List<Point> points;
+        public override Shapes.Shape Create(DrawControl c, MyPaint.Layer la)
+        {
+            return new Shapes.Polygon(c, la, this);
+        }
     }
 }

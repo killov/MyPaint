@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyPaint.Serializer
+﻿namespace MyPaint.Serializer
 {
 
-    public class Shape
+    abstract public class Shape
     {
-        public Shape()
-        {
-            
-        }
+        public Brush Stroke, Fill;
+        public double LineWidth;
+
+        abstract public Shapes.Shape Create(DrawControl c, MyPaint.Layer la);
     }
+
 }

@@ -404,7 +404,7 @@ namespace MyPaint
             }
         }
 
-        public void PasteShape(Deserializer.Shape s)
+        public void PasteShape(Serializer.Shape s)
         {
             StopEdit();
             if (SelectLayer != null)

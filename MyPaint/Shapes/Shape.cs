@@ -19,7 +19,7 @@ namespace MyPaint.Shapes
         protected OnMouseDownDelegate virtualElementCallback;
         protected Brush nullBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 255));
         bool inLayer = false;
-        protected Deserializer.Shape _dShape;
+        protected Serializer.Shape _dShape;
         UIElement _element = null;
 
         public UIElement Element
@@ -60,7 +60,7 @@ namespace MyPaint.Shapes
             exist = false;
         }
 
-        public Shape(DrawControl c, Layer la, Deserializer.Shape s)
+        public Shape(DrawControl c, Layer la, Serializer.Shape s)
         {
             nullBrush.Freeze();
             _dShape = s;
@@ -74,16 +74,16 @@ namespace MyPaint.Shapes
             OnCreateInit(_dShape);
             if (_dShape != null)
             {
-                SetBrush(BrushEnum.PRIMARY, _dShape.stroke == null ? null : _dShape.stroke.CreateBrush());
-                SetBrush(BrushEnum.SECONDARY, _dShape.fill == null ? null : _dShape.fill.CreateBrush());
-                SetThickness(_dShape.lineWidth);
+                SetBrush(BrushEnum.PRIMARY, _dShape.Stroke == null ? null : _dShape.Stroke.CreateBrush());
+                SetBrush(BrushEnum.SECONDARY, _dShape.Fill == null ? null : _dShape.Fill.CreateBrush());
+                SetThickness(_dShape.LineWidth);
             }
             AddToLayer();
         }
 
         abstract protected void OnDrawInit();
 
-        abstract protected void OnCreateInit(Deserializer.Shape s);
+        abstract protected void OnCreateInit(Serializer.Shape s);
 
         public bool SetBrush(BrushEnum brushEnum, Brush brush)
         {

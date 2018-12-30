@@ -19,7 +19,7 @@ namespace MyPaint.Shapes
 
         }
 
-        public Text(DrawControl c, Layer la, Deserializer.Shape s) : base(c, la, s)
+        public Text(DrawControl c, Layer la, Serializer.Shape s) : base(c, la, s)
         {
 
         }
@@ -32,21 +32,22 @@ namespace MyPaint.Shapes
             SetFontSize(DrawControl.GetTextFontSize());
         }
 
-        protected override void OnCreateInit(Deserializer.Shape s)
+        protected override void OnCreateInit(Serializer.Shape shape)
         {
+            Serializer.Text s = (Serializer.Text)shape;
             p = new TextBox();
             p.AcceptsTab = false;
             Element = p;
-            sx = s.A.x;
-            sy = s.A.y;
+            sx = s.A.X;
+            sy = s.A.Y;
             p.BorderThickness = new Thickness(0);
-            SetText(s.b64);
-            SetFontSize(s.lineWidth);
-            SetFont(new FontFamily(s.font));
+            SetText(s.B64);
+            SetFontSize(s.LineWidth);
+            SetFont(new FontFamily(s.Font));
 
             Canvas.SetLeft(p, sx);
             Canvas.SetTop(p, sy);
-            moveE(p, s.A.x + s.w, s.A.y + s.h);
+            moveE(p, s.A.X + s.W, s.A.Y + s.H);
             CreatePoints();
             CreateVirtualShape();
         }
@@ -247,13 +248,13 @@ namespace MyPaint.Shapes
         {
             Serializer.Text ret = new Serializer.Text();
             ret.A = new Serializer.Point(Math.Min(sx, ex), Math.Min(sy, ey));
-            ret.w = (int)Math.Abs(sx - ex);
-            ret.h = (int)Math.Abs(sy - ey);
-            ret.stroke = PrimaryBrush;
-            ret.fill = SecondaryBrush;
-            ret.b64 = GetText();
-            ret.font = font.Source;
-            ret.lineWidth = size;
+            ret.W = (int)Math.Abs(sx - ex);
+            ret.H = (int)Math.Abs(sy - ey);
+            ret.Stroke = PrimaryBrush;
+            ret.Fill = SecondaryBrush;
+            ret.B64 = GetText();
+            ret.Font = font.Source;
+            ret.LineWidth = size;
             return ret;
         }
 

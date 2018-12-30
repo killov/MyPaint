@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MyPaint.Serializer
 {
     public class Picture
     {
-        public Point resolution;
-        public List<Layer> layers;
+        public Point Resolution;
+        public List<Layer> Layers;
     }
 }
