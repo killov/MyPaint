@@ -8,5 +8,4 @@
 
         abstract public Shapes.Shape Create(DrawControl c, MyPaint.Layer la);
     }
-
 }

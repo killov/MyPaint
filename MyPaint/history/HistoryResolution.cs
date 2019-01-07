@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace MyPaint.History
 {
@@ -21,7 +16,6 @@ namespace MyPaint.History
         public void Back()
         {
             dc.SetResolutionByHistoryControl(oldR);
-            
         }
 
         public void Forward()
