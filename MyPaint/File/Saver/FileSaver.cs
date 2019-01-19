@@ -1,6 +1,8 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading;
-
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace MyPaint.FileSaver
 {
@@ -8,48 +10,66 @@ namespace MyPaint.FileSaver
     {
         protected FileControl dc;
 
-        public static void SaveAsFile(MainControl c, FileControl dc, string path)
+        public static async Task<bool> SaveAsFile(MainControl c, FileControl dc, string path)
         {
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
             switch (suffix)
             {
                 case ".html":
-                    new HTML().Save(dc);
-                    break;
+                    return await new HTML().Save(dc);
                 case ".jpg":
-                    new JPEG().Save(dc); ;
-                    break;
+                    return await new JPEG().Save(dc);
                 case ".bmp":
-                    new BMP().Save(dc);
-                    break;
+                    return await new BMP().Save(dc);
                 case ".png":
                 default:
-                    new PNG().Save(dc);
-                    break;
+                    return await new PNG().Save(dc);
             }
         }
 
-        public void Save(FileControl dc)
+        public async Task<bool> Save(FileControl dc)
         {
             this.dc = dc;
-            Thread t = new Thread(Save);
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
+
+            return await StartSTATask(() =>
+            {
+                bool fail = false;
+                try
+                {
+                    SaveImage();
+                }
+                catch
+                {
+                    MessageBox.Show("Nepodařilo se uložit soubor");
+                    fail = true;
+                }
+
+                return !fail;
+            });
         }
 
-        private void Save()
+        abstract protected void SaveImage();
+
+        public static Task<TResult> StartSTATask<TResult>(Func<TResult> action)
         {
-            try
+            var tcs = new TaskCompletionSource<TResult>();
+            var thread = new Thread(() =>
             {
-                Thread_save();
-            }
-            catch
-            {
+                try
+                {
+                    TResult result = action();
+                    tcs.SetResult(result);
+                }
+                catch (Exception e)
+                {
+                    tcs.SetException(e);
+                }
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
 
-            }
+            return tcs.Task;
         }
-
-        abstract protected void Thread_save();
     }
 }

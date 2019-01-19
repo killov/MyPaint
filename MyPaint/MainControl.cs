@@ -116,17 +116,17 @@ namespace MyPaint
             }
         }
 
-        public void TabControlDelete(TabItem tab)
+        public async void TabControlDelete(TabItem tab)
         {
             if (tab != null)
             {
                 TabItem selectedTab = w.tabControl.SelectedItem as TabItem;
                 FileControl file = files[tab];
-                file.Deactivate();
                 if (file.HistoryControl.Change())
                 {
-                    if (!SaveDialog()) return;
+                    if (!await SaveDialog()) return;
                 }
+                file.Deactivate();
                 files.Remove(tab);
                 w.tabControl.DataContext = null;
                 tabItems.Remove(tab);
@@ -346,7 +346,7 @@ namespace MyPaint
             w.labelPath.Content = path;
         }
 
-        public bool SaveAs()
+        public async Task<bool> SaveAs()
         {
             Microsoft.Win32.SaveFileDialog dialog = new Microsoft.Win32.SaveFileDialog();
             dialog.DefaultExt = ".html";
@@ -355,42 +355,48 @@ namespace MyPaint
             if (result == true)
             {
                 string filename = dialog.FileName;
-                SaveAs(filename);
-                file.SetPath(filename);
-                SetPath(filename);
+                if (await SaveAs(filename))
+                {
+                    file.SetPath(filename);
+                    SetPath(filename);
+                    return true;
+                }
             }
-            return result.HasValue && result.Value;
+            return false;
         }
 
-        void SaveAs(string path)
+        async Task<bool> SaveAs(string path)
         {
             file.DrawControl.StopEdit();
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
             file.SetPath(path);
-            FileSaver.FileSaver.SaveAsFile(this, file, path);
-            file.HistoryControl.SetNotChange();
+            if (await FileSaver.FileSaver.SaveAsFile(this, file, path))
+            {
+                file.HistoryControl.SetNotChange();
+                return true;
+            }
+            return false;
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
             if (file.Path == null)
             {
-                return SaveAs();
+                return await SaveAs();
             }
             else
             {
-                SaveAs(file.Path);
-                return true;
+                return await SaveAs(file.Path);
             }
         }
 
-        public bool SaveDialog()
+        public async Task<bool> SaveDialog()
         {
             MessageBoxResult result = MessageBox.Show("Chcete uložit změny?", "", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                return Save();
+                return await Save();
             }
             else if (result == MessageBoxResult.Cancel)
             {
@@ -468,7 +474,7 @@ namespace MyPaint
             if (file != null) file.DrawControl.MouseUp(e.GetPosition(w.topCanvas), e);
         }
 
-        public void Closed(System.ComponentModel.CancelEventArgs e)
+        public async void Closed(System.ComponentModel.CancelEventArgs e)
         {
             foreach (var f in files)
             {
@@ -476,7 +482,7 @@ namespace MyPaint
                 SetFileActive(f.Value);
                 if (file.HistoryControl.Change())
                 {
-                    if (!SaveDialog())
+                    if (!await SaveDialog())
                     {
                         e.Cancel = true;
                         break;

@@ -36,24 +36,15 @@
                     <ControlTemplate TargetType="Slider">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="40" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <TextBox Grid.Column="1" Focusable="False" Cursor="Arrow" Text="{Binding Value,Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" VerticalContentAlignment="Center" BorderThickness="1,1,0,1" FontSize="10" VerticalAlignment="Center" HorizontalContentAlignment="Right" HorizontalAlignment="Right"/>
-                            <TextBox Grid.Column="2" Focusable="False" Cursor="Arrow" Text="%" VerticalContentAlignment="Center" BorderThickness="0,1,0,1" FontSize="10" VerticalAlignment="Center"/>
+                            <Slider Grid.Column="0" VerticalAlignment="Center" Margin="0,0,0,0" Value="{Binding Value,Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"  Maximum="200" Minimum="20"></Slider>
 
-                            <RepeatButton Grid.Column="0" Grid.Row="0" Command="Slider.DecreaseLarge">
-                                <Path Fill="Black" Data="M0,0 L1,0 1,1 0,1z" Width="10" Height="3" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            </RepeatButton>
-
-                            <RepeatButton Grid.Column="3" Grid.Row="0" Command="Slider.IncreaseLarge">
-                                <Path Fill="Black" Data="M0,1 L1,1 1,0 2,0 2,1 3,1 3,2 2,2 2,3 1,3 1,2 0,2z" Width="10" Height="10" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            </RepeatButton>
+                            <Label Grid.Column="1" VerticalAlignment="Center" Margin="0" Padding="0" Content="{Binding Value,Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"></Label>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>

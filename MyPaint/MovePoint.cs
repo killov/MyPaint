@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Input;
-using System.Windows.Controls;
 
 namespace MyPaint
 {
@@ -28,7 +23,7 @@ namespace MyPaint
             TransformGroup g = new TransformGroup();
             g.Children.Add(revScale);
             ca.LayoutTransform = g;
-            
+
             posun = pos;
             position = p;
             el = new Ellipse();
@@ -42,7 +37,7 @@ namespace MyPaint
             shape = s;
             canvas = c;
             element = ca;
-            el.MouseDown += delegate (object sender, MouseButtonEventArgs e) 
+            el.MouseDown += delegate (object sender, MouseButtonEventArgs e)
             {
                 startPosition = position;
 

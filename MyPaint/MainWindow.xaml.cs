@@ -20,7 +20,6 @@ namespace MyPaint
         BrushEnum activeColor = BrushEnum.PRIMARY;
         Brush CBLock;
         bool fontLock = false;
-        //public Canvas topCanvas = new Canvas();
 
         public MainWindow()
         {
@@ -89,14 +88,14 @@ namespace MyPaint
             await t;
         }
         Task t;
-        private void saveClick(object sender, RoutedEventArgs e)
+        private async void saveClick(object sender, RoutedEventArgs e)
         {
-            control.Save();
+            await control.Save();
         }
 
-        private void saveAsClick(object sender, RoutedEventArgs e)
+        private async void saveAsClick(object sender, RoutedEventArgs e)
         {
-            control.SaveAs();
+            await control.SaveAs();
         }
 
         private void exitClick(object sender, RoutedEventArgs e)
@@ -463,18 +462,15 @@ namespace MyPaint
 
         private void font_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             if (!fontLock)
             {
                 FontFamily f = (FontFamily)font.SelectedValue;
                 control.SetTextFont(f);
-
             }
             else
             {
                 fontLock = false;
             }
-
         }
 
         private void font_size_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -16,7 +9,7 @@ namespace MyPaint.FileSaver
 {
     public abstract class Raster : FileSaver
     {
-        override protected void Thread_save()
+        override protected void SaveImage()
         {
             ContentControl cc = new ContentControl();
             Rect rect = new Rect(0, 0, dc.Resolution.X, dc.Resolution.Y);

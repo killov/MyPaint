@@ -7,7 +7,7 @@ namespace MyPaint.FileSaver
 {
     public class HTML : FileSaver
     {
-        override protected void Thread_save()
+        override protected void SaveImage()
         {
             string filename = dc.Path;
             System.IO.StreamWriter file = new System.IO.StreamWriter(filename);

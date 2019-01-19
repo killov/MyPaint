@@ -22,10 +22,10 @@
                 </LinearGradientBrush>
             </Menu.Background>
             <MenuItem Header="Soubor" Height="20">
-                <MenuItem Header="Nový" Click="newClick" Height="20"  InputGestureText="Ctrl+N">
+                <MenuItem Header="Nový" Click="newClick" Height="20" InputGestureText="Ctrl+N">
 
                 </MenuItem>
-                <MenuItem Header="Otevřít" Click="openClick" Height="20"  InputGestureText="Ctrl+O"/>
+                <MenuItem Header="Otevřít" Click="openClick" Height="20" InputGestureText="Ctrl+O"/>
                 <MenuItem Header="Uložit" Click="saveClick" HorizontalAlignment="Left" Width="186" InputGestureText="Ctrl+S">
                     <MenuItem.Icon>
                         <Viewbox Width="20" Height="16" HorizontalAlignment="Left" Margin="1,0,-1,0">
@@ -241,15 +241,15 @@
             <Grid Background="LightGray" VerticalAlignment="Bottom" Height="26">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition  Width="100"/>
+                    <ColumnDefinition  Width="259.6"/>
                     <ColumnDefinition Width="71"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label x:Name="labelPath" Content="" Background="LightGray" Grid.Row="0" Grid.Column="0"/>
-                <Slider x:Name="zoom" Width="85" Grid.Row="0" Style="{StaticResource ZoomSpinButton}" Maximum="200" Minimum="20" Value="100" Background="{x:Null}" LargeChange="10" Margin="0,3,5,4" HorizontalAlignment="Right" Grid.Column="1" ValueChanged="zoom_ValueChanged"/>
-                <Label x:Name="labelResolution" Content="" Grid.Row="0" Grid.Column="2"/>
+                <Label x:Name="labelPath" Content="" Background="LightGray" Grid.Row="0" Grid.Column="0" Margin="0,0,2.4,-0.4"/>
+                <Slider x:Name="zoom" Grid.Row="0" Grid.Column="1" Style="{StaticResource ZoomSpinButton}" Maximum="200" Minimum="20" Value="100" Background="{x:Null}" LargeChange="10" ValueChanged="zoom_ValueChanged" Margin="2.6,0,70.8,-0.4" Grid.ColumnSpan="2" />
+                <Label x:Name="labelResolution" Content="" Grid.Row="0" Grid.Column="2" Margin="0"/>
 
             </Grid>
 
