@@ -185,20 +185,27 @@ namespace MyPaint.Shapes
             return thickness;
         }
 
-        virtual public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
+        public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
-
+            OnDrawMouseDown(e, ee);
         }
 
-        virtual public void DrawMouseMove(Point e)
+        public void DrawMouseMove(Point e)
         {
-
+            OnDrawMouseMove(e);
         }
 
-        virtual public void DrawMouseUp(Point e, MouseButtonEventArgs ee)
+        public void DrawMouseUp(Point e, MouseButtonEventArgs ee)
         {
-
+            OnDrawMouseUp(e, ee);
         }
+
+        abstract public void OnDrawMouseDown(Point e, MouseButtonEventArgs ee);
+
+        abstract public void OnDrawMouseMove(Point e);
+
+        abstract public void OnDrawMouseUp(Point e, MouseButtonEventArgs ee);
+
 
         abstract protected void CreatePoints();
 
@@ -264,7 +271,7 @@ namespace MyPaint.Shapes
             HideVirtualShape();
         }
 
-        virtual public void MoveShape(double x, double y)
+        virtual public void MoveShape(Point point)
         {
             SetHit(true);
         }

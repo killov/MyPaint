@@ -73,17 +73,17 @@ namespace MyPaint.Shapes
             return false;
         }
 
-        override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
 
         }
 
-        override public void DrawMouseMove(Point e)
+        override public void OnDrawMouseMove(Point e)
         {
 
         }
 
-        override public void DrawMouseUp(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseUp(Point e, MouseButtonEventArgs ee)
         {
 
         }
@@ -124,14 +124,11 @@ namespace MyPaint.Shapes
             eR.StopEdit();
         }
 
-        override public void MoveShape(double x, double y)
+        override public void MoveShape(Point point)
         {
-            base.MoveShape(x, y);
-            p.Points[1] = new Point(p.Points[1].X - p.Points[0].X + x, p.Points[1].Y - p.Points[0].Y + y);
-            p.Points[2] = new Point(p.Points[2].X - p.Points[0].X + x, p.Points[2].Y - p.Points[0].Y + y);
-            p.Points[3] = new Point(p.Points[3].X - p.Points[0].X + x, p.Points[3].Y - p.Points[0].Y + y);
-            p.Points[0] = new Point(x, y);
-            eR.Move(x, y);
+            base.MoveShape(point);
+
+            eR.Move(point);
         }
 
         override public Serializer.Shape CreateSerializer()
@@ -174,26 +171,18 @@ namespace MyPaint.Shapes
 
         override protected void CreatePoints()
         {
-            eR = new EditRect(DrawControl.TopCanvas, this, p.Points[0], p.Points[2], DrawControl.RevScale, (po) =>
+            eR = new EditRect(DrawControl.TopCanvas, this, p.Points[0], p.Points[2], DrawControl.RevScale, (po, mouseDrag) =>
             {
                 p.Points[0] = po;
-                p.Points[1] = new Point(p.Points[1].X, po.Y);
-                p.Points[3] = new Point(po.X, p.Points[3].Y);
-            }, (po) =>
+            }, (po, mouseDrag) =>
             {
                 p.Points[1] = po;
-                p.Points[0] = new Point(p.Points[0].X, po.Y);
-                p.Points[2] = new Point(po.X, p.Points[2].Y);
-            }, (po) =>
+            }, (po, mouseDrag) =>
             {
                 p.Points[2] = po;
-                p.Points[1] = new Point(po.X, p.Points[1].Y);
-                p.Points[3] = new Point(p.Points[3].X, po.Y);
-            }, (po) =>
+            }, (po, mouseDrag) =>
             {
                 p.Points[3] = po;
-                p.Points[0] = new Point(po.X, p.Points[0].Y);
-                p.Points[2] = new Point(p.Points[2].X, po.Y);
             });
         }
 

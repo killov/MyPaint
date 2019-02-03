@@ -14,7 +14,7 @@ namespace MyPaint
     {
         public FileControl file;
         public MainWindow w;
-        ScaleTransform scale, revScale;
+        ScaleTransform scale;
         Point resolution;
 
         ClipboardControl clipboardControl;
@@ -23,14 +23,19 @@ namespace MyPaint
         Dictionary<TabItem, FileControl> files;
         Brush primaryBrush, secondaryBrush, layerColor;
         FontFamily font;
+
+        public Canvas TopCanvas { get; private set; }
+        public ScaleTransform RevScale { get; private set; }
+
         double fontSize;
         ToolEnum tool = ToolEnum.LINE;
         double thickness = 1;
         public MainControl(MainWindow ww)
         {
             w = ww;
+            TopCanvas = w.topCanvas;
             scale = new ScaleTransform(1, 1);
-            revScale = new ScaleTransform(1, 1);
+            RevScale = new ScaleTransform(1, 1);
             files = new Dictionary<TabItem, FileControl>();
             clipboardControl = new ClipboardControl(this);
             SetTool(ToolEnum.LINE);
@@ -40,7 +45,7 @@ namespace MyPaint
             g.Children.Add(scale);
             w.canvas_out.LayoutTransform = g;
             g = new TransformGroup();
-            g.Children.Add(revScale);
+            g.Children.Add(RevScale);
             w.resolution.LayoutTransform = g;
 
 
@@ -57,12 +62,16 @@ namespace MyPaint
 
         private FileControl NewFile()
         {
-            TabItem tab = AddTabItem();
-            FileControl file = new FileControl(this, revScale, tab, w.topCanvas);
+            TabItem tab = CreateTabItem();
+            AddTabItem(tab);
+            FileControl file = new FileControl();
+            file.Init(this);
+            file.TabItem = tab;
             file.SetName("Bez názvu");
             file.SetResolution(new Point(500, 400), false, true);
             file.HistoryControl.Enable();
             files[tab] = file;
+
             return file;
         }
 
@@ -88,16 +97,19 @@ namespace MyPaint
             }
         }
 
-        private TabItem AddTabItem()
+        private void AddTabItem(TabItem tabItem)
         {
             int count = tabItems.Count;
+            tabItems.Insert(count - 1, tabItem);
+            w.tabControl.DataContext = tabItems;
+        }
+
+        private TabItem CreateTabItem()
+        {
             TabItem tab = new TabItem();
-            tab.Header = string.Format("Tab {0}", count);
-            tab.Name = string.Format("tab{0}", count);
             tab.HeaderTemplate = w.tabControl.FindResource("TabHeader") as DataTemplate;
             w.tabControl.DataContext = null;
-            tabItems.Insert(count - 1, tab);
-            w.tabControl.DataContext = tabItems;
+
             return tab;
         }
 
@@ -187,8 +199,8 @@ namespace MyPaint
         {
             scale.ScaleX = zoom;
             scale.ScaleY = zoom;
-            revScale.ScaleX = 1 / zoom;
-            revScale.ScaleY = 1 / zoom;
+            RevScale.ScaleX = 1 / zoom;
+            RevScale.ScaleY = 1 / zoom;
             if (file != null) file.Zoom = zoom;
         }
 
@@ -322,7 +334,7 @@ namespace MyPaint
             w.ShowFontPanel(t);
         }
 
-        public async Task Open()
+        public bool Open()
         {
             Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.DefaultExt = ".html";
@@ -330,15 +342,25 @@ namespace MyPaint
             Nullable<bool> result = dialog.ShowDialog();
             if (result == true)
             {
-                TabItem tab = AddTabItem();
-                FileControl filee = new FileControl(this, revScale, tab, w.topCanvas);
-                files[tab] = filee;
-                filee.SetName("Bez názvu");
                 string filename = dialog.FileName;
-                await FileOpener.FileOpener.OpenFromFile(this, filee, filename);
-                filee.InitDraw();
-                SetFileActive(filee);
+                FileControl file = FileOpener.FileOpener.OpenFromFile(filename);
+                if (file != null)
+                {
+                    //w.SetLoading(true);
+                    TabItem tab = CreateTabItem();
+                    file.Init(this);
+                    files[tab] = file;
+                    tab.Header = file.Name;
+                    file.TabItem = tab;
+
+
+                    file.InitDraw();
+                    AddTabItem(tab);
+                    SetFileActive(file);
+                }
+                //sw.SetLoading(false);
             }
+            return true;
         }
 
         public void SetPath(string path)
@@ -491,7 +513,7 @@ namespace MyPaint
             }
         }
 
-        public void KeyDown(object sender, KeyEventArgs e)
+        public async void KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
             {
@@ -511,7 +533,7 @@ namespace MyPaint
                         Paste();
                         break;
                     case Key.S:
-                        Save();
+                        await Save();
                         break;
                     case Key.O:
                         Open();

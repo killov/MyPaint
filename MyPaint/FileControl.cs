@@ -1,10 +1,10 @@
-﻿using MyPaint.History;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MyPaint.History;
 
 namespace MyPaint
 {
@@ -12,11 +12,10 @@ namespace MyPaint
     {
         public string Path { get; private set; }
         public string Name { get; private set; }
-        public TabItem TabItem { get; private set; }
+        public TabItem TabItem { get; set; }
         public MainControl Control { get; private set; }
         public HistoryControl HistoryControl { get; private set; }
         public Canvas Canvas { get; private set; }
-        public Canvas TopCanvas { get; private set; }
         public DrawControl DrawControl { get; private set; }
         public Point Resolution { get; set; }
         public ObservableCollection<Layer> layers = new ObservableCollection<Layer>();
@@ -37,17 +36,21 @@ namespace MyPaint
 
         private int layerCounter = 1;
 
-        public FileControl(MainControl c, ScaleTransform revScale, TabItem ti, Canvas topCanvas)
+        public FileControl()
         {
-            Control = c;
+            DrawControl = new DrawControl();
+
+        }
+
+        public void Init(MainControl mainControl)
+        {
+            Control = mainControl;
             Canvas = new Canvas();
-            TopCanvas = topCanvas;
-            HistoryControl = new HistoryControl(c);
 
-            TabItem = ti;
-            DrawControl = new DrawControl(c, revScale, topCanvas, this, HistoryControl);
-
+            HistoryControl = new HistoryControl(mainControl);
+            DrawControl.Init(mainControl, mainControl.RevScale, mainControl.TopCanvas, this, HistoryControl);
             HistoryControl.Clear();
+            HistoryControl.Enable();
         }
 
         public void InitDraw()
@@ -108,8 +111,8 @@ namespace MyPaint
             {
                 l.SetResolution(res);
             }
-            Canvas.Width = TopCanvas.Width = res.X;
-            Canvas.Height = TopCanvas.Height = res.Y;
+            Canvas.Width = res.X;
+            Canvas.Height = res.Y;
         }
 
         public void SetResolutionByHistoryControl(Point res)
@@ -120,8 +123,8 @@ namespace MyPaint
             {
                 l.SetResolution(res);
             }
-            Canvas.Width = TopCanvas.Width = res.X;
-            Canvas.Height = TopCanvas.Height = res.Y;
+            Canvas.Width = res.X;
+            Canvas.Height = res.Y;
         }
 
         public void SetPath(string p)
@@ -133,7 +136,10 @@ namespace MyPaint
         public void SetName(string name)
         {
             this.Name = name;
-            TabItem.Header = name;
+            if (TabItem != null)
+            {
+                TabItem.Header = name;
+            }
         }
 
         public Canvas CreateImage()

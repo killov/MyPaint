@@ -41,7 +41,7 @@ namespace MyPaint.Shapes
             return false;
         }
 
-        override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             StartDraw();
             PointCollection points = new PointCollection(4);
@@ -61,14 +61,14 @@ namespace MyPaint.Shapes
             VirtualElement = vs;
         }
 
-        override public void DrawMouseMove(Point e)
+        override public void OnDrawMouseMove(Point e)
         {
             vs.Points[3] = new Point(vs.Points[3].X, e.Y);
             vs.Points[2] = e;
             vs.Points[1] = new Point(e.X, vs.Points[1].Y);
         }
 
-        override public void DrawMouseUp(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseUp(Point e, MouseButtonEventArgs ee)
         {
             StopDraw(false);
             vs.Cursor = Cursors.SizeAll;
@@ -96,13 +96,13 @@ namespace MyPaint.Shapes
             base.StopEdit();
         }
 
-        override public void MoveShape(double x, double y)
+        override public void MoveShape(Point point)
         {
-            base.MoveShape(x, y);
-            vs.Points[1] = new Point(vs.Points[1].X - vs.Points[0].X + x, vs.Points[1].Y - vs.Points[0].Y + y);
-            vs.Points[2] = new Point(vs.Points[2].X - vs.Points[0].X + x, vs.Points[2].Y - vs.Points[0].Y + y);
-            vs.Points[3] = new Point(vs.Points[3].X - vs.Points[0].X + x, vs.Points[3].Y - vs.Points[0].Y + y);
-            vs.Points[0] = new Point(x, y);
+            base.MoveShape(point);
+            vs.Points[1] = vs.Points[1] - vs.Points[0] + point;
+            vs.Points[2] = vs.Points[2] - vs.Points[0] + point;
+            vs.Points[3] = vs.Points[3] - vs.Points[0] + point;
+            vs.Points[0] = point;
         }
 
         override public Serializer.Shape CreateSerializer()

@@ -45,67 +45,71 @@ namespace MyPaint
             pv.Cursor = Cursors.SizeAll;
             pv.Stroke = Brushes.Blue;
             canvas = c;
-            p1 = new MovePoint(c, s, p.Points[0], revScale, (po) =>
+            p1 = new MovePoint(c, s, p.Points[0], revScale, (po, mouseDrag) =>
             {
-                Point pop = Scaling(po, p.Points[0], p.Points[2], reversePosition ? 1 : 0);
+                Point pop = mouseDrag ? Scaling(po, p.Points[0], p.Points[2], reversePosition ? 1 : 0) : po;
                 p.Points[0] = pop;
-                p.Points[1] = new Point(p.Points[1].X, pop.Y);
-                p.Points[3] = new Point(pop.X, p.Points[3].Y);
-                p1.Move(pop.X, pop.Y);
-                p2.Move(p.Points[1].X, pop.Y);
-                p4.Move(pop.X, p.Points[3].Y);
-                Af(pop);
-                if (pop == po)
+                Af(pop, mouseDrag);
+                if (mouseDrag)
                 {
-                    UpdateScale();
+                    p2.Move(new Point(p.Points[1].X, pop.Y));
+                    p4.Move(new Point(pop.X, p.Points[3].Y));
+
+                    if (pop == po)
+                    {
+                        UpdateScale();
+                    }
                 }
             });
 
-            p2 = new MovePoint(c, s, p.Points[1], revScale, (po) =>
+            p2 = new MovePoint(c, s, p.Points[1], revScale, (po, mouseDrag) =>
             {
-                Point pop = Scaling(po, p.Points[1], p.Points[3], reversePosition ? 0 : 1);
+                Point pop = mouseDrag ? Scaling(po, p.Points[1], p.Points[3], reversePosition ? 0 : 1) : po;
                 p.Points[1] = pop;
-                p.Points[0] = new Point(p.Points[0].X, pop.Y);
-                p.Points[2] = new Point(pop.X, p.Points[2].Y);
-                p2.Move(pop.X, pop.Y);
-                p1.Move(p.Points[0].X, pop.Y);
-                p3.Move(pop.X, p.Points[2].Y);
-                Bf(pop);
-                if (pop == po)
+                Bf(pop, mouseDrag);
+                if (mouseDrag)
                 {
-                    UpdateScale();
+                    p1.Move(new Point(p.Points[0].X, pop.Y));
+                    p3.Move(new Point(pop.X, p.Points[2].Y));
+
+                    if (pop == po)
+                    {
+                        UpdateScale();
+                    }
                 }
             });
 
-            p3 = new MovePoint(c, s, p.Points[2], revScale, (po) =>
+            p3 = new MovePoint(c, s, p.Points[2], revScale, (po, mouseDrag) =>
             {
-                Point pop = Scaling(po, p.Points[2], p.Points[0], reversePosition ? 1 : 0);
+                Point pop = mouseDrag ? Scaling(po, p.Points[2], p.Points[0], reversePosition ? 1 : 0) : po;
+
                 p.Points[2] = pop;
-                p.Points[1] = new Point(pop.X, p.Points[1].Y);
-                p.Points[3] = new Point(p.Points[3].X, pop.Y);
-                p3.Move(pop.X, pop.Y);
-                p4.Move(p.Points[3].X, pop.Y);
-                p2.Move(pop.X, p.Points[1].Y);
-                Cf(pop);
-                if (pop == po)
+                Cf(pop, mouseDrag);
+                if (mouseDrag)
                 {
-                    UpdateScale();
+                    p4.Move(new Point(p.Points[3].X, pop.Y));
+                    p2.Move(new Point(pop.X, p.Points[1].Y));
+                    if (pop == po)
+                    {
+                        UpdateScale();
+                    }
                 }
             });
 
-            p4 = new MovePoint(c, s, p.Points[3], revScale, (po) =>
+            p4 = new MovePoint(c, s, p.Points[3], revScale, (po, mouseDrag) =>
             {
-                Point pop = Scaling(po, p.Points[3], p.Points[1], reversePosition ? 0 : 1);
+                Point pop = mouseDrag ? Scaling(po, p.Points[3], p.Points[1], reversePosition ? 0 : 1) : po;
                 p.Points[3] = pop;
-                p.Points[0] = new Point(pop.X, p.Points[0].Y);
-                p.Points[2] = new Point(p.Points[2].X, pop.Y);
-                p4.Move(pop.X, pop.Y);
-                p3.Move(p.Points[2].X, pop.Y);
-                p1.Move(pop.X, p.Points[0].Y);
-                Df(pop);
-                if (pop == po)
+                Df(pop, mouseDrag);
+                if (mouseDrag)
                 {
-                    UpdateScale();
+                    p4.Move(new Point(pop.X, pop.Y));
+                    p3.Move(new Point(p.Points[2].X, pop.Y));
+                    p1.Move(new Point(pop.X, p.Points[0].Y));
+                    if (pop == po)
+                    {
+                        UpdateScale();
+                    }
                 }
             });
             UpdateScale();
@@ -129,6 +133,9 @@ namespace MyPaint
             if (Keyboard.Modifiers == ModifierKeys.Shift)
             {
                 double x, y;
+                Vector v1 = p1 - p2, v2 = m - p2;
+                double hm = v1.X * v2.Y + v2.X * v2.Y;
+
                 switch (type)
                 {
                     case 0:
@@ -156,21 +163,16 @@ namespace MyPaint
                         }
                         return new Point(x, y);
                 }
-
             }
             return m;
         }
 
-        public void Move(double x, double y)
+        public void Move(Point point)
         {
-            p.Points[1] = new Point(p.Points[1].X - p.Points[0].X + x, p.Points[1].Y - p.Points[0].Y + y);
-            p.Points[2] = new Point(p.Points[2].X - p.Points[0].X + x, p.Points[2].Y - p.Points[0].Y + y);
-            p.Points[3] = new Point(p.Points[3].X - p.Points[0].X + x, p.Points[3].Y - p.Points[0].Y + y);
-            p.Points[0] = new Point(x, y);
-            p1.Move(x, y);
-            p2.Move(p.Points[1].X, p.Points[1].Y);
-            p3.Move(p.Points[2].X, p.Points[2].Y);
-            p4.Move(p.Points[3].X, p.Points[3].Y);
+            p2.Move(point + (p2.GetPosition() - p1.GetPosition()));
+            p3.Move(point + (p3.GetPosition() - p1.GetPosition()));
+            p4.Move(point + (p4.GetPosition() - p1.GetPosition()));
+            p1.Move(point);
         }
 
         public void SetActive()

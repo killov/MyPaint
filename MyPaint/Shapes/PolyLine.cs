@@ -87,7 +87,7 @@ namespace MyPaint.Shapes
             return true;
         }
 
-        override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             StartDraw();
             path.Stroke = DrawControl.GetShapePrimaryColor();
@@ -105,7 +105,7 @@ namespace MyPaint.Shapes
             fclick = true;
         }
 
-        override public void DrawMouseMove(Point e)
+        override public void OnDrawMouseMove(Point e)
         {
             if (start)
             {
@@ -113,7 +113,7 @@ namespace MyPaint.Shapes
             }
         }
 
-        override public void DrawMouseUp(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseUp(Point e, MouseButtonEventArgs ee)
         {
             if (fclick)
             {
@@ -196,19 +196,16 @@ namespace MyPaint.Shapes
             }
         }
 
-        override public void MoveShape(double x, double y)
+        override public void MoveShape(Point point)
         {
-            base.MoveShape(x, y);
-            for (int i = 0; i < pf.Segments.Count; i++)
+            base.MoveShape(point);
+            MovePoint firstPoint = movepoints[0];
+            for (int i = 1; i < movepoints.Count; i++)
             {
-                LineSegment ls = ((LineSegment)pf.Segments[i]);
-                Point po = new Point(ls.Point.X - pf.StartPoint.X + x, ls.Point.Y - pf.StartPoint.Y + y);
-
-                ls.Point = po;
-                movepoints[i + 1].Move(po.X, po.Y);
+                MovePoint p = movepoints[i];
+                p.Move(point + (p.GetPosition() - firstPoint.GetPosition()));
             }
-            pf.StartPoint = new Point(x, y);
-            movepoints[0].Move(x, y);
+            firstPoint.Move(point);
         }
 
         override public Serializer.Shape CreateSerializer()
@@ -233,7 +230,7 @@ namespace MyPaint.Shapes
         override protected void CreatePoints()
         {
             movepoints = new List<MovePoint>();
-            MovePoint mp = new MovePoint(DrawControl.TopCanvas, this, pf.StartPoint, DrawControl.RevScale, (Point po) =>
+            MovePoint mp = new MovePoint(DrawControl.TopCanvas, this, pf.StartPoint, DrawControl.RevScale, (po, mouseDrag) =>
             {
                 pf.StartPoint = po;
             });
@@ -247,7 +244,7 @@ namespace MyPaint.Shapes
         void cp(int i)
         {
             LineSegment ls = (LineSegment)pf.Segments[i];
-            MovePoint mp = new MovePoint(DrawControl.TopCanvas, this, ls.Point, DrawControl.RevScale, (Point po) =>
+            MovePoint mp = new MovePoint(DrawControl.TopCanvas, this, ls.Point, DrawControl.RevScale, (po, mouseDrag) =>
             {
                 ls.Point = po;
             });

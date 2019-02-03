@@ -59,7 +59,7 @@ namespace MyPaint.Shapes
             return true;
         }
 
-        override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             p.X1 = e.X;
             p.Y1 = e.Y;
@@ -69,13 +69,13 @@ namespace MyPaint.Shapes
             StartDraw();
         }
 
-        override public void DrawMouseMove(Point e)
+        override public void OnDrawMouseMove(Point e)
         {
             p.X2 = e.X;
             p.Y2 = e.Y;
         }
 
-        override public void DrawMouseUp(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseUp(Point e, MouseButtonEventArgs ee)
         {
             StopDraw();
             CreatePoints();
@@ -127,19 +127,15 @@ namespace MyPaint.Shapes
             p2.Hide();
         }
 
-        override public void MoveShape(double x, double y)
+        public override void MoveShape(Point point)
         {
-            base.MoveShape(x, y);
-            vs.X2 = p.X2 = p.X2 - p.X1 + x;
-            vs.X1 = p.X1 = x;
-            vs.Y2 = p.Y2 = p.Y2 - p.Y1 + y;
-            vs.Y1 = p.Y1 = y;
+            base.MoveShape(point);
 
-            p1.Move(p.X1, p.Y1);
-            p2.Move(p.X2, p.Y2);
+            p2.Move(point + (p2.GetPosition() - p1.GetPosition()));
+            p1.Move(point);
         }
 
-        override public Serializer.Shape CreateSerializer()
+        public override Serializer.Shape CreateSerializer()
         {
             Serializer.Line ret = new Serializer.Line();
             ret.LineWidth = GetThickness();
@@ -149,20 +145,20 @@ namespace MyPaint.Shapes
             return ret;
         }
 
-        override public Point GetPosition()
+        public override Point GetPosition()
         {
             return new Point(p.X1, p.Y1);
         }
 
         override protected void CreatePoints()
         {
-            p1 = new MovePoint(DrawControl.TopCanvas, this, new Point(p.X1, p.Y1), DrawControl.RevScale, (e) =>
+            p1 = new MovePoint(DrawControl.TopCanvas, this, new Point(p.X1, p.Y1), DrawControl.RevScale, (e, mouseDrag) =>
             {
                 vs.X1 = p.X1 = e.X;
                 vs.Y1 = p.Y1 = e.Y;
             });
 
-            p2 = new MovePoint(DrawControl.TopCanvas, this, new Point(p.X2, p.Y2), DrawControl.RevScale, (e) =>
+            p2 = new MovePoint(DrawControl.TopCanvas, this, new Point(p.X2, p.Y2), DrawControl.RevScale, (e, mouseDrag) =>
             {
                 vs.X2 = p.X2 = e.X;
                 vs.Y2 = p.Y2 = e.Y;

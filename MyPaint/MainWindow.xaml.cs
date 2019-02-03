@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -81,13 +80,11 @@ namespace MyPaint
             };
         }
 
-        private async void openClick(object sender, RoutedEventArgs e)
+        private void openClick(object sender, RoutedEventArgs e)
         {
-            t = control.Open();
-
-            await t;
+            control.Open();
         }
-        Task t;
+
         private async void saveClick(object sender, RoutedEventArgs e)
         {
             await control.Save();
@@ -471,6 +468,12 @@ namespace MyPaint
             {
                 fontLock = false;
             }
+        }
+
+        public void SetLoading(bool loading)
+        {
+            progress.Visibility = loading ? Visibility.Visible : Visibility.Hidden;
+            IsEnabled = !loading;
         }
 
         private void font_size_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

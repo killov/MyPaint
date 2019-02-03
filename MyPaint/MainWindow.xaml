@@ -7,6 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:MyPaint"
         xmlns:ncore="http://schemas.ncore.com/wpf/xaml/colorbox"
+       
         Icon="shape.png"
         mc:Ignorable="d"
         Title="MyPaint" Height="691" Width="923.5" Closing="closed" WindowState="Maximized" KeyDown="Window_KeyDown" MinWidth="750" MinHeight="750">
@@ -241,15 +242,17 @@
             <Grid Background="LightGray" VerticalAlignment="Bottom" Height="26">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition  Width="259.6"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition  Width="200"/>
                     <ColumnDefinition Width="71"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label x:Name="labelPath" Content="" Background="LightGray" Grid.Row="0" Grid.Column="0" Margin="0,0,2.4,-0.4"/>
-                <Slider x:Name="zoom" Grid.Row="0" Grid.Column="1" Style="{StaticResource ZoomSpinButton}" Maximum="200" Minimum="20" Value="100" Background="{x:Null}" LargeChange="10" ValueChanged="zoom_ValueChanged" Margin="2.6,0,70.8,-0.4" Grid.ColumnSpan="2" />
-                <Label x:Name="labelResolution" Content="" Grid.Row="0" Grid.Column="2" Margin="0"/>
+                <Label x:Name="labelPath" Content="" Background="{x:Null}" Grid.Row="0" Grid.Column="0" Margin="0,0,2.4,-0.4"/>
+                <ProgressBar x:Name="progress" Minimum="0" Maximum="100" IsIndeterminate="True"  Grid.Column="1" Margin="0,5,0,5" Visibility="Hidden"/>
+                <Slider x:Name="zoom" Grid.Row="0" Grid.Column="2" Style="{StaticResource ZoomSpinButton}" Maximum="200" Minimum="20" Value="100" Background="{x:Null}" LargeChange="10" ValueChanged="zoom_ValueChanged" Margin="2,0,2,-0.4" Grid.ColumnSpan="1" />
+                <Label x:Name="labelResolution" Content="" Grid.Row="0" Grid.Column="3" Margin="0"/>
 
             </Grid>
 

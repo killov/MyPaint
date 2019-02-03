@@ -1,11 +1,11 @@
-﻿using MyPaint.History;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MyPaint.History;
 
 namespace MyPaint
 {
@@ -39,7 +39,12 @@ namespace MyPaint
         }
         private double zoom = 1;
 
-        public DrawControl(MainControl c, ScaleTransform revScale, Canvas tC, FileControl f, HistoryControl historyControl)
+        public DrawControl()
+        {
+
+        }
+
+        public void Init(MainControl c, ScaleTransform revScale, Canvas tC, FileControl f, HistoryControl historyControl)
         {
             Control = c;
             TopCanvas = tC;
@@ -292,7 +297,7 @@ namespace MyPaint
                     Shape.MoveDrag(e);
                     break;
                 case DrawEnum.MOVING:
-                    Shape.MoveShape(posunStart.X + (e.X - posunStartMys.X), posunStart.Y + (e.Y - posunStartMys.Y));
+                    Shape.MoveShape(posunStart + (e - posunStartMys));
                     break;
             }
         }

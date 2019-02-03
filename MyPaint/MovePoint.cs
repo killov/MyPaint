@@ -50,24 +50,17 @@ namespace MyPaint
         {
             if (drag)
             {
-                Move(e);
+                Move(e, true);
             }
         }
 
-        public void Move(Point e)
+        public void Move(Point e, bool mouseDrag = false)
         {
             position = e;
             Canvas.SetTop(ca, position.Y);
             Canvas.SetLeft(ca, position.X);
 
-            posun(position);
-        }
-
-        public void Move(double x, double y)
-        {
-            position = new Point(x, y);
-            Canvas.SetTop(ca, y);
-            Canvas.SetLeft(ca, x);
+            posun(position, mouseDrag);
         }
 
         public void Hide()

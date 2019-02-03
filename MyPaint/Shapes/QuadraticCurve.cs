@@ -73,7 +73,7 @@ namespace MyPaint.Shapes
             return true;
         }
 
-        override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             StartDraw();
             PathGeometry pg = new PathGeometry();
@@ -88,14 +88,14 @@ namespace MyPaint.Shapes
             pf.Segments.Add(qbs);
         }
 
-        override public void DrawMouseMove(Point e)
+        override public void OnDrawMouseMove(Point e)
         {
             Point a = pf.StartPoint;
             qbs.Point1 = new Point((e.X + a.X) / 2, (e.Y + a.Y) / 2);
             qbs.Point2 = e;
         }
 
-        override public void DrawMouseUp(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseUp(Point e, MouseButtonEventArgs ee)
         {
             StopDraw();
             CreatePoints();
@@ -175,21 +175,13 @@ namespace MyPaint.Shapes
             DrawControl.TopCanvas.Children.Remove(eL2);
         }
 
-        override public void MoveShape(double x, double y)
+        override public void MoveShape(Point point)
         {
-            base.MoveShape(x, y);
-            qbs.Point1 = new Point(qbs.Point1.X - pf.StartPoint.X + x, qbs.Point1.Y - pf.StartPoint.Y + y);
-            qbs.Point2 = new Point(qbs.Point2.X - pf.StartPoint.X + x, qbs.Point2.Y - pf.StartPoint.Y + y);
-            p1.Move(x, y);
-            p2.Move(qbs.Point1.X, qbs.Point1.Y);
-            p3.Move(qbs.Point2.X, qbs.Point2.Y);
-            pf.StartPoint = new Point(x, y);
-            eL1.X1 = x;
-            eL1.Y1 = y;
-            eL2.X1 = eL1.X2 = qbs.Point1.X;
-            eL2.Y1 = eL1.Y2 = qbs.Point1.Y;
-            eL2.X2 = qbs.Point2.X;
-            eL2.Y2 = qbs.Point2.Y;
+            base.MoveShape(point);
+
+            p1.Move(point);
+            p2.Move(point + (p2.GetPosition() - p1.GetPosition()));
+            p3.Move(point + (p3.GetPosition() - p1.GetPosition()));
         }
 
         override public Serializer.Shape CreateSerializer()
@@ -211,21 +203,21 @@ namespace MyPaint.Shapes
 
         override protected void CreatePoints()
         {
-            p1 = new MovePoint(DrawControl.TopCanvas, this, pf.StartPoint, DrawControl.RevScale, (e) =>
+            p1 = new MovePoint(DrawControl.TopCanvas, this, pf.StartPoint, DrawControl.RevScale, (e, mouseDrag) =>
             {
                 pf.StartPoint = e;
                 eL1.X1 = e.X;
                 eL1.Y1 = e.Y;
             });
 
-            p2 = new MovePoint(DrawControl.TopCanvas, this, qbs.Point1, DrawControl.RevScale, (e) =>
+            p2 = new MovePoint(DrawControl.TopCanvas, this, qbs.Point1, DrawControl.RevScale, (e, mouseDrag) =>
             {
                 qbs.Point1 = e;
                 eL1.X2 = eL2.X1 = e.X;
                 eL1.Y2 = eL2.Y1 = e.Y;
             });
 
-            p3 = new MovePoint(DrawControl.TopCanvas, this, qbs.Point2, DrawControl.RevScale, (e) =>
+            p3 = new MovePoint(DrawControl.TopCanvas, this, qbs.Point2, DrawControl.RevScale, (e, mouseDrag) =>
             {
                 qbs.Point2 = e;
                 eL2.X2 = e.X;

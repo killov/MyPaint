@@ -2,5 +2,5 @@
 
 namespace MyPaint
 {
-    public delegate void MoveDelegate(Point b);
+    public delegate void MoveDelegate(Point b, bool mouseDrag);
 }

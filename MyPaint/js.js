@@ -103,7 +103,7 @@
             case 'TEXT':
                 var imgData = ctx.getImageData(shape.a.x, shape.a.y, shape.w, shape.h);
                 imgData = imageText(shape, imgData);
-                ctx.putImageData(imgData, shape.A.x, shape.A.y);
+                ctx.putImageData(imgData, shape.a.x, shape.a.y);
                 draw(i, j + 1);
                 break;
             case 'POLYGON':

@@ -124,7 +124,7 @@ namespace MyPaint.Shapes
             ey = y;
         }
 
-        override public void DrawMouseDown(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             sx = e.X;
             sy = e.Y;
@@ -141,12 +141,12 @@ namespace MyPaint.Shapes
             StartDraw();
         }
 
-        override public void DrawMouseMove(Point e)
+        override public void OnDrawMouseMove(Point e)
         {
             moveE(p, e.X, e.Y);
         }
 
-        override public void DrawMouseUp(Point e, MouseButtonEventArgs ee)
+        override public void OnDrawMouseUp(Point e, MouseButtonEventArgs ee)
         {
             StopDraw();
             CreatePoints();
@@ -232,16 +232,11 @@ namespace MyPaint.Shapes
             }
         }
 
-        override public void MoveShape(double x, double y)
+        override public void MoveShape(Point point)
         {
-            base.MoveShape(x, y);
-            double zx = x - sx + ex;
-            double zy = y - sy + ey;
-            moveE(p, zx, zy);
-            moveE(vs, zx, zy);
-            moveS(p, x, y);
-            moveS(vs, x, y);
-            eR.Move(x, y);
+            base.MoveShape(point);
+
+            eR.Move(point);
         }
 
         override public Serializer.Shape CreateSerializer()
@@ -266,24 +261,24 @@ namespace MyPaint.Shapes
         override protected void CreatePoints()
         {
             eR = new EditRect(DrawControl.TopCanvas, this, new Point(sx, sy), new Point(ex, ey), DrawControl.RevScale,
-            (po) =>
+            (po, mouseDrag) =>
             {
                 moveS(p, po.X, po.Y);
                 moveS(vs, po.X, po.Y);
             },
-            (po) =>
+            (po, mouseDrag) =>
             {
                 moveE(p, po.X, ey);
                 moveE(vs, po.X, ey);
                 moveS(p, sx, po.Y);
                 moveS(vs, sx, po.Y);
             },
-            (po) =>
+            (po, mouseDrag) =>
             {
                 moveE(p, po.X, po.Y);
                 moveE(vs, po.X, po.Y);
             },
-            (po) =>
+            (po, mouseDrag) =>
             {
                 moveE(p, ex, po.Y);
                 moveE(vs, ex, po.Y);

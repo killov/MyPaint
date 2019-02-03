@@ -25,7 +25,6 @@ namespace MyPaint.FileOpener
                 layer._shapes.Add(image);
 
                 dc.layers.Add(layer);
-                //while (true) ;
             }
         }
 

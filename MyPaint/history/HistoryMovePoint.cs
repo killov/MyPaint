@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace MyPaint.History
 {
@@ -20,12 +15,12 @@ namespace MyPaint.History
 
         public void Back()
         {
-            point.Move(oldP);
+            point.Move(oldP, true);
         }
 
         public void Forward()
         {
-            point.Move(newP);
+            point.Move(newP, true);
         }
     }
 }

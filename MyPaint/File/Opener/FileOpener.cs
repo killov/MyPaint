@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace MyPaint.FileOpener
@@ -7,57 +6,50 @@ namespace MyPaint.FileOpener
     public abstract class FileOpener
     {
         protected FileControl dc;
-        protected MainControl control;
         bool fail = false;
 
-        public static async Task OpenFromFile(MainControl c, FileControl f, string path)
+        public static FileControl OpenFromFile(string path)
         {
-            f.SetPath(path);
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
             switch (suffix)
             {
                 case ".html":
-                    await new HTML().Open(c, f);
-                    break;
+                    return new HTML().Open(path);
                 case ".jpg":
-                    await new JPEG().Open(c, f);
-                    break;
+                    return new JPEG().Open(path);
                 case ".bmp":
-                    await new BMP().Open(c, f);
-                    break;
+                    return new BMP().Open(path);
                 case ".png":
-                    await new PNG().Open(c, f);
-                    break;
+                    return new PNG().Open(path);
+                default:
+                    return null;
             }
-            f.HistoryControl.Enable();
         }
 
-        public async Task Open(MainControl c, FileControl dc)
+        public FileControl Open(string path)
         {
-            control = c;
-            this.dc = dc;
 
-            await Task.Run(() =>
+            dc = new FileControl();
+            dc.SetPath(path);
+
+            try
             {
-                try
-                {
-                    Thread_open();
-                    fail = false;
-                }
-                catch
-                {
-                    fail = true;
-                }
-            });
+                Thread_open();
+                fail = false;
+            }
+            catch
+            {
+                fail = true;
+            }
+
             if (fail)
             {
                 MessageBox.Show("Nepodařilo se otevřít soubor");
-                control.FileClose(dc);
-                return;
+
+                return null;
             }
-            dc.Control.SetFileActive(dc);
-            c.AdjustZoom(dc.Resolution.X, dc.Resolution.Y);
+            return dc;
         }
 
         abstract protected void Thread_open();
