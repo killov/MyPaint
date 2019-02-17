@@ -164,6 +164,7 @@
     <Compile Include="json\Serializer\NullBrush.cs" />
     <Compile Include="json\Serializer\Color.cs" />
     <Compile Include="json\Serializer\Ellipse.cs" />
+    <Compile Include="json\Serializer\Pencil.cs" />
     <Compile Include="json\Serializer\QuadraticCurve.cs" />
     <Compile Include="json\Serializer\Text.cs" />
     <Compile Include="json\Serializer\Image.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="MoveDelegate.cs" />
     <Compile Include="OnMouseDownDelegate.cs" />
     <Compile Include="Shapes\Ellipse.cs" />
+    <Compile Include="Shapes\Pencil.cs" />
     <Compile Include="Shapes\QuadraticCurve.cs" />
     <Compile Include="Shapes\PolyLine.cs" />
     <Compile Include="Shapes\Polygon.cs" />

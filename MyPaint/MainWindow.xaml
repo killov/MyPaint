@@ -59,28 +59,31 @@
                         </Canvas>
                     </Viewbox>
                 </Button>
-                <Button Style="{StaticResource MyButtonActive}" x:Name="button_line" Canvas.Left="99" Canvas.Top="10" Width="40" Height="40" Click="button_line_Click" ForceCursor="True" Margin="0">
+                <Button Style="{StaticResource MyButtonActive}" x:Name="button_pencil" Canvas.Left="99" Canvas.Top="10" Width="40" Height="40" Click="button_line_Click" ForceCursor="True" Margin="0">
+                    <Path Width="27.054" Height="22.693" Canvas.Left="6.86297" Canvas.Top="6.57407" Stretch="Fill" Fill="#FF000000" Data="F1 M 21.5367,46.0076L 19.1286,56.4429L 17.5,54L 6.86297,54C 7.39373,55.0308 7.97418,56.0319 8.60115,57L 19,57L 19.4333,56.9L 29.3932,54.6016C 28.0768,50.6411 25.8696,47.0904 21.5367,46.0076 Z M 39,53L 69.4259,22.5741C 67.0871,17.8183 63.7005,13.6708 59.5673,10.4327L 31,39L 31,45L 39,45L 39,53 Z M 29,38L 57.8385,9.1615C 56.438,8.19625 54.9638,7.33038 53.4259,6.57407L 24,36L 24,38L 29,38 Z "/>
+                </Button>
+                <Button Style="{StaticResource MyButtonActive}" x:Name="button_line" Canvas.Left="144" Canvas.Top="10" Width="40" Height="40" Click="button_line_Click" ForceCursor="True" Margin="0" RenderTransformOrigin="0.5,0.5">
                     <Line X1="0" Y1="0" X2="25" Y2="25" Stroke="Black" StrokeThickness="3" Height="25" Width="25"/>
                 </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_polyline" Canvas.Left="144" Canvas.Top="10" Width="40" Height="40" Click="button_polyline_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_polyline" Canvas.Left="189" Canvas.Top="10" Width="40" Height="40" Click="button_polyline_Click" Margin="0">
                     <Polyline Points="3,3 3,20 10,10 18,12 16,5" Stroke="Black" StrokeThickness="3" Height="25" Width="21"  />
                 </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_ellipse" Canvas.Left="189" Canvas.Top="10" Width="40" Height="40" Click="button_ellipse_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_ellipse" Canvas.Left="234" Canvas.Top="10" Width="40" Height="40" Click="button_ellipse_Click" Margin="0">
                     <Ellipse StrokeThickness="3" HorizontalAlignment="Left" Height="20" Stroke="Black" VerticalAlignment="Top" Width="14"/>
                 </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_rectangle" Canvas.Left="234" Canvas.Top="10" Width="40" Height="40" Click="button_rectangle_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_rectangle" Canvas.Left="279" Canvas.Top="10" Width="40" Height="40" Click="button_rectangle_Click" Margin="0">
                     <Rectangle Width="23" Height="18" Stroke="Black" StrokeThickness="3" />
                 </Button>
-                <Button Style="{StaticResource MyButton}" x:Name="button_polygon" Canvas.Left="279" Canvas.Top="10" Width="40" Height="40" Click="button_polygon_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_polygon" Canvas.Left="324" Canvas.Top="10" Width="40" Height="40" Click="button_polygon_Click" Margin="0">
                     <Polygon Points="3,3 3,20 10,10 18,12 16,5" Stroke="Black" StrokeThickness="3" Height="25" Width="21"  />
                 </Button>
 
-                <Button Style="{StaticResource MyButton}" x:Name="button_q_curve" Canvas.Left="324" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_q_cueve_Click">
+                <Button Style="{StaticResource MyButton}" x:Name="button_q_curve" Canvas.Left="369" Canvas.Top="10" Width="40" Height="40" Margin="0" Click="button_q_cueve_Click">
                     <Path Stroke="Black" StrokeThickness="3" Data="M 1,4 Q 3,30 20,4" />
                 </Button>
 
 
-                <Button Style="{StaticResource MyButton}" x:Name="button_text" Canvas.Left="369" Canvas.Top="10" Width="40" Height="40" Click="button_text_Click" Margin="0">
+                <Button Style="{StaticResource MyButton}" x:Name="button_text" Canvas.Left="414" Canvas.Top="10" Width="40" Height="40" Click="button_text_Click" Margin="0">
                     <Viewbox Width="30" Height="40">
                         <Canvas Width="24" Height="24">
                             <Path Data="M18.5,4L19.66,8.35L18.7,8.61C18.25,7.74 17.79,6.87 17.26,6.43C16.73,6 16.11,6 15.5,6H13V16.5C13,17 13,17.5 13.33,17.75C13.67,18 14.33,18 15,18V19H9V18C9.67,18 10.33,18 10.67,17.75C11,17.5 11,17 11,16.5V6H8.5C7.89,6 7.27,6 6.74,6.43C6.21,6.87 5.75,7.74 5.3,8.61L4.34,8.35L5.5,4H18.5Z" Fill="Black" />
