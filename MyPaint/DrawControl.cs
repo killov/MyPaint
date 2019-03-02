@@ -248,6 +248,9 @@ namespace MyPaint
             {
                 switch (activeTool)
                 {
+                    case ToolEnum.PENCIL:
+                        Shape = new Shapes.Pencil(this, SelectLayer);
+                        break;
                     case ToolEnum.LINE:
                         Shape = new Shapes.Line(this, SelectLayer);
                         break;

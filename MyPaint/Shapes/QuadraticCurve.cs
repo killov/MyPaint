@@ -180,8 +180,8 @@ namespace MyPaint.Shapes
             base.MoveShape(point);
 
             p1.Move(point);
-            p2.Move(point + (p2.GetPosition() - p1.GetPosition()));
-            p3.Move(point + (p3.GetPosition() - p1.GetPosition()));
+            p2.Move(point + (p2.Position - p1.Position));
+            p3.Move(point + (p3.Position - p1.Position));
         }
 
         override public Serializer.Shape CreateSerializer()
@@ -190,9 +190,9 @@ namespace MyPaint.Shapes
             ret.LineWidth = GetThickness();
             ret.Stroke = PrimaryBrush;
             ret.Fill = SecondaryBrush;
-            ret.A = new Serializer.Point(p1.GetPosition());
-            ret.B = new Serializer.Point(p2.GetPosition());
-            ret.C = new Serializer.Point(p3.GetPosition());
+            ret.A = new Serializer.Point(p1.Position);
+            ret.B = new Serializer.Point(p2.Position);
+            ret.C = new Serializer.Point(p3.Position);
             return ret;
         }
 
@@ -232,9 +232,9 @@ namespace MyPaint.Shapes
             p.DataContext = pg;
             PathFigure pf = new PathFigure();
             pg.Figures.Add(pf);
-            pf.StartPoint = p1.GetPosition();
+            pf.StartPoint = p1.Position;
 
-            pf.Segments.Add(new QuadraticBezierSegment(p2.GetPosition(), p3.GetPosition(), true));
+            pf.Segments.Add(new QuadraticBezierSegment(p2.Position, p3.Position, true));
 
             p.Stroke = PrimaryBrush.CreateBrush();
             p.Fill = SecondaryBrush.CreateBrush();

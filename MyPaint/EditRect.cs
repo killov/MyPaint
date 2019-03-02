@@ -169,9 +169,9 @@ namespace MyPaint
 
         public void Move(Point point)
         {
-            p2.Move(point + (p2.GetPosition() - p1.GetPosition()));
-            p3.Move(point + (p3.GetPosition() - p1.GetPosition()));
-            p4.Move(point + (p4.GetPosition() - p1.GetPosition()));
+            p2.Move(point + (p2.Position - p1.Position));
+            p3.Move(point + (p3.Position - p1.Position));
+            p4.Move(point + (p4.Position - p1.Position));
             p1.Move(point);
         }
 
@@ -219,20 +219,15 @@ namespace MyPaint
 
         public double GetWidth()
         {
-            return Math.Abs(p1.GetPosition().X - p3.GetPosition().X);
+            return Math.Abs(p1.Position.X - p3.Position.X);
         }
 
         public double GetHeight()
         {
-            return Math.Abs(p1.GetPosition().Y - p3.GetPosition().Y);
+            return Math.Abs(p1.Position.Y - p3.Position.Y);
         }
 
-        public Point GetPoint()
-        {
-            Point a = p1.GetPosition();
-            Point b = p3.GetPosition();
-            return new Point(Math.Min(a.X, b.X), Math.Min(a.Y, b.Y));
-        }
+        public Point Position => p1.Position;
 
         public void SetFill(bool f)
         {

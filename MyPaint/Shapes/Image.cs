@@ -158,7 +158,7 @@ namespace MyPaint.Shapes
             Serializer.Image ret = new Serializer.Image();
             ret.B64 = base64String;
 
-            ret.A = new Serializer.Point(eR.GetPoint());
+            ret.A = new Serializer.Point(eR.Position);
             ret.W = (int)eR.GetWidth();
             ret.H = (int)eR.GetHeight();
             return ret;
@@ -190,10 +190,10 @@ namespace MyPaint.Shapes
         {
             System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon();
 
-            p.Points.Add(eR.p1.GetPosition());
-            p.Points.Add(eR.p2.GetPosition());
-            p.Points.Add(eR.p3.GetPosition());
-            p.Points.Add(eR.p4.GetPosition());
+            p.Points.Add(eR.p1.Position);
+            p.Points.Add(eR.p2.Position);
+            p.Points.Add(eR.p3.Position);
+            p.Points.Add(eR.p4.Position);
 
             p.Stroke = primaryBrush;
             p.Fill = new ImageBrush(image);

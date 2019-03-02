@@ -203,7 +203,7 @@ namespace MyPaint.Shapes
             for (int i = 1; i < movepoints.Count; i++)
             {
                 MovePoint p = movepoints[i];
-                p.Move(point + (p.GetPosition() - firstPoint.GetPosition()));
+                p.Move(point + (p.Position - firstPoint.Position));
             }
             firstPoint.Move(point);
         }
@@ -217,7 +217,7 @@ namespace MyPaint.Shapes
             ret.Points = new List<Serializer.Point>();
             foreach (var point in movepoints)
             {
-                ret.Points.Add(new Serializer.Point(point.GetPosition()));
+                ret.Points.Add(new Serializer.Point(point.Position));
             }
             return ret;
         }
@@ -258,10 +258,10 @@ namespace MyPaint.Shapes
             p.DataContext = pg;
             PathFigure pf = new PathFigure();
             pg.Figures.Add(pf);
-            pf.StartPoint = movepoints[0].GetPosition();
+            pf.StartPoint = movepoints[0].Position;
             for (int i = 1; i < movepoints.Count; i++)
             {
-                pf.Segments.Add(new LineSegment(movepoints[i].GetPosition(), true));
+                pf.Segments.Add(new LineSegment(movepoints[i].Position, true));
             }
             p.Stroke = PrimaryBrush.CreateBrush();
             p.Fill = SecondaryBrush.CreateBrush();

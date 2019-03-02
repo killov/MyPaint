@@ -135,6 +135,11 @@ namespace MyPaint
             control.SetTool(ToolEnum.SELECT);
         }
 
+        private void button_pencil_Click(object sender, RoutedEventArgs e)
+        {
+            control.SetTool(ToolEnum.PENCIL);
+        }
+
         private void button_line_Click(object sender, RoutedEventArgs e)
         {
             control.SetTool(ToolEnum.LINE);

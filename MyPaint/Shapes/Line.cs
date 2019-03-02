@@ -131,7 +131,7 @@ namespace MyPaint.Shapes
         {
             base.MoveShape(point);
 
-            p2.Move(point + (p2.GetPosition() - p1.GetPosition()));
+            p2.Move(point + (p2.Position - p1.Position));
             p1.Move(point);
         }
 
@@ -140,8 +140,8 @@ namespace MyPaint.Shapes
             Serializer.Line ret = new Serializer.Line();
             ret.LineWidth = GetThickness();
             ret.Stroke = PrimaryBrush;
-            ret.A = new Serializer.Point(p1.GetPosition());
-            ret.B = new Serializer.Point(p2.GetPosition());
+            ret.A = new Serializer.Point(p1.Position);
+            ret.B = new Serializer.Point(p2.Position);
             return ret;
         }
 
@@ -168,8 +168,8 @@ namespace MyPaint.Shapes
         override public void CreateImage(Canvas canvas)
         {
             System.Windows.Shapes.Line p = new System.Windows.Shapes.Line();
-            Point a = p1.GetPosition();
-            Point b = p2.GetPosition();
+            Point a = p1.Position;
+            Point b = p2.Position;
             p.X1 = a.X;
             p.Y1 = a.Y;
             p.X2 = b.X;

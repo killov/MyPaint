@@ -436,6 +436,7 @@ namespace MyPaint
         {
             Style def = w.FindResource("MyButton") as Style;
             Style act = w.FindResource("MyButtonActive") as Style;
+            w.button_pencil.Style = def;
             w.button_select_area.Style = def;
             w.button_select.Style = def;
             w.button_line.Style = def;
@@ -452,6 +453,9 @@ namespace MyPaint
                     break;
                 case ToolEnum.SELECT:
                     w.button_select.Style = act;
+                    break;
+                case ToolEnum.PENCIL:
+                    w.button_pencil.Style = act;
                     break;
                 case ToolEnum.LINE:
                     w.button_line.Style = act;

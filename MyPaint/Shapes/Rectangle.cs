@@ -143,8 +143,8 @@ namespace MyPaint.Shapes
             ret.LineWidth = GetThickness();
             ret.Stroke = PrimaryBrush;
             ret.Fill = SecondaryBrush;
-            ret.A = new Serializer.Point(eR.p1.GetPosition());
-            ret.B = new Serializer.Point(eR.p3.GetPosition());
+            ret.A = new Serializer.Point(eR.p1.Position);
+            ret.B = new Serializer.Point(eR.p3.Position);
             return ret;
         }
 
@@ -181,10 +181,10 @@ namespace MyPaint.Shapes
         {
             System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon();
 
-            p.Points.Add(eR.p1.GetPosition());
-            p.Points.Add(eR.p2.GetPosition());
-            p.Points.Add(eR.p3.GetPosition());
-            p.Points.Add(eR.p4.GetPosition());
+            p.Points.Add(eR.p1.Position);
+            p.Points.Add(eR.p2.Position);
+            p.Points.Add(eR.p3.Position);
+            p.Points.Add(eR.p4.Position);
             p.Stroke = PrimaryBrush == null ? null : PrimaryBrush.CreateBrush();
             p.Fill = SecondaryBrush == null ? null : SecondaryBrush.CreateBrush();
             p.StrokeThickness = GetThickness();

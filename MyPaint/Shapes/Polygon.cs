@@ -196,7 +196,7 @@ namespace MyPaint.Shapes
             for (int i = 1; i < p.Points.Count; i++)
             {
                 MovePoint p = movepoints[i];
-                p.Move(point + (p.GetPosition() - firstPoint.GetPosition()));
+                p.Move(point + (p.Position - firstPoint.Position));
             }
             firstPoint.Move(point);
         }
@@ -210,7 +210,7 @@ namespace MyPaint.Shapes
             ret.Points = new List<Serializer.Point>();
             foreach (var point in movepoints)
             {
-                ret.Points.Add(new Serializer.Point(point.GetPosition()));
+                ret.Points.Add(new Serializer.Point(point.Position));
             }
             return ret;
         }
@@ -244,7 +244,7 @@ namespace MyPaint.Shapes
 
             foreach (var point in movepoints)
             {
-                p.Points.Add(point.GetPosition());
+                p.Points.Add(point.Position);
             }
             p.Stroke = PrimaryBrush.CreateBrush();
             p.Fill = SecondaryBrush.CreateBrush();

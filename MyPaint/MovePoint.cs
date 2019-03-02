@@ -82,10 +82,7 @@ namespace MyPaint
             drag = true;
         }
 
-        public Point GetPosition()
-        {
-            return position;
-        }
+        public Point Position => position;
 
         public void StopDrag()
         {

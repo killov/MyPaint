@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,14 +10,17 @@ namespace MyPaint.Shapes
 {
     public class Pencil : Shape
     {
-        System.Windows.Shapes.Polygon p, vs;
-        List<MovePoint> movepoints = new List<MovePoint>();
-        bool start = false;
-        List<Point> points = new List<Point>();
 
-        Path path = new Path();
+        List<MovePoint> movepoints = new List<MovePoint>();
+
+
+        Path path, vs;
         PathFigure pf;
         LineSegment ls;
+        EditRect area;
+        List<Point> points = new List<Point>();
+        double width, height;
+
         public Pencil(DrawControl c, Layer la) : base(c, la)
         {
 
@@ -29,26 +33,32 @@ namespace MyPaint.Shapes
 
         protected override void OnDrawInit()
         {
-            p = new System.Windows.Shapes.Polygon();
-            MultiDraw = true;
-            Element = p;
+            path = new Path();
+            Element = path;
         }
 
         protected override void OnCreateInit(Serializer.Shape shape)
         {
-            Serializer.Polygon s = (Serializer.Polygon)shape;
-            p = new System.Windows.Shapes.Polygon();
-            Element = p;
-            SetThickness(s.LineWidth);
+            Serializer.Pencil s = (Serializer.Pencil)shape;
+            path = new Path();
+            Element = path;
+            PathGeometry p = new PathGeometry();
 
+
+            bool f = true;
             foreach (var point in s.Points)
             {
-                p.Points.Add(new Point(point.X, point.Y));
+                if (f)
+                {
+                    pf = new PathFigure();
+                    pf.StartPoint = new Point(point.X, point.Y);
+                    p.Figures.Add(pf);
+                    path.Data = p;
+                    f = false;
+                    continue;
+                }
+                pf.Segments.Add(new LineSegment(new Point(point.X, point.Y), true));
             }
-            p.ToolTip = null;
-            p.Cursor = Cursors.SizeAll;
-
-
             CreatePoints();
             CreateVirtualShape();
         }
@@ -57,20 +67,12 @@ namespace MyPaint.Shapes
         {
             if (brushEnum == BrushEnum.PRIMARY)
             {
-                p.Stroke = brush;
-                if (path != null)
-                {
-                    path.Stroke = brush;
-                }
+                path.Stroke = brush;
                 return true;
             }
             if (brushEnum == BrushEnum.SECONDARY)
             {
-                p.Fill = brush;
-                if (path != null)
-                {
-                    path.Fill = brush;
-                }
+                path.Fill = brush;
                 return true;
             }
             return false;
@@ -78,10 +80,10 @@ namespace MyPaint.Shapes
 
         protected override bool OnChangeThickness(double thickness)
         {
-            p.StrokeThickness = thickness;
+            path.StrokeThickness = thickness;
             if (vs != null)
             {
-                vs.StrokeThickness = thickness;
+                vs.StrokeThickness = Math.Max(3, thickness);
             }
             return true;
         }
@@ -89,12 +91,14 @@ namespace MyPaint.Shapes
         override public void OnDrawMouseDown(Point e, MouseButtonEventArgs ee)
         {
             StartDraw();
+            path.Stroke = DrawControl.GetShapePrimaryColor();
+            path.StrokeThickness = DrawControl.GetShapeThickness();
+            path.ToolTip = null;
             PathGeometry p = new PathGeometry();
             pf = new PathFigure();
             pf.StartPoint = e;
             p.Figures.Add(pf);
             path.Data = p;
-            Element = path;
             AddToLayer();
             ls = new LineSegment();
             ls.Point = e;
@@ -103,48 +107,30 @@ namespace MyPaint.Shapes
 
         override public void OnDrawMouseMove(Point e)
         {
-            if (start)
-            {
-                ls.Point = e;
-            }
-        }
-
-        override public void OnDrawMouseUp(Point e, MouseButtonEventArgs ee)
-        {
-            start = true;
-            ls.Point = e;
             ls = new LineSegment();
             ls.Point = e;
             pf.Segments.Add(ls);
 
-            points.Add(e);
+        }
 
-            if (ee.ChangedButton == MouseButton.Right)
-            {
-                if (start)
-                {
-                    PointCollection ppoints = new PointCollection();
-                    foreach (var p in points)
-                    {
-                        ppoints.Add(p);
-                    }
-                    Element = p;
-                    p.Points = ppoints;
-                    StopDraw();
-                    CreatePoints();
-                    CreateVirtualShape();
-                    SetActive();
-                }
-            }
+        override public void OnDrawMouseUp(Point e, MouseButtonEventArgs ee)
+        {
+            path.ToolTip = null;
+            path.Cursor = Cursors.SizeAll;
+
+            StopDraw();
+            CreatePoints();
+            CreateVirtualShape();
+            SetActive();
         }
 
         override protected void CreateVirtualShape()
         {
-            vs = new System.Windows.Shapes.Polygon();
-            vs.Points = p.Points;
+            vs = new Path();
+            vs.Data = path.Data;
             vs.Stroke = nullBrush;
             vs.Fill = nullBrush;
-            vs.StrokeThickness = p.StrokeThickness;
+            vs.StrokeThickness = path.StrokeThickness;
             vs.Cursor = Cursors.SizeAll;
             vs.MouseDown += CallBack;
             VirtualElement = vs;
@@ -153,102 +139,174 @@ namespace MyPaint.Shapes
         override public void SetActive()
         {
             base.SetActive();
-            DrawControl.SetPrimaryColor(p.Stroke);
-            DrawControl.SetSecondaryColor(p.Fill);
-            DrawControl.SetThickness(p.StrokeThickness);
-            foreach (MovePoint p in movepoints)
-            {
-                p.Show();
-            }
+            DrawControl.SetPrimaryColor(path.Stroke);
+            DrawControl.SetSecondaryColor(path.Fill);
+            DrawControl.SetThickness(path.StrokeThickness);
+            area.SetActive();
         }
 
         override public void MoveDrag(Point e)
         {
             base.MoveDrag(e);
-            foreach (var p in movepoints)
-            {
-                p.MoveDrag(e);
-            }
+            area.MoveDrag(e);
         }
 
         override public void StopDrag()
         {
             base.StopDrag();
-            foreach (var p in movepoints)
-            {
-                p.StopDrag();
-            }
+            area.StopDrag();
         }
 
         override public void StopEdit()
         {
             base.StopEdit();
-            foreach (var p in movepoints)
-            {
-                p.Hide();
-            }
+            area.StopEdit();
         }
 
         override public void MoveShape(Point point)
         {
             base.MoveShape(point);
-            MovePoint firstPoint = movepoints[0];
-            for (int i = 1; i < p.Points.Count; i++)
-            {
-                MovePoint p = movepoints[i];
-                p.Move(point + (p.GetPosition() - firstPoint.GetPosition()));
-            }
-            firstPoint.Move(point);
+            area.Move(point);
         }
 
         override public Serializer.Shape CreateSerializer()
         {
-            Serializer.Polygon ret = new Serializer.Polygon();
+            Serializer.PolyLine ret = new Serializer.PolyLine();
             ret.LineWidth = GetThickness();
             ret.Stroke = PrimaryBrush;
             ret.Fill = SecondaryBrush;
             ret.Points = new List<Serializer.Point>();
             foreach (var point in movepoints)
             {
-                ret.Points.Add(new Serializer.Point(point.GetPosition()));
+                ret.Points.Add(new Serializer.Point(point.Position));
             }
             return ret;
         }
 
         override public Point GetPosition()
         {
-            return p.Points[0];
+            return area.Position;
         }
 
         override protected void CreatePoints()
         {
             movepoints = new List<MovePoint>();
-            for (int i = 0; i < movepoints.Count; i++)
+            MovePoint mp = new MovePoint(DrawControl.TopCanvas, this, pf.StartPoint, DrawControl.RevScale, (po, mouseDrag) =>
+            {
+                pf.StartPoint = po;
+            });
+            movepoints.Add(mp);
+            for (int i = 0; i < pf.Segments.Count; i++)
             {
                 cp(i);
             }
+
+            createArea();
         }
 
         void cp(int i)
         {
-            MovePoint mp = new MovePoint(DrawControl.TopCanvas, this, p.Points[i], DrawControl.RevScale, (po, mouseDrag) =>
+            LineSegment ls = (LineSegment)pf.Segments[i];
+            MovePoint mp = new MovePoint(DrawControl.TopCanvas, this, ls.Point, DrawControl.RevScale, (po, mouseDrag) =>
             {
-                p.Points[i] = po;
+                ls.Point = po;
             });
             movepoints.Add(mp);
         }
 
+        void createArea()
+        {
+            double left, right, top, bottom;
+
+            left = double.MaxValue;
+            right = double.MinValue;
+            top = double.MaxValue;
+            bottom = double.MinValue;
+
+            movepoints.ForEach((point) =>
+            {
+                Point position = point.Position;
+                if (position.X < left)
+                {
+                    left = position.X;
+                }
+                if (position.X > right)
+                {
+                    right = position.X;
+                }
+                if (position.Y < top)
+                {
+                    top = position.Y;
+                }
+                if (position.Y > bottom)
+                {
+                    bottom = position.Y;
+                }
+            });
+
+            width = right - left;
+            height = bottom - top;
+
+            movepoints.ForEach((point) =>
+            {
+                Point position = point.Position;
+                points.Add(new Point(position.X - left, position.Y - top));
+            });
+
+            area = new EditRect(DrawControl.TopCanvas, this, new Point(left, top), new Point(right, bottom), DrawControl.RevScale,
+            (po, mouseDrag) =>
+            {
+                this.recalculatePoints();
+            },
+            (po, mouseDrag) =>
+            {
+                this.recalculatePoints();
+            },
+            (po, mouseDrag) =>
+            {
+                this.recalculatePoints();
+            },
+            (po, mouseDrag) =>
+            {
+                this.recalculatePoints();
+            });
+        }
+
+        void recalculatePoints()
+        {
+            Point p1 = area.p1.Position;
+            Point p3 = area.p3.Position;
+
+            double left = p1.X;
+            double top = p1.Y;
+            double w = p3.X - p1.X;
+            double h = p3.Y - p1.Y;
+
+            double wScale = w / width;
+            double hScale = h / height;
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                movepoints[i].Move(new Point(left + points[i].X * wScale, top + points[i].Y * hScale));
+            }
+        }
+
         override public void CreateImage(Canvas canvas)
         {
-            System.Windows.Shapes.Polygon p = new System.Windows.Shapes.Polygon();
-
-            foreach (var point in movepoints)
+            Path p = new Path();
+            PathGeometry pg = new PathGeometry();
+            p.DataContext = pg;
+            PathFigure pf = new PathFigure();
+            pg.Figures.Add(pf);
+            pf.StartPoint = movepoints[0].Position;
+            for (int i = 1; i < movepoints.Count; i++)
             {
-                p.Points.Add(point.GetPosition());
+                pf.Segments.Add(new LineSegment(movepoints[i].Position, true));
             }
             p.Stroke = PrimaryBrush.CreateBrush();
             p.Fill = SecondaryBrush.CreateBrush();
-            p.StrokeThickness = GetThickness();
+            p.StrokeThickness = thickness;
+            p.ToolTip = null;
             canvas.Children.Add(p);
         }
     }
