@@ -150,9 +150,8 @@ namespace MyPaint.Shapes
             VirtualElement = vs;
         }
 
-        override public void SetActive()
+        override protected void OnSetActive()
         {
-            base.SetActive();
             DrawControl.SetPrimaryColor(p.Stroke);
             DrawControl.SetSecondaryColor(p.Fill);
             DrawControl.SetThickness(p.StrokeThickness);
@@ -162,36 +161,32 @@ namespace MyPaint.Shapes
             }
         }
 
-        override public void MoveDrag(Point e)
+        override protected void OnMoveDrag(Point e)
         {
-            base.MoveDrag(e);
             foreach (var p in movepoints)
             {
                 p.MoveDrag(e);
             }
         }
 
-        override public void StopDrag()
+        override protected void OnStopDrag()
         {
-            base.StopDrag();
             foreach (var p in movepoints)
             {
                 p.StopDrag();
             }
         }
 
-        override public void StopEdit()
+        override protected void OnStopEdit()
         {
-            base.StopEdit();
             foreach (var p in movepoints)
             {
                 p.Hide();
             }
         }
 
-        override public void MoveShape(Point point)
+        override protected void OnMoveShape(Point point)
         {
-            base.MoveShape(point);
             MovePoint firstPoint = movepoints[0];
             for (int i = 1; i < p.Points.Count; i++)
             {
@@ -223,7 +218,7 @@ namespace MyPaint.Shapes
         override protected void CreatePoints()
         {
             movepoints = new List<MovePoint>();
-            for (int i = 0; i < movepoints.Count; i++)
+            for (int i = 0; i < p.Points.Count; i++)
             {
                 cp(i);
             }
@@ -247,8 +242,8 @@ namespace MyPaint.Shapes
                 p.Points.Add(point.Position);
             }
             p.Stroke = PrimaryBrush.CreateBrush();
-            p.Fill = SecondaryBrush.CreateBrush();
             p.StrokeThickness = GetThickness();
+            p.ToolTip = null;
             canvas.Children.Add(p);
         }
     }

@@ -165,17 +165,14 @@ namespace MyPaint.Shapes
             }
         }
 
-        public void SetThickness(double s, bool addHistory = false)
+        public bool SetThickness(double s)
         {
             if (Element != null && !OnChangeThickness(s))
             {
-                return;
+                return false;
             }
             thickness = s;
-            if (addHistory)
-            {
-                DrawControl.HistoryControl.Add(new History.HistoryShapeThickness(this, GetThickness(), s));
-            }
+            return true;
         }
 
         abstract protected bool OnChangeThickness(double thickness);
@@ -205,7 +202,6 @@ namespace MyPaint.Shapes
         abstract public void OnDrawMouseMove(Point e);
 
         abstract public void OnDrawMouseUp(Point e, MouseButtonEventArgs ee);
-
 
         abstract protected void CreatePoints();
 
@@ -247,34 +243,49 @@ namespace MyPaint.Shapes
             DrawControl.StartMoveShape(GetPosition(), e);
         }
 
-        virtual public void SetActive()
+        public void SetActive()
         {
             ShowVirtualShape((e, s, m) =>
             {
                 if (m) DrawControl.StartMoveShape(GetPosition(), e);
             });
             DrawControl.StartEdit();
+            OnSetActive();
         }
 
-        virtual public void MoveDrag(Point e)
+        abstract protected void OnSetActive();
+
+        public void MoveDrag(Point e)
         {
             SetHit(false);
+            OnMoveDrag(e);
         }
 
-        virtual public void StopDrag()
+        abstract protected void OnMoveDrag(Point e);
+
+        public void StopDrag()
         {
             SetHit(false);
+            OnStopDrag();
         }
 
-        virtual public void StopEdit()
+        abstract protected void OnStopDrag();
+
+        public void StopEdit()
         {
             HideVirtualShape();
+            OnStopEdit();
         }
 
-        virtual public void MoveShape(Point point)
+        abstract protected void OnStopEdit();
+
+        public void MoveShape(Point point)
         {
             SetHit(true);
+            OnMoveShape(point);
         }
+
+        abstract protected void OnMoveShape(Point point);
 
         abstract public Serializer.Shape CreateSerializer();
 

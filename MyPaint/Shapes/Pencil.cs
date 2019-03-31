@@ -70,11 +70,6 @@ namespace MyPaint.Shapes
                 path.Stroke = brush;
                 return true;
             }
-            if (brushEnum == BrushEnum.SECONDARY)
-            {
-                path.Fill = brush;
-                return true;
-            }
             return false;
         }
 
@@ -136,45 +131,38 @@ namespace MyPaint.Shapes
             VirtualElement = vs;
         }
 
-        override public void SetActive()
+        override protected void OnSetActive()
         {
-            base.SetActive();
             DrawControl.SetPrimaryColor(path.Stroke);
-            DrawControl.SetSecondaryColor(path.Fill);
             DrawControl.SetThickness(path.StrokeThickness);
             area.SetActive();
         }
 
-        override public void MoveDrag(Point e)
+        override protected void OnMoveDrag(Point e)
         {
-            base.MoveDrag(e);
             area.MoveDrag(e);
         }
 
-        override public void StopDrag()
+        override protected void OnStopDrag()
         {
-            base.StopDrag();
             area.StopDrag();
         }
 
-        override public void StopEdit()
+        override protected void OnStopEdit()
         {
-            base.StopEdit();
             area.StopEdit();
         }
 
-        override public void MoveShape(Point point)
+        override protected void OnMoveShape(Point point)
         {
-            base.MoveShape(point);
             area.Move(point);
         }
 
         override public Serializer.Shape CreateSerializer()
         {
-            Serializer.PolyLine ret = new Serializer.PolyLine();
+            Serializer.Pencil ret = new Serializer.Pencil();
             ret.LineWidth = GetThickness();
             ret.Stroke = PrimaryBrush;
-            ret.Fill = SecondaryBrush;
             ret.Points = new List<Serializer.Point>();
             foreach (var point in movepoints)
             {
@@ -295,7 +283,7 @@ namespace MyPaint.Shapes
         {
             Path p = new Path();
             PathGeometry pg = new PathGeometry();
-            p.DataContext = pg;
+            p.Data = pg;
             PathFigure pf = new PathFigure();
             pg.Figures.Add(pf);
             pf.StartPoint = movepoints[0].Position;
@@ -304,7 +292,6 @@ namespace MyPaint.Shapes
                 pf.Segments.Add(new LineSegment(movepoints[i].Position, true));
             }
             p.Stroke = PrimaryBrush.CreateBrush();
-            p.Fill = SecondaryBrush.CreateBrush();
             p.StrokeThickness = thickness;
             p.ToolTip = null;
             canvas.Children.Add(p);

@@ -90,6 +90,30 @@
                 ctx.fill('evenodd');
                 draw(i, j + 1);
                 break;
+            case 'PENCIL':
+                var a = {};
+                a.x = Infinity;
+                a.y = Infinity;
+                var b = {};
+                b.x = -Infinity;
+                b.y = -Infinity;
+                for (var ii in shape.points) {
+                    a.x = Math.min(a.x, shape.points[ii].x);
+                    a.y = Math.min(a.y, shape.points[ii].y);
+                    b.x = Math.max(b.x, shape.points[ii].x);
+                    b.y = Math.max(b.y, shape.points[ii].y);
+                }
+                var w = b.x - a.x;
+                var h = b.y - a.y;
+                ctx.strokeStyle = brush(shape.stroke, a, w, h);
+                ctx.moveTo(shape.points[0].x + 0.5, shape.points[0].y + 0.5);
+                for (var ii = 1; ii < shape.points.length; ii++) {
+                    ctx.lineTo(shape.points[ii].x + 0.5, shape.points[ii].y + 0.5);
+                }
+                ctx.stroke();
+                ctx.fill('evenodd');
+                draw(i, j + 1);
+                break;
             case 'QLINE':
                 ctx.strokeStyle = brush(shape.stroke, a, w, h);
                 ctx.fillStyle = brush(shape.fill, a, w, h);

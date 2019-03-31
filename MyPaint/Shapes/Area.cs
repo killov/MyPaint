@@ -76,29 +76,28 @@ namespace MyPaint.Shapes
             SetActive();
         }
 
-        override public void SetActive()
+        override protected void OnSetActive()
         {
-            base.SetActive();
+
         }
 
-        override public void MoveDrag(Point e)
+        override protected void OnMoveDrag(Point e)
         {
-            base.MoveDrag(e);
+
         }
 
-        override public void StopDrag()
+        override protected void OnStopDrag()
         {
-            base.StopDrag();
+
         }
 
-        override public void StopEdit()
+        override protected void OnStopEdit()
         {
-            base.StopEdit();
+
         }
 
-        override public void MoveShape(Point point)
+        override protected void OnMoveShape(Point point)
         {
-            base.MoveShape(point);
             vs.Points[1] = vs.Points[1] - vs.Points[0] + point;
             vs.Points[2] = vs.Points[2] - vs.Points[0] + point;
             vs.Points[3] = vs.Points[3] - vs.Points[0] + point;

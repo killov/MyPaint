@@ -41,7 +41,7 @@ namespace MyPaint.Shapes
             sx = s.A.X;
             sy = s.A.Y;
             p.BorderThickness = new Thickness(0);
-            SetText(s.B64);
+
             SetFontSize(s.LineWidth);
             SetFont(new FontFamily(s.Font));
 
@@ -50,6 +50,7 @@ namespace MyPaint.Shapes
             moveE(p, s.A.X + s.W, s.A.Y + s.H);
             CreatePoints();
             CreateVirtualShape();
+            SetText(s.B64);
         }
 
         protected override bool OnChangeBrush(BrushEnum brushEnum, Brush brush)
@@ -192,9 +193,8 @@ namespace MyPaint.Shapes
             VirtualElement = vs;
         }
 
-        override public void SetActive()
+        override protected void OnSetActive()
         {
-            base.SetActive();
             DrawControl.SetPrimaryColor(GetBrush(BrushEnum.PRIMARY));
             DrawControl.SetSecondaryColor(GetBrush(BrushEnum.SECONDARY));
             DrawControl.SetFont(GetFont());
@@ -204,19 +204,19 @@ namespace MyPaint.Shapes
             Keyboard.Focus(vs);
         }
 
-        override public void MoveDrag(Point e)
+        override protected void OnMoveDrag(Point e)
         {
             base.MoveDrag(e);
             eR.MoveDrag(e);
         }
 
-        override public void StopDrag()
+        override protected void OnStopDrag()
         {
             base.StopDrag();
             eR.StopDrag();
         }
 
-        override public void StopEdit()
+        override protected void OnStopEdit()
         {
             base.StopEdit();
             ChangeText();
@@ -232,7 +232,7 @@ namespace MyPaint.Shapes
             }
         }
 
-        override public void MoveShape(Point point)
+        override protected void OnMoveShape(Point point)
         {
             base.MoveShape(point);
 

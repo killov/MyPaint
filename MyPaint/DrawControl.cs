@@ -111,16 +111,24 @@ namespace MyPaint
         {
             if (Shape != null)
             {
+                Brush oldBrush = Shape.GetBrush(brushEnum);
                 if (Shape.SetBrush(brushEnum, brush))
                 {
-                    HistoryControl.Add(new HistoryShapeBrush(Shape, brushEnum, Shape.GetBrush(brushEnum), brush));
+                    HistoryControl.Add(new HistoryShapeBrush(Shape, brushEnum, oldBrush, brush));
                 }
             }
         }
 
         public void SetShapeThickness(double t)
         {
-            if (Shape != null) Shape.SetThickness(t, true);
+            if (Shape != null)
+            {
+                double oldThickness = Shape.GetThickness();
+                if (Shape.SetThickness(t))
+                {
+                    HistoryControl.Add(new HistoryShapeThickness(Shape, oldThickness, t));
+                }
+            }
         }
 
         public void SetTextFont(FontFamily f)

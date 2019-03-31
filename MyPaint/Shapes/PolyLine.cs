@@ -43,7 +43,6 @@ namespace MyPaint.Shapes
             Element = path;
             PathGeometry p = new PathGeometry();
 
-
             bool f = true;
             foreach (var point in s.Points)
             {
@@ -157,9 +156,8 @@ namespace MyPaint.Shapes
             VirtualElement = vs;
         }
 
-        override public void SetActive()
+        override protected void OnSetActive()
         {
-            base.SetActive();
             DrawControl.SetPrimaryColor(path.Stroke);
             DrawControl.SetSecondaryColor(path.Fill);
             DrawControl.SetThickness(path.StrokeThickness);
@@ -169,36 +167,32 @@ namespace MyPaint.Shapes
             }
         }
 
-        override public void MoveDrag(Point e)
+        override protected void OnMoveDrag(Point e)
         {
-            base.MoveDrag(e);
             foreach (var p in movepoints)
             {
                 p.MoveDrag(e);
             }
         }
 
-        override public void StopDrag()
+        override protected void OnStopDrag()
         {
-            base.StopDrag();
             foreach (var p in movepoints)
             {
                 p.StopDrag();
             }
         }
 
-        override public void StopEdit()
+        override protected void OnStopEdit()
         {
-            base.StopEdit();
             foreach (var p in movepoints)
             {
                 p.Hide();
             }
         }
 
-        override public void MoveShape(Point point)
+        override protected void OnMoveShape(Point point)
         {
-            base.MoveShape(point);
             MovePoint firstPoint = movepoints[0];
             for (int i = 1; i < movepoints.Count; i++)
             {
@@ -255,7 +249,7 @@ namespace MyPaint.Shapes
         {
             Path p = new Path();
             PathGeometry pg = new PathGeometry();
-            p.DataContext = pg;
+            p.Data = pg;
             PathFigure pf = new PathFigure();
             pg.Figures.Add(pf);
             pf.StartPoint = movepoints[0].Position;

@@ -135,9 +135,8 @@ namespace MyPaint.Shapes
             VirtualElement = vs;
         }
 
-        override public void SetActive()
+        override protected void OnSetActive()
         {
-            base.SetActive();
             DrawControl.SetPrimaryColor(primaryBrush);
             DrawControl.SetSecondaryColor(secondaryBrush);
             DrawControl.SetThickness(thickness);
@@ -149,25 +148,22 @@ namespace MyPaint.Shapes
 
         }
 
-        override public void MoveDrag(Point e)
+        override protected void OnMoveDrag(Point e)
         {
-            base.MoveDrag(e);
             p1.MoveDrag(e);
             p2.MoveDrag(e);
             p3.MoveDrag(e);
         }
 
-        override public void StopDrag()
+        override protected void OnStopDrag()
         {
-            base.StopDrag();
             p1.StopDrag();
             p2.StopDrag();
             p3.StopDrag();
         }
 
-        override public void StopEdit()
+        override protected void OnStopEdit()
         {
-            base.StopEdit();
             p1.Hide();
             p2.Hide();
             p3.Hide();
@@ -175,10 +171,8 @@ namespace MyPaint.Shapes
             DrawControl.TopCanvas.Children.Remove(eL2);
         }
 
-        override public void MoveShape(Point point)
+        override protected void OnMoveShape(Point point)
         {
-            base.MoveShape(point);
-
             p1.Move(point);
             p2.Move(point + (p2.Position - p1.Position));
             p3.Move(point + (p3.Position - p1.Position));
@@ -229,7 +223,7 @@ namespace MyPaint.Shapes
         {
             Path p = new Path();
             PathGeometry pg = new PathGeometry();
-            p.DataContext = pg;
+            p.Data = pg;
             PathFigure pf = new PathFigure();
             pg.Figures.Add(pf);
             pf.StartPoint = p1.Position;

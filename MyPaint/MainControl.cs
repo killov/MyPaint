@@ -23,6 +23,7 @@ namespace MyPaint
         Dictionary<TabItem, FileControl> files;
         Brush primaryBrush, secondaryBrush, layerColor;
         FontFamily font;
+        int tabItemIndex = 0;
 
         public Canvas TopCanvas { get; private set; }
         public ScaleTransform RevScale { get; private set; }
@@ -107,6 +108,7 @@ namespace MyPaint
         private TabItem CreateTabItem()
         {
             TabItem tab = new TabItem();
+            tab.Name = string.Format("tab{0}", tabItems.Count);
             tab.HeaderTemplate = w.tabControl.FindResource("TabHeader") as DataTemplate;
             w.tabControl.DataContext = null;
 
@@ -390,14 +392,17 @@ namespace MyPaint
         async Task<bool> SaveAs(string path)
         {
             file.DrawControl.StopEdit();
+            w.SetLoading(true);
             Regex r = new Regex("\\.[a-zA-Z0-9]+$");
             string suffix = r.Matches(path)[0].ToString().ToLower();
             file.SetPath(path);
             if (await FileSaver.FileSaver.SaveAsFile(this, file, path))
             {
                 file.HistoryControl.SetNotChange();
+                w.SetLoading(false);
                 return true;
             }
+            w.SetLoading(false);
             return false;
         }
 

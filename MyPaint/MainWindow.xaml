@@ -107,7 +107,7 @@
 
 
             </Canvas>
-            <Grid Margin="0,58,0,26" HorizontalAlignment="Left" Width="186">
+            <Grid Margin="0,58,0,25.8" HorizontalAlignment="Left" Width="199">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
@@ -147,7 +147,7 @@
                 </Canvas>
                 <ncore:ColorBox x:Name="CB" VerticalAlignment="Stretch" ColorChanged="CB_ColorChanged" Width="170" Grid.Row="1" Grid.Column="0" Margin="8,0" Grid.RowSpan="2"/>
                 <Button Style="{StaticResource MyButton}" x:Name="button_addLayer" Margin="0,0,153,8" RenderTransformOrigin="1.15,5.612" Grid.Row="4" FontSize="11" Click="button_addLayer_Click" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="23">+</Button>
-                <ListBox x:Name="layers"  Grid.Row="3" Margin="0,0,-17,2" HorizontalAlignment="Right" Width="203" SelectionChanged="layers_SelectionChanged" Background="#0068B6E2">
+                <ListBox x:Name="layers"  Grid.Row="2" Margin="0,113.4,-17.4,2.4" HorizontalAlignment="Left" Width="203" SelectionChanged="layers_SelectionChanged" Background="#00B6401F" Grid.RowSpan="2">
 
                     <ListBox.ItemContainerStyle>
 

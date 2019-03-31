@@ -97,40 +97,34 @@ namespace MyPaint.Shapes
             VirtualElement = vs;
         }
 
-        override public void SetActive()
+        override protected void OnSetActive()
         {
-            base.SetActive();
             DrawControl.SetPrimaryColor(p.Stroke);
             DrawControl.SetThickness(p.StrokeThickness);
             p1.Show();
             p2.Show();
         }
 
-        override public void MoveDrag(Point e)
+        override protected void OnMoveDrag(Point e)
         {
-            base.MoveDrag(e);
             p1.MoveDrag(e);
             p2.MoveDrag(e);
         }
 
-        override public void StopDrag()
+        override protected void OnStopDrag()
         {
-            base.StopDrag();
             p1.StopDrag();
             p2.StopDrag();
         }
 
-        override public void StopEdit()
+        override protected void OnStopEdit()
         {
-            base.StopEdit();
             p1.Hide();
             p2.Hide();
         }
 
-        public override void MoveShape(Point point)
+        override protected void OnMoveShape(Point point)
         {
-            base.MoveShape(point);
-
             p2.Move(point + (p2.Position - p1.Position));
             p1.Move(point);
         }
@@ -174,8 +168,8 @@ namespace MyPaint.Shapes
             p.Y1 = a.Y;
             p.X2 = b.X;
             p.Y2 = b.Y;
-            p.Stroke = primaryBrush;
-            p.StrokeThickness = thickness;
+            p.Stroke = PrimaryBrush.CreateBrush();
+            p.StrokeThickness = GetThickness();
             p.ToolTip = null;
             canvas.Children.Add(p);
         }
