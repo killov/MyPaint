@@ -47,7 +47,7 @@ namespace MyPaint
             Control = mainControl;
             Canvas = new Canvas();
 
-            HistoryControl = new HistoryControl(mainControl);
+            HistoryControl = new HistoryControl(this, mainControl);
             DrawControl.Init(mainControl, mainControl.RevScale, mainControl.TopCanvas, this, HistoryControl);
             HistoryControl.Clear();
             HistoryControl.Enable();
@@ -130,15 +130,20 @@ namespace MyPaint
         public void SetPath(string p)
         {
             Path = p;
-            SetName(System.IO.Path.GetFileNameWithoutExtension(Path));
+            SetName(System.IO.Path.GetFileName(Path));
         }
 
         public void SetName(string name)
         {
             this.Name = name;
+            RefreshTab();
+        }
+
+        public void RefreshTab()
+        {
             if (TabItem != null)
             {
-                TabItem.Header = name;
+                TabItem.Header = string.Format("{0}{1}", this.Name, HistoryControl.Change() ? "*" : "");
             }
         }
 

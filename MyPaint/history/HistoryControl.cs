@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyPaint.History
 {
     public class HistoryControl
     {
         MainControl control;
+        FileControl file;
         Stack<IHistoryNode> backStack = new Stack<IHistoryNode>();
         Stack<IHistoryNode> forwardStack = new Stack<IHistoryNode>();
         IHistoryNode changeBack;
-        private bool enable = false;
+        bool enable = false;
+        bool change = false;
 
-        public HistoryControl(MainControl c)
+        public HistoryControl(FileControl file, MainControl c)
         {
+            this.file = file;
             control = c;
         }
 
@@ -30,11 +30,11 @@ namespace MyPaint.History
         public void Add(IHistoryNode node)
         {
             if (enable)
-            {   
-                if(backStack.Count > 0 && (node is IHistoryNodeSkipped))
+            {
+                if (backStack.Count > 0 && (node is IHistoryNodeSkipped))
                 {
                     IHistoryNode last = backStack.First();
-                    if(last is IHistoryNodeSkipped)
+                    if (last is IHistoryNodeSkipped)
                     {
                         IHistoryNodeSkipped l = (IHistoryNodeSkipped)last;
                         IHistoryNodeSkipped n = (IHistoryNodeSkipped)node;
@@ -77,7 +77,7 @@ namespace MyPaint.History
 
         public void SetNotChange()
         {
-            if(backStack.Count == 0)
+            if (backStack.Count == 0)
             {
                 changeBack = null;
             }
@@ -85,15 +85,29 @@ namespace MyPaint.History
             {
                 changeBack = backStack.First();
             }
+            RefreshChange();
+        }
+
+        private void RefreshChange()
+        {
+            bool newChange = !((backStack.Count == 0 && changeBack == null) || (backStack.Count != 0 && backStack.First().Equals(changeBack)));
+            bool changed = newChange != change;
+
+            if (changed)
+            {
+                change = newChange;
+                file.RefreshTab();
+            }
         }
 
         public bool Change()
         {
-            return !((backStack.Count == 0 && changeBack == null) || backStack.First().Equals(changeBack));
+            return change;
         }
 
         public void Redraw()
         {
+            RefreshChange();
             control.SetHistory(backStack.Count > 0, forwardStack.Count > 0);
         }
 

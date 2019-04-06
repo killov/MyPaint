@@ -23,7 +23,6 @@ namespace MyPaint
         Dictionary<TabItem, FileControl> files;
         Brush primaryBrush, secondaryBrush, layerColor;
         FontFamily font;
-        int tabItemIndex = 0;
 
         public Canvas TopCanvas { get; private set; }
         public ScaleTransform RevScale { get; private set; }

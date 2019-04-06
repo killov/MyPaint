@@ -1,10 +1,10 @@
-﻿using MyPaint.History;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using MyPaint.History;
 
 namespace MyPaint
 {
