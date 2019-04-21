@@ -171,14 +171,15 @@ namespace MyPaint.Shapes
             DrawControl.TopCanvas.Children.Remove(eL2);
         }
 
-        override protected void OnMoveShape(Point point)
+        protected override void OnMoveShape(Point point)
         {
+            Vector v = point - p1.Position;
             p1.Move(point);
-            p2.Move(point + (p2.Position - p1.Position));
-            p3.Move(point + (p3.Position - p1.Position));
+            p2.Move(p2.Position + v);
+            p3.Move(p3.Position + v);
         }
 
-        override public Serializer.Shape CreateSerializer()
+        public override Serializer.Shape CreateSerializer()
         {
             Serializer.QuadraticCurve ret = new Serializer.QuadraticCurve();
             ret.LineWidth = GetThickness();
@@ -190,12 +191,12 @@ namespace MyPaint.Shapes
             return ret;
         }
 
-        override public Point GetPosition()
+        public override Point GetPosition()
         {
             return pf.StartPoint;
         }
 
-        override protected void CreatePoints()
+        protected override void CreatePoints()
         {
             p1 = new MovePoint(DrawControl.TopCanvas, this, pf.StartPoint, DrawControl.RevScale, (e, mouseDrag) =>
             {

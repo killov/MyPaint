@@ -549,6 +549,12 @@ namespace MyPaint
                     case Key.N:
                         NewC();
                         break;
+                    case Key.Z:
+                        Back();
+                        break;
+                    case Key.Y:
+                        Forward();
+                        break;
                 }
             }
         }

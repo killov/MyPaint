@@ -28,6 +28,7 @@ namespace MyPaint.Shapes
         {
             p = new TextBox();
             Element = p;
+            p.BorderThickness = new Thickness(0);
             SetFont(DrawControl.GetTextFont());
             SetFontSize(DrawControl.GetTextFontSize());
         }
@@ -206,19 +207,16 @@ namespace MyPaint.Shapes
 
         override protected void OnMoveDrag(Point e)
         {
-            base.MoveDrag(e);
             eR.MoveDrag(e);
         }
 
         override protected void OnStopDrag()
         {
-            base.StopDrag();
             eR.StopDrag();
         }
 
         override protected void OnStopEdit()
         {
-            base.StopEdit();
             ChangeText();
             Keyboard.Focus(null);
             eR.StopEdit();
@@ -234,8 +232,6 @@ namespace MyPaint.Shapes
 
         override protected void OnMoveShape(Point point)
         {
-            base.MoveShape(point);
-
             eR.Move(point);
         }
 

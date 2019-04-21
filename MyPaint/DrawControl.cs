@@ -228,6 +228,23 @@ namespace MyPaint
                 }
             }
             activeTool = s;
+            RefreshCursor();
+        }
+
+        void RefreshCursor()
+        {
+            Cursor cursor;
+            switch (activeTool)
+            {
+                case ToolEnum.SELECT:
+                case ToolEnum.SELECTAREA:
+                    cursor = Cursors.Arrow;
+                    break;
+                default:
+                    cursor = Cursors.Pen;
+                    break;
+            }
+            TopCanvas.Cursor = cursor;
         }
 
         public void MouseDown(Point e, MouseButtonEventArgs ee)

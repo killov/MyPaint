@@ -32,8 +32,11 @@ namespace MyPaint
             el.Stroke = Brushes.Black;
             el.Width = 10;
             el.Height = 10;
+            el.Cursor = Cursors.Arrow;
 
             ca.Children.Add(el);
+            Canvas.SetTop(el, -5);
+            Canvas.SetLeft(el, -5);
             shape = s;
             canvas = c;
             element = ca;
@@ -71,8 +74,6 @@ namespace MyPaint
         public void Show()
         {
             canvas.Children.Add(ca);
-            Canvas.SetTop(el, -5);
-            Canvas.SetLeft(el, -5);
             Canvas.SetTop(ca, position.Y);
             Canvas.SetLeft(ca, position.X);
         }
