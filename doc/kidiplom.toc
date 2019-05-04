@@ -19,23 +19,25 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.3}T\IeC {\v r}\IeC {\'\i }da FileControl}{10}{subsection.3.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.4}T\IeC {\v r}\IeC {\'\i }da Layer}{11}{subsection.3.4}% 
+\contentsline {subsection}{\numberline {3.4}T\IeC {\v r}\IeC {\'\i }da DrawControl}{10}{subsection.3.4}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.5}T\IeC {\v r}\IeC {\'\i }da Shape}{11}{subsection.3.5}% 
+\contentsline {subsection}{\numberline {3.5}T\IeC {\v r}\IeC {\'\i }da Layer}{11}{subsection.3.5}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.5.1}Edita\IeC {\v c}n\IeC {\'\i } prvky}{15}{subsubsection.3.5.1}% 
+\contentsline {subsection}{\numberline {3.6}T\IeC {\v r}\IeC {\'\i }da Shape}{11}{subsection.3.6}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\numberline {3.5.1.1}T\IeC {\v r}\IeC {\'\i }da MovePoint}{15}{paragraph.3.5.1.1}% 
+\contentsline {subsubsection}{\numberline {3.6.1}Edita\IeC {\v c}n\IeC {\'\i } prvky}{15}{subsubsection.3.6.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\numberline {3.5.1.2}T\IeC {\v r}\IeC {\'\i }da EditRect}{15}{paragraph.3.5.1.2}% 
+\contentsline {paragraph}{\numberline {3.6.1.1}T\IeC {\v r}\IeC {\'\i }da MovePoint}{15}{paragraph.3.6.1.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.6}T\IeC {\v r}\IeC {\'\i }da HistoryControl}{15}{subsection.3.6}% 
+\contentsline {paragraph}{\numberline {3.6.1.2}T\IeC {\v r}\IeC {\'\i }da EditRect}{15}{paragraph.3.6.1.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.6.1}Metody t\IeC {\v r}\IeC {\'\i }dy}{15}{subsubsection.3.6.1}% 
+\contentsline {subsection}{\numberline {3.7}T\IeC {\v r}\IeC {\'\i }da HistoryControl}{15}{subsection.3.7}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.6.2}IHistoryNode}{16}{subsubsection.3.6.2}% 
+\contentsline {subsubsection}{\numberline {3.7.1}Metody t\IeC {\v r}\IeC {\'\i }dy}{15}{subsubsection.3.7.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {paragraph}{\numberline {3.6.2.1}Roz\IeC {\v s}\IeC {\'\i }\IeC {\v r}en\IeC {\'\i } IHistoryNodeSkipped}{17}{paragraph.3.6.2.1}% 
+\contentsline {subsubsection}{\numberline {3.7.2}IHistoryNode}{16}{subsubsection.3.7.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {paragraph}{\numberline {3.7.2.1}Roz\IeC {\v s}\IeC {\'\i }\IeC {\v r}en\IeC {\'\i } IHistoryNodeSkipped}{17}{paragraph.3.7.2.1}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {4}Funkce}{18}{section.4}% 
 \defcounter {refsection}{0}\relax 

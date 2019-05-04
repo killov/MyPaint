@@ -78,6 +78,7 @@ namespace MyPaint.Shapes
 
         protected override bool OnChangeThickness(double thickness)
         {
+
             path.StrokeThickness = thickness;
             if (vs != null)
             {

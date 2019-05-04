@@ -170,25 +170,29 @@ Třída MainControl má na starosti celý chod aplikace, udržuje v sobě práv�
 
 \subsection{Třída FileControl}
 
-Třída FileControl reprezentuje jeden soubor a dále se stará o práci s ním. Pokud je soubor aktivní dostává všechny informace o vybraném nástroji a barvě. Dále je informována o všech událostech, které se dějí v hlavním plátně, těmi jsou pohyby a kliky myší a z těchto pohybů je možno provádět kreslení a editaci.
+Třída FileControl reprezentuje otevřený soubor s obrázkem a stará se o práci s ním. Instancí této třídy můžeme mít v aplikaci teoreticky neomezené množství. Pokud je soubor aktivní dostává všechny informace o vybraném nástroji a barvě. Dále je informován o všech událostech, které se dějí v hlavním plátně, těmi jsou pohyby a kliky myší a z těchto pohybů je možno provádět kreslení a editaci. Kreslení a editace se deleguje na třídu DrawControl.
 
-Může se nacházet v několika důležitých stavech. První z nich je stav, když chceme teprve něco nakreslit. Pokud v tomto stavu máme vybraný nástroj pro kreslení nějakého tvaru, tak vytvoří jeho instanci a uloží si ji s bodem, kde se nacházela myš při začátku kreslení, kterou pak využívá pro případné rozpoznání, že uživatel nepohnul myší. 
-
-Další stavem je samotné kreslení, do kterého se přepne ihned po začátku kreslení. V tomto stavu přeposílá instanci grafického tvaru zprávy při každém pohybu myší a informuje ho o její pozici, také dostává informaci, jestli je provedeno kliknutí nebo odkliknutí myší. Jakmile kreslený objekt rozhodne, že je konec kreslení přepne se FileControl do stavu editace. O ukončení kreslení rozhoduje samotný grafický objekt kvůli tom, že existují objekty jako polygon, který se kreslí na více kliknutí myší a tak nelze z kliknutí myší určit, kdy má kreslení skončit na rozdíl třeba od čáry, kde nám stačí jeden tah myší. Pokud se jedná objekt na jeden tah, tak pse při odkliknutí ještě porovnávají souřadnice myší při odkliknutí se souřadnicemi uložených na začátku kreslení a pokud se rovnají, zruší se kreslení, odstraní se instance grafického objektu a přepneme se do stavu začátku kreslení.
-
-Stav editace je stav, kdy je grafický objekt označený a určen k editování. V tomto stavu je grafický objekt připraven na to, že na něj můžeme kliknout. 
-
-Pokud na něj klikneme přepne se do mezistavu, který se nazývá přesouvání. Při přesouvání získáme od grafického objektu bod, je jedno jaký, jen je potřeba, aby grafický objekt věděl o jaký bod jde a pamatoval si ho, bude ho totiž potřebovat při výpočtu, kam se má posunout. Při pohybu myší třída FileControl informuje grafický objekt o přesunu a s ním mu předá bod, který vznikne tak, že k tomu původnímu bodu přičte vektor posunu.
-
-Při odkliknutí myší je přesouvání ukončeno a FileControl se přepne nazpět do stavu editace. Označený objekt lze kromě přesouvání jinak upravovat. Můžeme měnit jeho rozměry díky bodům, který grafický objekt zobrazuje.
-
-Pokud klikneme mimo editovaný objekt, tak se přepne do nazpět do stavu začátku kreslení a kreslí nový objekt.
-
-Dále FileControl uchovává seznam vrstev. Tento seznam je díky obousměrnému data-bindingu automaticky synchronizován s panelem vrstev, který se nachází vlevo dole v grafickém rozhraní. Ví i která vrstva je aktivní. Aktivní vrstva je důležitá pro kreslení. Při začátku kreslení je grafickým objektům předána, aby věděly do jaké vrstvy se mají kreslit. Pokud se nacházíme v režimu editace, tak při změně aktivní vrstvy je tato informace předána grafickému objektu, který se následně přesune do nově vybrané vrstvy.
+Dále FileControl uchovává seznam vrstev. Tento seznam je díky obousměrnému data-bindingu automaticky synchronizován s panelem vrstev, který se nachází vlevo dole v grafickém rozhraní. Nese informaci o aktivní vrstvě. Aktivní vrstva je důležitá pro kreslení. Při začátku kreslení je grafickým objektům předána, aby objekt věděl do jaké vrstvy se má kreslit. Pokud se nacházíme v režimu editace, tak při změně aktivní vrstvy je informace o změně vrstvy předána grafickému objektu, který změní aktivní vrstvu na novou vybranou.
 
 Pár věcí se změní pokud máme vybraný nástroj pro výběr grafického objektu. Aktuální vrstvě se předá zpráva o tom, že je aktivní a že má aktivovat všechny grafické objekty, které v ní leží, pak všechny objekty ve vrstvě čekají na klik, při kliknutí na objekt se opět nacházíme v režimu editace, kdy se nám zvolený objekt opět označí.
 
-Každý soubor obsahuje svojí historii o kterou se stará třída HistoryControl.
+Každý soubor obsahuje svojí historii změn o kterou se stará třída HistoryControl.
+
+\subsection{Třída DrawControl}
+
+Stará se o kreslení a editování objektů.
+
+Může se nacházet v několika důležitých stavech. První z nich je stav, když chceme teprve něco nakreslit. Pokud v tomto stavu máme vybraný nástroj pro kreslení tvaru, tak vytvoří jeho instanci a uloží si ji s bodem, kde se nacházela myš při začátku kreslení, kterou pak využívá pro případné rozpoznání, že uživatel nepohnul myší. 
+
+Další stavem je samotné kreslení, do kterého se přepne ihned po začátku kreslení. V tomto stavu přeposílá instanci grafického tvaru zprávy při každém pohybu myší a informuje ho o její pozici, také dostává informaci, jestli je provedeno kliknutí nebo odkliknutí myší. Jakmile kreslený objekt rozhodne, že je konec kreslení přepne se DrawControl do stavu editace. O ukončení kreslení rozhoduje samotný grafický objekt kvůli tomu, že existují objekty jako polygon, který se kreslí na více kliknutí myší a tak nelze z kliknutí myší určit, kdy má kreslení skončit na rozdíl třeba od čáry, kde nám stačí jeden tah myší. Pokud se jedná objekt na jeden tah, tak se při odkliknutí ještě porovnávají souřadnice myší při odkliknutí se souřadnicemi uložených na začátku kreslení a pokud se rovnají, zruší se kreslení, odstraní se instance grafického objektu a přepneme se do stavu začátku kreslení.
+
+Stav editace je stav, kdy je grafický objekt označený a určen k editování. V tomto stavu je grafický objekt připraven na editaci. Můžeme měnit jeho polohu a polohu jeho bodů. Měnit jeho barvy výplně či čáry. Určovat tloušťku čáry.
+
+Pokud na objekt klikneme, přepne se do mezistavu, který se nazývá přesouvání. Při přesouvání získáme od grafického objektu bod, je jedno jaký, jen je potřeba, aby grafický objekt věděl o jaký bod jde a pamatoval si ho, bude ho totiž potřebovat při výpočtu, kam se má objekt přesunout. Při pohybu myší třída DrawControl informuje grafický objekt o přesunu a s ním mu předá bod, který vznikne tak, že k tomu původnímu bodu přičte vektor posunu.
+
+Při odkliknutí myší je přesouvání ukončeno a DrawControl se přepne nazpět do stavu editace. Označený objekt lze kromě přesouvání dále upravovat. Můžeme měnit jeho rozměry díky bodům, který grafický objekt zobrazuje.
+
+Pokud klikneme mimo editovaný objekt, tak se přepne do nazpět do stavu začátku kreslení a hned kreslíme nový objekt.
 
 \subsection{Třída Layer}
 
@@ -198,15 +202,30 @@ Třída implementuje rozhraní INotifyPropertyChanged, aby byl možný obousměr
 
 \subsection{Třída Shape}
 
-Třída reprezentuje grafický objekty a implementuje základní rutiny, které mají všechny grafické objekty totožné. Například barvy, změnu vrstvy mazání nebo opětovné obnovení.
+Třída reprezentuje grafický objekty a implementuje základní rutiny, které mají všechny grafické objekty totožné. Například barvy, změnu vrstvy, mazání nebo opětovné obnovení při akci zpět po smazání.
 
 Pro vytvoření vlastního grafického tvaru je potřeba naprogramovat třídu. Třída musi dědit z třídy Shape a implementovat následující metody:
 
 \begin{itemize}
-\item Kostruktor \kiinlinecode{csharp}{!}{Line(FileControl c, Layer la)}
-\item Kostruktor \kiinlinecode{csharp}{!}{Line(FileControl c, Layer la, Deserializer.Shape s)}
+\item Kostruktor \kiinlinecode{csharp}{!}{Shape(FileControl c, Layer la)}
+\item Kostruktor \kiinlinecode{csharp}{!}{Shape(FileControl c, Layer la, Serializer.Shape s)}
 \end{itemize}
-Je nutné zavolat původní konstruktor vložit WPF element, který se má promítat do plátna. První konstruktor se volá v momentě, když objekt začínáme kreslit. Druhý konstruktor se volá pokud se objekt vytváří otevíráním HTML souboru, kde získáme navíc Shape z jmenného prostoru Deserializer, který obsahuje všechny data pro sestavení tvaru (body, barvy atp.).
+Je nutné zavolat původní konstruktor.
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{protected void OnDrawInit()}
+\end{itemize}
+Volá se v momentě, kdy objekt začínáme kreslit. V této metodě je nutné vyrobit instanci typu \kiinlinecode{csharp}{!}{System.Windows.UIElement} a uložit ji do vlastnosti \kiinlinecode{csharp}{!}{Shape.Element}.
+
+
+\begin{itemize}
+\item \kiinlinecode{csharp}{!}{protected void OnCreateInit(Serializer.Shape shape)}
+\end{itemize}
+Volá se v momentě, kdy objekt začínáme kreslit. V této metodě je nutné vyrobit instanci typu \kiinlinecode{csharp}{!}{System.Windows.UIElement} a uložit ji do vlastnosti \kiinlinecode{csharp}{!}{Shape.Element}.
+
+
+
+vložit WPF element, který se má promítat do plátna. První konstruktor se volá v momentě, když objekt začínáme kreslit. Druhý konstruktor se volá pokud se objekt vytváří otevíráním HTML souboru, kde získáme navíc Shape z jmenného prostoru Serializer, který obsahuje všechny data pro sestavení tvaru (body, barvy atp.).
 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{void SetPrimaryBrush(Brush s, bool addHistory = false)}
@@ -294,7 +313,7 @@ element.LayoutTransform = g;
 \end{figure}  
 
 \subsubsection{Editační prvky}
-Každý grafický objekt by měl mít k dispozici editační prvky, které zobrazí v momentě, kdy je objekt editován. Edičaní prvky jsou WPF elementy s naprogramovanými událostmi, které vkládáme při editace do vrchního canvasu, aby je uživatel viděl před objekty a mohl nimi například posouvat.
+Každý grafický objekt by měl mít k dispozici editační prvky, které zobrazí v momentě, kdy je objekt editován. Editační prvky jsou WPF elementy s naprogramovanými událostmi, které vkládáme při editace do vrchního canvasu, aby je uživatel viděl před objekty a mohl nimi například posouvat.
 
 Například grafický objekt reprezentující čáru, při editace přidává dva maličké kruhy (elipsy). Jelikož tyhle elipsy jsou potřeba při editaci různých grafických objektů, vznikla proto speciálně určená třída.
 
