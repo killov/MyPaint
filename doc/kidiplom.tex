@@ -198,7 +198,7 @@ Pokud klikneme mimo editovaný objekt, tak se přepne do nazpět do stavu začá
 
 Třída Layer reprezentuje vrstvu a uchovává v sobě její název, barvu pozadí, seznam grafických objektů, informaci o tom jestli je vrstva viditelná a také WPF element Canvas, do kterého přidává elementy z grafických objektů. 
 
-Třída implementuje rozhraní INotifyPropertyChanged, aby byl možný obousměrný data-binding. Informuje tak o změnách, že ve vrstvě nastala změna a je potřeba překreslit GUI.
+Třída implementuje rozhraní INotifyPropertyChanged, aby byl možný obousměrný data-binding. Informuje tak o změnách, že ve vrstvě nastala změna a je potřeba překreslit GUI. GUI se pak překreslí podle dat z vrstvy.
 
 \subsection{Třída Shape}
 
@@ -221,66 +221,61 @@ Volá se v momentě, kdy objekt začínáme kreslit. V této metodě je nutné v
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{protected void OnCreateInit(Serializer.Shape shape)}
 \end{itemize}
-Volá se v momentě, kdy objekt začínáme kreslit. V této metodě je nutné vyrobit instanci typu \kiinlinecode{csharp}{!}{System.Windows.UIElement} a uložit ji do vlastnosti \kiinlinecode{csharp}{!}{Shape.Element}.
+Volá se v momentě, kdy je objekt načítán ze souboru. V této metodě dostaneme argument typu {Serializer.Shape}, který obsahuje všechny data pro sestavení tvaru (body, barvy atp.), je nutné vyrobit instanci typu \kiinlinecode{csharp}{!}{System.Windows.UIElement} a uložit ji do vlastnosti \kiinlinecode{csharp}{!}{Shape.Element}.
 
-
-
-vložit WPF element, který se má promítat do plátna. První konstruktor se volá v momentě, když objekt začínáme kreslit. Druhý konstruktor se volá pokud se objekt vytváří otevíráním HTML souboru, kde získáme navíc Shape z jmenného prostoru Serializer, který obsahuje všechny data pro sestavení tvaru (body, barvy atp.).
 
 \begin{itemize}
-\item \kiinlinecode{csharp}{!}{void SetPrimaryBrush(Brush s, bool addHistory = false)}
-\item \kiinlinecode{csharp}{!}{void SetSecondaryBrush(Brush s, bool addHistory = false)}
-\item \kiinlinecode{csharp}{!}{void SetThickness(double s, bool addHistory = false)}
+\item \kiinlinecode{csharp}{!}{protected bool OnChangeBrush(BrushEnum brushEnum, Brush brush)}
 \end{itemize}
-Tyto metody jsou volány při nastavování barev a tloušťky, pokud je chcem použít, zavoláme původní konstruktor \kiinlinecode{csharp}{!}{base.SetThickness(s, addHistory)} a bude se nám díky tomu ukládat akce do historie. Pokud náš nový grafický objekt vlastnost nemá, necháme metodu prázdnou.
+Tato metoda je volána pokud uživatel mění barvu objektu. V argumentu dostaneme informaci o jaký typ barvy se jedná a samotnou barvu. Pokud náš nový grafický objekt typ barvy podporuje a chceme akci o změně barvy uložit do historie, pak vrátíme hodnotu \kiinlinecode{csharp}{!}{true}, v opačné případě vrátíme hodnotu \kiinlinecode{csharp}{!}{false}.
 
 \begin{itemize}
-\item \kiinlinecode{csharp}{!}{void DrawMouseDown(Point e, MouseButtonEventArgs ee)}
-\item \kiinlinecode{csharp}{!}{void DrawMouseMove(Point e)}
-\item \kiinlinecode{csharp}{!}{void DrawMouseUp(Point e, MouseButtonEventArgs ee)}
+\item \kiinlinecode{csharp}{!}{protected bool OnChangeThickness(double thickness)}
 \end{itemize}
-Předchozí metody se volají při kreslení. První při kliknutí dolů, druhá při pohybu myší a poslední při puštění tlačítka. Z \kiinlinecode{csharp}{!}{MouseButtonEventArgs} je možno získat informaci o myši (stisknuté tlačítka, souřadnice atp.) Až je grafický objekt nakreslen zavoláme metodu \kiinlinecode{csharp}{!}{StopDraw()}, která ukončí proces kreslení a \kiinlinecode{csharp}{!}{SetActive()}, která aktivuje objekt pro editační mód.
+Tato metoda je volána pokud uživatel mění u objektu tloušťku. V argumentu dostaneme novou tloušťku. Pokud náš nový grafický objekt tloušťku podporuje a chceme akci o změně tloušťce uložit do historie, pak vrátíme hodnotu \kiinlinecode{csharp}{!}{true}, v opačné případě vrátíme hodnotu \kiinlinecode{csharp}{!}{false}.
 
 \begin{itemize}
-\item \kiinlinecode{csharp}{!}{void ShowVirtualShape(OnMouseDownDelegate mouseDown)}
+\item \kiinlinecode{csharp}{!}{protected void OnDrawMouseDown(Point e, MouseButtonEventArgs ee)}
+\item \kiinlinecode{csharp}{!}{protected void OnDrawMouseMove(Point e)}
+\item \kiinlinecode{csharp}{!}{protected void OnDrawMouseUp(Point e, MouseButtonEventArgs ee)}
 \end{itemize}
-Slouží k zobrazení k průhledného WPF elementu na na vrchním canvasu. Je nutné zavolat metodu rodiče. Průhledný element musí mít nastavenou událost na kliknutí myší a v ní zavolat delegát \kiinlinecode{csharp}{!}{virtualShapeCallback(Point e, Shape s)} s aktuálním bodem. Element zobrazíme pokud ho přidáme do vrchního canvasu \kiinlinecode{csharp}{!}{File.TopCanvas.Children.Add(vs)}.
+Předchozí metody se volají při kreslení. První při kliknutí dolů, druhá při pohybu myší a poslední při puštění tlačítka. Argument \kiinlinecode{csharp}{!}{Point e} obsahuje relativní souřadnice k plátnu a z argumentu \kiinlinecode{csharp}{!}{MouseButtonEventArgs} je možno získat informaci o myši (stisknuté tlačítka, souřadnice atp.) Až je grafický objekt nakreslen zavoláme metodu \kiinlinecode{csharp}{!}{StopDraw()}, která ukončí proces kreslení a \kiinlinecode{csharp}{!}{SetActive()}, která aktivuje objekt pro editační mód.
 
 \begin{itemize}
-\item \kiinlinecode{csharp}{!}{void HideVirtualShape(OnMouseDownDelegate mouseDown)}
+\item \kiinlinecode{csharp}{!}{protected void CreateVirtualShape()}
 \end{itemize}
-Slouží k zobrazení k průhledného WPF elementu na na vrchním canvasu. Element skryjeme pokud ho odebereme z vrchního canvasu \kiinlinecode{csharp}{!}{File.TopCanvas.Children.Remove(vs))}.
+Slouží k vytvoření k průhledného WPF elementu. Je použit ke klikání na grafický objekt. Průhledný element musí mít nastavenou událost na kliknutí myší na metodu předka \kiinlinecode{csharp}{!}{Callback}).
 
 \begin{itemize}
-\item \kiinlinecode{csharp}{!}{void SetActive()}
+\item \kiinlinecode{csharp}{!}{protected void SetActive()}
 \end{itemize}
-Metoda je volána při aktivaci grafického elementu. Je nutné zavolat metodu rodiče a nastavit aktuálně použité barvy a tloušťku zavoláním \kiinlinecode{csharp}{!}{File.SetPrimaryColor(Brush c)}, \kiinlinecode{csharp}{!}{File.SetSecondaryColor(Brush c)} a \kiinlinecode{csharp}{!}{File.SetThickness(double t)}. Nemusíme použit všechny, záleží na tom, jestli náš grafický objekt, který programujeme tyto vlastnosti používá.
+Metoda je volána při aktivaci grafického elementu. Je nutné nastavit aktuálně použité barvy a tloušťku zavoláním \kiinlinecode{csharp}{!}{File.SetPrimaryColor(Brush c)}, \kiinlinecode{csharp}{!}{File.SetSecondaryColor(Brush c)} a \kiinlinecode{csharp}{!}{File.SetThickness(double t)}. Nemusíme použit všechny, záleží na tom, jestli náš grafický objekt, který programujeme, tyto vlastnosti používá.
 Dále je tu prostor pro zobrazení editačních prvků do horního canvasu.
 
 \begin{itemize}
-\item \kiinlinecode{csharp}{!}{void MoveDrag(Point e)}
+\item \kiinlinecode{csharp}{!}{protected void OnMoveDrag(Point e)}
 \end{itemize}
-Je nutné zde volat metodu rodiče, je možno využít k pohybu editačních prvků. Editačním režimu se volá při každém pohybu myší po plátně.
+Volá se pokud je grafický objekt aktivní při každém pohybu myší po plátně. Je možno využít k pohybu editačních prvků.
 
 \begin{itemize}
-\item \kiinlinecode{csharp}{!}{void StopDrag()}
+\item \kiinlinecode{csharp}{!}{protected void OnStopDrag()}
 \end{itemize}
-Je nutné volat metodu rodiče. Je zavolána při odkliknutí myší v editačním módu.
+Je zavolána při odkliknutí myší v editačním módu.
 
 \begin{itemize}
-\item \kiinlinecode{csharp}{!}{void StopEdit()}
+\item \kiinlinecode{csharp}{!}{protected void OnStopEdit()}
 \end{itemize}
 Volá se při ukončení editačního módu.
 
 \begin{itemize}
-\item \kiinlinecode{csharp}{!}{Point GetPosition()}
+\item \kiinlinecode{csharp}{!}{public Point GetPosition()}
 \end{itemize}
-Návratovou hodnotou metody musí být nějaký bod. Při přesouvání objektu je tento bod využit a dá se s pomocí jeho spočítat, kam se má objekt přesunout.
+Návratovou hodnotou metody musí být bod. Při přesouvání objektu je tento bod využit a dá se s pomocí jeho spočítat, kam se má objekt přesunout.
 
 \begin{itemize}
-\item \kiinlinecode{csharp}{!}{void MoveShape(double x, double y)}
+\item \kiinlinecode{csharp}{!}{protected void OnMoveShape(Point point)}
 \end{itemize}
-Volá se při přesouvání objektů a musí být volána metoda předka. Jako argumenty dostává souřadnice bodu, kterým je bod, který vrací metoda \kiinlinecode{csharp}{!}{GetPosition()} s přičtením vektoru posunu.
+Volá se při přesouvání objektů. Jako argument dostává bod, který vrací metoda \kiinlinecode{csharp}{!}{GetPosition()} s přičtením vektoru posunu.
 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{Serializer.Shape CreateSerializer()}

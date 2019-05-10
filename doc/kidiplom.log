@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.31)  29 APR 2019 08:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.31)  9 MAY 2019 19:33
 entering extended mode
 **./kidiplom.tex
 (kidiplom.tex
@@ -1603,32 +1603,31 @@ File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
 (Font)              Font shape `T1/pcr/b/n' tried instead on input line 216.
 
-Overfull \hbox (11.88727pt too wide) in paragraph at lines 251--253
-\T1/lmr/m/n/12 di£e a na-sta-vit ak-tu-áln¥ po-u-ºité barvy a tlou²´ku za-vo-lá
--ním [][][][][]
+Overfull \hbox (3.8735pt too wide) in paragraph at lines 238--239
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
  []
 
 [12]
-Overfull \hbox (6.3799pt too wide) in paragraph at lines 295--296
+Overfull \hbox (6.3799pt too wide) in paragraph at lines 296--297
 []\T1/lmr/m/n/12 Volá se v mo-ment¥, kdy je zm¥-n¥no m¥-°ítko zob-ra-zení plátn
 a. Z [][][][][]
  []
 
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 297.
+nput line 298.
 [13]
 <img/shape_diag.png, id=183, 339.51843pt x 278.54062pt>
 File: img/shape_diag.png Graphic file (type png)
 <use img/shape_diag.png>
-Package pdftex.def Info: img/shape_diag.png  used on input line 305.
+Package pdftex.def Info: img/shape_diag.png  used on input line 306.
 (pdftex.def)             Requested size: 426.79134pt x 350.15549pt.
 
-Overfull \hbox (17.29015pt too wide) in paragraph at lines 305--306
+Overfull \hbox (17.29015pt too wide) in paragraph at lines 306--307
 [][] 
  []
 
 [14 <./img/shape_diag.png>] [15]
-Overfull \hbox (2.98383pt too wide) in paragraph at lines 385--386
+Overfull \hbox (2.98383pt too wide) in paragraph at lines 386--387
  \T1/lmr/bx/n/12 3.7.2.1 Roz-²í-°ení IHis-to-ry-No-de-Skip-ped[] \T1/lmr/m/n/12
  Roz-hraní []
  []
@@ -1637,10 +1636,10 @@ Overfull \hbox (2.98383pt too wide) in paragraph at lines 385--386
 <img/history_diag.png, id=199, 771.63281pt x 469.755pt>
 File: img/history_diag.png Graphic file (type png)
 <use img/history_diag.png>
-Package pdftex.def Info: img/history_diag.png  used on input line 401.
+Package pdftex.def Info: img/history_diag.png  used on input line 402.
 (pdftex.def)             Requested size: 426.79134pt x 259.82112pt.
 
-Overfull \hbox (17.29015pt too wide) in paragraph at lines 401--402
+Overfull \hbox (17.29015pt too wide) in paragraph at lines 402--403
 [][] 
  []
 
@@ -1648,10 +1647,10 @@ Overfull \hbox (17.29015pt too wide) in paragraph at lines 401--402
 <img/json_diag.png, id=230, 488.57532pt x 540.51938pt>
 File: img/json_diag.png Graphic file (type png)
 <use img/json_diag.png>
-Package pdftex.def Info: img/json_diag.png  used on input line 499.
+Package pdftex.def Info: img/json_diag.png  used on input line 500.
 (pdftex.def)             Requested size: 426.79134pt x 472.16975pt.
 
-Overfull \hbox (17.29015pt too wide) in paragraph at lines 499--500
+Overfull \hbox (17.29015pt too wide) in paragraph at lines 500--501
 [][] 
  []
 
@@ -1659,20 +1658,20 @@ Overfull \hbox (17.29015pt too wide) in paragraph at lines 499--500
 <img/toppanel.png, id=262, 567.62062pt x 42.91031pt>
 File: img/toppanel.png Graphic file (type png)
 <use img/toppanel.png>
-Package pdftex.def Info: img/toppanel.png  used on input line 539.
+Package pdftex.def Info: img/toppanel.png  used on input line 540.
 (pdftex.def)             Requested size: 455.24408pt x 34.41602pt.
 
-Overfull \hbox (45.74289pt too wide) in paragraph at lines 539--540
+Overfull \hbox (45.74289pt too wide) in paragraph at lines 540--541
 [][] 
  []
 
 <img/program.png, id=264, 685.05937pt x 559.33969pt>
 File: img/program.png Graphic file (type png)
 <use img/program.png>
-Package pdftex.def Info: img/program.png  used on input line 555.
+Package pdftex.def Info: img/program.png  used on input line 556.
 (pdftex.def)             Requested size: 426.79134pt x 348.47691pt.
 
-Overfull \hbox (17.29015pt too wide) in paragraph at lines 555--556
+Overfull \hbox (17.29015pt too wide) in paragraph at lines 556--557
 [][] 
  []
 
@@ -1682,27 +1681,27 @@ Overfull \hbox (17.29015pt too wide) in paragraph at lines 555--556
 
 ]
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <12> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 597.
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 598.
 
-Overfull \hbox (28.62613pt too wide) in paragraph at lines 597--605
+Overfull \hbox (28.62613pt too wide) in paragraph at lines 598--606
 \T1/lmr/m/n/12 p°ímo z CD/DVD. / Kom-pletní ad-re-sá-°ová struk-tura webové apl
 i-kace \T1/lmr/m/sc/12 Webovka
  []
 
 
-Overfull \hbox (7.71727pt too wide) in paragraph at lines 597--605
+Overfull \hbox (7.71727pt too wide) in paragraph at lines 598--606
 \T1/lmr/m/n/12 (v ZIP ar-chivu) pro zko-pí-ro-vání na webový ser-ver. Ad-re-sá°
  ob-sa-huje i v²echny
  []
 
 
-Overfull \hbox (8.70828pt too wide) in paragraph at lines 613--619
+Overfull \hbox (8.70828pt too wide) in paragraph at lines 614--620
 \T1/lmr/m/n/12 Kompletní zdro-jové texty pro-gramu \T1/lmr/m/sc/12 Pro-gram \T1
 /lmr/m/n/12 / webové apli-kace \T1/lmr/m/sc/12 Webovka
  []
 
 
-Overfull \hbox (2.8623pt too wide) in paragraph at lines 613--619
+Overfull \hbox (2.8623pt too wide) in paragraph at lines 614--620
 \T1/lmr/m/n/12 se v²emi po-t°eb-nými (p°íp. p°e-vza-tými) zdro-jo-vými texty, k
 nihov-nami a dal-
  []
@@ -1715,7 +1714,7 @@ No file kidiplom.acr.
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 670.
+LaTeX Warning: Empty bibliography on input line 671.
 
 No file kidiplom.ind.
 
@@ -1723,14 +1722,17 @@ AED: lastpage setting LastPage
 \tf@loe=\write13
 \openout13 = `kidiplom.loe'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 684.
-Package atveryend Info: Executing hook `AfterLastShipout' on input line 684.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 685.
+Package atveryend Info: Executing hook `AfterLastShipout' on input line 685.
 (kidiplom.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 684.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 684.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 685.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 685.
 
 
 LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
 
 Package biblatex Warning: Please (re)run Biber on the file:
@@ -1740,12 +1742,12 @@ Package biblatex Warning: Please (re)run Biber on the file:
 Package logreq Info: Writing requests to 'kidiplom.run.xml'.
 \openout1 = `kidiplom.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 684.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 685.
  ) 
 Here is how much of TeX's memory you used:
  36671 strings out of 492945
  639035 string characters out of 3125808
- 1285109 words of memory out of 3000000
+ 1276109 words of memory out of 3000000
  39938 multiletter control sequences out of 15000+200000
  595822 words of font info for 71 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1767,7 +1769,7 @@ X 2.9/fonts/type1/public/lm/lmri12.pfb><C:/Users/Zdenda/AppData/Local/Programs/
 MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Zdenda/AppData/Local/Prog
 rams/MiKTeX 2.9/fonts/type1/urw/courier/ucrb8a.pfb><C:/Users/Zdenda/AppData/Loc
 al/Programs/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb>
-Output written on kidiplom.pdf (30 pages, 534369 bytes).
+Output written on kidiplom.pdf (30 pages, 534338 bytes).
 PDF statistics:
  498 PDF objects out of 1000 (max. 8388607)
  125 named destinations out of 1000 (max. 500000)
