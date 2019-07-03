@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.31)  3 JUL 2019 13:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.31)  3 JUL 2019 14:46
 entering extended mode
 **./kidiplom.tex
 (kidiplom.tex
@@ -1637,7 +1637,8 @@ Overfull \hbox (2.98383pt too wide) in paragraph at lines 391--392
  Roz-hraní []
  []
 
-<img/history_diag.png, id=197, 771.63281pt x 469.755pt>
+[17]
+<img/history_diag.png, id=201, 771.63281pt x 469.755pt>
 File: img/history_diag.png Graphic file (type png)
 <use img/history_diag.png>
 Package pdftex.def Info: img/history_diag.png  used on input line 408.
@@ -1647,7 +1648,7 @@ Overfull \hbox (17.29015pt too wide) in paragraph at lines 408--409
 [][] 
  []
 
-[17] [18 <./img/history_diag.png>] [19] [20]
+[18 <./img/history_diag.png>] [19] [20]
 <img/json_diag.png, id=232, 488.57532pt x 540.51938pt>
 File: img/json_diag.png Graphic file (type png)
 <use img/json_diag.png>
@@ -1669,7 +1670,8 @@ Overfull \hbox (45.74289pt too wide) in paragraph at lines 548--549
 [][] 
  []
 
-<img/program.png, id=262, 685.05937pt x 559.33969pt>
+[24 <./img/toppanel.png>]
+<img/program.png, id=267, 685.05937pt x 559.33969pt>
 File: img/program.png Graphic file (type png)
 <use img/program.png>
 Package pdftex.def Info: img/program.png  used on input line 564.
@@ -1679,9 +1681,9 @@ Overfull \hbox (17.29015pt too wide) in paragraph at lines 564--565
 [][] 
  []
 
-[24 <./img/toppanel.png>] [25 <./img/program.png>] [26
+[25 <./img/program.png>] [26] [27
 
-] [27
+] [28
 
 ]
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <12> not available
@@ -1710,11 +1712,11 @@ Overfull \hbox (2.8623pt too wide) in paragraph at lines 616--622
 nihov-nami a dal-
  []
 
-[28
+[29
 
-] [29]
+] [30]
 No file kidiplom.acr.
-[30
+[31
 
 ]
 
@@ -1746,9 +1748,9 @@ Package logreq Info: Writing requests to 'kidiplom.run.xml'.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 687.
  ) 
 Here is how much of TeX's memory you used:
- 36669 strings out of 492945
- 639028 string characters out of 3125808
- 1275109 words of memory out of 3000000
+ 36670 strings out of 492945
+ 639035 string characters out of 3125808
+ 1279109 words of memory out of 3000000
  39937 multiletter control sequences out of 15000+200000
  595822 words of font info for 71 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1770,9 +1772,9 @@ X 2.9/fonts/type1/public/lm/lmri12.pfb><C:/Users/Zdenda/AppData/Local/Programs/
 MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Zdenda/AppData/Local/Prog
 rams/MiKTeX 2.9/fonts/type1/urw/courier/ucrb8a.pfb><C:/Users/Zdenda/AppData/Loc
 al/Programs/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb>
-Output written on kidiplom.pdf (30 pages, 536531 bytes).
+Output written on kidiplom.pdf (31 pages, 537703 bytes).
 PDF statistics:
- 493 PDF objects out of 1000 (max. 8388607)
- 124 named destinations out of 1000 (max. 500000)
+ 498 PDF objects out of 1000 (max. 8388607)
+ 125 named destinations out of 1000 (max. 500000)
  388 words of extra memory for PDF output out of 10000 (max. 10000000)
 

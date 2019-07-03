@@ -186,29 +186,29 @@ Může se nacházet v několika důležitých stavech. První z nich je stav, kd
 
 Další stavem je samotné kreslení, do kterého se přepne ihned po začátku kreslení. V tomto stavu přeposílá instanci grafického tvaru zprávy při každém pohybu myší a informuje ho o její pozici. Také dostává informace, jestli je provedeno kliknutí nebo odkliknutí myší. Jakmile kreslený objekt rozhodne, že je konec kreslení, přepne se \kiinlinecode{csharp}{!}{DrawControl} do stavu editace. O ukončení kreslení rozhoduje samotný grafický objekt kvůli tomu, že existují takové objekty jako například polygon, který se kreslí na více kliknutí myší, a tak nelze z jednoho kliknutí myší určit, zda má kreslení skončit. V tomto se liší například od úsečky, kde nám stačí pouze jeden tah myší. Pokud se jedná o objekt na jeden tah, tak se při odkliknutí ještě porovnávají souřadnice myši při odkliknutí se souřadnicemi uloženými na začátku kreslení, a když se rovnají, zruší se kreslení, odstraní se instance grafického objektu a třída \kiinlinecode{csharp}{!}{DrawControl} se přepne se do stavu na začátku kreslení.
 
-Stav editace je stav, kdy je grafický objekt označený a určený k editování. V tomto stavu je grafický objekt připraven na editaci. Můžeme měnit jeho polohu a polohu jeho bodů. Můžeme také měnit barvy jeho výplně či čar anebo určovat tloušťku čáry.
+Stav editace je stav, kdy je grafický objekt označený a určený k editování. V tomto stavu je grafický objekt připraven na editaci. Můžeme měnit jeho polohu a polohu jeho bodů. Můžeme také měnit barvy jeho výplně či čar anebo určovat tloušťku těchto čar.
 
-Pokud na objekt klikneme, přepne se do mezistavu, který se nazývá přesouvání. Při přesouvání získáme od grafického objektu bod, je jedno jaký, jen je potřeba, aby grafický objekt věděl o jaký bod jde a pamatoval si ho, bude ho totiž potřebovat při výpočtu, kam se má objekt přesunout. Při pohybu myší třída DrawControl informuje grafický objekt o přesunu a s ním mu předá bod, který vznikne tak, že k tomu původnímu bodu přičte vektor posunu.
+Pokud na objekt klikneme, přepne se do mezistavu, který se nazývá přesouvání. Při přesouvání získáme od grafického objektu bod, je jedno jaký, jen je potřeba, aby grafický objekt věděl, o který bod jde a pamatoval si ho. Grafický objekt bude tento bod potřebovat při výpočtu souřadnic na které se má přesunout. Při pohybu myší třída \kiinlinecode{csharp}{!}{DrawControl} informuje grafický objekt o přesunu a společně s touto informací mu předá bod, který vznikne tak, že k tomu původnímu bodu přičte vektor posunu.
 
-Při odkliknutí myší je přesouvání ukončeno a DrawControl se přepne nazpět do stavu editace. Označený objekt lze kromě přesouvání dále upravovat. Můžeme měnit jeho rozměry díky bodům, který grafický objekt zobrazuje.
+Při odkliknutí myší je přesouvání ukončeno a \kiinlinecode{csharp}{!}{DrawControl} se přepne nazpět do stavu editace. Označený objekt lze kromě přesouvání dále upravovat. Můžeme měnit jeho rozměry díky bodům, které grafický objekt zobrazuje.
 
-Pokud klikneme mimo editovaný objekt, tak se přepne do nazpět do stavu začátku kreslení a hned kreslíme nový objekt.
+Pokud klikneme mimo editovaný objekt, tak se \kiinlinecode{csharp}{!}{DrawControl} přepne nazpět do stavu na začátku kreslení a ihned můžeme kreslit nový objekt.
 
 \subsection{Třída Layer}
 
-Třída Layer reprezentuje vrstvu a uchovává v sobě její název, barvu pozadí, seznam grafických objektů, informaci o tom jestli je vrstva viditelná a také WPF element Canvas, do kterého přidává elementy z grafických objektů. 
+Třída \kiinlinecode{csharp}{!}{Layer} reprezentuje vrstvu a uchovává v sobě její název, barvu pozadí, seznam grafických objektů, které obsahuje, informace o tom jestli je vrstva viditelná a také WPF element \kiinlinecode{csharp}{!}{Canvas}, do kterého přidává elementy z grafických objektů. 
 
-Třída implementuje rozhraní INotifyPropertyChanged, aby byl možný obousměrný data-binding. Informuje tak o změnách, že ve vrstvě nastala změna a je potřeba překreslit GUI. GUI se pak překreslí podle dat z vrstvy.
+Třída implementuje rozhraní \kiinlinecode{csharp}{!}{INotifyPropertyChanged}, aby byl možný obousměrný data-binding. Informuje tak GUI o změnách, aby bylo jasné, že ve vrstvě nastala změna a je potřeba okno překreslit. GUI se pak překreslí podle dat z vrstvy.
 
 \subsection{Třída Shape}
 
-Třída reprezentuje grafický objekty a implementuje základní rutiny, které mají všechny grafické objekty totožné. Například barvy, změnu vrstvy, mazání nebo opětovné obnovení při akci zpět po smazání.
+Tato třída reprezentuje grafický objekt a implementuje základní rutiny, které mají všechny grafické objekty totožné. Například barvy, změnu vrstvy, mazání nebo opětovné obnovení při akci zpět po smazání.
 
 \subsubsection{Implementace vlastního grafického objektu}
 
 Tato kapitola popisuje, jak implementovat do aplikace vlastní grafický objekt.
 
-Pro vytvoření vlastního grafického tvaru je potřeba naprogramovat třídu. Třída musí dědit z třídy Shape a implementovat následující metody:
+Pro vytvoření vlastního grafického tvaru je potřeba naprogramovat třídu. Třída musí dědit z třídy \kiinlinecode{csharp}{!}{Shape} a implementovat následující metody:
 
 \begin{itemize}
 \item Kostruktor \kiinlinecode{csharp}{!}{Shape(FileControl c, Layer la)}
@@ -225,7 +225,7 @@ Volá se v momentě, kdy objekt začínáme kreslit. V této metodě je nutné v
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{protected void OnCreateInit(Serializer.Shape shape)}
 \end{itemize}
-Volá se v momentě, kdy je objekt načítán ze souboru. V této metodě dostaneme argument typu {Serializer.Shape}, který obsahuje všechny data pro sestavení tvaru (body, barvy atp.), je nutné vyrobit instanci typu \kiinlinecode{csharp}{!}{System.Windows.UIElement} a uložit ji do vlastnosti \kiinlinecode{csharp}{!}{Shape.Element}.
+Volá se v momentě, kdy je objekt načítán ze souboru. V této metodě dostaneme argument typu {Serializer.Shape}, který obsahuje všechny data pro sestavení tvaru (body, barvy atp.). Je nutné vyrobit instanci typu \kiinlinecode{csharp}{!}{System.Windows.UIElement} a uložit ji do vlastnosti \kiinlinecode{csharp}{!}{Shape.Element}.
 
 
 \begin{itemize}
@@ -236,24 +236,24 @@ Tato metoda je volána pokud uživatel mění barvu objektu. V argumentu dostane
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{protected bool OnChangeThickness(double thickness)}
 \end{itemize}
-Tato metoda je volána pokud uživatel mění u objektu tloušťku. V argumentu dostaneme novou tloušťku. Pokud náš nový grafický objekt tloušťku podporuje a chceme akci o změně tloušťce uložit do historie, pak vrátíme hodnotu \kiinlinecode{csharp}{!}{true}, v opačné případě vrátíme hodnotu \kiinlinecode{csharp}{!}{false}.
+Tato metoda je volána pokud uživatel mění u objektu tloušťku. V argumentu dostaneme novou tloušťku. Pokud náš nový grafický objekt tloušťku podporuje a chceme akci o změně tloušťky uložit do historie, pak vrátíme hodnotu \kiinlinecode{csharp}{!}{true}, v opačné případě vrátíme hodnotu \kiinlinecode{csharp}{!}{false}.
 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{protected void OnDrawMouseDown(Point e, MouseButtonEventArgs ee)}
 \item \kiinlinecode{csharp}{!}{protected void OnDrawMouseMove(Point e)}
 \item \kiinlinecode{csharp}{!}{protected void OnDrawMouseUp(Point e, MouseButtonEventArgs ee)}
 \end{itemize}
-Předchozí metody se volají při kreslení. První při kliknutí dolů, druhá při pohybu myší a poslední při puštění tlačítka. Argument \kiinlinecode{csharp}{!}{Point e} obsahuje relativní souřadnice k plátnu a z argumentu \kiinlinecode{csharp}{!}{MouseButtonEventArgs} je možno získat informaci o myši (stisknuté tlačítka, souřadnice atp.) Až je grafický objekt nakreslen zavoláme metodu \kiinlinecode{csharp}{!}{StopDraw()}, která ukončí proces kreslení a \kiinlinecode{csharp}{!}{SetActive()}, která aktivuje objekt pro editační mód.
+Předchozí metody se volají při kreslení. První při kliknutí dolů, druhá při pohybu myší a poslední při puštění tlačítka. Argument \kiinlinecode{csharp}{!}{Point e} obsahuje relativní souřadnice k plátnu a z argumentu \kiinlinecode{csharp}{!}{MouseButtonEventArgs} je možno získat informaci o myši (stisknuté tlačítka, souřadnice atp.) Ve chvíli kdy je grafický objekt nakreslen, zavoláme metodu \kiinlinecode{csharp}{!}{StopDraw()}, která ukončí proces kreslení a \kiinlinecode{csharp}{!}{SetActive()}, která aktivuje objekt pro editační mód.
 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{protected void CreateVirtualShape()}
 \end{itemize}
-Slouží k vytvoření k průhledného WPF elementu. Je použit ke klikání na grafický objekt. Průhledný element musí mít nastavenou událost na kliknutí myší na metodu předka \kiinlinecode{csharp}{!}{Callback}).
+Slouží k vytvoření k průhledného WPF elementu. Je použit ke klikání na grafický objekt. Průhledný element musí mít nastavenou událost na kliknutí myší na metodu předka \kiinlinecode{csharp}{!}{Callback}.
 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{protected void SetActive()}
 \end{itemize}
-Metoda je volána při aktivaci grafického elementu. Je nutné nastavit aktuálně použité barvy a tloušťku zavoláním \kiinlinecode{csharp}{!}{File.SetPrimaryColor(Brush c)}, \kiinlinecode{csharp}{!}{File.SetSecondaryColor(Brush c)} a \kiinlinecode{csharp}{!}{File.SetThickness(double t)}. Nemusíme použit všechny, záleží na tom, jestli náš grafický objekt, který programujeme, tyto vlastnosti používá.
+Tato metoda je volána při aktivaci grafického elementu. Je nutné nastavit aktuálně použité barvy a tloušťku zavoláním \kiinlinecode{csharp}{!}{File.SetPrimaryColor(Brush c)}, \kiinlinecode{csharp}{!}{File.SetSecondaryColor(Brush c)} a \kiinlinecode{csharp}{!}{File.SetThickness(double t)}. Nemusíme použit všechny, záleží na tom, jestli náš grafický objekt, který programujeme, tyto vlastnosti používá.
 Dále je tu prostor pro zobrazení editačních prvků do horního canvasu.
 
 \begin{itemize}
@@ -274,7 +274,7 @@ Volá se při ukončení editačního módu.
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{public Point GetPosition()}
 \end{itemize}
-Návratovou hodnotou metody musí být bod. Při přesouvání objektu je tento bod využit a dá se s pomocí něho spočítat, kam se má objekt přesunout.
+Návratovou hodnotou metody musí být bod. Při přesouvání objektu je tento bod využit a dá se pomocí něho spočítat, kam se má objekt přesunout.
 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{protected void OnMoveShape(Point point)}
@@ -289,15 +289,15 @@ Metoda musí vracet potomka třídy \kiinlinecode{csharp}{!}{Serializer.Shape}. 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{CreateImage(Canvas canvas)}
 \end{itemize}
-Musí se zde vytvořit nový WPF element a nelze použít element z vlastnosti Element. Je to důvodu toho, že metoda slouží ke skládání k obrázku, který je volán v jiném vlákně než to, ve kterém běží hlavní okno aplikace. WPF elementy vytvořené v jednom vlákně nelze používat v jiném.
+Musí se zde vytvořit nový WPF element a nelze použít element z vlastnosti Element. Tato metoda slouží ke skládání obrázku z toho důvodu, protože je voláná v jiném vlákně, než ve kterém běží hlavní okno aplikace. WPF elementy vytvořené v jednom vlákně nelze používat v jiném.
 
-Vytvořený element následně přidáme do canvasu, který získáme z argumentu.
+Vytvořený element následně přidáme do \kiinlinecode{csharp}{!}{Canvas}u, který získáme z argumentu.
 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{void ChangeZoom()}
 \end{itemize}
 
-Volá se v momentě, kdy je změněno měřítko zobrazení plátna. Z \kiinlinecode{csharp}{!}{File.RevScale} je možno získat poměr zvětšení tak, aby byl grafický objekt při změně přiblížený pořád stejně velký, hodí se pro zachování velikosti. Hodí se třeba pro zachování velikostí ovládacích bodů objektu. Samotný \kiinlinecode{csharp}{!}{File.RevScale} jde přímo vložit do vlastnosti WPF elemetu tak, aby měnil velikost sám. Příklad zdrojový kód \ref{kod:revscale}).
+Volá se v momentě, kdy je změněno měřítko zobrazení plátna. Z \kiinlinecode{csharp}{!}{File.RevScale} je možno získat poměr zvětšení tak, aby byl grafický objekt při změně přiblížení pořád stejně velký. \kiinlinecode{csharp}{!}{File.RevScale} se hodí pro zachování velikosti. Můžeme ho využít například pro zachování velikostí ovládacích bodů objektů. Samotný \kiinlinecode{csharp}{!}{File.RevScale} jde přímo vložit do vlastnosti WPF elemetu tak, aby měnil velikost sám. Příklad zdrojový kód č. \ref{kod:revscale}).
 
 \begin{kicode}{csharp}{kod:revscale}{Nastavení automatické transformace revScale}
 TransformGroup g = new TransformGroup();
@@ -312,30 +312,30 @@ element.LayoutTransform = g;
 \end{figure}  
 
 \subsubsection{Editační prvky}
-Každý grafický objekt by měl mít k dispozici editační prvky, které zobrazí v momentě, kdy je objekt editován. Editační prvky jsou WPF elementy s naprogramovanými událostmi, které vkládáme při editace do vrchního canvasu, aby je uživatel viděl před objekty a mohl nimi například posouvat.
+Každý grafický objekt by měl mít k dispozici editační prvky, které se zobrazí v momentě, kdy je objekt editován. Editační prvky jsou WPF elementy s naprogramovanými událostmi, které vkládáme při editace do vrchního \kiinlinecode{csharp}{!}{Canvas}u, aby je uživatel viděl před objekty a mohl nimi posouvat.
 
-Například grafický objekt reprezentující čáru, při editace přidává dva maličké kruhy (elipsy). Jelikož tyhle elipsy jsou potřeba při editaci různých grafických objektů, vznikla proto speciálně určená třída.
+Jako příklad uvedu grafický objekt reprezentující úsečku, která při editaci přidává dva maličké kruhy (elipsy). Jelikož tyto elipsy jsou potřeba při editaci různých grafických objektů, vznikla proto speciálně určená třída.
 
 \paragraph{Třída MovePoint}
-Jak jsem již zmínil, pro ovládací prvky typu malých elips se kterým jde posouvat, vznikla speciální třída po názvem \kiinlinecode{csharp}{!}{MovePoint}.
+Jak jsem již zmínil, pro ovládací prvky typu malých elips se kterým jde posouvat, vznikla speciální třída pod názvem \kiinlinecode{csharp}{!}{MovePoint}.
 
-K založení instance je potřeba počáteční bod, instanci grafického objektu, horní canvas a delegát \kiinlinecode{csharp}{!}{void MoveDelegate(Point b)}. Delegát je funkce kterou můžeme ukládat do proměnných  a předávat je jako argumenty funkcí. Náš delegát se zavolá při každé změně pozice a v argumentu dostane bod místa, kam se má přesunout.
+K založení instance je zapotřebí počátečního bodu, instanci grafického objektu, horního \kiinlinecode{csharp}{!}{Canvas}u a delegátu \kiinlinecode{csharp}{!}{void MoveDelegate(Point b)}. Delegát je funkce, kterou můžeme ukládat do proměnných a předávat ji jako argumenty funkcí. Náš delegát se zavolá při každé změně pozice a v argumentu dostane bod místa, kam se má přesunout.
 
-Pokud chceme editační prvek zobrazit zavoláme metodu \kiinlinecode{csharp}{!}{Show()}. V opačném případě metodu \kiinlinecode{csharp}{!}{Hide()}
+Pokud chceme editační prvek zobrazit, zavoláme metodu \kiinlinecode{csharp}{!}{Show()}. V opačném případě zavoláme metodu \kiinlinecode{csharp}{!}{Hide()}.
 
-\kiinlinecode{csharp}{!}{MovePoint} automaticky ukládá všechny přesuny do historie. Takže tuhle režii nemusíme v implementaci grafických objektů řešit.
+\kiinlinecode{csharp}{!}{MovePoint} automaticky ukládá všechny přesuny do historie, takže tuhle režii nemusíme v implementaci grafických objektů řešit.
 
 \paragraph{Třída EditRect}
 
-Slouží k editování obdélníkových tvarů (obdélník, elipsa, obrázek). Na čtyři krajní body používá třídu \kiinlinecode{csharp}{!}{MovePoint}. Pokud je aktivní, tak zobrazuje obdélník přerušovanou čárou. Při podržení klávesy shift a přesouvání jednoho z krajních bodů, drží poměr stran, to se hodí například při zmenšování nebo zvětšování obrázku.
+Slouží k editování obdélníkových tvarů (obdélník, elipsa, obrázek). Na čtyři krajní body používá třídu \kiinlinecode{csharp}{!}{MovePoint}. Pokud je aktivní, tak zobrazuje obdélník přerušovanou čárou. Při podržení klávesy shift a přesouvání jednoho z krajních bodů, drží poměr stran. Tato funkce se hodí například při zmenšování nebo zvětšování obrázků.
 
 \subsection{Třída HistoryControl}
 
-Každý soubor má svojí historii všech změn, které při práci v souboru provedeme. O tuto historii se stará třída \kiinlinecode{csharp}{!}{HistoryControl}. Každá třída \kiinlinecode{csharp}{!}{FileControl} si při vytvoření instance, vytvoří svou vlastní instanci třídy \kiinlinecode{csharp}{!}{HistoryControl}.
+Každý soubor má svoji historii všech změn, které při práci v souboru provedeme. O tuto historii se stará třída \kiinlinecode{csharp}{!}{HistoryControl}. Každá třída \kiinlinecode{csharp}{!}{FileControl} si při vytvoření instance vytvoří svou vlastní instanci třídy \kiinlinecode{csharp}{!}{HistoryControl}.
 
-\kiinlinecode{csharp}{!}{HistoryControl} v sobě uchovává dva zásobníky. První slouží k historii a jsou v něm uloženy akce, které byly provedeny. Do druhého zásobníku se přesouvají akce z prvního, pokud se v historii vracíme zpět. Když půjdeme vpřed, akce z druhého zásobníků se naopak přesune do prvního. Pokud provedeme nějakou změnu, zásobník určený pro kroky vpřed je vyprázdněn.
+\kiinlinecode{csharp}{!}{HistoryControl} v sobě uchovává dva zásobníky. První zásobník slouží k historii a jsou v něm uloženy akce, které byly provedeny. Do druhého zásobníku se přesouvají akce z prvního, pokud se v historii vracíme zpět. Když půjdeme vpřed, akce z druhého zásobníku se naopak přesune do prvního. Pokud provedeme nějakou změnu, zásobník určený pro kroky vpřed je vyprázdněn.
 
-Jednotlivé akce jsou reprezentovány instancemi tříd implementují rozhraní \kiinlinecode{csharp}{!}{IHistoryNode}.
+Jednotlivé akce jsou reprezentovány instancemi tříd implementujících rozhraní \kiinlinecode{csharp}{!}{IHistoryNode}.
 
 \subsubsection{Metody třídy}
 
@@ -344,12 +344,12 @@ Třída \kiinlinecode{csharp}{!}{HistoryControl} má následující veřejné me
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{void Enable()}
 \end{itemize}
-Při vytvoření instance třídy \kiinlinecode{csharp}{!}{HistoryControl} je historie deaktivována. Zavoláním této metody, spustíme celou funkcionalitu třídy.
+Při vytvoření instance třídy \kiinlinecode{csharp}{!}{HistoryControl} je historie deaktivována. Zavoláním této metody spustíme celou funkcionalitu třídy.
 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{void Add(IHistoryNode node)}
 \end{itemize}
-Tato metoda slouží k přidáváním akce do historie.
+Tato metoda slouží k přidávání akce do historie.
 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{void Clear()}
@@ -365,17 +365,17 @@ Pohyb v historii vpřed a vzad, pokud tento přesun není možný, nic se neprov
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{void SetNotChange()}
 \end{itemize}
-Nastaví stav, tak že neproběhla žádná změna. Volá si při uložení souboru.
+Nastaví stav tak, jako by neproběhla vůbec žádná změna. Volá se při uložení souboru.
 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{bool Change()}
 \end{itemize}
-Testuje, jestli od posledního zavolání \kiinlinecode{csharp}{!}{SetNotChange()} nebo od vytvoření zapnutí historie, se nějak změnila historie. Používá se k testu jestli je potřeba soubor uložit. Aplikace tento test používá k tomu, aby jsme omylem nezavřeli aplikaci bez uložení.
+Testuje, jestli se od posledního zavolání \kiinlinecode{csharp}{!}{SetNotChange()} nebo od vytvoření zapnutí historie tato historie nějak změnila. Používá se k testu, jestli je potřeba soubor uložit. Aplikace tento test používá k tomu, abychom si omylem nezavřeli aplikaci bez uložení.
 
 \subsubsection{IHistoryNode}
 \kiinlinecode{csharp}{!}{IHistoryNode} je rozhraní, které musí implementovat všechny třídy, které mají implementovat jednotlivé akce v historii.
 
-Každá třída implementující tohle rozhraní, musí implementovat následující dvě metody:
+Každá třída implementující toto rozhraní, musí implementovat následující dvě metody:
 
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{void Back()}
@@ -385,7 +385,7 @@ Zde je potřeba naprogramovat co se má stát, pokud chceme tuto akci vrátit zp
 \begin{itemize}
 \item \kiinlinecode{csharp}{!}{void Back()}
 \end{itemize}
-Opačný přístup, a provede se pokud je akce již minimálně jednou v historii vrácena a má se zase vrátit do původního stavu.
+Opačný přístup, který se provede pokud byla akce již alespoň jednou v historii vrácena a má se zase vrátit do původního stavu.
 
 \paragraph{Rozšíření IHistoryNodeSkipped}
 Rozhraní \kiinlinecode{csharp}{!}{IHistoryNodeSkipped} je rozšíření rozhraní \kiinlinecode{csharp}{!}{IHistoryNode}. \kiinlinecode{csharp}{!}{HistoryControl} se však k němu chová odlišně.
@@ -393,16 +393,16 @@ Rozhraní \kiinlinecode{csharp}{!}{IHistoryNodeSkipped} je rozšíření rozhran
 Pokud metoda \kiinlinecode{csharp}{!}{Add(IHistoryNode node)} třídy \kiinlinecode{csharp}{!}{HistoryControl} dostane instanci třídy implementující rozhraní \kiinlinecode{csharp}{!}{IHistoryNodeSkipped}, tak provede následující kroky:
 
 \begin{itemize}
-\item Otestuje, jestli je zásobník určený pro akce zpět prázdný, pokud je prázdný, postupuje klasickým způsobem.
+\item Otestuje, jestli je zásobník určený pro akce zpět prázdný. Pokud je prázdný, postupuje klasickým způsobem.
 \item Pokud zásobník prázdný není, otestuje jestli akce ležící na vrcholu zásobníku neimplementuje rozhraní \kiinlinecode{csharp}{!}{IHistoryNodeSkipped}. Pokud ho neimplementuje, postupuje klasicky.
-\item Vkládaná akce s akci ležící na vrcholu zásobníku jsou otestovány, jestli jsou kompatibilní, pokud ano, akce se sloučí a vloží na vrchol zásobníku. V opačném případě se vloží vkládaná akce na vrchol zásobníku.
+\item Vkládaná akce s akcí ležící na vrcholu zásobníku jsou otestovány, jestli jsou kompatibilní. Pokud ano, akce se sloučí a vloží na vrchol zásobníku. V opačném případě se vloží vkládaná akce na vrchol zásobníku.
 \end{itemize}
 
-Na test kompatibility dvou akcí \kiinlinecode{csharp}{!}{IHistoryNodeSkipped} složí metoda \kiinlinecode{csharp}{!}{bool Optimal(IHistoryNodeSkipped node)}, která vrací pravdivostní hodnotu, zda jsou kompatibilní.
+Na test kompatibility dvou akcí \kiinlinecode{csharp}{!}{IHistoryNodeSkipped} slouží metoda \kiinlinecode{csharp}{!}{bool Optimal(IHistoryNodeSkipped node)}, která vrací pravdivostní hodnotu a určuje, zda jsou kompatibilní.
 
 Sloučení dvou akcí provádí metoda \kiinlinecode{csharp}{!}{void Skip(IHistoryNodeSkipped node)}, kdy spojení probíhá do akce, na které je tato metoda volána.
 
-Sloučení dobře slouží například u barev. Když měníme barvu objektu a ukládali by jsme úplně každou změnu barvy, historie změn by byla nepoužitelná, bylo by tam nespočet zbytečných změn, které by v práci překážely.
+Sloučení dobře slouží například u barev. Kdybychom měnili barvu objektu a ukládali bychom úplně každou změnu barvy, historie změn by byla nepoužitelná, protože by tam byl nespočet zbytečných změn, které by v práci překážely.
 
 \begin{figure}
 \includegraphics[width=15cm]{img/history_diag}
