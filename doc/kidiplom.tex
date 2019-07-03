@@ -126,11 +126,11 @@ Aplikace umožní uživateli kreslit a editovat grafické tvary a text. Všem ob
 
 \section{Úvod}
 
-Při tvorbě aplikace byl kladen důraz na jednoduché a uživatelsky přívětivé rozhraní. Hlavní inspirace pochází ze známého programu Malování z MS Windows, který je jednoduchý, ale má řadu nevýhod, například nepodporuje průhlednost a hlavně všechno co je jednou nakresleno, už později nelze změnit. Oproti malování náš grafický editor tyto nevýhody nemá. Obsahuje navíc správu vrstev a u grafických objektů kromě barev lze použít i přechody barev (gradienty). Aplikace podporuje dva druhy přechodů: lineární a radiální.
+Při tvorbě aplikace byl kladen důraz na jednoduché a uživatelsky přívětivé rozhraní. Hlavní inspirace pochází ze známého programu Malování z MS Windows od Microsoftu, který je jednoduchý, ale má řadu nevýhod, například nepodporuje průhlednost a hlavně všechno to, co je jednou nakresleno, už později nelze změnit. Oproti malování náš grafický editor tyto nevýhody nemá. Obsahuje navíc správu vrstev a u grafických objektů kromě barev lze použít i přechody barev (gradienty). Aplikace podporuje dva druhy přechodů: lineární a radiální.
 
-Program není určený pro profesionály, ale pro lidi, kteří si za běžných okolností vystačí pouze s Malováním z MS Windows, ale občas se jim hodí nějaké ty pokročilé funkce. Pro většinu práce s obrázky si vystačíme pouze se základními funkcemi, proto není důležité mít přeplácaný program plný zbytečných funkcí, které nám budou brát na přehlednosti.
+Program není určený pro profesionály, ale pro lidi, kteří si za běžných okolností vystačí pouze s Malováním z MS Windows, ale občas se jim hodí nějaké pokročilé funkce. Pro většinu práce s obrázky si vystačíme pouze se základními funkcemi, proto není důležité mít přeplněný program plný zbytečných funkcí, které nám budou brát na přehlednosti.
 
-Pro obyčejné smrtelníky ve světě grafiky je důležité, aby uživatelské rozhraní bylo jednoduché a přehledné. Toho docílíme, že budeme vycházet z jednoduchých principů kreslení.
+Pro obyčejné smrtelníky ve světě grafiky je důležité, aby uživatelské rozhraní bylo jednoduché a přehledné. Toho chci docílit tak, že budu vycházet z jednoduchých principů kreslení.
 
 \newpage
 
@@ -139,17 +139,17 @@ Pro obyčejné smrtelníky ve světě grafiky je důležité, aby uživatelské 
 Následující kapitula popisuje jednotlivé technologie, které jsou v aplikaci použity.
 
 \subsection{Programovací jazyk C\#}
-C\# je programovací jazyk od společnosti Microsoft, který je hodně podobný jazyku Java a hodně čerpá syntax z jazyka C. Je objektově orientovaný a typovaný. Neexistují zde žádné globální proměnné ani funkce, všechno musí ležet v nějaké třídě. Pokud je i přesto potřebujeme, lze využít statických tříd. Třídy kromě atributů a metod mají navíc vlastnosti. S využitím vlastností nemusíme neustále programovat gettery a settery, ale jsou jsou automatiky vygenerovány za nás.
+C\# je programovací jazyk od společnosti Microsoft, který je hodně podobný jazyku Java a hodně čerpá syntax z jazyka C. Je objektově orientovaný a typovaný. Neexistují zde žádné globální proměnné a ani funkce, všechno musí ležet v nějaké třídě. Pokud je i přesto potřebujeme, lze využít statických tříd. Třídy kromě atributů a metod mají navíc vlastnosti. S využitím vlastností nemusíme neustále programovat gettery a settery, ale jsou jsou automatiky vygenerovány za nás.
 
 \subsection{WPF}
-Windows Presentation Foundation je knihovna pro tvorbu grafického rozhraní pro Windows od společnosti Microsoft. Je následníkem Windows Forms. Podporuje 2d, 3d grafiku a animace. K vykreslování dat může využít data binding. 
+Windows Presentation Foundation je knihovna pro tvorbu grafického rozhraní pro Windows od společnosti Microsoft. Je následníkem Windows Forms. Podporuje 2D, 3D grafiku a animace. K vykreslování dat může využít data binding. 
 
-Data binding je technika, která má na starosti synchronizaci dat zobrazených s nějakým zdrojem dat. Existuje jednosměrný a obousměrný. Jednosměrný aktualizuje zobrazovaná data v době, když nastane změna ve zdrojových datech. Obousměrný jej rozšiřuje tím, že aktualizuje zdroj dat z dat, které se zobrazují.
+Data binding je technika, která má na starosti synchronizaci dat zobrazených s nějakým zdrojem dat. Existuje jednosměrný a obousměrný. Jednosměrný data binding aktualizuje zobrazovaná data v době, kdy nastane změna ve zdrojových datech. Obousměrný jej rozšiřuje tím, že aktualizuje zdroj dat z těch dat, která se zobrazují.
 
 \subsection{XAML}
-Extensible Application Markup Language je značkovací jazyk od Microsoftu. Pochází ze značkovacího jazyka XML. Původně byl vyvíjen pouze pro knihovnu WPF, později lze použít i v platformně Silverlight.
+Extensible Application Markup Language je značkovací jazyk od Microsoftu. Pochází ze značkovacího jazyka XML. Původně byl vyvíjen pouze pro knihovnu WPF, nyní lze použít i v platformně Silverlight.
 
-XAML nám umožňuje popsat uživatelské rozhraní jednodušším způsobem, než vytvářením objektů a nastavování různých vlastností v programovacím jazyce.
+XAML nám umožňuje popsat uživatelské rozhraní jednodušším způsobem, než vytvářením objektů a nastavováním různých vlastností v programovacím jazyce.
 
 
 
@@ -160,33 +160,33 @@ Následující kapitola popisuje implementaci jednotlivých části aplikace.
 
 \subsection{Grafické rozhraní}
 
-Grafické rozhraní aplikace (GUI) je vytvořené za pomocí knihovny WPF a z velké části popsané jazykem XAML. Jedna z mála věcí, která není popsána pomocí XAMLu je plátno do kterého se kreslí a upravují se zde grafické objekty.
+Grafické rozhraní aplikace (GUI) je vytvořené za pomocí knihovny WPF a z velké části popsané jazykem XAML. Jedna z mála věcí, která není popsána pomocí XAMLu je plátno, do kterého se kreslí a upravují se zde grafické objekty.
 
-Hlavní okno je popsané v souboru MainWindow.xaml a obsluha pro toto okno tvoří třída MainWindow. Z této třídy startuje celá aplikace a vyváří se zde instance třídy MainControl. Všechny události jako jsou kliky myší na tlačítka nebo pohyby myší nad kreslícím plátnem jsou přeposílány třídě MainControl, která zase přeposílá zprávy nazpět třídě MainWindow, pokud je v okně potřeba něco změnit.
+Hlavní okno je popsané v souboru MainWindow.xaml a obsluhu pro toto okno tvoří třída \kiinlinecode{csharp}{!}{MainWindow}. Z této třídy startuje celá aplikace a vyváří se zde instance třídy \kiinlinecode{csharp}{!}{MainControl}. Všechny události jako jsou kliky myší na tlačítka nebo pohyby myší nad kreslícím plátnem jsou přeposílány třídě \kiinlinecode{csharp}{!}{MainControl}, která zase přeposílá zprávy nazpět třídě \kiinlinecode{csharp}{!}{MainWindow}, pokud je v okně potřeba něco změnit.
 
 \subsection{Třída MainControl}
 
-Třída MainControl má na starosti celý chod aplikace, udržuje v sobě právě zvolený nástroj, barvu a seznam otevřených souborů. Z okna aplikace si bere WPF element Canvas. Canvas je element do kterého lze přidávat další elementy. Každý soubor má svůj  Canvas, který je při práci na souboru vložen do hlavního Canvasu, pokud se přepneme na jiný soubor, Canvas je vyměněn za Canvas jiného souboru. Je tu ještě další Canvas, který je úplně nad vším. Slouží pro odchytávání událostí a je taky předán aktuálnímu souboru.
+Třída \kiinlinecode{csharp}{!}{MainControl} má na starosti celý chod aplikace, udržuje v sobě právě zvolený nástroj, barvu a seznam otevřených souborů. Z okna aplikace si bere WPF element \kiinlinecode{csharp}{!}{Canvas}. \kiinlinecode{csharp}{!}{Canvas} je element, do kterého lze přidávat další elementy. Každý soubor má svůj Canvas, který je při práci na souboru vložen do hlavního Canvasu. Pokud se přepneme na jiný soubor, \kiinlinecode{csharp}{!}{Canvas} je vyměněn za \kiinlinecode{csharp}{!}{Canvas} jiného souboru. Je tu ještě další \kiinlinecode{csharp}{!}{Canvas}, který stojí úplně nad všemi ostatními. Tento \kiinlinecode{csharp}{!}{Canvas} slouží pro odchytávání událostí a je také předán aktuálnímu souboru.
 
 \subsection{Třída FileControl}
 
-Třída FileControl reprezentuje otevřený soubor s obrázkem a stará se o práci s ním. Instancí této třídy můžeme mít v aplikaci teoreticky neomezené množství. Pokud je soubor aktivní dostává všechny informace o vybraném nástroji a barvě. Dále je informován o všech událostech, které se dějí v hlavním plátně, těmi jsou pohyby a kliky myší a z těchto pohybů je možno provádět kreslení a editaci. Kreslení a editace se deleguje na třídu DrawControl.
+Třída FileControl reprezentuje otevřený soubor s obrázkem a stará se o práci s ním. Instancí této třídy můžeme mít v aplikaci teoreticky neomezené množství. Pokud je soubor aktivní, dostává všechny informace o vybraném nástroji a barvě. Dále je tento soubor informován o všech událostech, které se dějí v hlavním plátně - těmi jsou pohyby a kliky myší a z těchto pohybů je možno provádět kreslení a editaci. Kreslení a editace se delegují na třídu \kiinlinecode{csharp}{!}{DrawControl}.
 
-Dále FileControl uchovává seznam vrstev. Tento seznam je díky obousměrnému data-bindingu automaticky synchronizován s panelem vrstev, který se nachází vlevo dole v grafickém rozhraní. Nese informaci o aktivní vrstvě. Aktivní vrstva je důležitá pro kreslení. Při začátku kreslení je grafickým objektům předána, aby objekt věděl do jaké vrstvy se má kreslit. Pokud se nacházíme v režimu editace, tak při změně aktivní vrstvy je informace o změně vrstvy předána grafickému objektu, který změní aktivní vrstvu na novou vybranou.
+\kiinlinecode{csharp}{!}{FileControl} uchovává seznam vrstev. Tento seznam je díky obousměrnému data bindingu automaticky synchronizován s panelem vrstev, který se nachází vlevo dole v grafickém rozhraní. Nese informaci o aktivní vrstvě. Aktivní vrstva je důležitá pro kreslení. Při začátku kreslení je grafickým objektům předána, aby objekt věděl, do jaké vrstvy se má nakreslit. Pokud se nacházíme v režimu editace, tak při změně aktivní vrstvy je informace o změně vrstvy předána grafickému objektu, který změní aktivní vrstvu na novou vybranou.
 
-Pár věcí se změní pokud máme vybraný nástroj pro výběr grafického objektu. Aktuální vrstvě se předá zpráva o tom, že je aktivní a že má aktivovat všechny grafické objekty, které v ní leží, pak všechny objekty ve vrstvě čekají na klik, při kliknutí na objekt se opět nacházíme v režimu editace, kdy se nám zvolený objekt opět označí.
+Pár věcí se změní pokud máme vybraný nástroj pro výběr grafického objektu. Aktuální vrstvě se předá zpráva o tom, že je aktivní a že má aktivovat všechny grafické objekty, které v ní leží. Následně všechny objekty ve vrstvě čekají na kliknutí. Při tomto kliknutí na objekt se opět nacházíme v režimu editace, kdy se nám zvolený objekt opět označí.
 
-Každý soubor obsahuje svojí historii změn o kterou se stará třída HistoryControl.
+Každý soubor obsahuje svoji historii změn, o kterou se stará třída \kiinlinecode{csharp}{!}{HistoryControl}.
 
 \subsection{Třída DrawControl}
 
 Stará se o kreslení a editování objektů.
 
-Může se nacházet v několika důležitých stavech. První z nich je stav, když chceme teprve něco nakreslit. Pokud v tomto stavu máme vybraný nástroj pro kreslení tvaru, tak vytvoří jeho instanci a uloží si ji s bodem, kde se nacházela myš při začátku kreslení, kterou pak využívá pro případné rozpoznání, že uživatel nepohnul myší. 
+Může se nacházet v několika důležitých stavech. První z nich je stav, kdy chceme teprve něco nakreslit. Pokud v tomto stavu máme vybraný nástroj pro kreslení tvarů, tak tato třída vytvoří jeho instanci a uloží si ji s bodem, kde se nacházela myš při začátku kreslení, kterou pak využívá pro případné rozpoznání, že uživatel nepohnul myší. 
 
-Další stavem je samotné kreslení, do kterého se přepne ihned po začátku kreslení. V tomto stavu přeposílá instanci grafického tvaru zprávy při každém pohybu myší a informuje ho o její pozici, také dostává informaci, jestli je provedeno kliknutí nebo odkliknutí myší. Jakmile kreslený objekt rozhodne, že je konec kreslení přepne se DrawControl do stavu editace. O ukončení kreslení rozhoduje samotný grafický objekt kvůli tomu, že existují objekty jako polygon, který se kreslí na více kliknutí myší a tak nelze z kliknutí myší určit, kdy má kreslení skončit na rozdíl třeba od čáry, kde nám stačí jeden tah myší. Pokud se jedná objekt na jeden tah, tak se při odkliknutí ještě porovnávají souřadnice myší při odkliknutí se souřadnicemi uložených na začátku kreslení a pokud se rovnají, zruší se kreslení, odstraní se instance grafického objektu a přepneme se do stavu začátku kreslení.
+Další stavem je samotné kreslení, do kterého se přepne ihned po začátku kreslení. V tomto stavu přeposílá instanci grafického tvaru zprávy při každém pohybu myší a informuje ho o její pozici. Také dostává informace, jestli je provedeno kliknutí nebo odkliknutí myší. Jakmile kreslený objekt rozhodne, že je konec kreslení, přepne se \kiinlinecode{csharp}{!}{DrawControl} do stavu editace. O ukončení kreslení rozhoduje samotný grafický objekt kvůli tomu, že existují takové objekty jako například polygon, který se kreslí na více kliknutí myší, a tak nelze z jednoho kliknutí myší určit, zda má kreslení skončit. V tomto se liší například od úsečky, kde nám stačí pouze jeden tah myší. Pokud se jedná o objekt na jeden tah, tak se při odkliknutí ještě porovnávají souřadnice myši při odkliknutí se souřadnicemi uloženými na začátku kreslení, a když se rovnají, zruší se kreslení, odstraní se instance grafického objektu a třída \kiinlinecode{csharp}{!}{DrawControl} se přepne se do stavu na začátku kreslení.
 
-Stav editace je stav, kdy je grafický objekt označený a určen k editování. V tomto stavu je grafický objekt připraven na editaci. Můžeme měnit jeho polohu a polohu jeho bodů. Měnit jeho barvy výplně či čáry. Určovat tloušťku čáry.
+Stav editace je stav, kdy je grafický objekt označený a určený k editování. V tomto stavu je grafický objekt připraven na editaci. Můžeme měnit jeho polohu a polohu jeho bodů. Můžeme také měnit barvy jeho výplně či čar anebo určovat tloušťku čáry.
 
 Pokud na objekt klikneme, přepne se do mezistavu, který se nazývá přesouvání. Při přesouvání získáme od grafického objektu bod, je jedno jaký, jen je potřeba, aby grafický objekt věděl o jaký bod jde a pamatoval si ho, bude ho totiž potřebovat při výpočtu, kam se má objekt přesunout. Při pohybu myší třída DrawControl informuje grafický objekt o přesunu a s ním mu předá bod, který vznikne tak, že k tomu původnímu bodu přičte vektor posunu.
 
@@ -448,40 +448,42 @@ ctx.rect(20,20,150,100);
 ctx.stroke();
 \end{kicode}
 
-Tahle technologie nám nabízí pomocnou ruku, otázkou je, co uložit do HTML souboru, pokud požadujeme, aby se po otevření souboru ve webovém prohlížeči zobrazil obrázek.
+Tato technologie nám nabízí pomocnou ruku, otázkou však zůstává, co uložit do HTML souboru, pokud požadujeme, aby se po otevření souboru ve webovém prohlížeči zobrazil obrázek.
 
-Nabízí se vygenerovat HTML soubor a vložit do něj vygenerovaný program v JavaScriptu, který dokáže obrázek do plátna nakreslit. Tohle řešení by fungovalo, ale mělo by řadu nevýhod. V HTML souboru by bylo spoustu nadbytečného kódu a implementace otevírání HTML souboru, by byla příliš složitá. Nebylo by jednoduché dekódovat program v souboru na grafické objekty. V budoucnu by taky byl problém s kompatibilitou a omezovalo by mě to v případné optimalizaci.
+Nabízí se možnost vygenerovat HTML soubor a vložit do něj vygenerovaný program v JavaScriptu, který dokáže obrázek do plátna nakreslit. Toto řešení by fungovalo dobře, ale mělo by řadu nevýhod. V HTML souboru by byla spousta nadbytečného kódu a implementace otevírání HTML souboru by byla příliš složitá. Nebylo by jednoduché dekódovat program z souboru na grafické objekty. V budoucnu by také byl problém s kompatibilitou a to omezovalo by mě to v případné optimalizaci.
 
-Grafické objekty v aplikaci jsou jen nějaké data uložené v objektech a tak bude jednodušší je tak nechat a zbytečně nepřidávat další balast navíc a to by se přesně stalo, pokud bych se vydal cestou zmíněnou výše. Takže požadujeme tyto objekty uložit do HTML souboru. Protože je HTML soubor textový, musíme tyto objekty reprezentovat pomocí textu. Chceme objekty převést na text a k tomu slouží serializace.
+Grafické objekty v aplikaci jsou nějaká data uložená v objektech, a tak je jednodušší je tak nechat a zbytečně nepřidávat další zbytečný kód navíc. Pokud bych se vydal touto cestou stalo by se přesně to, co popisuji v předchozím odstavci.
+
+Druhou možností je uložit objekty do HTML souboru. Protože je HTML soubor textový, musíme tyto objekty reprezentovat pomocí textu. Chceme tedy tyto objekty převést na text a k tomu slouží serializace.
 
 Serializace objektů je proces, který umožňuje objekty programu převést na posloupnost bytů nebo text. Jednoduše umožňuje objekty uložit pro pozdější obnovení.
 
 
 
 \paragraph{JSON}
-Aplikace používá serializaci do formátu JSON. JSON je datový formát, který dokáže pojmout datové struktury složených z čísel a řetězců. Často se používá k přenosů dat na internetu, hlavně ve ve webových aplikacích, které využívají technologii AJAX. Další obrovskou výhodou je, že pochází z JavaScriptu. Zkratka JSON totiž znamená \uv{JavaScript Object Notation} což je zápis objektů v JavaScriptu a tak nemusíme programovat žádnou deserializaci, ale postačí nám pouze data v tomto formátu do souboru HTML přiložit.
+Aplikace používá serializaci do formátu JSON. JSON je datový formát, který dokáže pojmout datové struktury složené z čísel a řetězců. Často se používá k přenosům dat na internetu, hlavně ve ve webových aplikacích, které využívají technologii AJAX. Další obrovskou výhodou je, že pochází z JavaScriptu. Zkratka JSON totiž znamená \uv{JavaScript Object Notation} což je zápis objektů v JavaScriptu, a tak nemusíme programovat žádnou deserializaci, protože JavaScript deserializaci JSONu nativně podporuje, ale postačí nám pouze data v tomto formátu do souboru HTML přiložit.
 
 
 \paragraph{Vykreslení obrázku v prohlížeči}
-Posledním krokem k zobrazení obrázku v prohlížeči zbývá vykreslit obrázek z přiložených dat v JSONu. Jak už jsem psal výše použijeme k tomu HTML element <canvas>. Do canvasu se kreslí přes API v JavaScriptu, takže získáme přiložená data musíme dostat do programu v JavaScriptu, který bude z dal obrázek vykreslovat do canvasu. 
+V posledním kroku k zobrazení obrázku v prohlížeči zbývá vykreslit obrázek z přiložených dat v JSONu. Jak už jsem psal výše, použijeme k tomu HTML element <canvas>. Do canvasu se kreslí přes API v JavaScriptu, takže získaná přiložená data musíme dostat do programu v JavaScriptu, který bude dále obrázek vykreslovat do canvasu. 
 
-Data program získá deserializací JSON řetězce. Jelikož je JSON řetězec ekvivalentní se zápisem objektů v JavaScriptu, postačí nám pouze JSON řetězec šikovně uložit k programu.
+Data program získá deserializací JSON řetězce. Jelikož je JSON řetězec ekvivalentní se zápisem objektů v JavaScriptu, postačí nám pouze JSON řetězec přiložit do HTML souboru.
 
-Program v JS už jen přečte data a vykreslí všechny grafické objekty ve správném pořadí. Pro menší datovou velikost výsledného HTML souboru je kód programu zminifikován. Minifikace nám z kódu odstraní znaky, které nemají vliv na vykonávání kódu. Což jsou pro příklad bílé znaky (mezery, tabulátory, řádky). Dále nahradí názvy proměnných na co nejkratší názvy. Po minifikaci program dělá to stejné jako před ní, jen je o hodně menší. Minifikace je hojně využívaná na internetu a není se čemu divit, všichni přece chceme, aby se internetové stránky načítaly rychle.
+Program v JavaScriptu už jen přečte data a vykreslí všechny grafické objekty ve správném pořadí. Pro menší datovou velikost výsledného HTML souboru je kód programu zminifikován. Minifikace nám z kódu odstraní znaky, které nemají vliv na vykonávání kódu. Toto jsou například bílé znaky (mezery, tabulátory, řádky). Dále minifikace nahradí názvy proměnných za co nejkratší názvy. Po minifikaci program dělá to stejné jako před ní, jen je o hodně datově menší. Minifikace je hojně využívaná na internetu a není se čemu divit, jelikož všichni chceme, aby se nám internetové stránky načítaly rychle.
 
 \paragraph{Datová struktura JSONu}
-Aby byl program v JavaScriptu schopný nakreslit obrázek z přiložených dat, musí mít data určitou datovou strukturu, je velmi podobná struktuře ve kterém aplikace uchovává data při práci s obrázkem.
+Aby byl program v JavaScriptu schopný nakreslit obrázek z přiložených dat, musí mít data určitou datovou strukturu, která je velmi podobná struktuře, ve které aplikace uchovává data při práci s obrázkem.
 
-Všechno začíná třídou Picture, která uchovává rozlišení obrázku a obsahuje vlastnost layers, ve které je uložen seznam vrstev. Jednotlivé vrstvy jsou reprezentovány třídou Layer, která v sobě uchovává barvu pozadí, jméno vrstvy a jestli je vrstva viditelná, jestli se má vykreslit. Mohli by jsme říct, že je zbytečné přikládat vrstvu, která se stejně nenakreslí, ale jelikož jde HTML soubor v aplikaci znovu otevřít a plnohodnotně editovat je dobré ji tam nechat, kdyby s ní ještě chtěl v budoucnu někdo pracovat. To nejdůležitější co třída Layer obsahuje je seznam grafických objektů  umístěný ve vlastnosti shapes.
+Všechno začíná třídou \kiinlinecode{csharp}{!}{Picture}, která uchovává rozlišení obrázku a obsahuje vlastnost \kiinlinecode{csharp}{!}{layers}, ve které je uložen seznam vrstev. Jednotlivé vrstvy jsou reprezentovány třídou \kiinlinecode{csharp}{!}{Layer}, která v sobě uchovává barvu pozadí, jméno vrstvy a informaci zda-li je vrstva viditelná a jestli se má vykreslit. Mohli bychom říct, že je zbytečné přikládat vrstvu, která se stejně nenakreslí, ale jelikož jde HTML soubor v aplikaci znovu otevřít a plnohodnotně editovat, je dobré ji tam nechat, kdyby s ní ještě chtěl v budoucnu někdo pracovat. To nejdůležitější, co třída \kiinlinecode{csharp}{!}{Layer} obsahuje, je seznam grafických objektů umístěných ve vlastnosti \kiinlinecode{csharp}{!}{shapes}.
 
-Grafické objekty jsou reprezentovány třídou Shape. Různé druhy grafických objektů mají hodně odlišné vlastnosti a proto by nebylo moudré všechno ukládat, použijeme tedy dědičnost. Potomky třídy Shape jsou třídy reprezentující jednotlivé druhy grafických objektů, které v sobě uchovávají barvy výplně a okraje, body ze kterých jsou složeny nebo jiné.
+Grafické objekty jsou reprezentovány třídou \kiinlinecode{csharp}{!}{Shape}. Různé druhy grafických objektů mají hodně odlišné vlastnosti, a proto by nebylo moudré všechno ukládat, použijeme tedy dědičnost. Potomci třídy \kiinlinecode{csharp}{!}{Shape} jsou třídy reprezentující jednotlivé druhy grafických objektů, které v sobě uchovávají barvy výplní, okrajů a bodů, ze kterých jsou složené nebo jiné vlastnosti.
 
-Protože serializací objektů do formátu JSON, přijdeme o informaci o informaci z jaké třídy pochází, jelikož JSON formát tyto informace neuchovává. Řešení je jednoduché, stačí přidat všem třídám reprezentují grafické objekty vlastnost type, kde každý druh bude mít unikátní hodnotu. V našem případě je vlastnost type typu řetězec a obsahuje vždy název své třídy. Díky tomu dokáže program jednoduchým způsobem rozpoznat o jaký druh grafického objektu se jedná a podle toho může očekávat vlastnosti.
+Serializací objektů do formátu JSON přijdeme o informaci z jaké třídy pochází, jelikož JSON formát tyto informace neuchovává. Řešení je jednoduché, stačí přidat všem třídám reprezentujím grafické objekty vlastnost \kiinlinecode{csharp}{!}{type}, kde každý druh bude mít svou unikátní hodnotu. V našem případě je vlastnost \kiinlinecode{csharp}{!}{type} typu řetězec a obsahuje vždy název své třídy. Díky tomu dokáže program jednoduchým způsobem rozpoznat o jaký druh grafického objektu se jedná a podle toho může očekávat vlastnosti tohoto objektu.
 
-Zvláštním případem grafického objektu je obrázek, který reprezentuje třída Image a je to obrázek v rastrové grafice. Umožní nám tak ukládat do HTML i rastrovou grafiku. Obrázek je uložen pomocí kódování base64. Base64 je způsob kódování, který kóduje binární data do znaků ASCII a tak lze tímto způsobem uložit obrázek pomocí řetězce. Celou strukturu zobrazuje diagram na obrázku \ref{fig:json_diag}.
+Zvláštním případem grafického objektu je obrázek, který reprezentuje třída \kiinlinecode{csharp}{!}{Image}, což je obrázek v rastrové grafice. Obrázek je uložen pomocí kódování base64. Base64 je způsob kódování, který kóduje binární data do znaků ASCII, a tak lze tímto způsobem uložit obrázek pomocí řetězce. Umožní nám tak ukládat do HTML i rastrovou grafiku. Celou strukturu zobrazuje diagram na obrázku č. \ref{fig:json_diag}.
 
 \paragraph{Struktura uloženého souboru}
-Máme všechny součásti pro uložení dat do souboru. Aplikace soubory HTML ukládá s následující strukturou (zdrojový kód \ref{kod:HTMLst}).
+Nyní máme všechny součásti pro uložení dat do souboru. Aplikace soubory HTML ukládá s následující strukturou (zdrojový kód č. \ref{kod:HTMLst}).
 
 \begin{kicode}{HTML}{kod:HTMLst}{Struktura HTML souboru}
 <!DOCTYPE HTML>
@@ -510,14 +512,14 @@ Máme všechny součásti pro uložení dat do souboru. Aplikace soubory HTML uk
 
 
 \subsubsection{Otevření souboru ve formátu HTML}
-Aplikace umožňuje otevřený HTML soubory plnohodnotně editovat. V souboru jsou zachovány všechny vrstvy a grafické objekty, tak jak byly uloženy. To je díky tomu, že v JSONu jsou uloženy všechny informace a i informace, který nemají vliv na grafickou podobu obrázku, což jsou například jména vrstev. Stejný přístup využívá aplikace Adobe Photoshop, kde můžeme obrázky ukládat do formátu PSD, který též zachová všechny elementy.
+Aplikace nám umožňuje otevřené HTML soubory plnohodnotně editovat. V souboru jsou zachovány všechny vrstvy a grafické objekty tak, jak byly uloženy. Toho jsme docílili díky tomu, že v JSONu jsou uloženy všechny informace a to i takové, které nemají vliv na grafickou podobu obrázku, což jsou například jména vrstev. Stejný přístup využívá aplikace Adobe Photoshop, kde můžeme obrázky ukládat do formátu PSD, který též zachovává všechny elementy.
 
-Aplikace najde v HTML JSON řetězec a následně deserializuje řetězec. Z dat získaných z deserializovaného řetězce sestaví data pro soubor reprezentovaný v aplikaci a otevře ho v nové záložce.
+Aplikace najde v HTML JSON řetězec a následně ho deserializuje. Z dat získaných z deserializovaného řetězce sestaví data pro soubor reprezentovaný v aplikaci a otevře ho v nové záložce.
 
 \subsubsection{Uložení do formátů rastrové grafiky}
-Aplikace umožňuje uložit obrázky do rastrové (bitmapové) grafiky. Rastrová grafika je způsob ukládání obrázků. Obrázek tímto způsobem je uložen jako barevné body (pixelů, kde každý bod má svojí barvu. Barva pixelů je vyjádřena ve vybraném barevném modelu, v modelu kde můžeme z posloupnosti čísel získat barvu, například model RGB, kde ze třech čísel reprezentující 3 barvy (konkrétně červená, zelená a modrá) dostaneme výslednou barvou jejich smícháním. Existuje i rozšíření modelu RGB, což je model RGBa, kde je navíc ještě čtvrtá složka (alfa kanál), která určuje průhlednost barvy.
+Aplikace umožňuje uložit obrázky do rastrové (bitmapové) grafiky. Rastrová grafika je způsob ukládání obrázků. Obrázek tímto způsobem je uložen jako uspořádaná soustava bodů (pixelů), kde každý bod má svojí barvu. Barva pixelů je vyjádřena ve vybraném barevném modelu, ve kterém můžeme z posloupnosti čísel získat barvu, například model RGB, kde ze třech čísel reprezentujících 3 barvy (konkrétně červená, zelená a modrá) dostaneme výslednou barvou jejich smícháním. Existuje i rozšíření modelu RGB, což je model RGBa, kde je navíc ještě čtvrtá složka (alfa kanál), která určuje průhlednost barvy.
 
-Implementace uložení do rastrové grafiky v Aplikaci je poměrně jednoduchá. Knihovna WPF umožňuje zachytit obrázek jakéhokoliv elementu, který se v GUI aplikace nachází. Aplikace ale nezachycuje přímo plátno ve kterém probíhá práce na obrázku, ale pro urychlení vytvoří nové vlákno. V novém vlákně aplikace vytvoří nový element plátna a do něj přidá všechny objekty, které mají být v obrázku vidět. Následně vyfotí plátno a výsledný obrázek už se pouze zakóduje do příslušného formátu a soubor s obrázkem uloží na disk.
+Implementace uložení do rastrové grafiky v Aplikaci je poměrně jednoduchá. Knihovna WPF umožňuje zachytit obrázek jakéhokoliv elementu, který se v GUI aplikace nachází. Aplikace ale nezachycuje přímo plátno, ve kterém probíhá práce na obrázku, ale pro urychlení vytvoří nové vlákno. V novém vlákně aplikace vytvoří nový element plátna a do a teprve něj přikládá všechny objekty, které mají být v obrázku vidět. Následně vyfotí plátno a výsledný obrázek už se pouze zakóduje do příslušného formátu a soubor s obrázkem se uloží na disk.
 
 
 \section{Uživatelské rozhraní}
@@ -525,23 +527,23 @@ Implementace uložení do rastrové grafiky v Aplikaci je poměrně jednoduchá.
 Následující kapitola popisuje rozložení prvků v uživatelském rozhraní a jejich funkce.
 
 \subsection{Horní panel}
-Horní panel aplikace slouží pro výběr nástroje pro práci. Funguje jako přepínač, současně lze zvolit pouze jeden nástroj. Následně uvedu jednotlivé nástroje.
+Horní panel aplikace slouží pro výběr nástroje pro práci. Funguje jako přepínač, současně lze zvolit pouze jeden nástroj. Následně uvedu jednotlivé nástroje:
 
 \begin{itemize}
-\item Nástroj pro výběr - slouží pro výběr části obrázku, který lze následně klávesovou zkratkou Ctrl+C zkopírovat do schránky a vložit výřez do jiného programu, nebo jej naklonovat.
+\item Nástroj pro výběr - slouží pro výběr části obrázku, který lze následně klávesovou zkratkou Ctrl+C zkopírovat do schránky a vložit jako výřez do jiného programu, nebo jej naklonovat.
 \item Nástroj pro výběr grafických objektů - slouží pro označení objektu, který chceme editovat.
-\item Úsečka - pro kreslení obyčejné úsečky mezi dvěma body.
-\item Polyline - Křivka vytvořená spojením n bodů.
+\item Úsečka - slouží pro kreslení obyčejné úsečky mezi dvěma body.
+\item Polyline - křivka vytvořená spojením n bodů.
 \item Elipsa
 \item Obdélník
-\item Polygon
-\item Kvadratická křivka
-\item Text
-\item Zpět
-\item Vpřed
+\item Polygon - slouží k vytvoření n-úhelníku.
+\item Kvadratická křivka - slouží k vytvoření Bézierovy křivky.
+\item Text - u textu je možné měnit velikost, font a barvu.
+\item Zpět - funkce zpět umožňuje vrátit se o libovolný počet kroků zpět.
+\item Vpřed - funkce vpřed je reverzní k funkci zpět.
 \item Nástroje pro změnu vlastnosti písma (zobrazí se pouze při editaci textu)
 \end{itemize}
-\newpage
+
 \begin{figure}
 \includegraphics[width=16cm]{img/toppanel}
 \caption{Horní panel}
@@ -550,13 +552,13 @@ Horní panel aplikace slouží pro výběr nástroje pro práci. Funguje jako p�
 
 \subsection{Levý panel}
 
-Horní část levého panelu slouží pro nastavení vlastností grafický objektů. Mezi hlavní vlastnosti patří barvy. V aplikaci můžeme každému objektu nastavit 2 různé barvy: primární a sekundární. Primární slouží u objektů jako barva okraje a sekundární jako barva výplně. Každý objekt však nemá výplň. Například taková úsečka nebo kvadratická křivka výplň nemá a tak na nastavení této vlastnosti nebude reagovat. 
+Horní část levého panelu slouží pro nastavení vlastností grafických objektů. Mezi hlavní vlastnosti patří barvy. V aplikaci můžeme každému objektu nastavit dvě různé barvy: primární a sekundární. Primární slouží u objektů jako barva okraje a sekundární jako barva výplně. Ne každý objekt může mít ale výplň. Například úsečka nebo kvadratická křivka výplň nemají, a tak na nastavení této vlastnosti nebudou reagovat. 
 
-Dále tu máme třetí barvu, která slouží pro nastavení pozadí aktuální vrstvy.
+Dále máme třetí barvu, která slouží pro nastavení pozadí aktuální vrstvy.
 
-Nastavování těchto těch barev se provádí s pomocí přepínače. Zvolíme jednu z nich a následně jim nastavíme požadovanou barvu. Výběr je možno provést pomocí základních nadefinovaných barev umístěných níže. Pro pokročilejší výběr máme k dispozici paletu barev. Kromě jedné barvy lze nastavit i průhledná nebo přechod více barev.
+Pro změnu těchto barev přepínáme mezi tlačítky, které se nacházejí v  levém horním rohu. Zvolíme si jednu z nich a následně jim nastavíme požadovanou barvu. Výběr je možno provést pomocí základních nadefinovaných barev umístěných níže. Pro pokročilejší výběr máme k dispozici paletu barev. Kromě jedné barvy lze nastavit i průhlednost nebo přechody více barev.
 
-Na spodní části levého panelu nalezneme správu vrstev. Zde můžeme vrstvy přidávat a nebo mezi nimi přepínat a tak měnit aktivní vrstvu do které aktuálně chceme kreslit. Dále můžeme jednotlivé vrstvy mazat nebo měnit jejich jména či pořadí.
+Na spodní části levého panelu nalezneme správu vrstev. Zde můžeme vrstvy přidávat a nebo mezi nimi přepínat, a tak měnit aktivní vrstvu, do které aktuálně chceme kreslit. Dále můžeme jednotlivé vrstvy mazat nebo měnit jejich jména či pořadí.
 
 \begin{figure}
 \includegraphics[width=15cm]{img/program}
@@ -565,7 +567,7 @@ Na spodní části levého panelu nalezneme správu vrstev. Zde můžeme vrstvy 
 
 \subsection{Kreslící plátno}
 
-Ve středu aplikace se nachází kreslící plátno. Zde můžeme vytvářet a následně upravovat grafické objekty. V pravém dolním rohu kreslícího plátna je umístěn bod pro změnu velkosti plátna. Nad plátnem jsou záložky pro otevřené soubory, program totiž umožňuje upravovat více obrázků najednou.
+Ve středu aplikace se nachází kreslící plátno. Zde můžeme vytvářet a následně upravovat grafické objekty. V pravém dolním rohu kreslícího plátna je umístěn bod pro změnu velkosti plátna. Při potažení za tento bod můžeme měnit libovolně velikost plátna. Nad plátnem se nachází záložky pro otevřené soubory, jelikož program umožňuje upravovat více obrázků najednou. Mezi těmito obrázky lze přecházet.
 
 
 
@@ -575,22 +577,15 @@ Ve středu aplikace se nachází kreslící plátno. Zde můžeme vytvářet a n
 %% \documentclass, výchozí český) se zadává použitím makra s uvedením
 %% jazyka jako nepovinného parametru.
 \begin{kiconclusions}
-Cílem této bakalářské práce bylo vytvořit jednoduchý vektorový grafický editor, umožňující vytvářet a editovat jednoduché grafické tvary. Výsledný obrázek je možno uložit do formátu HTML, který když otevřeme v internetovém prohlížeči podporující HTML5, tak uvidíme obrázek. Dále umožňuje export do rastrových formátů jako je JPG, PNG nebo GIF. Při vytváření mě postupně napadly další vychytávky, které bych normálně využíval a těmi jsou: výřez z obrázku, přibližování, klávesové zkratky nebo vrstvy. Jelikož editor pracuje převážně s vektorovou grafikou, tak do budoucna by bylo pěkné ho rozšířit o export do formátu SVG. Při práci na aplikaci jsem se zdokonalil v jazyce v C# a rozšířil si své znalosti hlavně v oblastech asynchronního programování a tvorbě GUI. Tak díky, že jste to dočetli až sem. Uvědomuji si, že je to hrozná sračka, ale já jsem programátor a né spisovatel. Pokud mi to nedáte, tak budete číst druhou verzi této sračky a to bych vám nedoporučoval.
-
+Cílem této bakalářské práce bylo vytvořit jednoduchý vektorový grafický editor, který umožňuje vytvářet a editovat jednoduché grafické tvary. Výsledný obrázek je možné uložit do formátu HTML, který když otevřeme v internetovém prohlížeči podporujícím HTML5, tak uvidíme daný obrázek. Dále nám tento editor umožňuje export do rastrových formátů jako je JPG, PNG nebo GIF. Při vytváření mě postupně napadaly další vychytávky, které bych normálně využíval, jako například: výřez z obrázku, přibližování, klávesové zkratky nebo vrstvy. Jelikož editor pracuje převážně s vektorovou grafikou, by bylo pěkné ho do budoucna rozšířit o export do formátu SVG. Při práci na aplikaci jsem se zdokonalil v jazyce C\# a rozšířil si své znalosti hlavně v oblastech asynchronního programování a tvorbě GUI.
 \end{kiconclusions}
 
 \begin{kiconclusions}[english]
-Thesis conclusions in \uv{English}.
+The aim of this bachelor thesis was to create a simple vector graphic editor which would allow us to generate and edit simple graphic shapes. The final picture can by saved as HTML and when we open it in the internet browser that supports HTML5, we can see that picture there. Furthermore this editor allows the export to raster formats as JPG, PNG or GIF. I came up with other ideas how to improve this editor which I would like to use while I was writing this code - for example: cut-out of picture, zooming, keyboard abbreviations or layers. Inasmuch as the editor works mainly with vector graphics, it would be nice to upgrade it with export into SVG. While creating this editor I improved in C\# language and I have broaden my knowledge in asynchonised programming and GUI.
 \end{kiconclusions}
 
 %% Přílohy obsahu textu práce, za makrem \appendix.
 \appendix
-
-\section{První příloha}
-Text první přílohy
-
-\section{Druhá příloha}
-Text druhé přílohy
 
 %% Obsah přiloženého CD/DVD. Poslední příloha. Upravte podle vlastní
 %% práce!

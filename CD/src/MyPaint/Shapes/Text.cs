@@ -132,7 +132,7 @@ namespace MyPaint.Shapes
             sy = e.Y;
 
 
-            p.BorderThickness = new Thickness(1);
+            p.BorderThickness = new Thickness(0);
             p.Foreground = DrawControl.GetShapePrimaryColor();
             p.Background = DrawControl.GetShapeSecondaryColor();
 
