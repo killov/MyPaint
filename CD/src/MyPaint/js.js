@@ -22,10 +22,10 @@
         switch (shape.type) {
             case 'LINE':
                 var a = {};
-                a.x = Math.min(shape.A.x, shape.b.x);
-                a.y = Math.min(shape.A.y, shape.b.y);
-                var w = Math.abs(shape.A.x - shape.b.x);
-                var h = Math.abs(shape.A.y - shape.b.y);
+                a.x = Math.min(shape.a.x, shape.b.x);
+                a.y = Math.min(shape.a.y, shape.b.y);
+                var w = Math.abs(shape.a.x - shape.b.x);
+                var h = Math.abs(shape.a.y - shape.b.y);
                 ctx.strokeStyle = brush(shape.stroke, a, w, h);
                 ctx.moveTo(shape.a.x + 0.5, shape.a.y + 0.5);
                 ctx.lineTo(shape.b.x + 0.5, shape.b.y + 0.5);

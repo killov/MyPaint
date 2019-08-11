@@ -44,7 +44,7 @@
 %  master,
   field=inf,
 %  printversion,
-  biblatex,
+  biblatex=false,
 %  language=english,
 %  font=sans,
   glossaries,
@@ -103,11 +103,13 @@ Aplikace umožní uživateli kreslit a editovat grafické tvary a text. Všem ob
 %% (zvolenou nepovinným parametrem biblatex makra
 %% \documentclass). Použijte pouze při této sazbě, ne při (výchozí)
 %% sazbě v prostředí thebibliography.
-\bibliography{bibliografie.bib}
+
+%\bibliography{bibliografie.bib}
 
 %% Další dodatečné styly (balíky) potřebné pro sazbu vlastního textu
 %% práce.
 \usepackage{lipsum}
+\usepackage{hyperref}
 
 \begin{document}
 %% Sazba úvodních stran -- titulní, s bibliografickými údaji, s
@@ -139,17 +141,17 @@ Pro obyčejné smrtelníky ve světě grafiky je důležité, aby uživatelské 
 Následující kapitula popisuje jednotlivé technologie, které jsou v aplikaci použity.
 
 \subsection{Programovací jazyk C\#}
-C\# je programovací jazyk od společnosti Microsoft, který je hodně podobný jazyku Java a hodně čerpá syntax z jazyka C. Je objektově orientovaný a typovaný. Neexistují zde žádné globální proměnné a ani funkce, všechno musí ležet v nějaké třídě. Pokud je i přesto potřebujeme, lze využít statických tříd. Třídy kromě atributů a metod mají navíc vlastnosti. S využitím vlastností nemusíme neustále programovat gettery a settery, ale jsou jsou automatiky vygenerovány za nás.
+C\# je programovací jazyk od společnosti Microsoft, který je hodně podobný jazyku Java a hodně čerpá syntax z jazyka C. Je objektově orientovaný a typovaný. Neexistují zde žádné globální proměnné a ani funkce, všechno musí ležet v nějaké třídě. Pokud je i přesto potřebujeme, lze využít statických tříd. Třídy kromě atributů a metod mají navíc vlastnosti. S využitím vlastností nemusíme neustále programovat gettery a settery, ale jsou jsou automatiky vygenerovány za nás. \cite{cs}
 
 \subsection{WPF}
-Windows Presentation Foundation je knihovna pro tvorbu grafického rozhraní pro Windows od společnosti Microsoft. Je následníkem Windows Forms. Podporuje 2D, 3D grafiku a animace. K vykreslování dat může využít data binding. 
+Windows Presentation Foundation je knihovna pro tvorbu grafického rozhraní pro Windows od společnosti Microsoft. Je následníkem Windows Forms. Podporuje 2D, 3D grafiku a animace. K vykreslování dat může využít data binding. \cite{wpf}
 
 Data binding je technika, která má na starosti synchronizaci dat zobrazených s nějakým zdrojem dat. Existuje jednosměrný a obousměrný. Jednosměrný data binding aktualizuje zobrazovaná data v době, kdy nastane změna ve zdrojových datech. Obousměrný jej rozšiřuje tím, že aktualizuje zdroj dat z těch dat, která se zobrazují.
 
 \subsection{XAML}
 Extensible Application Markup Language je značkovací jazyk od Microsoftu. Pochází ze značkovacího jazyka XML. Původně byl vyvíjen pouze pro knihovnu WPF, nyní lze použít i v platformně Silverlight.
 
-XAML nám umožňuje popsat uživatelské rozhraní jednodušším způsobem, než vytvářením objektů a nastavováním různých vlastností v programovacím jazyce.
+XAML nám umožňuje popsat uživatelské rozhraní jednodušším způsobem, než vytvářením objektů a nastavováním různých vlastností v programovacím jazyce. \cite{xaml}
 
 
 
@@ -461,7 +463,7 @@ Serializace objektů je proces, který umožňuje objekty programu převést na 
 
 
 \paragraph{JSON}
-Aplikace používá serializaci do formátu JSON. JSON je datový formát, který dokáže pojmout datové struktury složené z čísel a řetězců. Často se používá k přenosům dat na internetu, hlavně ve ve webových aplikacích, které využívají technologii AJAX. Další obrovskou výhodou je, že pochází z JavaScriptu. Zkratka JSON totiž znamená \uv{JavaScript Object Notation} což je zápis objektů v JavaScriptu, a tak nemusíme programovat žádnou deserializaci, protože JavaScript deserializaci JSONu nativně podporuje, ale postačí nám pouze data v tomto formátu do souboru HTML přiložit.
+Aplikace používá serializaci do formátu JSON. JSON je datový formát, který dokáže pojmout datové struktury složené z čísel a řetězců. Často se používá k přenosům dat na internetu, hlavně ve ve webových aplikacích, které využívají technologii AJAX. Další obrovskou výhodou je, že pochází z JavaScriptu. Zkratka JSON totiž znamená \uv{JavaScript Object Notation} což je zápis objektů v JavaScriptu, a tak nemusíme programovat žádnou deserializaci, protože JavaScript deserializaci JSONu nativně podporuje, ale postačí nám pouze data v tomto formátu do souboru HTML přiložit. \cite{json}
 
 
 \paragraph{Vykreslení obrázku v prohlížeči}
@@ -567,7 +569,7 @@ Na spodní části levého panelu nalezneme správu vrstev. Zde můžeme vrstvy 
 
 \subsection{Kreslící plátno}
 
-Ve středu aplikace se nachází kreslící plátno. Zde můžeme vytvářet a následně upravovat grafické objekty. V pravém dolním rohu kreslícího plátna je umístěn bod pro změnu velkosti plátna. Při potažení za tento bod můžeme měnit libovolně velikost plátna. Nad plátnem se nachází záložky pro otevřené soubory, jelikož program umožňuje upravovat více obrázků najednou. Mezi těmito obrázky lze přecházet.
+Ve středu aplikace se nachází kreslící plátno. Zde můžeme vytvářet a následně upravovat grafické objekty. V pravém dolním rohu kreslícího plátna je umístěn bod pro změnu velkosti plátna. Při potažení za tento bod můžeme měnit libovolně velikost plátna. Nad plátnem se nachází záložky pro otevřené soubory, jelikož program umožňuje upravovat více obrázků najednou. Mezi těmito obrázky lze přecházet klikáním na záložky.
 
 
 
@@ -591,71 +593,29 @@ The aim of this bachelor thesis was to create a simple vector graphic editor whi
 %% práce!
 \section{Obsah přiloženého CD/DVD} \label{sec:ObsahCD}
 
-Na samotném konci textu práce je uveden stručný popis obsahu
-přiloženého CD/DVD, tj.~jeho závazné adresářové struktury, důležitých
-souborů apod.
-
 \begin{description}
 
 \item[\texttt{bin/}] \hfill \\
-  Instalátor \textsc{Instalator} programu, popř.~program
-  \textsc{Program}, spustitelné přímo z~CD/DVD. / Kompletní adresářová
-  struktura webové aplikace \textsc{Webovka} (v~ZIP archivu) pro
-  zkopírování na webový server. Adresář obsahuje i~všechny runtime
-  knihovny a~další soubory potřebné pro bezproblémový běh instalátoru
-  a~programu z~CD/DVD / pro bezproblémový provoz webové aplikace na
-  webovém serveru.
+  Obsahuje adresář \textsc{Microsoft .NET Framework 4.5.2} ve kterém se nachází instalátor .NET Framework, který je potřeba pro spuštění aplikace.
+  
+  V adresáři \textsc{MyPaint} se nechází aplikace, která se spouští souborem MyPaint.exe
 
 \item[\texttt{doc/}] \hfill \\
   Text práce ve formátu PDF, vytvořený s~použitím závazného stylu KI
   PřF UP v~Olomouci pro závěrečné práce, včetně všech příloh,
   a~všechny soubory potřebné pro bezproblémové vygenerování PDF
-  dokumentu textu (v~ZIP archivu), tj.~zdrojový text textu, vložené
+  dokumentu textu, tj.~zdrojový text textu, vložené
   obrázky, apod.
 
 \item[\texttt{src/}] \hfill \\
-  Kompletní zdrojové texty programu \textsc{Program} / webové aplikace
-  \textsc{Webovka} se všemi potřebnými (příp.~převzatými) zdrojovými
-  texty, knihovnami a~dalšími soubory potřebnými pro bezproblémové
-  vytvoření spustitelných verzí programu / adresářové struktury pro
-  zkopírování na webový server.
+  Kompletní zdrojové kódy programu \textsc{MyPaint} se všemi potřebnými knihovnami a dalšími soubory potřebnými pro bezproblémové vytvoření spustitelných verzí programu.
 
 \item[\texttt{readme.txt}] \hfill \\
-  Instrukce pro instalaci a~spuštění programu \textsc{Program}, včetně
-  všech požadavků pro jeho bezproblémový provoz. / Instrukce pro
-  nasazení webové aplikace \textsc{Webovka} na webový server, včetně
-  všech požadavků pro její bezproblémový provoz, a~webová adresa, na
-  které je aplikace nasazena pro účel testování při tvorbě posudků
-  práce a~pro účel obhajoby práce.
+  Instrukce pro spuštění programu \textsc{MyPaint}, včetně všech požadavků pro
+jeho bezproblémový provoz.
+
 
 \end{description}
-
-Navíc CD/DVD obsahuje:
-
-\begin{description}
-
-\item[\texttt{data/}] \hfill \\
-  Ukázková a~testovací data použitá v~práci a~pro potřeby testování
-  práce při tvorbě posudků a~obhajoby práce.
-
-\item[\texttt{install/}] \hfill \\
-  Instalátory aplikací, runtime knihoven a~jiných souborů potřebných
-  pro provoz programu \textsc{Program} / webové aplikace
-  \textsc{Webovka}, které nejsou standardní součástí operačního
-  systému určeného pro běh programu / provoz webové aplikace.
-
-\item[\texttt{literature/}] \hfill \\
-  Vybrané položky bibliografie, příp.~jiná užitečná literatura
-  vztahující se k~práci.
-
-\end{description}
-
-U~veškerých cizích převzatých materiálů obsažených na CD/DVD jejich
-zahrnutí dovolují podmínky pro jejich šíření nebo přiložený souhlas
-držitele copyrightu. Pro všechny použité (a~citované) materiály,
-u~kterých toto není splněno a~nejsou tak obsaženy na CD/DVD, je uveden
-jejich zdroj (např.~webová adresa) v~bibliografii nebo textu práce
-nebo v souboru \texttt{readme.txt}.
 
 %% -------------------------------------------------------------------
 
@@ -670,17 +630,23 @@ nebo v souboru \texttt{readme.txt}.
 %% BibLaTeXu. Volitelné.
 \nocite{*}
 %% Vlastní sazba bibliografie při použití BibLaTeXu.
-\printbibliography
+%% \printbibliography
 
 %% Bibliografie, včetně sazby, při nepoužití BibLaTeXu.
-% \begin{thebibliography}{9}
-%\bibitem{kniha2} \uppercase{Hawke}, Paul. NanoHttpd: Light-weight HTTP server designed for embedding in other applications. GitHub [online]. 2014-05-12. [cit. 2014-12-06]. Dostupné z: \url{https://github.com/NanoHttpd/nanohttpd}
-%
-%\bibitem{jeske13} \uppercase{Jeske}, David; \uppercase{Novák}, Josef. Simple HTTP Server in \csharp: Threaded synchronous HTTP Server abstract class, to respond to HTTP requests. CodeProject: For those who code [online]. 2014-05-24. [cit. 2014-12-06]. Dostupné z: \url{http://www.codeproject.com/Articles/137979/Simple-HTTP-Server-in-C}
-%
-%\bibitem{uzis2012} \uppercase{ÚSTAV ZDRAVOTNICKÝCH INFORMACÍ A STATISTIKY ČR}. Lékaři, zubní lékaři a farmaceuti 2012 [online]. Praha 2, Palackého náměstí 4: Ústav zdravotnických informací a statistiky ČR, 2012 [cit. 2014-12-06]. ISBN 978-80-7472-089-5. Dostupné z: \url{http://www.uzis.cz/publikace/lekari-zubni-lekari-farmaceuti-2012}
-% \end{thebibliography}
+\begin{thebibliography}{9}
+\bibitem{cs} Wikipedia: Otevřená Encyklopedie: C Sharp [online]. 2019-07-29. [cit. 2019-07-29]. Dostupné z: \url{https://cs.wikipedia.org/wiki/C\_Sharp}
 
+\bibitem{wpf} Wikipedia: Otevřená Encyklopedie: Windows Presentation Foundation [online]. 2019-07-29. [cit. 2019-07-29]. Dostupné z: \url{https://cs.wikipedia.org/wiki/Windows\_Presentation\_Foundation}
+
+\bibitem{xaml} Wikipedia: Otevřená Encyklopedie: Extensible Application Markup Language [online]. 2019-07-29. [cit. 2019-07-29]. Dostupné z: \url{https://cs.wikipedia.org/wiki/Extensible\_Application\_Markup\_Language}
+
+\bibitem{json} Wikipedia: Otevřená Encyklopedie: JavaScript Object Notation [online]. 2019-07-29. [cit. 2019-07-29]. Dostupné z: \url{https://cs.wikipedia.org/wiki/JavaScript\_Object\_Notation}
+
+\bibitem{json} HTML5 Canvas - W3Schools [online]. 2019-07-29. [cit. 2019-07-29]. Dostupné z: \url{https://www.w3schools.com/html/html5\_canvas.asp}
+
+\bibitem{json} HTML5 Canvas - W3Schools [online]. 2019-07-29. [cit. 2019-07-29]. Dostupné z: \url{https://www.w3schools.com/html/html5\_canvas.asp}
+
+\end{thebibliography}
 %% Sazba volitelného rejstříku, za bibliografií.
 \printindex
 

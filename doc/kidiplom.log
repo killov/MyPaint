@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.31)  3 JUL 2019 14:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7000 64-bit) (preloaded format=pdflatex 2019.3.31)  11 AUG 2019 10:18
 entering extended mode
 **./kidiplom.tex
 (kidiplom.tex
@@ -758,256 +758,6 @@ Package: multicol 2018/12/27 v1.8v multicolumn formatting (FMi)
 Writing index file kidiplom.idx
 \c@indexno=\count166
 
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\biblatex
-.sty"
-Package: biblatex 2018/11/02 v3.12 programmable bibliographies (PK/MW)
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/logreq\logreq.sty
-"
-Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count167
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/logreq\logreq.def
-"
-File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
-))
-\c@tabx@nest=\count168
-\c@listtotal=\count169
-\c@listcount=\count170
-\c@liststart=\count171
-\c@liststop=\count172
-\c@citecount=\count173
-\c@citetotal=\count174
-\c@multicitecount=\count175
-\c@multicitetotal=\count176
-\c@instcount=\count177
-\c@maxnames=\count178
-\c@minnames=\count179
-\c@maxitems=\count180
-\c@minitems=\count181
-\c@citecounter=\count182
-\c@maxcitecounter=\count183
-\c@savedcitecounter=\count184
-\c@uniquelist=\count185
-\c@uniquename=\count186
-\c@refsection=\count187
-\c@refsegment=\count188
-\c@maxextratitle=\count189
-\c@maxextratitleyear=\count190
-\c@maxextraname=\count191
-\c@maxextradate=\count192
-\c@maxextraalpha=\count193
-\c@abbrvpenalty=\count194
-\c@highnamepenalty=\count195
-\c@lownamepenalty=\count196
-\c@maxparens=\count197
-\c@parenlevel=\count198
-\blx@tempcnta=\count199
-\blx@tempcntb=\count266
-\blx@tempcntc=\count267
-\blx@maxsection=\count268
-\blx@maxsegment@0=\count269
-\blx@notetype=\count270
-\blx@parenlevel@text=\count271
-\blx@parenlevel@foot=\count272
-\blx@sectionciteorder@0=\count273
-\blx@entrysetcounter=\count274
-\labelnumberwidth=\skip65
-\labelalphawidth=\skip66
-\biblabelsep=\skip67
-\bibitemsep=\skip68
-\bibnamesep=\skip69
-\bibinitsep=\skip70
-\bibparsep=\skip71
-\bibhang=\skip72
-\blx@bcfin=\read1
-\blx@bcfout=\write8
-\c@mincomprange=\count275
-\c@maxcomprange=\count276
-\c@mincompwidth=\count277
-Package biblatex Info: Trying to load biblatex default data model...
-Package biblatex Info: ... file 'blx-dm.def' found.
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\blx-dm.d
-ef"
-File: blx-dm.def 2018/11/02 v3.12 biblatex localization (PK/MW)
-)
-Package biblatex Info: Trying to load biblatex style data model...
-Package biblatex Info: ... file 'iso-numeric.dbx' found.
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex-iso690\i
-so-numeric.dbx"
-File: iso-numeric.dbx 2017/04/25 v0.3.2 biblatex data model extension
-)
-Package biblatex Info: Trying to load biblatex custom data model...
-Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count278
-\c@savedafterword=\count279
-\c@annotator=\count280
-\c@savedannotator=\count281
-\c@author=\count282
-\c@savedauthor=\count283
-\c@bookauthor=\count284
-\c@savedbookauthor=\count285
-\c@commentator=\count286
-\c@savedcommentator=\count287
-\c@editor=\count288
-\c@savededitor=\count289
-\c@editora=\count290
-\c@savededitora=\count291
-\c@editorb=\count292
-\c@savededitorb=\count293
-\c@editorc=\count294
-\c@savededitorc=\count295
-\c@foreword=\count296
-\c@savedforeword=\count297
-\c@holder=\count298
-\c@savedholder=\count299
-\c@introduction=\count300
-\c@savedintroduction=\count301
-\c@namea=\count302
-\c@savednamea=\count303
-\c@nameb=\count304
-\c@savednameb=\count305
-\c@namec=\count306
-\c@savednamec=\count307
-\c@translator=\count308
-\c@savedtranslator=\count309
-\c@shortauthor=\count310
-\c@savedshortauthor=\count311
-\c@shorteditor=\count312
-\c@savedshorteditor=\count313
-\c@supervisor=\count314
-\c@savedsupervisor=\count315
-\c@labelname=\count316
-\c@savedlabelname=\count317
-\c@institution=\count318
-\c@savedinstitution=\count319
-\c@lista=\count320
-\c@savedlista=\count321
-\c@listb=\count322
-\c@savedlistb=\count323
-\c@listc=\count324
-\c@savedlistc=\count325
-\c@listd=\count326
-\c@savedlistd=\count327
-\c@liste=\count328
-\c@savedliste=\count329
-\c@listf=\count330
-\c@savedlistf=\count331
-\c@location=\count332
-\c@savedlocation=\count333
-\c@organization=\count334
-\c@savedorganization=\count335
-\c@origlocation=\count336
-\c@savedoriglocation=\count337
-\c@origpublisher=\count338
-\c@savedorigpublisher=\count339
-\c@publisher=\count340
-\c@savedpublisher=\count341
-\c@language=\count342
-\c@savedlanguage=\count343
-\c@origlanguage=\count344
-\c@savedoriglanguage=\count345
-\c@pageref=\count346
-\c@savedpageref=\count347
-\shorthandwidth=\skip73
-\shortjournalwidth=\skip74
-\shortserieswidth=\skip75
-\shorttitlewidth=\skip76
-\shortauthorwidth=\skip77
-\shorteditorwidth=\skip78
-\locallabelnumberwidth=\skip79
-\locallabelalphawidth=\skip80
-\localshorthandwidth=\skip81
-\localshortjournalwidth=\skip82
-\localshortserieswidth=\skip83
-\localshorttitlewidth=\skip84
-\localshortauthorwidth=\skip85
-\localshorteditorwidth=\skip86
-Package biblatex Info: Trying to load compatibility code...
-Package biblatex Info: ... file 'blx-compat.def' found.
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\blx-comp
-at.def"
-File: blx-compat.def 2018/11/02 v3.12 biblatex compatibility (PK/MW)
-)
-Package biblatex Info: Trying to load generic definitions...
-Package biblatex Info: ... file 'biblatex.def' found.
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\biblatex
-.def"
-File: biblatex.def 2018/11/02 v3.12 biblatex compatibility (PK/MW)
-\c@textcitecount=\count348
-\c@textcitetotal=\count349
-\c@textcitemaxnames=\count350
-\c@biburlnumpenalty=\count351
-\c@biburlucpenalty=\count352
-\c@biburllcpenalty=\count353
-\c@smartand=\count354
-)
-Package biblatex Info: Trying to load natbib compatibility...
-Package biblatex Info: ... file 'blx-natbib.def' found.
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\blx-natb
-ib.def"
-File: blx-natbib.def 2018/11/02 v3.12 biblatex compatibility (PK/MW)
-Package biblatex Info: Delimiter 'nameyeardelim' in context '' already defined,
- overwriting.
-)
-Package biblatex Info: Trying to load bibliography style 'iso-numeric'...
-Package biblatex Info: ... file 'iso-numeric.bbx' found.
- (iso-numeric.bbx
-File: iso-numeric.bbx 2011/06/08
-Package biblatex Info: Trying to load bibliography style 'iso'...
-Package biblatex Info: ... file 'iso.bbx' found.
- (iso.bbx
-File: iso.bbx 2011/01/09 v1.0 biblatex bibliography style
-
-
-Package biblatex Warning: 'iso8601' date format specifier is deprecated.
-(biblatex)                Use 'iso' instead.
-
-\trashlength=\skip87
-
-Package biblatex Warning: Macro 'urldate' already defined.
-(biblatex)                Using \renewbibmacro.
-
-))
-Package biblatex Info: Trying to load citation style 'iso-numeric'...
-Package biblatex Info: ... file 'iso-numeric.cbx' found.
- (iso-numeric.cbx
-File: iso-numeric.cbx 2011/06/08
-Package biblatex Info: Trying to load citation style 'numeric'...
-Package biblatex Info: ... file 'numeric.cbx' found.
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/cbx\nume
-ric.cbx"
-File: numeric.cbx 2018/11/02 v3.12 biblatex citation style (PK/MW)
-Package biblatex Info: Redefining '\cite'.
-Package biblatex Info: Redefining '\parencite'.
-Package biblatex Info: Redefining '\footcite'.
-Package biblatex Info: Redefining '\footcitetext'.
-Package biblatex Info: Redefining '\smartcite'.
-Package biblatex Info: Redefining '\supercite'.
-Package biblatex Info: Redefining '\textcite'.
-Package biblatex Info: Redefining '\textcites'.
-Package biblatex Info: Redefining '\cites'.
-Package biblatex Info: Redefining '\parencites'.
-Package biblatex Info: Redefining '\smartcites'.
-))
-Package biblatex Info: Trying to load configuration file...
-Package biblatex Info: ... file 'biblatex.cfg' found.
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\biblatex
-.cfg"
-File: biblatex.cfg 
-)
-
-Package biblatex Warning: 'babel' option is deprecated.
-(biblatex)                Please use 'autolang' instead.
-
-)
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/listings\lstlang1
 .sty"
 File: lstlang1.sty 2019/02/27 1.8b listings language file
@@ -1032,16 +782,16 @@ Package: amsthm 2017/10/31 v2.20.4
 \thm@headfont=\toks39
 \thm@notefont=\toks40
 \thm@headpunct=\toks41
-\thm@preskip=\skip88
-\thm@postskip=\skip89
-\thm@headsep=\skip90
+\thm@preskip=\skip65
+\thm@postskip=\skip66
+\thm@headsep=\skip67
 \dth@everypar=\toks42
 )
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/thmtools\thmtools
 .sty"
 Package: thmtools 2014/04/21 v66
 \thmt@toks=\toks43
-\c@thmt@dummyctr=\count355
+\c@thmt@dummyctr=\count167
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/thmtools\thm-patc
 h.sty"
@@ -1090,14 +840,14 @@ Package thmtools Info: Key `qed' (with value `\qedsymbol ')
 (thmtools)             is not a known style key.
 (thmtools)             Will pass this to every \declaretheorem
 (thmtools)             that uses `style=kiproofstyle' on input line 715.
-\c@definition=\count356
+\c@definition=\count168
 )
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geometry
 .sty"
 Package: geometry 2018/04/16 v5.8 Page Geometry
-\Gm@cnth=\count357
-\Gm@cntv=\count358
-\c@Gm@tempcnt=\count359
+\Gm@cnth=\count169
+\Gm@cntv=\count170
+\c@Gm@tempcnt=\count171
 \Gm@bindingoffset=\dimen146
 \Gm@wd@mp=\dimen147
 \Gm@odd@mp=\dimen148
@@ -1141,108 +891,108 @@ Package: expl3 2019-03-26 L3 programming layer (loader)
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/l3kernel\expl3-co
 de.tex"
 Package: expl3 2019-03-26 L3 programming layer (code)
-\c_max_int=\count360
-\l_tmpa_int=\count361
-\l_tmpb_int=\count362
-\g_tmpa_int=\count363
-\g_tmpb_int=\count364
-\g__kernel_prg_map_int=\count365
-\c__ior_term_ior=\count366
-\c_log_iow=\count367
-\l_iow_line_count_int=\count368
-\l__iow_line_target_int=\count369
-\l__iow_one_indent_int=\count370
-\l__iow_indent_int=\count371
+\c_max_int=\count172
+\l_tmpa_int=\count173
+\l_tmpb_int=\count174
+\g_tmpa_int=\count175
+\g_tmpb_int=\count176
+\g__kernel_prg_map_int=\count177
+\c__ior_term_ior=\count178
+\c_log_iow=\count179
+\l_iow_line_count_int=\count180
+\l__iow_line_target_int=\count181
+\l__iow_one_indent_int=\count182
+\l__iow_indent_int=\count183
 \c_zero_dim=\dimen154
 \c_max_dim=\dimen155
 \l_tmpa_dim=\dimen156
 \l_tmpb_dim=\dimen157
 \g_tmpa_dim=\dimen158
 \g_tmpb_dim=\dimen159
-\c_zero_skip=\skip91
-\c_max_skip=\skip92
-\l_tmpa_skip=\skip93
-\l_tmpb_skip=\skip94
-\g_tmpa_skip=\skip95
-\g_tmpb_skip=\skip96
+\c_zero_skip=\skip68
+\c_max_skip=\skip69
+\l_tmpa_skip=\skip70
+\l_tmpb_skip=\skip71
+\g_tmpa_skip=\skip72
+\g_tmpb_skip=\skip73
 \c_zero_muskip=\muskip12
 \c_max_muskip=\muskip13
 \l_tmpa_muskip=\muskip14
 \l_tmpb_muskip=\muskip15
 \g_tmpa_muskip=\muskip16
 \g_tmpb_muskip=\muskip17
-\l_keys_choice_int=\count372
-\l__intarray_loop_int=\count373
+\l_keys_choice_int=\count184
+\l__intarray_loop_int=\count185
 \c__intarray_sp_dim=\dimen160
-\g__intarray_font_int=\count374
-\c__fp_leading_shift_int=\count375
-\c__fp_middle_shift_int=\count376
-\c__fp_trailing_shift_int=\count377
-\c__fp_big_leading_shift_int=\count378
-\c__fp_big_middle_shift_int=\count379
-\c__fp_big_trailing_shift_int=\count380
-\c__fp_Bigg_leading_shift_int=\count381
-\c__fp_Bigg_middle_shift_int=\count382
-\c__fp_Bigg_trailing_shift_int=\count383
-\c__kernel_randint_max_int=\count384
-\g__fp_array_int=\count385
-\l__fp_array_loop_int=\count386
-\l__sort_length_int=\count387
-\l__sort_min_int=\count388
-\l__sort_top_int=\count389
-\l__sort_max_int=\count390
-\l__sort_true_max_int=\count391
-\l__sort_block_int=\count392
-\l__sort_begin_int=\count393
-\l__sort_end_int=\count394
-\l__sort_A_int=\count395
-\l__sort_B_int=\count396
-\l__sort_C_int=\count397
-\l__tl_analysis_normal_int=\count398
-\l__tl_analysis_index_int=\count399
-\l__tl_analysis_nesting_int=\count400
-\l__tl_analysis_type_int=\count401
-\l__regex_internal_a_int=\count402
-\l__regex_internal_b_int=\count403
-\l__regex_internal_c_int=\count404
-\l__regex_balance_int=\count405
-\l__regex_group_level_int=\count406
-\l__regex_mode_int=\count407
-\c__regex_cs_in_class_mode_int=\count408
-\c__regex_cs_mode_int=\count409
-\l__regex_catcodes_int=\count410
-\l__regex_default_catcodes_int=\count411
-\c__regex_catcode_D_int=\count412
-\c__regex_catcode_S_int=\count413
-\c__regex_catcode_L_int=\count414
-\c__regex_catcode_O_int=\count415
-\c__regex_catcode_A_int=\count416
-\c__regex_all_catcodes_int=\count417
-\l__regex_show_lines_int=\count418
-\l__regex_min_state_int=\count419
-\l__regex_max_state_int=\count420
-\l__regex_left_state_int=\count421
-\l__regex_right_state_int=\count422
-\l__regex_capturing_group_int=\count423
-\l__regex_min_pos_int=\count424
-\l__regex_max_pos_int=\count425
-\l__regex_curr_pos_int=\count426
-\l__regex_start_pos_int=\count427
-\l__regex_success_pos_int=\count428
-\l__regex_curr_char_int=\count429
-\l__regex_curr_catcode_int=\count430
-\l__regex_last_char_int=\count431
-\l__regex_case_changed_char_int=\count432
-\l__regex_curr_state_int=\count433
-\l__regex_step_int=\count434
-\l__regex_min_active_int=\count435
-\l__regex_max_active_int=\count436
-\l__regex_replacement_csnames_int=\count437
-\l__regex_match_count_int=\count438
-\l__regex_min_submatch_int=\count439
-\l__regex_submatch_int=\count440
-\l__regex_zeroth_submatch_int=\count441
-\g__regex_trace_regex_int=\count442
+\g__intarray_font_int=\count186
+\c__fp_leading_shift_int=\count187
+\c__fp_middle_shift_int=\count188
+\c__fp_trailing_shift_int=\count189
+\c__fp_big_leading_shift_int=\count190
+\c__fp_big_middle_shift_int=\count191
+\c__fp_big_trailing_shift_int=\count192
+\c__fp_Bigg_leading_shift_int=\count193
+\c__fp_Bigg_middle_shift_int=\count194
+\c__fp_Bigg_trailing_shift_int=\count195
+\c__kernel_randint_max_int=\count196
+\g__fp_array_int=\count197
+\l__fp_array_loop_int=\count198
+\l__sort_length_int=\count199
+\l__sort_min_int=\count266
+\l__sort_top_int=\count267
+\l__sort_max_int=\count268
+\l__sort_true_max_int=\count269
+\l__sort_block_int=\count270
+\l__sort_begin_int=\count271
+\l__sort_end_int=\count272
+\l__sort_A_int=\count273
+\l__sort_B_int=\count274
+\l__sort_C_int=\count275
+\l__tl_analysis_normal_int=\count276
+\l__tl_analysis_index_int=\count277
+\l__tl_analysis_nesting_int=\count278
+\l__tl_analysis_type_int=\count279
+\l__regex_internal_a_int=\count280
+\l__regex_internal_b_int=\count281
+\l__regex_internal_c_int=\count282
+\l__regex_balance_int=\count283
+\l__regex_group_level_int=\count284
+\l__regex_mode_int=\count285
+\c__regex_cs_in_class_mode_int=\count286
+\c__regex_cs_mode_int=\count287
+\l__regex_catcodes_int=\count288
+\l__regex_default_catcodes_int=\count289
+\c__regex_catcode_D_int=\count290
+\c__regex_catcode_S_int=\count291
+\c__regex_catcode_L_int=\count292
+\c__regex_catcode_O_int=\count293
+\c__regex_catcode_A_int=\count294
+\c__regex_all_catcodes_int=\count295
+\l__regex_show_lines_int=\count296
+\l__regex_min_state_int=\count297
+\l__regex_max_state_int=\count298
+\l__regex_left_state_int=\count299
+\l__regex_right_state_int=\count300
+\l__regex_capturing_group_int=\count301
+\l__regex_min_pos_int=\count302
+\l__regex_max_pos_int=\count303
+\l__regex_curr_pos_int=\count304
+\l__regex_start_pos_int=\count305
+\l__regex_success_pos_int=\count306
+\l__regex_curr_char_int=\count307
+\l__regex_curr_catcode_int=\count308
+\l__regex_last_char_int=\count309
+\l__regex_case_changed_char_int=\count310
+\l__regex_curr_state_int=\count311
+\l__regex_step_int=\count312
+\l__regex_min_active_int=\count313
+\l__regex_max_active_int=\count314
+\l__regex_replacement_csnames_int=\count315
+\l__regex_match_count_int=\count316
+\l__regex_min_submatch_int=\count317
+\l__regex_submatch_int=\count318
+\l__regex_zeroth_submatch_int=\count319
+\g__regex_trace_regex_int=\count320
 \c_empty_box=\box64
 \l_tmpa_box=\box65
 \l_tmpb_box=\box66
@@ -1286,23 +1036,23 @@ Package: expl3 2019-03-26 L3 programming layer (code)
 \l__coffin_display_offset_dim=\dimen183
 \l__coffin_display_x_dim=\dimen184
 \l__coffin_display_y_dim=\dimen185
-\g__file_internal_ior=\read2
-\l__seq_internal_a_int=\count443
-\l__seq_internal_b_int=\count444
-\c__deprecation_minus_one=\count445
+\g__file_internal_ior=\read1
+\l__seq_internal_a_int=\count321
+\l__seq_internal_b_int=\count322
+\c__deprecation_minus_one=\count323
 )
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/l3kernel\l3pdfmod
 e.def"
 File: l3pdfmode.def 2019-03-26 v L3 Experimental driver: PDF mode
-\l__driver_color_stack_int=\count446
+\l__driver_color_stack_int=\count324
 ))
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/l3packages/xparse
 \xparse.sty"
 Package: xparse 2019-03-05 L3 Experimental document command parser
-\l__xparse_current_arg_int=\count447
-\g__xparse_grabber_int=\count448
-\l__xparse_m_args_int=\count449
-\l__xparse_v_nesting_int=\count450
+\l__xparse_current_arg_int=\count325
+\g__xparse_grabber_int=\count326
+\l__xparse_m_args_int=\count327
+\l__xparse_v_nesting_int=\count328
 )
 Package: lipsum 2019/01/02 v2.2 150 paragraphs of Lorem Ipsum dummy text
 
@@ -1313,105 +1063,49 @@ File: lipsum.ltd.tex 2019/01/02 v2.2 The Lorem ipsum dummy text
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Enabling multilingual quotes.
-Package biblatex Info: Trying to load language 'czech' -> 'czech-iso'...
-Package biblatex Info: ... file 'czech-iso.lbx' found.
- (czech-iso.lbx
-File: czech-iso.lbx 
-Package biblatex Info: Trying to load language 'czech'...
-Package biblatex Info: ... file 'czech.lbx' found.
- (czech.lbx
-File: czech.lbx 
-Package biblatex Info: Trying to load language 'english' -> 'english-iso'...
-Package biblatex Info: ... file 'english-iso.lbx' found.
- (english-iso.lbx
-File: english-iso.lbx 
-Package biblatex Info: Trying to load language 'english'...
-Package biblatex Info: ... file 'english.lbx' found.
+ (kidiplom.aux
 
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/lbx\engl
-ish.lbx"
-File: english.lbx 2018/11/02 v3.12 biblatex localization (PK/MW)
-)))
-Package biblatex Info: Trying to load language 'czech'...
-Package biblatex Info: ... file 'czech.lbx' found.
- (czech.lbx
-File: czech.lbx 
-Package biblatex Info: Trying to load language 'english' -> 'english-iso'...
-Package biblatex Info: ... file 'english-iso.lbx' found.
- (english-iso.lbx
-File: english-iso.lbx 
-Package biblatex Info: Trying to load language 'english'...
-Package biblatex Info: ... file 'english.lbx' found.
+LaTeX Warning: Label `json' multiply defined.
 
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/lbx\engl
-ish.lbx"
-File: english.lbx 2018/11/02 v3.12 biblatex localization (PK/MW)
-))))
-Package biblatex Info: Trying to load language 'english' -> 'english-iso'...
-Package biblatex Info: ... file 'english-iso.lbx' found.
- (english-iso.lbx
-File: english-iso.lbx 
-Package biblatex Info: Trying to load language 'english'...
-Package biblatex Info: ... file 'english.lbx' found.
 
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/lbx\engl
-ish.lbx"
-File: english.lbx 2018/11/02 v3.12 biblatex localization (PK/MW)
+LaTeX Warning: Label `json' multiply defined.
+
 )
-Package biblatex Info: Trying to load language 'english'...
-Package biblatex Info: ... file 'english.lbx' found.
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/lbx\engl
-ish.lbx"
-File: english.lbx 2018/11/02 v3.12 biblatex localization (PK/MW)
-))
-
-Package biblatex Warning: Attempt to redefine deprecated '\mkbibnamelast'.
-(biblatex)                Please use '\mkbibnamefamily' instead.
-(biblatex)                Using '\mkbibnamefamily'.
-
-
-Package biblatex Warning: Conflicting options.
-(biblatex)                'urldate=iso' requires 'seconds=true'.
-(biblatex)                Setting 'seconds=true' on input line 112.
-
-(kidiplom.aux)
 \openout1 = `kidiplom.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 112.
-
-("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\t1lmr.fd"
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 114.
+LaTeX Font Info:    ... okay on input line 114.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 114.
+ ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\t1lmr.fd"
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\supp-
 pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count451
+\scratchcounter=\count329
 \scratchdimen=\dimen186
 \scratchbox=\box82
-\nofMPsegments=\count452
-\nofMParguments=\count453
+\nofMPsegments=\count330
+\nofMParguments=\count331
 \everyMPshowfont=\toks47
-\MPscratchCnt=\count454
+\MPscratchCnt=\count332
 \MPscratchDim=\dimen187
-\MPnumerator=\count455
-\makeMPintoPDFobject=\count456
+\MPnumerator=\count333
+\makeMPintoPDFobject=\count334
 \everyMPtoPDFconversion=\toks48
 )
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\epstopdf
@@ -1430,7 +1124,7 @@ G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
 \AtBeginShipoutBox=\box83
-Package hyperref Info: Link coloring ON on input line 112.
+Package hyperref Info: Link coloring ON on input line 114.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\nameref.
 sty"
@@ -1440,24 +1134,13 @@ Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 lestring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count457
+\c@section@level=\count335
 )
-LaTeX Info: Redefining \ref on input line 112.
-LaTeX Info: Redefining \pageref on input line 112.
-LaTeX Info: Redefining \nameref on input line 112.
-\c@lstlisting=\count458
+LaTeX Info: Redefining \ref on input line 114.
+LaTeX Info: Redefining \pageref on input line 114.
+LaTeX Info: Redefining \nameref on input line 114.
+\c@lstlisting=\count336
  (kidiplom.glsdefs)
-Package biblatex Info: Input encoding 'utf8' detected.
-Package biblatex Info: Data encoding 'utf8' specified.
-(biblatex)             No need to reencode data.
-\openout8 = `kidiplom.bcf'.
-
-Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'kidiplom.bbl' found.
- (kidiplom.bbl)
-Package biblatex Info: Reference section=0 on input line 112.
-Package biblatex Info: Reference segment=0 on input line 112.
-
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
 * driver: pdftex
@@ -1493,53 +1176,53 @@ Package biblatex Info: Reference segment=0 on input line 112.
 
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             https://www.ctan.org/pkg/pageslts
-(lastpage)             ! on input line 112.
+(lastpage)             ! on input line 114.
 <graphics/kititle-cz-nofont.pdf, id=3, 375.4025pt x 72.27pt>
 File: graphics/kititle-cz-nofont.pdf Graphic file (type pdf)
 <use graphics/kititle-cz-nofont.pdf>
-Package pdftex.def Info: graphics/kititle-cz-nofont.pdf  used on input line 117
+Package pdftex.def Info: graphics/kititle-cz-nofont.pdf  used on input line 119
 .
 (pdftex.def)             Requested size: 225.24323pt x 43.36232pt.
 <graphics/UP_znak.pdf, id=4, 101.59215pt x 101.59215pt>
 File: graphics/UP_znak.pdf Graphic file (type pdf)
 <use graphics/UP_znak.pdf>
-Package pdftex.def Info: graphics/UP_znak.pdf  used on input line 117.
+Package pdftex.def Info: graphics/UP_znak.pdf  used on input line 119.
 (pdftex.def)             Requested size: 101.59187pt x 101.59187pt.
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 117.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 119.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\ot1lmr.fd"
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 117.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 119.
 
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omllmm.fd"
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 117
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 119
 .
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omslmsy.fd"
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 117
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 119
 .
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omxlmex.fd"
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 117.
+(Font)              <12> on input line 119.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 117.
+(Font)              <8> on input line 119.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 117.
-LaTeX Font Info:    Try loading font information for U+msa on input line 117.
+(Font)              <6> on input line 119.
+LaTeX Font Info:    Try loading font information for U+msa on input line 119.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 117.
+LaTeX Font Info:    Try loading font information for U+msb on input line 119.
  ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd
 "
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1550,7 +1233,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 {C:/Users/Zdenda/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./graphics
 /kititle-cz-nofont.pdf> <./graphics/UP_znak.pdf>]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 117.
+(Font)              <10.95> on input line 119.
  [2] [3
 
 ] [4
@@ -1559,16 +1242,16 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (kidiplom.toc [5
 
 ])
-\tf@toc=\write9
-\openout9 = `kidiplom.toc'.
+\tf@toc=\write8
+\openout8 = `kidiplom.toc'.
 
  [6] (kidiplom.lof)
-\tf@lof=\write10
-\openout10 = `kidiplom.lof'.
+\tf@lof=\write9
+\openout9 = `kidiplom.lof'.
 
  (kidiplom.lot)
-\tf@lot=\write11
-\openout11 = `kidiplom.lot'.
+\tf@lot=\write10
+\openout10 = `kidiplom.lot'.
 
 
 showing definition
@@ -1579,105 +1262,105 @@ showing theorem
 showing proof
 showing example
 (kidiplom.loe) (kidiplom.lol)
-\tf@lol=\write12
-\openout12 = `kidiplom.lol'.
+\tf@lol=\write11
+\openout11 = `kidiplom.lol'.
 
  [7
 
 ] [8
 
 ]
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 165.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 167.
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\t1pcr.fd"
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ) [9]
-Overfull \hbox (21.18626pt too wide) in paragraph at lines 179--180
+Overfull \hbox (21.18626pt too wide) in paragraph at lines 181--182
 []\T1/lmr/m/n/12 Kaºdý sou-bor ob-sa-huje svoji his-to-rii zm¥n, o kte-rou se s
 tará t°ída []
  []
 
 [10] [11]
-LaTeX Font Info:    Try loading font information for OMS+lmr on input line 214.
+LaTeX Font Info:    Try loading font information for OMS+lmr on input line 216.
 
 
 ("C:\Users\Zdenda\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lm\omslmr.fd"
 File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 214.
+(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 216.
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 220.
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 222.
 
-Overfull \hbox (3.8735pt too wide) in paragraph at lines 242--243
+Overfull \hbox (3.8735pt too wide) in paragraph at lines 244--245
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
  []
 
 [12] [13]
-Overfull \hbox (6.3799pt too wide) in paragraph at lines 300--301
+Overfull \hbox (6.3799pt too wide) in paragraph at lines 302--303
 []\T1/lmr/m/n/12 Volá se v mo-ment¥, kdy je zm¥-n¥no m¥-°ítko zob-ra-zení plátn
 a. Z [][][][][]
  []
 
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 302.
-<img/shape_diag.png, id=181, 339.51843pt x 278.54062pt>
+nput line 304.
+<img/shape_diag.png, id=189, 339.51843pt x 278.54062pt>
 File: img/shape_diag.png Graphic file (type png)
 <use img/shape_diag.png>
-Package pdftex.def Info: img/shape_diag.png  used on input line 310.
+Package pdftex.def Info: img/shape_diag.png  used on input line 312.
 (pdftex.def)             Requested size: 426.79134pt x 350.15549pt.
 
-Overfull \hbox (17.29015pt too wide) in paragraph at lines 310--311
+Overfull \hbox (17.29015pt too wide) in paragraph at lines 312--313
 [][] 
  []
 
 [14] [15 <./img/shape_diag.png>] [16]
-Overfull \hbox (2.98383pt too wide) in paragraph at lines 391--392
+Overfull \hbox (2.98383pt too wide) in paragraph at lines 393--394
  \T1/lmr/bx/n/12 3.7.2.1 Roz-²í-°ení IHis-to-ry-No-de-Skip-ped[] \T1/lmr/m/n/12
  Roz-hraní []
  []
 
 [17]
-<img/history_diag.png, id=201, 771.63281pt x 469.755pt>
+<img/history_diag.png, id=209, 771.63281pt x 469.755pt>
 File: img/history_diag.png Graphic file (type png)
 <use img/history_diag.png>
-Package pdftex.def Info: img/history_diag.png  used on input line 408.
+Package pdftex.def Info: img/history_diag.png  used on input line 410.
 (pdftex.def)             Requested size: 426.79134pt x 259.82112pt.
 
-Overfull \hbox (17.29015pt too wide) in paragraph at lines 408--409
+Overfull \hbox (17.29015pt too wide) in paragraph at lines 410--411
 [][] 
  []
 
 [18 <./img/history_diag.png>] [19] [20]
-<img/json_diag.png, id=232, 488.57532pt x 540.51938pt>
+<img/json_diag.png, id=242, 488.57532pt x 540.51938pt>
 File: img/json_diag.png Graphic file (type png)
 <use img/json_diag.png>
-Package pdftex.def Info: img/json_diag.png  used on input line 508.
+Package pdftex.def Info: img/json_diag.png  used on input line 510.
 (pdftex.def)             Requested size: 426.79134pt x 472.16975pt.
 
-Overfull \hbox (17.29015pt too wide) in paragraph at lines 508--509
+Overfull \hbox (17.29015pt too wide) in paragraph at lines 510--511
 [][] 
  []
 
 [21] [22 <./img/json_diag.png>] [23]
-<img/toppanel.png, id=260, 567.62062pt x 42.91031pt>
+<img/toppanel.png, id=270, 567.62062pt x 42.91031pt>
 File: img/toppanel.png Graphic file (type png)
 <use img/toppanel.png>
-Package pdftex.def Info: img/toppanel.png  used on input line 548.
+Package pdftex.def Info: img/toppanel.png  used on input line 550.
 (pdftex.def)             Requested size: 455.24408pt x 34.41602pt.
 
-Overfull \hbox (45.74289pt too wide) in paragraph at lines 548--549
+Overfull \hbox (45.74289pt too wide) in paragraph at lines 550--551
 [][] 
  []
 
 [24 <./img/toppanel.png>]
-<img/program.png, id=267, 685.05937pt x 559.33969pt>
+<img/program.png, id=277, 685.05937pt x 559.33969pt>
 File: img/program.png Graphic file (type png)
 <use img/program.png>
-Package pdftex.def Info: img/program.png  used on input line 564.
+Package pdftex.def Info: img/program.png  used on input line 566.
 (pdftex.def)             Requested size: 426.79134pt x 348.47691pt.
 
-Overfull \hbox (17.29015pt too wide) in paragraph at lines 564--565
+Overfull \hbox (17.29015pt too wide) in paragraph at lines 566--567
 [][] 
  []
 
@@ -1687,94 +1370,110 @@ Overfull \hbox (17.29015pt too wide) in paragraph at lines 564--565
 
 ]
 LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <12> not available
-(Font)              Font shape `T1/pcr/b/n' tried instead on input line 600.
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 598.
 
-Overfull \hbox (28.62613pt too wide) in paragraph at lines 600--608
-\T1/lmr/m/n/12 p°ímo z CD/DVD. / Kom-pletní ad-re-sá-°ová struk-tura webové apl
-i-kace \T1/lmr/m/sc/12 Webovka
- []
-
-
-Overfull \hbox (7.71727pt too wide) in paragraph at lines 600--608
-\T1/lmr/m/n/12 (v ZIP ar-chivu) pro zko-pí-ro-vání na webový ser-ver. Ad-re-sá°
- ob-sa-huje i v²echny
- []
-
-
-Overfull \hbox (8.70828pt too wide) in paragraph at lines 616--622
-\T1/lmr/m/n/12 Kompletní zdro-jové texty pro-gramu \T1/lmr/m/sc/12 Pro-gram \T1
-/lmr/m/n/12 / webové apli-kace \T1/lmr/m/sc/12 Webovka
- []
-
-
-Overfull \hbox (2.8623pt too wide) in paragraph at lines 616--622
-\T1/lmr/m/n/12 se v²emi po-t°eb-nými (p°íp. p°e-vza-tými) zdro-jo-vými texty, k
-nihov-nami a dal-
+Overfull \hbox (0.26993pt too wide) in paragraph at lines 610--612
+\T1/lmr/m/n/12 Kompletní zdro-jové kódy pro-gramu \T1/lmr/m/sc/12 My-Pa-int \T1
+/lmr/m/n/12 se v²emi po-t°eb-nými knihov-
  []
 
 [29
 
-] [30]
+]
 No file kidiplom.acr.
-[31
+[30
 
 ]
+Underfull \hbox (badness 10000) in paragraph at lines 639--640
+[]\T1/lmr/m/n/12 Wikipedia: Ote-v°ená En-cy-klo-pe-die: Win-dows Pre-sen-tation
+ Foun-
+ []
 
-LaTeX Warning: Empty bibliography on input line 673.
 
+Underfull \hbox (badness 10000) in paragraph at lines 639--640
+\T1/lmr/m/n/12 dation [on-line]. 2019-07-29. [cit. 2019-07-29]. Do-stupné z:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 641--642
+[]\T1/lmr/m/n/12 Wikipedia: Ote-v°ená En-cy-klo-pe-die: Ex-tensi-ble Ap-pli-cat
+ion Mar-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 641--642
+\T1/lmr/m/n/12 kup Lan-gu-age [on-line]. 2019-07-29. [cit. 2019-07-29]. Do-stup
+né z:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 643--644
+[]\T1/lmr/m/n/12 Wikipedia: Ote-v°ená En-cy-klo-pe-die: Ja-vaScript Ob-ject No-
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 643--644
+\T1/lmr/m/n/12 tation [on-line]. 2019-07-29. [cit. 2019-07-29]. Do-stupné z:
+ []
+
+[31
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.json}) h
+as been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.651 \printindex
+                 pdfTeX warning (ext4): destination with the same identifier (n
+ame{cite.json}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.651 \printindex
+                 ]
 No file kidiplom.ind.
 
 AED: lastpage setting LastPage
-\tf@loe=\write13
-\openout13 = `kidiplom.loe'.
+\tf@loe=\write12
+\openout12 = `kidiplom.loe'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 687.
-Package atveryend Info: Executing hook `AfterLastShipout' on input line 687.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 653.
+Package atveryend Info: Executing hook `AfterLastShipout' on input line 653.
 (kidiplom.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 687.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 687.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 653.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 653.
 
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: There were multiply-defined labels.
 
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                kidiplom
-(biblatex)                and rerun LaTeX afterwards.
-
-Package logreq Info: Writing requests to 'kidiplom.run.xml'.
-\openout1 = `kidiplom.run.xml'.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 687.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 653.
  ) 
 Here is how much of TeX's memory you used:
- 36670 strings out of 492945
- 639035 string characters out of 3125808
- 1279109 words of memory out of 3000000
- 39937 multiletter control sequences out of 15000+200000
- 595822 words of font info for 71 fonts, out of 3000000 for 9000
+ 30550 strings out of 492945
+ 520167 string characters out of 3125808
+ 874434 words of memory out of 3000000
+ 33885 multiletter control sequences out of 15000+200000
+ 595523 words of font info for 70 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 61i,9n,76p,2609b,2091s stack positions out of 5000i,500n,10000p,200000b,50000s
-pdfTeX warning (dest): name{section*.11} has been referenced but does not exi
-st, replaced by a fixed one
-
-{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.enc
-}{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc
-}{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-maths
-y.enc}<C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/lm/
-lmbx10.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/publi
-c/lm/lmbx12.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
-public/lm/lmcsc10.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/
-type1/public/lm/lmr10.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fo
-nts/type1/public/lm/lmr12.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.
-9/fonts/type1/public/lm/lmr17.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/lm/lmri12.pfb><C:/Users/Zdenda/AppData/Local/Programs/
-MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Zdenda/AppData/Local/Prog
-rams/MiKTeX 2.9/fonts/type1/urw/courier/ucrb8a.pfb><C:/Users/Zdenda/AppData/Loc
-al/Programs/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb>
-Output written on kidiplom.pdf (31 pages, 537703 bytes).
+ 61i,9n,76p,2609b,1380s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-ec.e
+nc}{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/base/8r.e
+nc}{C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/lm/lm-mat
+hsy.enc}<C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/l
+m/lmbx10.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/pub
+lic/lm/lmbx12.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/fonts/type
+1/public/lm/lmcsc10.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/font
+s/type1/public/lm/lmr10.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 2.9/
+fonts/type1/public/lm/lmr12.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiKTeX 
+2.9/fonts/type1/public/lm/lmr17.pfb><C:/Users/Zdenda/AppData/Local/Programs/MiK
+TeX 2.9/fonts/type1/public/lm/lmri12.pfb><C:/Users/Zdenda/AppData/Local/Program
+s/MiKTeX 2.9/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Zdenda/AppData/Local/Pr
+ograms/MiKTeX 2.9/fonts/type1/urw/courier/ucrb8a.pfb><C:/Users/Zdenda/AppData/L
+ocal/Programs/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb>
+Output written on kidiplom.pdf (31 pages, 541883 bytes).
 PDF statistics:
- 498 PDF objects out of 1000 (max. 8388607)
- 125 named destinations out of 1000 (max. 500000)
+ 514 PDF objects out of 1000 (max. 8388607)
+ 129 named destinations out of 1000 (max. 500000)
  388 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,5 +1,14 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: kidiplom.aux
-I found no \citation commands---while reading file kidiplom.aux
-I found no \bibdata command---while reading file kidiplom.aux
-I found no \bibstyle command---while reading file kidiplom.aux
-(There were 3 error messages)
+[0] Config.pm:304> INFO - This is Biber 2.12
+[0] Config.pm:307> INFO - Logfile is 'kidiplom.blg'
+[34] biber-MSWIN64:315> INFO - === 
+[61] Biber.pm:371> INFO - Reading 'kidiplom.bcf'
+[158] Biber.pm:886> INFO - Using all citekeys in bib section 0
+[174] Biber.pm:4093> INFO - Processing section 0
+[190] Biber.pm:4254> INFO - Looking for bibtex format file 'bibliografie.bib' for section 0
+[193] bibtex.pm:1523> INFO - LaTeX decoding ...
+[202] bibtex.pm:1340> INFO - Found BibTeX data source 'bibliografie.bib'
+[222] UCollate.pm:68> INFO - Overriding locale 'cs_CZ' defaults 'variable = shifted' with 'variable = non-ignorable'
+[222] UCollate.pm:68> INFO - Overriding locale 'cs_CZ' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[224] Biber.pm:3921> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'cs_CZ'
+[234] bbl.pm:636> INFO - Writing 'kidiplom.bbl' with encoding 'UTF-8'
+[236] bbl.pm:739> INFO - Output to kidiplom.bbl
